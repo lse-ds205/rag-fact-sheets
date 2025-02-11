@@ -35,8 +35,10 @@ pip install -r requirements.txt
 Navigate to the project directory and run the spider:
 ```bash
 cd climate_tracker
-scrapy crawl climate_action_tracker -O output.json
+scrapy crawl climate_action_tracker -O ../data/output.json
 ```
+
+Because we are still thinking about the best way to store the data, we will simply produce a generically-named JSON file in the `data` directory. **Once we have decided on a structure, we will likely use an [Item Pipeline](https://docs.scrapy.org/en/latest/topics/item-pipeline.html) to save the data in a more appropriate format.**
 
 Visit the [Climate Action Tracker](https://climateactiontracker.org/) website to understand the data source.
 
