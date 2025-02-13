@@ -52,6 +52,18 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         "https://climateactiontracker.org/countries/united-kingdom/"
     ]
 
+    def start_requests(self):
+        """Initialize the crawl with requests for each start URL.
+            
+        This method allows for customisation of how the initial requests are made,
+        which can be useful for adding headers, cookies, or other request parameters.
+            
+        Yields:
+        scrapy.Request: Request object for each start URL
+        """
+        for url in self.start_urls:
+            yield scrapy.Request(url=url, callback=self.parse)
+
     def parse(self, response):
         """Extract data from country pages.
         
@@ -64,25 +76,64 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         country_name = response.css('h1::text').get()
         overall_rating = response.css('.ratings-matrix__overall dd::text').get()
 
-        # The flag is in a div .headline__flag
-        flag_url = response.css('.headline__flag img::attr(src)').get()
-        # We need to add the base URL to the flag URL
-        flag_url = f"https://climateactiontracker.org{flag_url}"
+        indicator_classes = [
+            'ratings-matrix__second-row-cell ratings-matrix__tile--ORANGE', 
+            'ratings-matrix__second-row-cell ratings-matrix__tile--RED', 
+            'ratings-matrix__second-row-cell ratings-matrix__tile--GRAY'
+            ]
+
+        indicator_names = [
+            "policies_and_action", "conditional_ndc_target", "unconditional_ndc_target"
+            ]
+
+
+        for indicator in indicator_classes and indicator_name in indicator_names: 
+            term = response.css('.'+ indicator + ' p::text').get()
+            term_details = response.css('.'+ indicator +' p i::text').get()
+            value = response.css('.'+ indicator +' dd b::text').get()
+            metric = response.css('.' + indicator ' dd i::text').get()
+
+
+        #there are TWO instances of organe class so have to manually get second orange class
 
         yield {
             'country_name': country_name,
             'overall_rating': overall_rating,
-
+    
+            "indicators": [{
+            "term": term,
+            "term_details": term_details,
+            "value": value,
+            "metric": metric
+            },
+            {
+            "term": "Conditional NDC target",
+            "term_details": "against modelled domestic pathways",
+            "value": "Highly insufficient",
+            "metric": "< 4°C World"
+            },
+           # // ... other indicators
+            ]
         }
 
-    def start_requests(self):
-        """Initialize the crawl with requests for each start URL.
-        
-        This method allows for customisation of how the initial requests are made,
-        which can be useful for adding headers, cookies, or other request parameters.
-        
-        Yields:
-            scrapy.Request: Request object for each start URL
-        """
-        for url in self.start_urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+"""
+Target output:
+[{
+  "country_name": "India",
+  "overall_rating": "Highly insufficient",
+  "indicators": [{
+      "term": "Policies and action",
+      "term_details": "against fair share",
+      "value": "Insufficient",
+      "metric": "< 3°C World"
+    },
+    {
+      "term": "Conditional NDC target",
+      "term_details": "against modelled domestic pathways",
+      "value": "Highly insufficient",
+      "metric": "< 4°C World"
+    },
+    // ... other indicators
+  ]
+}]
+"""
