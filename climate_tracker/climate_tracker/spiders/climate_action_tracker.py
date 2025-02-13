@@ -44,9 +44,9 @@ class ClimateActionTrackerSpider(scrapy.Spider):
     start_urls = [
         "https://climateactiontracker.org/countries/brazil/",
         "https://climateactiontracker.org/countries/china/",
-        "https://climateactiontracker.org/countries/united-states/",
+        "https://climateactiontracker.org/countries/usa/",
         "https://climateactiontracker.org/countries/india/",
-        "https://climateactiontracker.org/countries/france/",
+        "https://climateactiontracker.org/countries/eu/",
         "https://climateactiontracker.org/countries/germany/",
         "https://climateactiontracker.org/countries/australia/",
         "https://climateactiontracker.org/countries/united-kingdom/"
