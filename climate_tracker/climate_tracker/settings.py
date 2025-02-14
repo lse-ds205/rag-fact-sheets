@@ -14,7 +14,7 @@ NEWSPIDER_MODULE = "climate_tracker.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'LSE DS205 Student Spider (GitHub: @your-username) (+https://lse-dsi.github.io/DS205)'
+USER_AGENT = 'LSE DS205 Student Spider (GitHub: @MaddoxLeigh) (+https://lse-dsi.github.io/DS205)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
