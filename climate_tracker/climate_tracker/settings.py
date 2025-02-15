@@ -91,3 +91,8 @@ DOWNLOAD_DELAY = 3
 # Set settings whose default value is deprecated to a future-proof value
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+# Enable spider contracts
+SPIDER_CONTRACTS = {
+    'climate_tracker.contracts.RatingValidContract': 100,
+}

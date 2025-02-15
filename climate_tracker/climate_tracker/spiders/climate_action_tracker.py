@@ -12,10 +12,10 @@ To run the spider for all mapped URLs, use the following command:
     cd climate_tracker
     scrapy crawl climate_action_tracker -O ./data/output.json
 
-To test or run the same spider for a single URL, use the following command:
+To test the spider using contracts:
 
     cd climate_tracker
-    scrapy parse https://climateactiontracker.org/countries/india/ --spider climate_action_tracker -O ./data/output.json
+    scrapy check climate_action_tracker
 
 ---
 Data Usage Notice:
@@ -55,11 +55,10 @@ class ClimateActionTrackerSpider(scrapy.Spider):
     def parse(self, response):
         """Extract data from country pages.
         
-        Args:
-            response (scrapy.http.Response): Response object containing page content
-            
-        Yields:
-            dict: Dictionary containing extracted country data
+        @url https://climateactiontracker.org/countries/brazil/
+        @returns items 1 1
+        @scrapes country_name overall_rating flag_url
+        @valid_rating
         """
         country_name = response.css('h1::text').get()
         overall_rating = response.css('.ratings-matrix__overall dd::text').get()
