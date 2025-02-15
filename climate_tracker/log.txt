@@ -1,0 +1,82 @@
+2025-02-15 23:42:12 [scrapy.utils.log] INFO: Scrapy 2.12.0 started (bot: climate_tracker)
+2025-02-15 23:42:12 [scrapy.utils.log] INFO: Versions: lxml 5.3.1.0, libxml2 2.11.7, cssselect 1.2.0, parsel 1.10.0, w3lib 2.3.1, Twisted 24.11.0, Python 3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)], pyOpenSSL 25.0.0 (OpenSSL 3.4.0 22 Oct 2024), cryptography 44.0.0, Platform Windows-11-10.0.26100-SP0
+2025-02-15 23:42:12 [scrapy.addons] INFO: Enabled addons:
+[]
+2025-02-15 23:42:12 [asyncio] DEBUG: Using selector: SelectSelector
+2025-02-15 23:42:12 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.asyncioreactor.AsyncioSelectorReactor
+2025-02-15 23:42:12 [scrapy.utils.log] DEBUG: Using asyncio event loop: asyncio.windows_events._WindowsSelectorEventLoop
+2025-02-15 23:42:12 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.asyncioreactor.AsyncioSelectorReactor
+2025-02-15 23:42:12 [scrapy.utils.log] DEBUG: Using asyncio event loop: asyncio.windows_events._WindowsSelectorEventLoop
+2025-02-15 23:42:12 [scrapy.extensions.telnet] INFO: Telnet Password: 11925fcd0b4d9015
+2025-02-15 23:42:12 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats']
+2025-02-15 23:42:12 [scrapy.crawler] INFO: Overridden settings:
+{'BOT_NAME': 'climate_tracker',
+ 'DOWNLOAD_DELAY': 3,
+ 'FEED_EXPORT_ENCODING': 'utf-8',
+ 'LOG_FILE': 'log.txt',
+ 'NEWSPIDER_MODULE': 'climate_tracker.spiders',
+ 'ROBOTSTXT_OBEY': True,
+ 'SPIDER_MODULES': ['climate_tracker.spiders'],
+ 'TWISTED_REACTOR': 'twisted.internet.asyncioreactor.AsyncioSelectorReactor',
+ 'USER_AGENT': 'LSE DS205 Student Spider (GitHub: @your-username) '
+               '(+https://lse-dsi.github.io/DS205)'}
+2025-02-15 23:42:12 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.downloadermiddlewares.robotstxt.RobotsTxtMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2025-02-15 23:42:12 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2025-02-15 23:42:12 [scrapy.middleware] INFO: Enabled item pipelines:
+['climate_tracker.pipelines.ValidateItemPipeline']
+2025-02-15 23:42:12 [scrapy.core.engine] INFO: Spider opened
+2025-02-15 23:42:12 [climate_tracker.pipelines] INFO: ValidateItemPipeline started
+2025-02-15 23:42:12 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2025-02-15 23:42:12 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023
+2025-02-15 23:42:12 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://climateactiontracker.org/robots.txt> (referer: None)
+2025-02-15 23:42:16 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://climateactiontracker.org/countries/brazil/> (referer: None)
+2025-02-15 23:42:16 [climate_tracker.pipelines] DEBUG: Processing item: Brazil
+2025-02-15 23:42:16 [scrapy.core.scraper] DEBUG: Scraped from <200 https://climateactiontracker.org/countries/brazil/>
+<CountryClimate: Brazil>
+2025-02-15 23:42:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://climateactiontracker.org/countries/china/> (referer: None)
+2025-02-15 23:42:20 [climate_tracker.pipelines] DEBUG: Processing item: China
+2025-02-15 23:42:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://climateactiontracker.org/countries/china/>
+<CountryClimate: China>
+2025-02-15 23:42:23 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://climateactiontracker.org/countries/usa/> (referer: None)
+2025-02-15 23:42:23 [climate_tracker.pipelines] DEBUG: Processing item: USA
+2025-02-15 23:42:23 [scrapy.core.scraper] DEBUG: Scraped from <200 https://climateactiontracker.org/countries/usa/>
+<CountryClimate: USA>
+2025-02-15 23:42:26 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://climateactiontracker.org/countries/india/> (referer: None)
+2025-02-15 23:42:26 [climate_tracker.pipelines] DEBUG: Processing item: India
+2025-02-15 23:42:26 [scrapy.core.scraper] DEBUG: Scraped from <200 https://climateactiontracker.org/countries/india/>
+<CountryClimate: India>
+2025-02-15 23:42:30 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://climateactiontracker.org/countries/eu/> (referer: None)
+2025-02-15 23:42:30 [climate_tracker.pipelines] DEBUG: Processing item: EU
+2025-02-15 23:42:30 [scrapy.core.scraper] DEBUG: Scraped from <200 https://climateactiontracker.org/countries/eu/>
+<CountryClimate: EU>
+2025-02-15 23:42:34 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://climateactiontracker.org/countries/germany/> (referer: None)
+2025-02-15 23:42:34 [climate_tracker.pipelines] DEBUG: Processing item: Germany
+2025-02-15 23:42:34 [scrapy.core.scraper] DEBUG: Scraped from <200 https://climateactiontracker.org/countries/germany/>
+<CountryClimate: Germany>
+2025-02-15 23:42:37 [scrapy.crawler] INFO: Received SIGINT, shutting down gracefully. Send again to force 
+2025-02-15 23:42:37 [scrapy.core.engine] INFO: Closing spider (shutdown)
+2025-02-15 23:42:38 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://climateactiontracker.org/countries/australia/> (referer: None)
+2025-02-15 23:42:38 [climate_tracker.pipelines] DEBUG: Processing item: Australia
+2025-02-15 23:42:38 [scrapy.core.scraper] DEBUG: Scraped from <200 https://climateactiontracker.org/countries/australia/>
+<CountryClimate: Australia>
+2025-02-15 23:42:41 [scrapy.crawler] INFO: Received SIGINT twice, forcing unclean shutdown
