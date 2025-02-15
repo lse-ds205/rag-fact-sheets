@@ -25,6 +25,7 @@ All rights reserved.
 """
 
 import scrapy
+from climate_tracker.items import CountryClimateItem
 
 
 class ClimateActionTrackerSpider(scrapy.Spider):
@@ -60,19 +61,18 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         @scrapes country_name overall_rating flag_url
         @valid_rating
         """
-        country_name = response.css('h1::text').get()
-        overall_rating = response.css('.ratings-matrix__overall dd::text').get()
-
+        # Create a new item instance
+        item = CountryClimateItem()
+        
+        # Extract and assign fields
+        item['country_name'] = response.css('h1::text').get()
+        item['overall_rating'] = response.css('.ratings-matrix__overall dd::text').get()
+        
         # The flag is in a div .headline__flag
         flag_url = response.css('.headline__flag img::attr(src)').get()
-        # We need to add the base URL to the flag URL
-        flag_url = f"https://climateactiontracker.org{flag_url}"
+        item['flag_url'] = f"https://climateactiontracker.org{flag_url}"
 
-        yield {
-            'country_name': country_name,
-            'overall_rating': overall_rating,
-            'flag_url': flag_url
-        }
+        yield item
 
     def start_requests(self):
         """Initialize the crawl with requests for each start URL.
