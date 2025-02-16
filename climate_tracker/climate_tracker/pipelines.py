@@ -9,13 +9,16 @@ This module contains pipelines for processing and validating scraped items.
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
+import logging
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
-import logging
+from .logging import setup_colored_logging
+
 
 logger = logging.getLogger(__name__)
+setup_colored_logging(logger)
 
 class ValidateItemPipeline:
     """Pipeline for validating scraped items.

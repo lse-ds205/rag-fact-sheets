@@ -25,8 +25,13 @@ All rights reserved.
 """
 
 import scrapy
-from climate_tracker.items import CountryClimateItem
+import logging
 
+from climate_tracker.items import CountryClimateItem
+from climate_tracker.logging import setup_colored_logging
+
+logger = logging.getLogger(__name__)
+setup_colored_logging(logger)
 
 class ClimateActionTrackerSpider(scrapy.Spider):
     """Spider for scraping country data from Climate Action Tracker website.
@@ -61,18 +66,35 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         @scrapes country_name overall_rating flag_url
         @valid_rating
         """
+        logger.info(f"Parsing {response.url}")
+        
         # Create a new item instance
         item = CountryClimateItem()
         
-        # Extract and assign fields
-        item['country_name'] = response.css('h1::text').get()
-        item['overall_rating'] = response.css('.ratings-matrix__overall dd::text').get()
-        
-        # The flag is in a div .headline__flag
-        flag_url = response.css('.headline__flag img::attr(src)').get()
-        item['flag_url'] = f"https://climateactiontracker.org{flag_url}"
+        try:
+            # Extract and assign fields with validation
+            item['country_name'] = response.css('h1::text').get()
+            if not item['country_name']:
+                raise ValueError("Country name not found")
+                
+            item['overall_rating'] = response.css('.ratings-matrix__overall dd::text').get()
+            if not item['overall_rating']:
+                raise ValueError("Rating not found")
+            
+            # Extract flag URL with validation
+            flag_url = response.css('.headline__flag img::attr(src)').get()
+            if flag_url:
+                item['flag_url'] = f"https://climateactiontracker.org{flag_url}"
+            else:
+                logger.warning(f"No flag found for {item['country_name']}")
+                item['flag_url'] = None
 
-        yield item
+            logger.debug(f"Successfully parsed data for {item['country_name']}")
+            return item
+            
+        except Exception as e:
+            logger.error(f"Error parsing {response.url}: {str(e)}")
+            raise
 
     def start_requests(self):
         """Initialize the crawl with requests for each start URL.
