@@ -9,7 +9,10 @@ This module contains pipelines for processing and validating scraped items.
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
+import json
 import logging
+import pycountry
+
 from scrapy.exceptions import DropItem
 from scrapy.pipelines.files import FilesPipeline
 from scrapy import Request
@@ -18,7 +21,6 @@ from scrapy import Request
 from .items import CountryClimateItem
 from .logging import setup_colored_logging
 
-
 logger = logging.getLogger(__name__)
 setup_colored_logging(logger)
 
@@ -26,14 +28,14 @@ class ValidateItemPipeline:
 
     def process_item(self, item, spider):
 
-        logger.info(f"Validating item: {item}")
+        logger.debug(f"Validating item: {item}")
 
-        if not isinstance(item, CountryClimateItem):
-            raise DropItem(f"Unknown item type: {type(item)}")
-
-        if item['overall_rating'] not in ['Insufficient', 'Compatible']:
-            logger.error(f"Dropping item {item} because it has an invalid rating: {item['overall_rating']}")
-            raise DropItem(f"Invalid rating: {item['overall_rating']}")
+        search_country = pycountry.countries.get(name=item['country_name'])
+        if not search_country:
+            logger.warn(f"Dropping item {item} because it has an invalid country name: {item['country_name']}")
+            raise DropItem(f"Invalid country name: {item['country_name']}")
+        else:
+            logger.debug(f"Found country: {search_country}")
             
         return item
 
@@ -50,18 +52,16 @@ class CountryFlagsPipeline(FilesPipeline):
         """Request SVG download if URL is present."""
         if item.get('flag_url'):
             logger.debug(f"Requesting flag download for {item['country_name']}")
-            yield Request(
-                item['flag_url'],
-                meta={'country': item.get('country_name', 'unknown')}
-            )
+            yield Request(item['flag_url'])
 
-    def file_path(self, request, response=None, info=None):
+    def file_path(self, request, response=None, info=None, *, item=None):
         """Generate file path for storing the SVG."""
-        country = request.meta['country'].lower().replace(' ', '_')
+        country = item['country_name'].lower().replace(' ', '_')
         return f'flags/{country}.svg'
 
     def item_completed(self, results, item, info):
         """Update item with local file path after download."""
+        
         if results and results[0][0]:  # if success
             item['flag_path'] = results[0][1]['path']
             logger.debug(f"Successfully downloaded flag for {item['country_name']}")

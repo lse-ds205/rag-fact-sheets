@@ -47,26 +47,35 @@ class ClimateActionTrackerSpider(scrapy.Spider):
     
     name = "climate_action_tracker"
     allowed_domains = ["climateactiontracker.org"]
-    start_urls = [
-        "https://climateactiontracker.org/countries/brazil/",
-        "https://climateactiontracker.org/countries/china/",
-        "https://climateactiontracker.org/countries/usa/",
-        "https://climateactiontracker.org/countries/india/",
-        "https://climateactiontracker.org/countries/eu/",
-        "https://climateactiontracker.org/countries/germany/",
-        "https://climateactiontracker.org/countries/australia/",
-        "https://climateactiontracker.org/countries/united-kingdom/"
-    ]
+    # Instead of listing all URLs, start from the countries page
+    start_urls = ["https://climateactiontracker.org/countries/"]
 
     def parse(self, response):
-        """Extract data from country pages.
+        """Extract country URLs from the main countries page.
+        """
+        logger.info("Discovering country URLs...")
+
+        # Find all country links
+        country_links_xpath = '//a[starts-with(@href, "/countries")]/@href'
+        country_links = response.xpath(country_links_xpath).getall()
+
+        for href in country_links[0:4]:
+            country_url = response.urljoin(href)
+            logger.debug(f"Found country URL: {country_url}")
+            yield response.follow(
+                country_url, 
+                callback=self.parse_country
+            )
+
+    def parse_country(self, response):
+        """Extract data from individual country pages.
         
         @url https://climateactiontracker.org/countries/brazil/
+        @valid_country
         @returns items 1 1
         @scrapes country_name overall_rating flag_url
-        @valid_rating
         """
-        logger.info(f"Parsing {response.url}")
+        logger.info(f"Parsing country page: {response.url}")
         
         # Create a new item instance
         item = CountryClimateItem()
@@ -95,15 +104,3 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         except Exception as e:
             logger.error(f"Error parsing {response.url}: {str(e)}")
             raise
-
-    def start_requests(self):
-        """Initialize the crawl with requests for each start URL.
-        
-        This method allows for customisation of how the initial requests are made,
-        which can be useful for adding headers, cookies, or other request parameters.
-        
-        Yields:
-            scrapy.Request: Request object for each start URL
-        """
-        for url in self.start_urls:
-            yield scrapy.Request(url=url, callback=self.parse)
