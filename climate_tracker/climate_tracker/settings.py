@@ -65,6 +65,7 @@ DOWNLOAD_DELAY = 3
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'climate_tracker.pipelines.ValidateItemPipeline': 300,
+    'climate_tracker.pipelines.CountryFlagsPipeline': 500,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -96,3 +97,13 @@ FEED_EXPORT_ENCODING = "utf-8"
 SPIDER_CONTRACTS = {
     'climate_tracker.contracts.RatingValidContract': 100,
 }
+
+# Files Pipeline Settings
+FILES_STORE = 'data/files'
+MEDIA_ALLOW_REDIRECTS = True
+
+# Create a directory for storing files
+import os
+os.makedirs('data/files/flags', exist_ok=True)
+
+LOG_LEVEL = 'DEBUG'
