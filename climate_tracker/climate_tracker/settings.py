@@ -63,9 +63,10 @@ DOWNLOAD_DELAY = 3
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "climate_tracker.pipelines.ClimateTrackerPipeline": 300,
-#}
+ITEM_PIPELINES = {
+    'climate_tracker.pipelines.ValidateItemPipeline': 100,
+    'climate_tracker.pipelines.CountryFlagsPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -91,3 +92,28 @@ DOWNLOAD_DELAY = 3
 # Set settings whose default value is deprecated to a future-proof value
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+# Enable spider contracts
+SPIDER_CONTRACTS = {
+    'climate_tracker.contracts.ValidCountryContract': 100,
+}
+
+# Files Pipeline Settings
+FILES_STORE = 'data/files'
+MEDIA_ALLOW_REDIRECTS = True
+
+# Create a directory for storing files
+import os
+os.makedirs('data/files/flags', exist_ok=True)
+
+LOG_LEVEL = 'DEBUG'
+
+# Feed exports
+FEEDS = {
+    'data/output.jsonl': {
+        'format': 'jsonlines',
+        'encoding': 'utf8',
+        'store_empty': False,
+        'overwrite': True,
+    },
+}

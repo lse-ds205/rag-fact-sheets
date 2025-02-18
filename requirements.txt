@@ -9,6 +9,9 @@ pandas==2.2.3
 ipykernel>=6.21.2
 jupyterlab>=3.6.1
 
+# Utilities
+pycountry==24.6.1
+
 # Debugging Utilities
 requests==2.31.0 
 ipdb==0.13.13
