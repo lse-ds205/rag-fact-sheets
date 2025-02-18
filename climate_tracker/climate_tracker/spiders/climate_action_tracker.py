@@ -25,26 +25,30 @@ All rights reserved.
 """
 
 import scrapy
+import requests
 
 def get_indicators(response):
-    indicators = response.css(".ratings-matrix__second-row-cell")
-    for indicator in indicators[:-1]:
+    for indicator in response.css(".ratings-matrix__second-row-cell"):
+        term = indicator.css("dt p::text").get()
+        # Account for NoneTypes and weird formatting
+        if term:
+            term = term.strip()
+        else:
+            term = indicator.css("dt::text").get()
+        
         yield {
-            "term": indicator.css("p::text").get().strip(),
+            "term": term,
             "term_details": indicator.css("i::text").get(),
             "value": indicator.css("b::text").get(),
             "metric": indicator.css("dd i::text").get()
         }
-    yield {
-        "term": indicators[-1].css("dt::text").get(),
-        "value": indicators[-1].css("b::text").get()
-    }
+
 
 
 class ClimateActionTrackerSpider(scrapy.Spider):
     """Spider for scraping country data from Climate Action Tracker website.
     
-    This spider collects climate action data for various countries, including their
+    This spider collects climate action data for all tracked countries, including their
     names, ratings, and other climate-related metrics.
     
     Attributes:
@@ -55,15 +59,12 @@ class ClimateActionTrackerSpider(scrapy.Spider):
     
     name = "climate_action_tracker"
     allowed_domains = ["climateactiontracker.org"]
+
+    countries_response = requests.get("https://climateactiontracker.org/countries/")
+    countries_response.raise_for_status()
     start_urls = [
-        "https://climateactiontracker.org/countries/brazil/",
-        "https://climateactiontracker.org/countries/china/",
-        "https://climateactiontracker.org/countries/usa/",
-        "https://climateactiontracker.org/countries/india/",
-        "https://climateactiontracker.org/countries/eu/",
-        "https://climateactiontracker.org/countries/germany/",
-        "https://climateactiontracker.org/countries/australia/",
-        "https://climateactiontracker.org/countries/united-kingdom/"
+        "https://climateactiontracker.org" + country_path for country_path in
+        scrapy.Selector(countries_response).css(".countries-menu-dropdown .hidden-xs a::attr(href)").getall()
     ]
 
     def parse(self, response):
