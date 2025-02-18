@@ -26,6 +26,20 @@ All rights reserved.
 
 import scrapy
 
+def get_indicators(response):
+    indicators = response.css(".ratings-matrix__second-row-cell")
+    for indicator in indicators[:-1]:
+        yield {
+            "term": indicator.css("p::text").get().strip(),
+            "term_details": indicator.css("i::text").get(),
+            "value": indicator.css("b::text").get(),
+            "metric": indicator.css("dd i::text").get()
+        }
+    yield {
+        "term": indicators[-1].css("dt::text").get(),
+        "value": indicators[-1].css("b::text").get()
+    }
+
 
 class ClimateActionTrackerSpider(scrapy.Spider):
     """Spider for scraping country data from Climate Action Tracker website.
@@ -61,18 +75,14 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         Yields:
             dict: Dictionary containing extracted country data
         """
-        country_name = response.css('h1::text').get()
-        overall_rating = response.css('.ratings-matrix__overall dd::text').get()
-
-        # The flag is in a div .headline__flag
-        flag_url = response.css('.headline__flag img::attr(src)').get()
-        # We need to add the base URL to the flag URL
-        flag_url = f"https://climateactiontracker.org{flag_url}"
+        country_name = response.css("h1::text").get()
+        overall_rating = response.css(".ratings-matrix__overall dd::text").get()
+        indicators = list(get_indicators(response))
 
         yield {
-            'country_name': country_name,
-            'overall_rating': overall_rating,
-            'flag_url': flag_url
+            "country_name": country_name,
+            "overall_rating": overall_rating,
+            "indicators": indicators
         }
 
     def start_requests(self):
@@ -85,4 +95,4 @@ class ClimateActionTrackerSpider(scrapy.Spider):
             scrapy.Request: Request object for each start URL
         """
         for url in self.start_urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+            yield scrapy.Request(url = url, callback = self.parse)
