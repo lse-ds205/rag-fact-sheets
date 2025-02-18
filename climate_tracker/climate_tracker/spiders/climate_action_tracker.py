@@ -27,6 +27,8 @@ All rights reserved.
 import scrapy
 import logging
 
+from datetime import datetime
+
 from climate_tracker.items import CountryClimateItem
 from climate_tracker.logging import setup_colored_logging
 
@@ -83,24 +85,21 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         try:
             # Extract and assign fields with validation
             item['country_name'] = response.css('h1::text').get()
-            if not item['country_name']:
-                raise ValueError("Country name not found")
                 
             item['overall_rating'] = response.css('.ratings-matrix__overall dd::text').get()
-            if not item['overall_rating']:
-                raise ValueError("Rating not found")
             
             # Extract flag URL with validation
             flag_url = response.css('.headline__flag img::attr(src)').get()
             if flag_url:
                 item['flag_url'] = f"https://climateactiontracker.org{flag_url}"
             else:
-                logger.warning(f"No flag found for {item['country_name']}")
                 item['flag_url'] = None
 
-            logger.debug(f"Successfully parsed data for {item['country_name']}")
+            item['scraped_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
             return item
             
+
         except Exception as e:
             logger.error(f"Error parsing {response.url}: {str(e)}")
             raise

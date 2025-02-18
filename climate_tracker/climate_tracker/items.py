@@ -22,6 +22,11 @@ class CountryClimateItem(scrapy.Item):
     ```
     """
     
+    scraped_at = Field(
+        serializer=str,
+        required=True
+    )
+
     # Required fields
     country_name = Field(
         serializer=str,
@@ -30,16 +35,7 @@ class CountryClimateItem(scrapy.Item):
     
     overall_rating = Field(
         serializer=str,
-        required=True,
-        # Valid ratings from Climate Action Tracker
-        choices=[
-            'Critically insufficient',
-            'Highly insufficient',
-            'Insufficient',
-            'Almost sufficient',
-            'Compatible',
-            'Role model'
-        ]
+        required=True
     )
     
     flag_url = Field(
@@ -55,4 +51,4 @@ class CountryClimateItem(scrapy.Item):
     
     def __repr__(self):
         """String representation of the item."""
-        return f"<CountryClimate: {self['country_name']}>"
+        return f"<CountryClimate: {self['country_name']} Scraped at {self['scraped_at']}>"

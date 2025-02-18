@@ -13,6 +13,8 @@ import json
 import logging
 import pycountry
 
+from datetime import datetime
+
 from scrapy.exceptions import DropItem
 from scrapy.pipelines.files import FilesPipeline
 from scrapy import Request
@@ -30,6 +32,12 @@ class ValidateItemPipeline:
 
         logger.debug(f"Validating item: {item}")
 
+        for field in ['country_name', 'overall_rating', 'flag_url']:
+            if not item.get(field):
+                logger.warn(f"Dropping item {item} because it has no {field}")
+                raise DropItem(f"Invalid {field}: {item[field]}")
+
+        # TODO: Test how robust this country search actually is
         search_country = pycountry.countries.get(name=item['country_name'])
         if not search_country:
             logger.warn(f"Dropping item {item} because it has an invalid country name: {item['country_name']}")
