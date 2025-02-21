@@ -12,10 +12,10 @@ To run the spider for all mapped URLs, use the following command:
     cd climate_tracker
     scrapy crawl climate_action_tracker -O ./data/output.json
 
-To test or run the same spider for a single URL, use the following command:
+To test the spider using contracts:
 
     cd climate_tracker
-    scrapy parse https://climateactiontracker.org/countries/india/ --spider climate_action_tracker -O ./data/output.json
+    scrapy check climate_action_tracker
 
 ---
 Data Usage Notice:
@@ -25,7 +25,14 @@ All rights reserved.
 """
 
 import scrapy
-import requests
+import logging
+
+from datetime import datetime
+
+from climate_tracker.logging import setup_colored_logging
+
+logger = logging.getLogger(__name__)
+setup_colored_logging(logger)
 
 def get_indicators(response):
     for indicator in response.css(".ratings-matrix__second-row-cell"):
@@ -43,12 +50,10 @@ def get_indicators(response):
             "metric": indicator.css("dd i::text").get()
         }
 
-
-
 class ClimateActionTrackerSpider(scrapy.Spider):
     """Spider for scraping country data from Climate Action Tracker website.
     
-    This spider collects climate action data for all tracked countries, including their
+    This spider collects climate action data for various countries, including their
     names, ratings, and other climate-related metrics.
     
     Attributes:
@@ -59,15 +64,28 @@ class ClimateActionTrackerSpider(scrapy.Spider):
     
     name = "climate_action_tracker"
     allowed_domains = ["climateactiontracker.org"]
-
-    countries_response = requests.get("https://climateactiontracker.org/countries/")
-    countries_response.raise_for_status()
-    start_urls = [
-        "https://climateactiontracker.org" + country_path for country_path in
-        scrapy.Selector(countries_response).css(".countries-menu-dropdown .hidden-xs a::attr(href)").getall()
-    ]
+    # Instead of listing all URLs, start from the countries page
+    start_urls = ["https://climateactiontracker.org/countries/"]
 
     def parse(self, response):
+        """Extract country URLs from the main countries page.
+        """
+        logger.info("Discovering country URLs...")
+
+        # Find all country links
+        country_links_xpath = '//a[starts-with(@href, "/countries")]/@href'
+        country_links = response.xpath(country_links_xpath).getall()
+
+        for href in country_links[0:4]:
+            country_url = response.urljoin(href)
+            logger.debug(f"Found country URL: {country_url}")
+            yield response.follow(
+                country_url, 
+                callback=self.parse_country
+            )
+
+
+    def parse_country(self, response):
         """Extract data from country pages.
         
         Args:
@@ -75,7 +93,44 @@ class ClimateActionTrackerSpider(scrapy.Spider):
             
         Yields:
             dict: Dictionary containing extracted country data
+        
+        @url https://climateactiontracker.org/countries/argentina/
+        @valid_country
+        @valid_indicators 
+        @complete_data
+        @returns items 1 1
+        @url https://climateactiontracker.org/countries/china/
+        @valid_country
+        @valid_indicators 
+        @complete_data
+        @returns items 1 1
+        @url https://climateactiontracker.org/countries/india/
+        @valid_country
+        @valid_indicators 
+        @complete_data
+        @returns items 1 1
+        @url https://climateactiontracker.org/countries/eu/
+        @valid_country
+        @valid_indicators 
+        @complete_data
+        @returns items 1 1
+        @url https://climateactiontracker.org/countries/usa/
+        @valid_country
+        @valid_indicators 
+        @complete_data
+        @returns items 1 1
+        @url https://climateactiontracker.org/countries/brazil/
+        @valid_country
+        @valid_indicators 
+        @complete_data
+        @returns items 1 1
+        @url https://climateactiontracker.org/countries/uk/
+        @valid_country
+        @valid_indicators 
+        @complete_data
+        @returns items 1 1
         """
+
         country_name = response.css("h1::text").get()
         overall_rating = response.css(".ratings-matrix__overall dd::text").get()
         indicators = list(get_indicators(response))
@@ -85,15 +140,3 @@ class ClimateActionTrackerSpider(scrapy.Spider):
             "overall_rating": overall_rating,
             "indicators": indicators
         }
-
-    def start_requests(self):
-        """Initialize the crawl with requests for each start URL.
-        
-        This method allows for customisation of how the initial requests are made,
-        which can be useful for adding headers, cookies, or other request parameters.
-        
-        Yields:
-            scrapy.Request: Request object for each start URL
-        """
-        for url in self.start_urls:
-            yield scrapy.Request(url = url, callback = self.parse)
