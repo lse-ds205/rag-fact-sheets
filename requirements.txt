@@ -5,6 +5,9 @@ selenium==4.28.1
 # Data analysis
 pandas==2.2.3
 
+# Utilities
+pycountry==24.6.1
+
 # Development tools
 ipykernel>=6.21.2
 jupyterlab>=3.6.1
