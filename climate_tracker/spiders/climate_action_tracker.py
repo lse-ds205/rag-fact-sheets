@@ -69,10 +69,59 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         # We need to add the base URL to the flag URL
         flag_url = f"https://climateactiontracker.org{flag_url}"
 
+        ### NEW CODE
+        indicator_data = []
+
+        ## Row 2 tiles
+        tiles_row2 = response.css('.ratings-matrix__second-row-cell')
+        for tile in tiles_row2:
+
+            term = tile.css('dl dt::text').get()
+
+            if not term:
+                ## most indicators stored under p tags under dt tag but not all
+                term= tile.css('dl dt p::text').get()
+
+            term_details = tile.css("i ::text").get()
+
+
+            value = tile.css('dl dd b::text').get()
+
+            metric = tile.css("dd i ::text").get()
+            tile_contents =  {"term": term,"term_details": term_details, "value": value,"metric":metric}
+
+        
+            indicator_data.append(tile_contents)
+        
+        net_zero_tile = response.css('.ratings-matrix__third-row')
+        term = net_zero_tile.css('dl dt::text').get()
+
+        ## both values stored in b tags in dd tags so easier to access both values together
+        bold_values = net_zero_tile.css('dl dd b::text').getall()
+        year = bold_values[0].strip()
+
+        value = bold_values[1].strip()
+
+        metric = net_zero_tile.css('dl dd p::text').getall()[1]
+
+        tile_contents =  {"term": term,"term_details": year, "value": value,"metric":metric}
+
+        indicator_data.append(tile_contents)
+
+        ## Deforestation data
+        term = response.css('.ratings-matrix__land_use_forestry dt::text').get().strip()
+        value = response.css('.ratings-matrix__land_use_forestry dd b::text').get().strip()
+
+        tile_contents =  {"term": term,"term_details": None, "value": value,"metric":None}
+        indicator_data.append(tile_contents)
+
+
+
+
         yield {
             'country_name': country_name,
             'overall_rating': overall_rating,
-            'flag_url': flag_url
+            'indicators': indicator_data
         }
 
     def start_requests(self):
