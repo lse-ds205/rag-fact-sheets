@@ -71,7 +71,10 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'climate_tracker.pipelines.RatingsPipeline': 300,
-    'climate_tracker.pipelines.CountryTargetsPipeline': 300
+    'climate_tracker.pipelines.CountryTargetsPipeline': 300,
+    'climate_tracker.pipelines.PolicyActionPipeline': 400,
+    'climate_tracker.pipelines.NetZeroTargetsPipeline': 500,
+    'climate_tracker.pipelines.AssumptionsPipeline': 600,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
