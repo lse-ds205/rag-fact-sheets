@@ -5,8 +5,10 @@
 
 
 # useful for handling different item types with a single interface
+from collections import defaultdict
 from itemadapter import ItemAdapter
 import csv
+
 from climate_tracker.items import RatingsOverview, RatingsDescription, CountryTargets
 import pandas as pd
 
@@ -51,24 +53,23 @@ class RatingsPipeline:
 
 class CountryTargetsPipeline:
     def open_spider(self, spider):
-        self.file = open('country_targets.csv', 'w', newline='', encoding='utf-8')
-        self.writer = csv.writer(self.file)
-        self.writer.writerow(['country_name', 'target', 'target_description', 'tables'])
+        self.writer = pd.ExcelWriter('country_targets.xlsx', engine='xlsxwriter')
+        self.data = defaultdict(list)
 
     def close_spider(self, spider):
-        self.file.close()
+        try:
+            for target, items in self.data.items():
+                sheet_name = target[:30]  # Ensure sheet name does not exceed 30 characters
+                df = pd.DataFrame(items)
+                df.to_excel(self.writer, sheet_name=sheet_name, index=False)
+        finally:
+            self.writer.close()
 
     def process_item(self, item, spider):
         if isinstance(item, CountryTargets):
-            # Convert tables to a serializable format (e.g., JSON string)
-            tables_serialized = [df.to_json(orient="records") for df in item['tables']]
-            tables_serialized_str = "; ".join(tables_serialized)
-
-            # Write the data to the CSV file
-            self.writer.writerow([
-                item.get('country_name', 'NA'),
-                item.get('target', 'NA'),
-                item.get('target_description', 'NA'),
-                tables_serialized_str
-            ])
+            target = item.get('target', 'Unknown Target')
+            self.data[target].append({
+                'country_name': item.get('country_name', 'NA'),
+                'target_description': item.get('target_description', 'NA')
+            })
         return item

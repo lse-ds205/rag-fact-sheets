@@ -111,18 +111,6 @@ class ClimateActionTrackerSpider(scrapy.Spider):
                 country_targets_item['target'] = target
                 country_targets_item['target_description'] = target_description
 
-                # Get only the HTML for this container
-                container_html = s.get()
-                try:
-                    # This extracts all tables found within the container's HTML
-                    container_tables = pd.read_html(container_html)
-                    # Optionally, convert DataFrames to a serializable format (e.g., list of dicts)
-                    container_tables = [df.to_dict(orient="records") for df in container_tables]
-                except ValueError:
-                    # No tables found in this container
-                    container_tables = []
-
-                country_targets_item["tables"] = container_tables
 
                 yield country_targets_item
             ##Now we need to collect the tables which are in the NDC Target Section Essentially

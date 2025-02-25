@@ -1,8 +1,4 @@
 country_name,overall_rating,policies_action_domestic,ndc_target_domestic,ndc_target_fair,climate_finance,net_zero_target_year,net_zero_target_rating,land_forestry_use
-Australia,Insufficient,Insufficient,Insufficient,Insufficient,Critically insufficient,2050,Poor,Source
-Argentina,Critically insufficient,Critically insufficient,Highly insufficient,Highly insufficient,Not assessed,2050,Poor,Source
-Rating system,NA,NA,NA,NA,NA,NA,NA,NA
-EU,Insufficient,Insufficient,Insufficient,Insufficient,Insufficient,2050,Acceptable,Not significant
 Costa Rica,Almost Sufficient,1.5°C compatible,Almost Sufficient,1.5°C compatible,Not applicable,2050,Acceptable,Sink
 Colombia,Insufficient,Insufficient,Insufficient,Almost Sufficient,Not applicable,2050,Acceptable,Source
 China,Highly insufficient,Insufficient,Highly insufficient,Insufficient,Not assessed,before 2060,Poor,Not significant
@@ -10,10 +6,18 @@ Chile,Almost Sufficient,Almost Sufficient,Almost Sufficient,Almost Sufficient,No
 Canada,Insufficient,Insufficient,Almost Sufficient,Insufficient,Highly insufficient,2050,Average,Source & Sink
 Brazil,Insufficient,Insufficient,Almost Sufficient,Almost Sufficient,Not applicable,2050,Poor,Source
 Bhutan,Almost Sufficient,1.5°C compatible,1.5°C global least cost,Almost Sufficient,Not applicable,2050,Information incomplete,Sink
-New Zealand,Highly insufficient,Highly insufficient,Almost Sufficient,Insufficient,Highly insufficient,2050,Poor,Sink
-Nepal,Almost Sufficient,1.5°C compatible,Critically insufficient,1.5°C compatible,Not applicable,2045,Average,Source & Sink
-Morocco,Almost Sufficient,1.5°C compatible,Almost Sufficient,Almost Sufficient,Not applicable,Not specified,Information incomplete,Not significant
+Australia,Insufficient,Insufficient,Insufficient,Insufficient,Critically insufficient,2050,Poor,Source
+Argentina,Critically insufficient,Critically insufficient,Highly insufficient,Highly insufficient,Not assessed,2050,Poor,Source
+Rating system,NA,NA,NA,NA,NA,NA,NA,NA
 Mexico,Critically insufficient,Highly insufficient,Highly insufficient,Critically insufficient,Not assessed,N/A,No target,Sink
+Kenya,Almost Sufficient,1.5°C compatible,Critically insufficient,1.5°C compatible,Not applicable,"
+                        No target
+                    ",NA,Source
+Kazakhstan,Insufficient,Insufficient,Almost Sufficient,Insufficient,Not assessed,2060,Average,Not significant
+Japan,Insufficient,Insufficient,Insufficient,Insufficient,Highly insufficient,2050,Poor,Not significant
+Iran (Islamic Republic of),Critically insufficient,Critically insufficient,Critically insufficient,Critically insufficient,Not assessed,"
+                        No target
+                    ",NA,Not significant
 Countries,NA,NA,NA,NA,NA,NA,NA,NA
 Viet Nam,Critically insufficient,Critically insufficient,Critically insufficient,Critically insufficient,Not applicable,2050,Average,Not significant
 United Kingdom,Insufficient,Insufficient,Almost Sufficient,Insufficient,Highly insufficient,2050,Acceptable,Not significant
@@ -37,14 +41,9 @@ Norway,Almost Sufficient,Almost Sufficient,1.5°C global least cost,Insufficient
                         No target
                     ",NA,Sink
 Nigeria,Almost Sufficient,1.5°C compatible,Almost Sufficient,1.5°C compatible,Not applicable,2050-2070,Average,Not significant
-Kenya,Almost Sufficient,1.5°C compatible,Critically insufficient,1.5°C compatible,Not applicable,"
-                        No target
-                    ",NA,Source
-Kazakhstan,Insufficient,Insufficient,Almost Sufficient,Insufficient,Not assessed,2060,Average,Not significant
-Japan,Insufficient,Insufficient,Insufficient,Insufficient,Highly insufficient,2050,Poor,Not significant
-Iran (Islamic Republic of),Critically insufficient,Critically insufficient,Critically insufficient,Critically insufficient,Not assessed,"
-                        No target
-                    ",NA,Not significant
+New Zealand,Highly insufficient,Highly insufficient,Almost Sufficient,Insufficient,Highly insufficient,2050,Poor,Sink
+Nepal,Almost Sufficient,1.5°C compatible,Critically insufficient,1.5°C compatible,Not applicable,2045,Average,Source & Sink
+Morocco,Almost Sufficient,1.5°C compatible,Almost Sufficient,Almost Sufficient,Not applicable,Not specified,Information incomplete,Not significant
 Indonesia,Critically insufficient,Critically insufficient,Critically insufficient,Critically insufficient,Not applicable,2060,Information incomplete,Source
 India,Highly insufficient,Insufficient,Highly insufficient,Insufficient,Not applicable,2070,Poor,Not significant
 Germany,Insufficient,Almost Sufficient,Almost Sufficient,Insufficient,Insufficient,2045,Average,Not significant
@@ -53,3 +52,4 @@ Ethiopia,Almost Sufficient,1.5°C compatible,Critically insufficient,1.5°C comp
 Egypt,Highly insufficient,Insufficient,Highly insufficient,Critically insufficient,Not applicable,"
                         No target
                     ",NA,Not significant
+EU,Insufficient,Insufficient,Insufficient,Insufficient,Insufficient,2050,Acceptable,Not significant

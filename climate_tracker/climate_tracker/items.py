@@ -32,4 +32,4 @@ class CountryTargets(scrapy.Item):
     country_name = scrapy.Field()
     target = scrapy.Field()
     target_description = scrapy.Field()
-    tables = scrapy.Field()
+    #tables = scrapy.Field()
