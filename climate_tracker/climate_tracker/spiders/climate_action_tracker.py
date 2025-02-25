@@ -1,7 +1,9 @@
 import scrapy
 import logging
+import pandas as pd
 from climate_tracker.items import RatingsOverview
 from climate_tracker.items import RatingsDescription
+from climate_tracker.items import CountryTargets
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +18,7 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         country_links = response.xpath(country_links_xpath).getall()
         logger.info(f'Found {len(country_links)} country links.')
 
+        #Here is where you can put the limit for how many links you want to be going through
         for href in country_links:
             country_url = response.urljoin(href)
             logger.debug(f"Found country URL: {country_url}")
@@ -94,14 +97,45 @@ class ClimateActionTrackerSpider(scrapy.Spider):
     def parse_country_target(self, response):
         logger.info(f'Starting to parse country target page: {response.url}')
 
-        # Example of extracting data
-        target_data = response.css('div.target-data::text').getall()
-        logger.info(f'Extracted target data: {target_data}')
+        country_targets_item = CountryTargets()
 
+        try:
+            #First we collect all of the containers that have a content block in them
+            containers_with_content_block = response.xpath('//div[contains(@class, "container")][.//div[contains(@class, "content-block")]]')
+            for s in containers_with_content_block:
+                target = s.css('h3::text').get().strip()
+                target_description = ' '.join(t.strip() for t in s.css('div.content-block ::text').getall() if t.strip())
+                logger.info(f'Extracted target content: {target} - {target_description}')
+
+                country_targets_item['country_name'] = self.extract_with_default(response, 'h1::text')
+                country_targets_item['target'] = target
+                country_targets_item['target_description'] = target_description
+
+                # Get only the HTML for this container
+                container_html = s.get()
+                try:
+                    # This extracts all tables found within the container's HTML
+                    container_tables = pd.read_html(container_html)
+                    # Optionally, convert DataFrames to a serializable format (e.g., list of dicts)
+                    container_tables = [df.to_dict(orient="records") for df in container_tables]
+                except ValueError:
+                    # No tables found in this container
+                    container_tables = []
+
+                country_targets_item["tables"] = container_tables
+
+                yield country_targets_item
+            ##Now we need to collect the tables which are in the NDC Target Section Essentially
+
+                
+
+        except Exception as e:
+            logger.error(f'Error parsing country target page: {response.url} - {e}')
         # Yield the extracted data as an item or process it further
         # yield TargetItem(data=target_data)
 
         logger.info(f'Finished parsing country target page: {response.url}')
+
 
 
 

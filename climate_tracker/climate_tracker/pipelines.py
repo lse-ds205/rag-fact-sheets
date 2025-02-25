@@ -7,7 +7,8 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 import csv
-from climate_tracker.items import RatingsOverview, RatingsDescription
+from climate_tracker.items import RatingsOverview, RatingsDescription, CountryTargets
+import pandas as pd
 
 class ClimateTrackerPipeline:
     def process_item(self, item, spider):
@@ -44,5 +45,30 @@ class RatingsPipeline:
         elif isinstance(item, RatingsDescription):
             self.description_writer.writerow([
                 item.get('country_name', 'NA'),item.get('header', 'NA'), item.get('rating', 'NA'), item.get('content_text', 'NA')
+            ])
+        return item
+    
+
+class CountryTargetsPipeline:
+    def open_spider(self, spider):
+        self.file = open('country_targets.csv', 'w', newline='', encoding='utf-8')
+        self.writer = csv.writer(self.file)
+        self.writer.writerow(['country_name', 'target', 'target_description', 'tables'])
+
+    def close_spider(self, spider):
+        self.file.close()
+
+    def process_item(self, item, spider):
+        if isinstance(item, CountryTargets):
+            # Convert tables to a serializable format (e.g., JSON string)
+            tables_serialized = [df.to_json(orient="records") for df in item['tables']]
+            tables_serialized_str = "; ".join(tables_serialized)
+
+            # Write the data to the CSV file
+            self.writer.writerow([
+                item.get('country_name', 'NA'),
+                item.get('target', 'NA'),
+                item.get('target_description', 'NA'),
+                tables_serialized_str
             ])
         return item

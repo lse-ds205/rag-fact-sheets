@@ -27,3 +27,9 @@ class RatingsDescription(scrapy.Item):
     header = scrapy.Field()
     rating = scrapy.Field()
     content_text = scrapy.Field()
+
+class CountryTargets(scrapy.Item):
+    country_name = scrapy.Field()
+    target = scrapy.Field()
+    target_description = scrapy.Field()
+    tables = scrapy.Field()
