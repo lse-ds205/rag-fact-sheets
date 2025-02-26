@@ -1,3 +1,5 @@
+import os
+
 # Scrapy settings for climate_tracker project
 #
 # For simplicity, this file contains only settings considered important or
@@ -70,12 +72,17 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'climate_tracker.pipelines.RatingsPipeline': 300,
-    'climate_tracker.pipelines.CountryTargetsPipeline': 300,
-    'climate_tracker.pipelines.PolicyActionPipeline': 400,
-    'climate_tracker.pipelines.NetZeroTargetsPipeline': 500,
-    'climate_tracker.pipelines.AssumptionsPipeline': 600,
+    'climate_tracker.pipelines.CountryDataPipeline': 800,
+    'climate_tracker.pipelines.RatingsPipeline': 200,
+    'climate_tracker.pipelines.RatingsDescriptionPipeline': 300,
+    'climate_tracker.pipelines.CountryTargetsPipeline': 400,
+    'climate_tracker.pipelines.PolicyActionPipeline': 500,
+    'climate_tracker.pipelines.NetZeroTargetsPipeline': 600,
+    'climate_tracker.pipelines.AssumptionsPipeline': 700,
 }
+
+# Ensure the FILES_STORE path is relative to the current working directory
+FILES_STORE = os.path.join(os.getcwd(), 'output_files')
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

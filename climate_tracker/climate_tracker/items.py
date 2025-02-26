@@ -11,6 +11,11 @@ class ClimateTrackerItem(scrapy.Item):
     # name = scrapy.Field()
     pass
 
+
+class CountryDataFiles(scrapy.Item):
+    country_name = scrapy.Field()
+    xlsx_file = scrapy.Field()
+    png_file = scrapy.Field()
 class RatingsOverview(scrapy.Item):
     country_name = scrapy.Field()
     overall_rating = scrapy.Field()

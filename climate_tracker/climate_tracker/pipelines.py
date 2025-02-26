@@ -7,14 +7,41 @@
 # useful for handling different item types with a single interface
 from collections import defaultdict
 from itemadapter import ItemAdapter
+from urllib.parse import urlparse
+import scrapy
 import csv
+import os
+from scrapy.pipelines.files import FilesPipeline
+from scrapy.utils.project import get_project_settings
 
-from climate_tracker.items import RatingsOverview, RatingsDescription, CountryTargets, PolicyAction, NetZeroTargets, Assumptions
+
+from climate_tracker.items import CountryDataFiles, RatingsOverview, RatingsDescription, CountryTargets, PolicyAction, NetZeroTargets, Assumptions
 import pandas as pd
 
 class ClimateTrackerPipeline:
     def process_item(self, item, spider):
         return item
+
+class CountryDataPipeline(FilesPipeline):
+    def process_item(self, item, spider):
+        if isinstance(item, CountryDataFiles):
+            country_name = item['country_name']
+            if 'xlsx_file' in item:
+                xlsx_file = item['xlsx_file']
+                self.save_file(xlsx_file, 'xlsx_files', country_name)
+            if 'png_file' in item:
+                png_file = item['png_file']
+                self.save_file(png_file, 'png_files', country_name)
+        return item
+
+    def save_file(self, file, folder, country_name):
+        file_name = file['file_name']
+        file_content = file['file_content']
+        file_path = os.path.join(folder, f"{country_name}_{file_name}")
+        os.makedirs(folder, exist_ok=True)
+        with open(file_path, 'wb') as f:
+            f.write(file_content)
+        print(f"Saved file {file_path}")
 
 #This is the Pipeline for the Country Summary Page
 class RatingsPipeline:
@@ -27,13 +54,8 @@ class RatingsPipeline:
             'net_zero_target_year', 'net_zero_target_rating', 'land_forestry_use'
         ])
 
-        self.description_file = open('ratings_descriptions.csv', 'w', newline='', encoding='utf-8')
-        self.description_writer = csv.writer(self.description_file)
-        self.description_writer.writerow(['header', 'rating', 'content_text'])
-
     def close_spider(self, spider):
         self.overview_file.close()
-        self.description_file.close()
 
     def process_item(self, item, spider):
         if isinstance(item, RatingsOverview):
@@ -44,11 +66,31 @@ class RatingsPipeline:
                 item.get('net_zero_target_year', 'NA'), item.get('net_zero_target_rating', 'NA'), 
                 item.get('land_forestry_use', 'NA')
             ])
-        elif isinstance(item, RatingsDescription):
-            self.description_writer.writerow([
-                item.get('country_name', 'NA'),item.get('header', 'NA'), item.get('rating', 'NA'), item.get('content_text', 'NA')
-            ])
         return item
+
+class RatingsDescriptionPipeline:
+    def open_spider(self, spider):
+        self.writer = pd.ExcelWriter('ratings_descriptions.xlsx', engine='xlsxwriter')
+        self.data = defaultdict(list)
+
+    def close_spider(self, spider):
+        try:
+            for header, items in self.data.items():
+                sheet_name = header[:30]  # Ensure sheet name does not exceed 30 characters
+                df = pd.DataFrame(items)
+                df.to_excel(self.writer, sheet_name=sheet_name, index=False)
+        finally:
+            self.writer.close()
+
+    def process_item(self, item, spider):
+        if isinstance(item, RatingsDescription):
+            header = item.get('header', 'Unknown Rating')
+            self.data[header].append({
+                'country_name': item.get('country_name', 'NA'),
+                'description': item.get('content_text', 'NA')
+            })
+        return item
+
     
 
 class CountryTargetsPipeline:

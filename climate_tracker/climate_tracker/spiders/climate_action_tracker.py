@@ -1,7 +1,7 @@
 import scrapy
 import logging
 import pandas as pd
-from climate_tracker.items import RatingsOverview, RatingsDescription, CountryTargets, PolicyAction, NetZeroTargets, Assumptions
+from climate_tracker.items import RatingsOverview, RatingsDescription, CountryTargets, PolicyAction, NetZeroTargets, Assumptions, CountryDataFiles
 
 logger = logging.getLogger(__name__)
 
@@ -73,6 +73,23 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         except Exception as e:
             logger.error(f'Error parsing country texts portion: {response.url} - {e}')
 
+
+        file_links = [
+        response.xpath('//div[@data-component-graph-embed]/@data-props-graph-image-url').get(),
+        response.xpath('//div[@data-component-graph-embed]/@data-props-scenario-data-url').get()
+        ]
+
+        country_data_files_item = CountryDataFiles()
+        country_data_files_item['country_name'] = self.extract_with_default(response, 'h1::text')
+
+        for file_url in file_links:
+            if file_url:
+                full_url = response.urljoin(file_url)
+                logger.info(f'Downloading file from: {full_url}')
+                yield scrapy.Request(full_url, callback=self.save_file, meta={'country_name': country_data_files_item['country_name'], 'item': country_data_files_item})
+        
+        
+                
         logger.info(f'Finished parsing country page: {response.url}')
 
         # Follow the target page link
@@ -102,6 +119,11 @@ class ClimateActionTrackerSpider(scrapy.Spider):
 
 
         logger.info(f'Finished parsing country page: {response.url}')
+    ###########        
+    #This is the function that allows us to store the xlsx file and png file
+
+
+
 
     #Country Target Page Core
     def parse_country_target(self, response):
@@ -208,6 +230,20 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         else:
             logger.warning(f'Missing value for selector: {css_selector} on page: {response.url}')
             return default
+        
+    def save_file(self, response):
+        country_name = response.meta['country_name']
+        item = response.meta['item']
+        file_name = response.url.split("/")[-1]
+        file_content = response.body
+        
+        if file_name.endswith('.xlsx'):
+            item['xlsx_file'] = {'file_name': file_name, 'file_content': file_content}
+        elif file_name.endswith('.png'):
+            item['png_file'] = {'file_name': file_name, 'file_content': file_content}
+        
+        logger.info(f'Saved file {file_name} for country {country_name}')
+        yield item
 
 
 
