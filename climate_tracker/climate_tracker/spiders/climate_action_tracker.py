@@ -17,16 +17,19 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         logger.info(f'Found {len(country_links)} country links.')
 
         # Here is where you can put the limit for how many links you want to be going through
-        for href in country_links:  # Limiting to first 3 for testing
+        #This collects all of the names of the countries which are available on the climate action tracker website.
+        for href in country_links:  
             country_url = response.urljoin(href)
             logger.debug(f"Found country URL: {country_url}")
             yield response.follow(
                 country_url, 
                 callback=self.parse_country
             )
-
+    #This is the Parse Function for the Overview Page of the Country
     def parse_country(self, response):
         logger.info(f'Starting to parse country page: {response.url}')
+
+        #First - Collection of how the Country is Rated on Key Indicators
         ratings_overview_item = RatingsOverview()
         try:
             ratings_overview_item['country_name'] = self.extract_with_default(response, 'h1::text')
@@ -43,6 +46,7 @@ class ClimateActionTrackerSpider(scrapy.Spider):
             logger.error(f'Error parsing country page: {response.url} - {e}')
         yield ratings_overview_item
 
+        #Second - Collection of the Text Descriptions for the Ratings
         ratings_description_item = RatingsDescription()
         try:
             containers_with_content_block = response.xpath('//div[contains(@class, "container")][.//div[contains(@class, "content-block")]]')
@@ -73,7 +77,7 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         except Exception as e:
             logger.error(f'Error parsing country texts portion: {response.url} - {e}')
 
-
+        #Third - Collection of the Data Files which provides a visual depiction of the country's climate action status and of the data that makes this graph
         file_links = [
         response.xpath('//div[@data-component-graph-embed]/@data-props-graph-image-url').get(),
         response.xpath('//div[@data-component-graph-embed]/@data-props-scenario-data-url').get()
@@ -89,8 +93,9 @@ class ClimateActionTrackerSpider(scrapy.Spider):
                 yield scrapy.Request(full_url, callback=self.save_file, meta={'country_name': country_data_files_item['country_name'], 'item': country_data_files_item})
         
         
-                
         logger.info(f'Finished parsing country page: {response.url}')
+
+        ##Below are the links to the other pages that are linked to the country page - we will access them via different parse functions
 
         # Follow the target page link
         target_page_url = response.css('a[href*="/target"]::attr(href)').get()
@@ -110,6 +115,7 @@ class ClimateActionTrackerSpider(scrapy.Spider):
             net_zero_targets_url = response.urljoin(net_zero_targets_url)
             yield response.follow(net_zero_targets_url, callback=self.parse_net_zero_targets)
 
+        #Follow Through to the Assumptions Page
         assumptions_url = response.css('a[href*="/assumptions"]::attr(href)').get()
         if assumptions_url:
             assumptions_url = response.urljoin(assumptions_url)
