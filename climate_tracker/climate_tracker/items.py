@@ -16,6 +16,7 @@ class CountryDataFiles(scrapy.Item):
     country_name = scrapy.Field()
     xlsx_file = scrapy.Field()
     png_file = scrapy.Field()
+
 class RatingsOverview(scrapy.Item):
     country_name = scrapy.Field()
     overall_rating = scrapy.Field()
@@ -37,18 +38,21 @@ class CountryTargets(scrapy.Item):
     country_name = scrapy.Field()
     target = scrapy.Field()
     target_description = scrapy.Field()
-    #tables = scrapy.Field()
+    table_data = scrapy.Field()
+    images = scrapy.Field()
 
 class PolicyAction(scrapy.Item):
     country_name = scrapy.Field()
     policy = scrapy.Field()
     action_description = scrapy.Field()
+    images = scrapy.Field()
 
 
 class NetZeroTargets(scrapy.Item):
     country_name = scrapy.Field()
     target = scrapy.Field()
     target_description = scrapy.Field()
+    images = scrapy.Field()
 
 class Assumptions(scrapy.Item):
     country_name = scrapy.Field()

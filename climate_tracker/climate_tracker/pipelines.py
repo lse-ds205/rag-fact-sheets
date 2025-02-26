@@ -28,10 +28,10 @@ class CountryDataPipeline(FilesPipeline):
             country_name = item['country_name']
             if 'xlsx_file' in item:
                 xlsx_file = item['xlsx_file']
-                self.save_file(xlsx_file, 'xlsx_files', country_name)
+                self.save_file(xlsx_file, 'Country Ratings Overview/xlsx_files', country_name)
             if 'png_file' in item:
                 png_file = item['png_file']
-                self.save_file(png_file, 'png_files', country_name)
+                self.save_file(png_file, 'Country Ratings Overview/png_files', country_name)
         return item
 
     def save_file(self, file, folder, country_name):
@@ -43,10 +43,11 @@ class CountryDataPipeline(FilesPipeline):
             f.write(file_content)
         print(f"Saved file {file_path}")
 
-#This is the Pipeline for the Country Summary Page
+# This is the Pipeline for the Country Summary Page
 class RatingsPipeline:
     def open_spider(self, spider):
-        self.overview_file = open('ratings_overview.csv', 'w', newline='', encoding='utf-8')
+        os.makedirs('Country Ratings Overview', exist_ok=True)
+        self.overview_file = open('Country Ratings Overview/ratings_overview.csv', 'w', newline='', encoding='utf-8')
         self.overview_writer = csv.writer(self.overview_file)
         self.overview_writer.writerow([
             'country_name', 'overall_rating', 'policies_action_domestic', 
@@ -70,7 +71,8 @@ class RatingsPipeline:
 
 class RatingsDescriptionPipeline:
     def open_spider(self, spider):
-        self.writer = pd.ExcelWriter('ratings_descriptions.xlsx', engine='xlsxwriter')
+        os.makedirs('Country Ratings Overview', exist_ok=True)
+        self.writer = pd.ExcelWriter('Country Ratings Overview/ratings_descriptions.xlsx', engine='xlsxwriter')
         self.data = defaultdict(list)
 
     def close_spider(self, spider):
@@ -80,6 +82,7 @@ class RatingsDescriptionPipeline:
                 df = pd.DataFrame(items)
                 df.to_excel(self.writer, sheet_name=sheet_name, index=False)
         finally:
+            self.writer.save()
             self.writer.close()
 
     def process_item(self, item, spider):
@@ -91,11 +94,10 @@ class RatingsDescriptionPipeline:
             })
         return item
 
-    
-
 class CountryTargetsPipeline:
     def open_spider(self, spider):
-        self.writer = pd.ExcelWriter('country_targets.xlsx', engine='xlsxwriter')
+        os.makedirs('Country Targets', exist_ok=True)
+        self.writer = pd.ExcelWriter('Country Targets/country_targets.xlsx', engine='xlsxwriter')
         self.data = defaultdict(list)
 
     def close_spider(self, spider):
@@ -110,15 +112,36 @@ class CountryTargetsPipeline:
     def process_item(self, item, spider):
         if isinstance(item, CountryTargets):
             target = item.get('target', 'Unknown Target')
-            self.data[target].append({
+            ndc_data = item.get('ndc_data', {})
+            row = {
                 'country_name': item.get('country_name', 'NA'),
                 'target_description': item.get('target_description', 'NA')
-            })
+            }
+            for section, data in ndc_data.items():
+                for subheading, value in data.items():
+                    row[subheading] = value
+            self.data[target].append(row)
+
+            #Save Images
+            if 'images' in item:
+                for image in item['images']:
+                    image_name = f"{item['country_name']}_{item['target']}_image"
+                    image['file_name'] = image_name
+                    self.save_file(image, 'Country Targets/image', item['country_name'])
         return item
+    
+    def save_file(self, file, folder, country_name):
+        file_name = file['file_name']
+        file_content = file['file_content']
+        file_path = os.path.join(folder, f"{country_name}_{file_name}")
+        os.makedirs(folder, exist_ok=True)
+        with open(file_path, 'wb') as f:
+            f.write(file_content)
+        print(f"Saved file {file_path}")
     
 class PolicyActionPipeline:
     def open_spider(self, spider):
-        self.writer = pd.ExcelWriter('policy_actions.xlsx', engine='xlsxwriter')
+        self.writer = pd.ExcelWriter('Country Ratings Overview/policy_actions.xlsx', engine='xlsxwriter')
         self.data = defaultdict(list)
 
     def close_spider(self, spider):
@@ -143,23 +166,32 @@ class PolicyActionPipeline:
                 'country_name': item.get('country_name', 'NA'),
                 'action_description': item.get('action_description', 'NA')
             })
+
+            # Save images
+            if 'images' in item:
+                for image in item['images']:
+                    self.save_file(image, 'Country Ratings Overview/png_files', item['country_name'])
+
         return item
 
+    def save_file(self, file, folder, country_name):
+        file_name = file['file_name']
+        file_content = file['file_content']
+        file_path = os.path.join(folder, f"{country_name}_{file_name}")
+        os.makedirs(folder, exist_ok=True)
+        with open(file_path, 'wb') as f:
+            f.write(file_content)
+        print(f"Saved file {file_path}")
 
 class NetZeroTargetsPipeline:
     def open_spider(self, spider):
-        self.writer = pd.ExcelWriter('net_zero_targets.xlsx', engine='xlsxwriter')
+        self.writer = pd.ExcelWriter('Country Ratings Overview/net_zero_targets.xlsx', engine='xlsxwriter')
         self.data = defaultdict(list)
 
     def close_spider(self, spider):
         try:
             for target, items in self.data.items():
                 sheet_name = target[:30]  # Ensure sheet name does not exceed 30 characters
-                if sheet_name in self.writer.sheets:
-                    suffix = 1
-                    while f"{sheet_name}_{suffix}" in self.writer.sheets:
-                        suffix += 1
-                    sheet_name = f"{sheet_name}_{suffix}"
                 df = pd.DataFrame(items)
                 df.to_excel(self.writer, sheet_name=sheet_name, index=False)
         finally:
@@ -172,7 +204,22 @@ class NetZeroTargetsPipeline:
                 'country_name': item.get('country_name', 'NA'),
                 'target_description': item.get('target_description', 'NA')
             })
+
+            # Save images
+            if 'images' in item:
+                for image in item['images']:
+                    self.save_file(image, 'Country Ratings Overview/png_files', item['country_name'])
+
         return item
+
+    def save_file(self, file, folder, country_name):
+        file_name = file['file_name']
+        file_content = file['file_content']
+        file_path = os.path.join(folder, f"{country_name}_{file_name}")
+        os.makedirs(folder, exist_ok=True)
+        with open(file_path, 'wb') as f:
+            f.write(file_content)
+        print(f"Saved file {file_path}")
 
 class AssumptionsPipeline:
     def open_spider(self, spider):

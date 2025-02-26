@@ -1,9 +1,7 @@
 # Climate Data Web Scraping Project
 
-
 ## Spider
 The Functions within the Spider used are:
-
 
 ### 1. `parse`
 
@@ -23,7 +21,7 @@ The Functions within the Spider used are:
   - Stores the downloaded files in the `CountryDataFiles` item.
   - Follows links to other pages (targets, policies, net-zero targets, assumptions) and calls respective parsing functions.
 
-#### 3. `save_file`
+### 3. `save_file`
 
 - **Purpose**: Downloads and saves files from the extracted URLs.
 - **Process**:
@@ -35,30 +33,48 @@ The Functions within the Spider used are:
 - **Purpose**: Extracts target-related data from the country-specific target page.
 - **Process**:
   - Extracts target descriptions and NDC tables.
+  - Extracts images and downloads them.
   - Stores the data in the `CountryTargets` item.
 
-### 5. `parse_policies_action`
+### 5. `save_image`
+
+- **Purpose**: Downloads and saves images from the extracted URLs.
+- **Process**:
+  - Extracts the country name and image content from the response.
+  - Stores the image content in the `CountryTargets` item.
+
+### 6. `parse_tables`
+
+- **Purpose**: Extracts table data from the containers.
+- **Process**:
+  - Finds all styled tables within the container.
+  - Extracts table titles, subheadings, and values.
+  - Stores the table data in a dictionary.
+
+### 7. `parse_policies_action`
 
 - **Purpose**: Extracts policy action-related data from the country-specific policies action page.
 - **Process**:
   - Extracts policy descriptions.
+  - Extracts images and downloads them.
   - Stores the data in the `PolicyAction` item.
 
-### 6. `parse_net_zero_targets`
+### 8. `parse_net_zero_targets`
 
 - **Purpose**: Extracts net-zero target-related data from the country-specific net-zero targets page.
 - **Process**:
   - Extracts net-zero target descriptions.
+  - Extracts images and downloads them.
   - Stores the data in the `NetZeroTargets` item.
 
-### 7. `parse_assumptions`
+### 9. `parse_assumptions`
 
 - **Purpose**: Extracts assumption-related data from the country-specific assumptions page.
 - **Process**:
   - Extracts assumption descriptions.
   - Stores the data in the `Assumptions` item.
 
-#### 8. `extract_with_default`
+### 10. `extract_with_default`
 
 - **Purpose**: Extracts data using a CSS selector and provides a default value if the data is missing.
 - **Process**:
@@ -97,6 +113,7 @@ Items are used to define the structure of the data being collected. The main ite
   - `target`
   - `target_description`
   - `ndc_data`
+  - `images`
 
 ### 4. `PolicyAction`
 
@@ -104,6 +121,7 @@ Items are used to define the structure of the data being collected. The main ite
   - `country_name`
   - `policy`
   - `action_description`
+  - `images`
 
 ### 5. `NetZeroTargets`
 
@@ -111,6 +129,7 @@ Items are used to define the structure of the data being collected. The main ite
   - `country_name`
   - `target`
   - `target_description`
+  - `images`
 
 ### 6. `Assumptions`
 
@@ -152,6 +171,7 @@ Pipelines are used to process the extracted data and save it in the desired form
 - **Process**:
   - Opens an Excel file for writing the country targets data.
   - Writes the data to the Excel file.
+  - Saves any images collected in the `images` field into the "Country Ratings Overview/png_files" folder.
   - Closes the Excel file when the spider finishes.
 
 ### 4. `PolicyActionPipeline`
@@ -160,6 +180,7 @@ Pipelines are used to process the extracted data and save it in the desired form
 - **Process**:
   - Opens an Excel file for writing the policy action data.
   - Writes the data to the Excel file.
+  - Saves any images collected in the `images` field into the "Country Ratings Overview/png_files" folder.
   - Closes the Excel file when the spider finishes.
 
 ### 5. `NetZeroTargetsPipeline`
@@ -168,6 +189,7 @@ Pipelines are used to process the extracted data and save it in the desired form
 - **Process**:
   - Opens an Excel file for writing the net-zero targets data.
   - Writes the data to the Excel file.
+  - Saves any images collected in the `images` field into the "Country Ratings Overview/png_files" folder.
   - Closes the Excel file when the spider finishes.
 
 ### 6. `AssumptionsPipeline`
@@ -182,7 +204,7 @@ Pipelines are used to process the extracted data and save it in the desired form
 
 - **Purpose**: Processes the downloaded data files and saves them into separate folders.
 - **Process**:
-  - Saves the downloaded PNG and XLSX files into separate folders.
+  - Saves the downloaded PNG and XLSX files into the "Country Ratings Overview/png_files" and "Country Ratings Overview/xlsx_files" folders, respectively.
   - Renames the files to include the country name for easy identification.
 
 
