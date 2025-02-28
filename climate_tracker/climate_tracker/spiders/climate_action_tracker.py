@@ -15,7 +15,16 @@ To run the spider for all mapped URLs, use the following command:
 To test or run the same spider for a single URL, use the following command:
 
     cd climate_tracker
-    scrapy parse https://climateactiontracker.org/countries/india/ --spider climate_action_tracker -O ./data/output.json
+    scrapy parse https://climateactiontracker.org/countries/uk/ --spider climate_action_tracker -O ./data/output.json
+
+ACTIVATE   
+python -m venv scraping-env
+source scraping-env/bin/activate
+
+CRAWL 
+cd climate_tracker
+scrapy crawl climate_action_tracker -O output.json
+
 
 ---
 Data Usage Notice:
@@ -61,19 +70,61 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         Yields:
             dict: Dictionary containing extracted country data
         """
+
         country_name = response.css('h1::text').get()
-        overall_rating = response.css('.ratings-matrix__overall dd::text').get()
+        overall_rating = response.css('.ratings-matrix__overall dd::text').get()        
+        # term = response.xpath("//div[contains(@class, 'ratings-matrix__second-row-cell ratings-matrix__tile--ORANGE')]//p/text()").get()
+
+        # term_details= response.xpath('')
+        # value= response.xpath('')
+        # metric= response.xpath('')
 
         # The flag is in a div .headline__flag
         flag_url = response.css('.headline__flag img::attr(src)').get()
         # We need to add the base URL to the flag URL
         flag_url = f"https://climateactiontracker.org{flag_url}"
+        
+        indicators= list()
+
+        # for indicator in (response.xpath('//div[@class="ratings-matrix__second-row-cell"]')):
+        #     term = response.xpath("//div[contains(@class, 'ratings-matrix__second-row-cell')]//dt/p/text()").get()
+        #     # term_details = response.xpath("//div[contains(@class, 'ratings-matrix__second-row-cell')]//dt/br/text()").get()
+        #     term_details= 'poo'
+
+        #     indicators.append({
+        #         "term": term,
+        #         "term_details": term_details
+        #     })
+        for i, indicator in enumerate(response.xpath("//div[contains(@class, 'ratings-matrix__second-row-cell')]")):
+                if i < 3:
+                    term = indicator.xpath(".//p/text()[1]").get()  # Extracts "Policies and action"
+                    term_details = indicator.xpath(".//p/i/text()").get()
+                    value = indicator.xpath(".//dd/b/text()").get()
+                    metric = indicator.xpath(".//dd/i/text()").get()
+                
+                indicators.append({
+                    'term': term,
+                    'term_details': term_details,
+                    'value': value,
+                    'metric': metric
+                })
+
+                if i == 3:
+                    term = indicator.xpath(".//dl/dt/text()").get()
+                    value = indicator.xpath(".//dl/dd/b/text()").get()
+        
+                    indicators.append({
+                        'term': term,
+                        'value':value
+                    })      
 
         yield {
             'country_name': country_name,
             'overall_rating': overall_rating,
-            'flag_url': flag_url
-        }
+            "indicators": indicators
+            }
+    
+
 
     def start_requests(self):
         """Initialize the crawl with requests for each start URL.

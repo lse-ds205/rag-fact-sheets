@@ -1,0 +1,274 @@
+[
+	{
+		"country_name": "Brazil",
+		"overall_rating": "Insufficient",
+		"indicators": [
+			{
+				"term": "Policies and action ",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against modelled domestic pathways",
+				"value": "Almost Sufficient",
+				"metric": "< 2°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against fair share",
+				"value": "Almost Sufficient",
+				"metric": "< 2°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against fair share",
+				"value": "Almost Sufficient",
+				"metric": "< 2°C World"
+			},
+			{
+				"term": "Climate finance",
+				"value": "Not applicable"
+			}
+		]
+	},
+	{
+		"country_name": "China",
+		"overall_rating": "Highly insufficient",
+		"indicators": [
+			{
+				"term": "Policies and action ",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against modelled domestic pathways",
+				"value": "Highly insufficient",
+				"metric": "< 4°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "Climate finance",
+				"value": "Not assessed"
+			}
+		]
+	},
+	{
+		"country_name": "USA",
+		"overall_rating": "Insufficient",
+		"indicators": [
+			{
+				"term": "Policies and action",
+				"term_details": "against modelled domestic pathways",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against modelled domestic pathways",
+				"value": "Almost Sufficient",
+				"metric": "< 2°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "Climate finance",
+				"value": "Critically insufficient"
+			}
+		]
+	},
+	{
+		"country_name": "India",
+		"overall_rating": "Highly insufficient",
+		"indicators": [
+			{
+				"term": "Policies and action ",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "Conditional NDC target",
+				"term_details": "against modelled domestic pathways",
+				"value": "Highly insufficient",
+				"metric": "< 4°C World"
+			},
+			{
+				"term": "Unconditional NDC target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "Unconditional NDC target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "Climate finance",
+				"value": "Not applicable"
+			}
+		]
+	},
+	{
+		"country_name": "EU",
+		"overall_rating": "Insufficient",
+		"indicators": [
+			{
+				"term": "Policies and action",
+				"term_details": "against modelled domestic pathways",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against modelled domestic pathways",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "Climate finance",
+				"value": "Insufficient"
+			}
+		]
+	},
+	{
+		"country_name": "Germany",
+		"overall_rating": "Insufficient",
+		"indicators": [
+			{
+				"term": "Policies and action",
+				"term_details": "against modelled domestic pathways",
+				"value": "Almost Sufficient",
+				"metric": "< 2°C World"
+			},
+			{
+				"term": "National target",
+				"term_details": "against modelled domestic pathways",
+				"value": "Almost Sufficient",
+				"metric": "< 2°C World"
+			},
+			{
+				"term": "National target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "National target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "Climate finance",
+				"value": "Insufficient"
+			}
+		]
+	},
+	{
+		"country_name": "Australia",
+		"overall_rating": "Insufficient",
+		"indicators": [
+			{
+				"term": "Policies and action",
+				"term_details": "against modelled domestic pathways",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against modelled domestic pathways",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "Climate finance",
+				"value": "Critically insufficient"
+			}
+		]
+	},
+	{
+		"country_name": "United Kingdom",
+		"overall_rating": "Insufficient",
+		"indicators": [
+			{
+				"term": "Policies and action",
+				"term_details": "against modelled domestic pathways",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against modelled domestic pathways",
+				"value": "Almost Sufficient",
+				"metric": "< 2°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "NDC target",
+				"term_details": "against fair share",
+				"value": "Insufficient",
+				"metric": "< 3°C World"
+			},
+			{
+				"term": "Climate finance",
+				"value": "Highly insufficient"
+			}
+		]
+	}
+]
