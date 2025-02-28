@@ -73,11 +73,6 @@ class ClimateActionTrackerSpider(scrapy.Spider):
 
         country_name = response.css('h1::text').get()
         overall_rating = response.css('.ratings-matrix__overall dd::text').get()        
-        # term = response.xpath("//div[contains(@class, 'ratings-matrix__second-row-cell ratings-matrix__tile--ORANGE')]//p/text()").get()
-
-        # term_details= response.xpath('')
-        # value= response.xpath('')
-        # metric= response.xpath('')
 
         # The flag is in a div .headline__flag
         flag_url = response.css('.headline__flag img::attr(src)').get()
@@ -86,15 +81,6 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         
         indicators= list()
 
-        # for indicator in (response.xpath('//div[@class="ratings-matrix__second-row-cell"]')):
-        #     term = response.xpath("//div[contains(@class, 'ratings-matrix__second-row-cell')]//dt/p/text()").get()
-        #     # term_details = response.xpath("//div[contains(@class, 'ratings-matrix__second-row-cell')]//dt/br/text()").get()
-        #     term_details= 'poo'
-
-        #     indicators.append({
-        #         "term": term,
-        #         "term_details": term_details
-        #     })
         for i, indicator in enumerate(response.xpath("//div[contains(@class, 'ratings-matrix__second-row-cell')]")):
                 if i < 3:
                     term = indicator.xpath(".//p/text()[1]").get()  # Extracts "Policies and action"
@@ -117,6 +103,14 @@ class ClimateActionTrackerSpider(scrapy.Spider):
                         'term': term,
                         'value':value
                     })      
+        # NET ZERO CURRENTLY WORKING ON
+        net_zero_date= response.xpath(".//dl[contains(@class, 'ratings-matrix__net_zero_target')]//dt/text()")
+        term_details= response.xpath('.//dl[contains(@class, "ratings-matrix__net_zero_target")]//dd')
+
+        indicators.append({
+            'term': net_zero_date,
+            't':term_details
+        })
 
         yield {
             'country_name': country_name,
