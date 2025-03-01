@@ -88,29 +88,51 @@ class ClimateActionTrackerSpider(scrapy.Spider):
                     value = indicator.xpath(".//dd/b/text()").get()
                     metric = indicator.xpath(".//dd/i/text()").get()
                 
-                indicators.append({
-                    'term': term,
-                    'term_details': term_details,
-                    'value': value,
-                    'metric': metric
-                })
+                    indicators.append({
+                        'term': term,
+                        'term_details': term_details,
+                        'value': value,
+                        'metric': metric
+                    })
 
-                if i == 3:
+                elif i == 3:
                     term = indicator.xpath(".//dl/dt/text()").get()
                     value = indicator.xpath(".//dl/dd/b/text()").get()
         
                     indicators.append({
                         'term': term,
                         'value':value
-                    })      
+                    })     
+                else: 
+                    break
+                
         # NET ZERO CURRENTLY WORKING ON
-        net_zero_date= response.xpath(".//dl[contains(@class, 'ratings-matrix__net_zero_target')]//dt/text()")
-        term_details= response.xpath('.//dl[contains(@class, "ratings-matrix__net_zero_target")]//dd')
+        net_term = response.xpath(".//dl[contains(@class, 'ratings-matrix__net_zero_target')]//dt/text()").get()
+        net_year= response.xpath(".//dl[contains(@class, 'ratings-matrix__net_zero_target')]//b/text()").get()
+        net_term_details= response.xpath(".//dl[contains(@class, 'ratings-matrix__net_zero_target')]//dd[2]/p/text()").get()
+        net_value= response.xpath(".//dl[contains(@class, 'ratings-matrix__net_zero_target')]//dd[2]/b/text()").get()
+        if net_value:
+            net_value = net_value.strip()
+
 
         indicators.append({
-            'term': net_zero_date,
-            't':term_details
+            'term': net_term,
+            'year': net_year,
+            'term_details': net_term_details, 
+            'value': net_value
+
         })
+
+        land_term= response.xpath(".//dl[contains(@class, 'ratings-matrix__land_use_forestry')]//dt/text()").get()
+        land_value= response.xpath(".//dl[contains(@class, 'ratings-matrix__land_use_forestry')]//dd/b/text()").get()
+        land_term_details= response.xpath(".//dl[contains(@class, 'ratings-matrix__land_use_forestry')]//dd/p/text()").get()
+        if land_value:
+            land_value = land_value.strip()
+        indicators.append({
+            'term': land_term.strip() if land_term else land_term,
+            'value': land_value.strip() if land_value else land_value, 
+            **({'term_details': land_term_details.strip()} if land_term_details else {})
+})
 
         yield {
             'country_name': country_name,
@@ -118,6 +140,16 @@ class ClimateActionTrackerSpider(scrapy.Spider):
             "indicators": indicators
             }
     
+    def parse_net_zero_targets(self, response):
+        """Extract data from the Net Zero Targets page.
+        
+        Args:
+            response (scrapy.http.Response): Response object containing page content
+            
+        Yields:
+            dict: Dictionary containing extracted Net Zero Targets data
+        """
+        country_name = response.css('h1::text').get()
 
 
     def start_requests(self):
@@ -129,5 +161,9 @@ class ClimateActionTrackerSpider(scrapy.Spider):
         Yields:
             scrapy.Request: Request object for each start URL
         """
+        net_zero_url = url.rstrip('/') + "/net-zero-targets/"
+
         for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse)
+            yield scrapy.Request(url=net_zero_url, callback=self.parse_net_zero_targets)
+            

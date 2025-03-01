@@ -22,14 +22,19 @@
 				"metric": "< 2°C World"
 			},
 			{
-				"term": "NDC target",
-				"term_details": "against fair share",
-				"value": "Almost Sufficient",
-				"metric": "< 2°C World"
-			},
-			{
 				"term": "Climate finance",
 				"value": "Not applicable"
+			},
+			{
+				"term": "Net zero target",
+				"year": "2050",
+				"term_details": "Comprehensiveness rated as",
+				"value": "Poor"
+			},
+			{
+				"term": "Land use & forestry",
+				"value": "Source",
+				"term_details": "historically considered a"
 			}
 		]
 	},
@@ -56,14 +61,18 @@
 				"metric": "< 3°C World"
 			},
 			{
-				"term": "NDC target",
-				"term_details": "against fair share",
-				"value": "Insufficient",
-				"metric": "< 3°C World"
-			},
-			{
 				"term": "Climate finance",
 				"value": "Not assessed"
+			},
+			{
+				"term": "Net zero target",
+				"year": "before 2060",
+				"term_details": "Comprehensiveness rated as",
+				"value": "Poor"
+			},
+			{
+				"term": "Land use & forestry",
+				"value": "Not significant"
 			}
 		]
 	},
@@ -90,14 +99,18 @@
 				"metric": "< 3°C World"
 			},
 			{
-				"term": "NDC target",
-				"term_details": "against fair share",
-				"value": "Insufficient",
-				"metric": "< 3°C World"
-			},
-			{
 				"term": "Climate finance",
 				"value": "Critically insufficient"
+			},
+			{
+				"term": "Net zero target",
+				"year": "2050",
+				"term_details": "Comprehensiveness rated as",
+				"value": "Average"
+			},
+			{
+				"term": "Land use & forestry",
+				"value": "Not significant"
 			}
 		]
 	},
@@ -124,14 +137,18 @@
 				"metric": "< 3°C World"
 			},
 			{
-				"term": "Unconditional NDC target",
-				"term_details": "against fair share",
-				"value": "Insufficient",
-				"metric": "< 3°C World"
-			},
-			{
 				"term": "Climate finance",
 				"value": "Not applicable"
+			},
+			{
+				"term": "Net zero target",
+				"year": "2070",
+				"term_details": "Comprehensiveness rated as",
+				"value": "Poor"
+			},
+			{
+				"term": "Land use & forestry",
+				"value": "Not significant"
 			}
 		]
 	},
@@ -158,14 +175,18 @@
 				"metric": "< 3°C World"
 			},
 			{
-				"term": "NDC target",
-				"term_details": "against fair share",
-				"value": "Insufficient",
-				"metric": "< 3°C World"
-			},
-			{
 				"term": "Climate finance",
 				"value": "Insufficient"
+			},
+			{
+				"term": "Net zero target",
+				"year": "2050",
+				"term_details": "Comprehensiveness rated as",
+				"value": "Acceptable"
+			},
+			{
+				"term": "Land use & forestry",
+				"value": "Not significant"
 			}
 		]
 	},
@@ -192,14 +213,18 @@
 				"metric": "< 3°C World"
 			},
 			{
-				"term": "National target",
-				"term_details": "against fair share",
-				"value": "Insufficient",
-				"metric": "< 3°C World"
-			},
-			{
 				"term": "Climate finance",
 				"value": "Insufficient"
+			},
+			{
+				"term": "Net zero target",
+				"year": "2045",
+				"term_details": "Comprehensiveness rated as",
+				"value": "Average"
+			},
+			{
+				"term": "Land use & forestry",
+				"value": "Not significant"
 			}
 		]
 	},
@@ -226,14 +251,19 @@
 				"metric": "< 3°C World"
 			},
 			{
-				"term": "NDC target",
-				"term_details": "against fair share",
-				"value": "Insufficient",
-				"metric": "< 3°C World"
-			},
-			{
 				"term": "Climate finance",
 				"value": "Critically insufficient"
+			},
+			{
+				"term": "Net zero target",
+				"year": "2050",
+				"term_details": "Comprehensiveness rated as",
+				"value": "Poor"
+			},
+			{
+				"term": "Land use & forestry",
+				"value": "Source",
+				"term_details": "historically considered a"
 			}
 		]
 	},
@@ -260,14 +290,18 @@
 				"metric": "< 3°C World"
 			},
 			{
-				"term": "NDC target",
-				"term_details": "against fair share",
-				"value": "Insufficient",
-				"metric": "< 3°C World"
-			},
-			{
 				"term": "Climate finance",
 				"value": "Highly insufficient"
+			},
+			{
+				"term": "Net zero target",
+				"year": "2050",
+				"term_details": "Comprehensiveness rated as",
+				"value": "Acceptable"
+			},
+			{
+				"term": "Land use & forestry",
+				"value": "Not significant"
 			}
 		]
 	}
