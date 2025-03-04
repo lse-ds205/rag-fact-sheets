@@ -1,12 +1,12 @@
-# Define here the models for your scraped items
-#
-# See documentation in:
-# https://docs.scrapy.org/en/latest/topics/items.html
-
 import scrapy
 
-
 class ClimateTrackerItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    country_name = scrapy.Field()
+    overall_rating = scrapy.Field()
+    
+    # Updated fields based on website structure
+    policies_action_modelled_pathways = scrapy.Field()
+    ndc_target_modelled_pathways = scrapy.Field()
+    ndc_target_fair_share = scrapy.Field()
+    climate_finance = scrapy.Field()
+    net_zero_target = scrapy.Field()

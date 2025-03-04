@@ -1,88 +1,85 @@
-"""
-Climate Action Tracker Spider
-
-Created by Dr Jon Cardoso-Silva as part of the 
-[DS205 course](https://lse-dsi.github.io/DS205) at LSE.
-
-This spider is designed to demonstrate ethical web scraping practices
-while collecting climate action data from various countries.
-
-To run the spider for all mapped URLs, use the following command:
-
-    cd climate_tracker
-    scrapy crawl climate_action_tracker -O ./data/output.json
-
-To test or run the same spider for a single URL, use the following command:
-
-    cd climate_tracker
-    scrapy parse https://climateactiontracker.org/countries/india/ --spider climate_action_tracker -O ./data/output.json
-
----
-Data Usage Notice:
-Data and extracted textual content from the Climate Action Tracker website are copyrighted
-© 2009-2025 by Climate Analytics and NewClimate Institute. 
-All rights reserved.
-"""
-
 import scrapy
+from climate_tracker.items import ClimateTrackerItem
+import logging
+import json
 
+# Configure logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 class ClimateActionTrackerSpider(scrapy.Spider):
-    """Spider for scraping country data from Climate Action Tracker website.
-    
-    This spider collects climate action data for various countries, including their
-    names, ratings, and other climate-related metrics.
-    
-    Attributes:
-        name (str): Identifier for the spider used in scrapy crawl commands
-        allowed_domains (list): List of domains the spider is restricted to
-        start_urls (list): Initial URLs to begin the crawl from
-    """
-    
     name = "climate_action_tracker"
     allowed_domains = ["climateactiontracker.org"]
     start_urls = [
+        "https://climateactiontracker.org/countries/uk/",
         "https://climateactiontracker.org/countries/brazil/",
         "https://climateactiontracker.org/countries/china/",
         "https://climateactiontracker.org/countries/usa/",
         "https://climateactiontracker.org/countries/india/",
         "https://climateactiontracker.org/countries/eu/",
         "https://climateactiontracker.org/countries/germany/",
-        "https://climateactiontracker.org/countries/australia/",
-        "https://climateactiontracker.org/countries/united-kingdom/"
+        "https://climateactiontracker.org/countries/australia/"
     ]
 
     def parse(self, response):
-        """Extract data from country pages.
-        
-        Args:
-            response (scrapy.http.Response): Response object containing page content
+        """Extracts country-level data and follows the 'Policies & Action' page."""
+        logger.info(f"Scraping country overview from {response.url}")
+
+        item = ClimateTrackerItem()
+
+        # ✅ Extract Country Name
+        item["country_name"] = response.css("h1::text").get(default="Unknown").strip()
+
+        # ✅ Extract Overall Rating
+        item["overall_rating"] = response.css(".ratings-matrix__overall dd::text").get(default="No rating available").strip()
+
+        # ✅ Extract Flag URL
+        item["flag_url"] = response.css(".headline__flag img::attr(src)").get(default="No flag available")
+
+        # ✅ Follow 'Policies & Action' page if available
+        policy_page_link = response.xpath("//a[contains(text(), 'Policies & Action')]/@href").get()
+        if policy_page_link:
+            full_policy_url = response.urljoin(policy_page_link)
+            logger.info(f"Following policy page: {full_policy_url}")
+            yield scrapy.Request(full_policy_url, callback=self.parse_policy_page, meta={'item': item})
+        else:
+            logger.warning(f"No Policies & Action page found for {item['country_name']}")
+            yield item  # Save item even if there's no policy page
+
+    def parse_policy_page(self, response):
+        """Extracts policy data from the 'Policies & Action' page."""
+        item = response.meta['item']
+        logger.info(f"Scraping policy data from {response.url}")
+
+        # ✅ Extract headings (clean whitespace)
+        headings = [h.strip() for h in response.css('div.content-section__left-side > h3::text').getall()]
+
+        # ✅ Extract text blocks
+        paragraphs = response.css('div.content-block > p::text').getall()
+
+        # ✅ Match each heading to corresponding text
+        sections = []
+        text_index = 0
+
+        for heading in headings:
+            section_text = []
             
-        Yields:
-            dict: Dictionary containing extracted country data
-        """
-        country_name = response.css('h1::text').get()
-        overall_rating = response.css('.ratings-matrix__overall dd::text').get()
+            # Continue collecting paragraphs until a new section is detected
+            while text_index < len(paragraphs):
+                section_text.append(paragraphs[text_index])
+                text_index += 1
 
-        # The flag is in a div .headline__flag
-        flag_url = response.css('.headline__flag img::attr(src)').get()
-        # We need to add the base URL to the flag URL
-        flag_url = f"https://climateactiontracker.org{flag_url}"
+                # Stop collecting if the next paragraph seems like a new section (contains a heading)
+                if text_index < len(paragraphs) and any(h in paragraphs[text_index] for h in headings):
+                    break
 
-        yield {
-            'country_name': country_name,
-            'overall_rating': overall_rating,
-            'flag_url': flag_url
-        }
+            # Store in a structured dictionary
+            sections.append({"title": heading, "content": " ".join(section_text)})
 
-    def start_requests(self):
-        """Initialize the crawl with requests for each start URL.
-        
-        This method allows for customisation of how the initial requests are made,
-        which can be useful for adding headers, cookies, or other request parameters.
-        
-        Yields:
-            scrapy.Request: Request object for each start URL
-        """
-        for url in self.start_urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+        # ✅ Store sections in the Scrapy item
+        item["policy_sections"] = sections
+
+        # ✅ Log the extracted structured data
+        logger.info(json.dumps(sections, indent=4))
+
+        yield item  # Save the item with extracted policy data
