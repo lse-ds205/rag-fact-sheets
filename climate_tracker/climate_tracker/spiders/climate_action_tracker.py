@@ -1,85 +1,95 @@
 import scrapy
-from climate_tracker.items import ClimateTrackerItem
-import logging
-import json
-
-# Configure logging
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 
 class ClimateActionTrackerSpider(scrapy.Spider):
     name = "climate_action_tracker"
     allowed_domains = ["climateactiontracker.org"]
-    start_urls = [
-        "https://climateactiontracker.org/countries/uk/",
-        "https://climateactiontracker.org/countries/brazil/",
-        "https://climateactiontracker.org/countries/china/",
-        "https://climateactiontracker.org/countries/usa/",
-        "https://climateactiontracker.org/countries/india/",
-        "https://climateactiontracker.org/countries/eu/",
-        "https://climateactiontracker.org/countries/germany/",
-        "https://climateactiontracker.org/countries/australia/"
-    ]
+    start_urls = ["https://climateactiontracker.org/countries/turkey/"]
 
     def parse(self, response):
-        """Extracts country-level data and follows the 'Policies & Action' page."""
-        logger.info(f"Scraping country overview from {response.url}")
+        """Extract country name, flag, and rating, then proceed to policies & actions."""
+        country_name = response.css('h1::text').get()
+        overall_rating = response.css('.ratings-matrix__overall dd::text').get()
+        flag_url = response.css('.headline__flag img::attr(src)').get()
 
-        item = ClimateTrackerItem()
+        if flag_url:
+            flag_url = f"https://climateactiontracker.org{flag_url}"
 
-        # ✅ Extract Country Name
-        item["country_name"] = response.css("h1::text").get(default="Unknown").strip()
+        # Extract image URLs
+        low_res_image = response.css('div[data-component-graph-embed]::attr(data-props-graph-image-url)').get()
+        high_res_image = response.css('div[data-component-graph-embed]::attr(data-props-graph-hires-image-url)').get()
+        base_url = "https://climateactiontracker.org"
+        if low_res_image and not low_res_image.startswith("http"):
+            low_res_image = base_url + low_res_image
+        if high_res_image and not high_res_image.startswith("http"):
+            high_res_image = base_url + high_res_image
 
-        # ✅ Extract Overall Rating
-        item["overall_rating"] = response.css(".ratings-matrix__overall dd::text").get(default="No rating available").strip()
+        yield {
+            'country_name': country_name,
+            'overall_rating': overall_rating,
+            'flag_url': flag_url,
+            'low_res_image_url': low_res_image,
+            'high_res_image_url': high_res_image
+        }
 
-        # ✅ Extract Flag URL
-        item["flag_url"] = response.css(".headline__flag img::attr(src)").get(default="No flag available")
+        # Extract policies & action page URL
+        policies_action_url = response.url + "policies-action/"
+        yield scrapy.Request(url=policies_action_url, callback=self.parse_policies_action, meta={'country_name': country_name})
 
-        # ✅ Follow 'Policies & Action' page if available
-        policy_page_link = response.xpath("//a[contains(text(), 'Policies & Action')]/@href").get()
-        if policy_page_link:
-            full_policy_url = response.urljoin(policy_page_link)
-            logger.info(f"Following policy page: {full_policy_url}")
-            yield scrapy.Request(full_policy_url, callback=self.parse_policy_page, meta={'item': item})
-        else:
-            logger.warning(f"No Policies & Action page found for {item['country_name']}")
-            yield item  # Save item even if there's no policy page
+    def parse_policies_action(self, response):
+        """Extract policies & action data, ensuring subheadings & bullet points are placed correctly."""
+        country_name = response.meta['country_name']
+        policies_data = []
 
-    def parse_policy_page(self, response):
-        """Extracts policy data from the 'Policies & Action' page."""
-        item = response.meta['item']
-        logger.info(f"Scraping policy data from {response.url}")
+        sections = response.css('div.content-section')
+        current_heading = None
+        content_accumulator = []
 
-        # ✅ Extract headings (clean whitespace)
-        headings = [h.strip() for h in response.css('div.content-section__left-side > h3::text').getall()]
+        for section in sections:
+            main_heading = section.css('h3::text').get()
 
-        # ✅ Extract text blocks
-        paragraphs = response.css('div.content-block > p::text').getall()
+            for paragraph in section.css('div.content-section__content p, ul'):
+                # Check for subheadings (bold elements alone in a paragraph)
+                bold_subheadings = paragraph.css('strong::text, b::text').getall()
+                paragraph_texts = paragraph.css('::text').getall()
 
-        # ✅ Match each heading to corresponding text
-        sections = []
-        text_index = 0
+                # Hard split when a bold subheading appears
+                if bold_subheadings and len(paragraph_texts) == len(bold_subheadings):
+                    if current_heading and content_accumulator:
+                        policies_data.append({'heading': current_heading, 'content': " ".join(content_accumulator)})
+                        content_accumulator = []
 
-        for heading in headings:
-            section_text = []
-            
-            # Continue collecting paragraphs until a new section is detected
-            while text_index < len(paragraphs):
-                section_text.append(paragraphs[text_index])
-                text_index += 1
+                    # Set new heading as bold subheading
+                    current_heading = " ".join([text.strip() for text in bold_subheadings if text.strip()])
+                
+                else:
+                    text_content = " ".join([text.strip() for text in paragraph_texts if text.strip()])
+                    content_accumulator.append(text_content)
 
-                # Stop collecting if the next paragraph seems like a new section (contains a heading)
-                if text_index < len(paragraphs) and any(h in paragraphs[text_index] for h in headings):
-                    break
+                # Handle bullet points
+                for bullet in paragraph.css('li'):
+                    bullet_text = bullet.css('::text, strong::text, b::text').getall()
+                    formatted_bullet = "• " + " ".join([text.strip() for text in bullet_text if text.strip()])
+                    content_accumulator.append(formatted_bullet)
 
-            # Store in a structured dictionary
-            sections.append({"title": heading, "content": " ".join(section_text)})
+            if main_heading and not current_heading:
+                current_heading = main_heading.strip()
 
-        # ✅ Store sections in the Scrapy item
-        item["policy_sections"] = sections
+        # Extract Land Use & Forestry section
+        land_use_section = response.css('div#section__not-significant')
+        land_use_heading = land_use_section.css('dt::text').get()
+        land_use_content = land_use_section.css('dd::text').get()
 
-        # ✅ Log the extracted structured data
-        logger.info(json.dumps(sections, indent=4))
+        if land_use_heading and land_use_content:
+            policies_data.append({
+                'heading': land_use_heading.strip(),
+                'content': land_use_content.strip()
+            })
 
-        yield item  # Save the item with extracted policy data
+        # Append the last collected section
+        if current_heading and content_accumulator:
+            policies_data.append({'heading': current_heading, 'content': " ".join(content_accumulator)})
+
+        yield {
+            'country_name': country_name,
+            'policies_action_sections': policies_data
+        }

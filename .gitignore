@@ -170,4 +170,7 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-scraping-env/
+scraping-env/.DS_Store
+data/
+.DS_Store
+data/
