@@ -1,65 +1,210 @@
-# Climate Data Web Scraping
+# Climate Data Web Scraping Project
 
-Welcome to the Climate Data Web Scraping repository! This project is part of the [DS205 course](https://lse-dsi.github.io/DS205) and is designed to help you learn and practice ethical web scraping techniques using the Climate Action Tracker dataset.
+## Spider
+The Functions within the Spider used are:
 
-## Getting Started
+### 1. `parse`
 
-### 1. Clone the Repository
-To get started, clone this repository to your local machine:
-```bash
-git clone https://github.com/lse-ds205/climate-data-web-scraping.git
-cd climate-data-web-scraping
-```
+- **Purpose**: Collects all country-specific URLs from the main page.
+- **Process**:
+  - Logs the discovery of country URLs.
+  - Extracts country links using XPath.
+  - Follows each country URL and calls the `parse_country` function.
 
-### 2. Set Up Virtual Environment
-It's strongly recommended to use a dedicated virtual environment for this project to avoid conflicts with other Python packages. This is especially important as you might be working on multiple DS205 projects simultaneously (e.g., [ascor-api](https://github.com/lse-ds205/ascor-api)).
+### 2. `parse_country`
 
-```bash
-# Create a virtual environment
-python -m venv scraping-env
+- **Purpose**: Extracts data from each country-specific page.
+- **Process**:
+  - Extracts the country name and various ratings.
+  - Handles errors and logs any issues encountered.
+  - Extracts links to data files (PNG and XLSX) and downloads them.
+  - Stores the downloaded files in the `CountryDataFiles` item.
+  - Follows links to other pages (targets, policies, net-zero targets, assumptions) and calls respective parsing functions.
 
-# Activate the virtual environment
-# On Mac/Linux:
-source scraping-env/bin/activate
-# On Windows:
-scraping-env\Scripts\activate
-```
+### 3. `save_file`
 
-### 3. Install Dependencies
-With your virtual environment activated, install the required dependencies:
-```bash
-pip install -r requirements.txt
-```
+- **Purpose**: Downloads and saves files from the extracted URLs.
+- **Process**:
+  - Extracts the country name and file content from the response.
+  - Stores the file content in the `CountryDataFiles` item.
 
-### 4. Run the Spider
-Navigate to the project directory and run the spider:
-```bash
-cd climate_tracker
-scrapy crawl climate_action_tracker -O ../data/output.json
-```
+### 4. `parse_country_target`
 
-Because we are still thinking about the best way to store the data, we will simply produce a generically-named JSON file in the `data` directory. **Once we have decided on a structure, we will likely use an [Item Pipeline](https://docs.scrapy.org/en/latest/topics/item-pipeline.html) to save the data in a more appropriate format.**
+- **Purpose**: Extracts target-related data from the country-specific target page.
+- **Process**:
+  - Extracts target descriptions and NDC tables.
+  - Extracts images and downloads them.
+  - Stores the data in the `CountryTargets` item.
 
-Visit the [Climate Action Tracker](https://climateactiontracker.org/) website to understand the data source.
+### 5. `save_image`
 
-## Data Usage Notice
+- **Purpose**: Downloads and saves images from the extracted URLs.
+- **Process**:
+  - Extracts the country name and image content from the response.
+  - Stores the image content in the `CountryTargets` item.
 
-Data and extracted textual content from the Climate Action Tracker website are copyrighted © 2009-2025 by Climate Analytics and NewClimate Institute. All rights reserved.
+### 6. `parse_tables`
 
-## Ethical Web Scraping
+- **Purpose**: Extracts table data from the containers.
+- **Process**:
+  - Finds all styled tables within the container.
+  - Extracts table titles, subheadings, and values.
+  - Stores the table data in a dictionary.
 
-This project follows ethical web scraping practices:
-- Respects robots.txt
-- Implements appropriate delays between requests
-- Properly identifies the spider with user agent information
-- Only scrapes publicly available data
+### 7. `parse_policies_action`
 
-## Collaborator Access
+- **Purpose**: Extracts policy action-related data from the country-specific policies action page.
+- **Process**:
+  - Extracts policy descriptions.
+  - Extracts images and downloads them.
+  - Stores the data in the `PolicyAction` item.
 
-Students who are currently enrolled in the DS205 course (or auditing) are eligible to contribute to this repository. To be granted push permission on this repository, please send a message to Jon on Slack with your GitHub username. Once approved, you'll receive an invite to contribute.
+### 8. `parse_net_zero_targets`
 
-## Need Help?
-For issues or questions:
-- Post in the `#help` channel on Slack
-- Check out the [Scrapy Documentation](https://docs.scrapy.org/)
-- Contact Jon directly if you face persistent issues
+- **Purpose**: Extracts net-zero target-related data from the country-specific net-zero targets page.
+- **Process**:
+  - Extracts net-zero target descriptions.
+  - Extracts images and downloads them.
+  - Stores the data in the `NetZeroTargets` item.
+
+### 9. `parse_assumptions`
+
+- **Purpose**: Extracts assumption-related data from the country-specific assumptions page.
+- **Process**:
+  - Extracts assumption descriptions.
+  - Stores the data in the `Assumptions` item.
+
+### 10. `extract_with_default`
+
+- **Purpose**: Extracts data using a CSS selector and provides a default value if the data is missing.
+- **Process**:
+  - Extracts the value using the provided CSS selector.
+  - Returns the value or the default value if the data is missing.
+
+## Items
+
+Items are used to define the structure of the data being collected. The main items involved are:
+
+### 1. `RatingsOverview`
+
+- **Fields**:
+  - `country_name`
+  - `overall_rating`
+  - `policies_action_domestic`
+  - `ndc_target_domestic`
+  - `ndc_target_fair`
+  - `climate_finance`
+  - `net_zero_target_year`
+  - `net_zero_target_rating`
+  - `land_forestry_use`
+
+### 2. `RatingsDescription`
+
+- **Fields**:
+  - `country_name`
+  - `header`
+  - `rating`
+  - `content_text`
+
+### 3. `CountryTargets`
+
+- **Fields**:
+  - `country_name`
+  - `target`
+  - `target_description`
+  - `ndc_data`
+  - `images`
+
+### 4. `PolicyAction`
+
+- **Fields**:
+  - `country_name`
+  - `policy`
+  - `action_description`
+  - `images`
+
+### 5. `NetZeroTargets`
+
+- **Fields**:
+  - `country_name`
+  - `target`
+  - `target_description`
+  - `images`
+
+### 6. `Assumptions`
+
+- **Fields**:
+  - `country_name`
+  - `assumption`
+  - `assumption_description`
+
+### 7. `CountryDataFiles`
+
+- **Fields**:
+  - `country_name`
+  - `xlsx_file`
+  - `png_file`
+
+## Pipelines
+
+Pipelines are used to process the extracted data and save it in the desired format. The main pipelines involved are:
+
+### 1. `RatingsPipeline`
+
+- **Purpose**: Processes the ratings overview data and writes it to a CSV file.
+- **Process**:
+  - Opens a CSV file for writing the ratings overview data.
+  - Writes the data to the CSV file.
+  - Closes the CSV file when the spider finishes.
+
+### 2. `RatingsDescriptionPipeline`
+
+- **Purpose**: Processes the ratings description data and writes it to an Excel file.
+- **Process**:
+  - Opens an Excel file for writing the ratings description data.
+  - Writes the data to the Excel file.
+  - Closes the Excel file when the spider finishes.
+
+### 3. `CountryTargetsPipeline`
+
+- **Purpose**: Processes the country targets data and writes it to an Excel file.
+- **Process**:
+  - Opens an Excel file for writing the country targets data.
+  - Writes the data to the Excel file.
+  - Saves any images collected in the `images` field into the "Country Ratings Overview/png_files" folder.
+  - Closes the Excel file when the spider finishes.
+
+### 4. `PolicyActionPipeline`
+
+- **Purpose**: Processes the policy action data and writes it to an Excel file.
+- **Process**:
+  - Opens an Excel file for writing the policy action data.
+  - Writes the data to the Excel file.
+  - Saves any images collected in the `images` field into the "Country Ratings Overview/png_files" folder.
+  - Closes the Excel file when the spider finishes.
+
+### 5. `NetZeroTargetsPipeline`
+
+- **Purpose**: Processes the net-zero targets data and writes it to an Excel file.
+- **Process**:
+  - Opens an Excel file for writing the net-zero targets data.
+  - Writes the data to the Excel file.
+  - Saves any images collected in the `images` field into the "Country Ratings Overview/png_files" folder.
+  - Closes the Excel file when the spider finishes.
+
+### 6. `AssumptionsPipeline`
+
+- **Purpose**: Processes the assumptions data and writes it to an Excel file.
+- **Process**:
+  - Opens an Excel file for writing the assumptions data.
+  - Writes the data to the Excel file.
+  - Closes the Excel file when the spider finishes.
+
+### 7. `CountryDataPipeline`
+
+- **Purpose**: Processes the downloaded data files and saves them into separate folders.
+- **Process**:
+  - Saves the downloaded PNG and XLSX files into the "Country Ratings Overview/png_files" and "Country Ratings Overview/xlsx_files" folders, respectively.
+  - Renames the files to include the country name for easy identification.
+
+

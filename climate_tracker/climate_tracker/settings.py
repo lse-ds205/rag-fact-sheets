@@ -1,3 +1,5 @@
+import os
+
 # Scrapy settings for climate_tracker project
 #
 # For simplicity, this file contains only settings considered important or
@@ -14,11 +16,17 @@ NEWSPIDER_MODULE = "climate_tracker.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'LSE DS205 Student Spider (GitHub: @your-username) (+https://lse-dsi.github.io/DS205)'
+USER_AGENT = 'LSE DS205 Student Spider (GitHub: @datascraper758) (+https://lse-dsi.github.io/DS205)'
+
+# Be polite
+ROBOTSTXT_OBEY = True # Make sure this is uncommented and set to True
+DOWNLOAD_DELAY = 3  # Wait 3 seconds between requests (don't bombard the website with requests)
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
+#FEED_FORMAT = "csv"
+#FEED_URI = "output.csv"
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -26,7 +34,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 3
+#DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -63,9 +71,18 @@ DOWNLOAD_DELAY = 3
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "climate_tracker.pipelines.ClimateTrackerPipeline": 300,
-#}
+ITEM_PIPELINES = {
+    'climate_tracker.pipelines.CountryDataPipeline': 800,
+    'climate_tracker.pipelines.RatingsPipeline': 200,
+    'climate_tracker.pipelines.RatingsDescriptionPipeline': 300,
+    'climate_tracker.pipelines.CountryTargetsPipeline': 400,
+    'climate_tracker.pipelines.PolicyActionPipeline': 500,
+    'climate_tracker.pipelines.NetZeroTargetsPipeline': 600,
+    'climate_tracker.pipelines.AssumptionsPipeline': 700,
+}
+
+# Ensure the FILES_STORE path is relative to the current working directory
+FILES_STORE = os.path.join(os.getcwd(), 'output_files')
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
