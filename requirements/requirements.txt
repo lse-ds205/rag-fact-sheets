@@ -1,0 +1,7 @@
+click
+colorlog
+pydantic
+sqlalchemy
+ipykernel
+
+-c constraints.txt
