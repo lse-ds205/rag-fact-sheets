@@ -27,7 +27,6 @@ async def process_file_one(file_path: str):
     Process a file and return a list of chunks and embeddings.
     """
     try:
-
         chunks = Chunk().chunking_function(file_path)
         logger.info(f"[2_PROCESS] Finished chunking {file_path}, cleaning chunks...")
         for chunk in chunks:
@@ -42,8 +41,7 @@ async def process_file_one(file_path: str):
             validated_embedding = EmbeddingModel(placeholder_model=validated_chunk, placeholder_embedding=embedding)
             logger.debug(f"[2_PROCESS] Validated embeddings successfully...")
 
-        logger.warning(f"[2_PROCESS] File {file_path} processed successfully")
-        pass
+        logger.info(f"[2_PROCESS] File {file_path} processed successfully")
     
     except Exception as e:
         traceback_string = traceback.format_exc()
@@ -63,16 +61,21 @@ def upload_chunks(embedded_chunks: List[ChunkModel]):
     logger.warning(f"[2_PROCESS] Uploaded chunks into database successfully")
     pass
 
-@Logger.log(log_file=project_root / "logs/process.log")
+@Logger.log(log_file=project_root / "logs/process.log", log_level="DEBUG")
 @Test.sleep(3)
 async def run_script():
-    logger.warning(f"\n\n[2_PROCESS] Running script...")
-    file_paths = get_file_paths()
-    tasks = [process_file_many(file_path) for file_path in file_paths]
-    embedded_chunks = await asyncio.gather(*tasks)
-    upload_chunks(embedded_chunks)
-    logger.warning(f"[2_PROCESS] Script completed successfully")
-    pass
+    try:
+        logger.warning(f"\n\n[2_PROCESS] Running script...")
+        file_paths = get_file_paths()
+        tasks = [process_file_many(file_path) for file_path in file_paths]
+        embedded_chunks = await asyncio.gather(*tasks)
+        logger.warning(f"[2_PROCESS] All files processed successfully. Uploading them into database...")
+        upload_chunks(embedded_chunks)
+        logger.warning(f"[2_PROCESS] Script completed successfully. Exiting.")
+    except Exception as e:
+        traceback_string = traceback.format_exc()
+        logger.critical(f"\n\n\n\n[PIPELINE BROKE!] - Error in 2_process.py: {e}\n\nTraceback: {traceback_string}\n\n\n\n")
+        raise e
 
 if __name__ == "__main__":
     asyncio.run(run_script())

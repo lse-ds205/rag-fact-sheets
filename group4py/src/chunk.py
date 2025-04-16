@@ -2,10 +2,10 @@ import sys
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Union, Tuple
 
-project_root = Path(__file__).resolve().parents[1]
+project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
-from helpers import Test
+from helpers import Logger, Test, TaskInfo
 
 class Chunk:
     """
@@ -17,6 +17,7 @@ class Chunk:
         pass
 
     @Test.dummy_json()
+    @Logger.debug_log()
     def chunking_function(self, file_path: str) -> List[Dict[str, Any]]:
         """
         Some function(s), probably using unstructured, to split the document (in the form of a file path) into chunks.
@@ -27,6 +28,7 @@ class Chunk:
         pass
 
     @Test.dummy_json()
+    @Logger.debug_log()
     def cleaning_function(self, chunks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Some function(s) to clean/process the chunks.
@@ -45,16 +47,16 @@ class Chunk:
         Internal chunk class.
         """
         @staticmethod
-        def _clean_strategy_one():
+        def _clean_strategy_one(text):
             """[Do something]"""
             pass
 
         @staticmethod
-        def _clean_strategy_two():
+        def _clean_strategy_two(text):
             pass
         
         @staticmethod
-        def _clean_strategy_three():
+        def _clean_strategy_three(text):
             pass
 
 class Embedding:
@@ -67,14 +69,16 @@ class Embedding:
         pass
 
     @Test.dummy_json()
+    @Logger.debug_log()
     def embed_many(self, chunks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Some function(s) to embed the chunks.
         """
-        all_embeddings = self.embed_one()
+        all_embeddings = self.embed_one(None)
         pass
 
     @Test.dummy_embedding()
+    @Logger.debug_log()
     def embed_one(self, chunk: Dict[str, Any]) -> List[float]:
         """
         Some function(s) to embed a single chunk.
