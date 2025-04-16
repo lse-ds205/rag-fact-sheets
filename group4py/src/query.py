@@ -2,10 +2,10 @@ from pathlib import Path
 import sys
 from typing import List, Dict, Any, Optional, Union, Tuple
 
-project_root = Path(__file__).resolve().parents[1]
+project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
-from helpers import Test
+from helpers import Logger, Test, TaskInfo
 from constants.prompts import (
     BOOSTER_PROMPT_1, 
     BOOSTER_PROMPT_2, 
@@ -24,7 +24,8 @@ class Booster:
     """
     def __init__(self):
         pass
-
+    
+    @Logger.debug_log()
     def boost_function(self, prompt: str) -> str:
         """
         Some function(s) to boost the prompt.
@@ -32,16 +33,16 @@ class Booster:
         booster_prompt_1 = BOOSTER_PROMPT_1.format(CHUNK_PROMPT_1=prompt)
         pass
 
-class PreEngineering:
+class ChunkEngineering:
     """
-    Pre-engineering class. General methodology:
+    Chunk-engineering class. Perhaps to engineer the top k, post-filtered chunks first?
     """
     def __init__(self):
         pass
 
-class FinalEngineering:
+class QueryEngineering:
     """
-    Final-engineering class. General methodology:
+    Query-engineering class. After deciding on what's the best chunk, return the answer.
     """
     def __init__(self):
         pass

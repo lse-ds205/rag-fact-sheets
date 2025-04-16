@@ -1,7 +1,15 @@
 import logging
+from pathlib import Path
+import sys
+
+project_root = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(project_root))
+import group4py
+from helpers import Logger, Test, TaskInfo
 
 logger = logging.getLogger(__name__)
 
+@TaskInfo.ruikai()
 class Detector:
     """
     Detector class. Overall goal is to detect if there's a change in the website.
@@ -16,7 +24,7 @@ class Detector:
         logger.info("[SCRAPE] Detecting changes in the website...")
         
         import random
-        if random.random() < 0.1:
+        if random.random() < 0.1: # 10% chance of no changes
             logger.info("[SCRAPE] No changes detected.")
             return False
         else:

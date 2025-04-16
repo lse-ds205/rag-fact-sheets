@@ -10,12 +10,13 @@ import random
 from typing import List, Dict, Any, Optional, Union, Tuple
 import logging
 
+
 class Logger:
     """
     Logger class
     """
     @staticmethod
-    def setup_logging(log_file: Path) -> None:
+    def setup_logging(log_file: Path, log_level: str = "INFO") -> None:
         color_formatter = colorlog.ColoredFormatter(
             "%(log_color)s%(asctime)s - %(name)s - %(levelname)s - %(message)s%(reset)s",
             datefmt="%Y-%m-%d %H:%M:%S",
@@ -35,30 +36,95 @@ class Logger:
         file_handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
         
         root_logger = logging.getLogger()
-        root_logger.setLevel(logging.INFO)
+        root_logger.setLevel(log_level)
         root_logger.handlers = []
         root_logger.addHandler(console_handler)
         root_logger.addHandler(file_handler)
 
     @staticmethod
-    def log(log_file: Path):
+    def log(log_file: Path, log_level: str = "INFO"):
         """
-        Decorator, typically wrapped around main functions, with two objectives: 
+        Decorator, typically only wrapped around main entrypoint functions (not the sub-functions), with two objectives: 
         (A) set up color logging
         (B) direct all logs to a specific file
         """
         def decorator(func):
             def wrapper(*args, **kwargs):
                 if not logging.getLogger().hasHandlers():
-                    Logger.setup_logging(log_file)
-                logger = logging.getLogger(func.__name__)
-                logger.info(f"Running {func.__name__}")
+                    Logger.setup_logging(log_file, log_level)
                 result = func(*args, **kwargs)
-                logger.info(f"Finished {func.__name__}")
                 return result
             return wrapper
         return decorator
     
+    @staticmethod
+    def debug_log():
+        """
+        Decorator to log a debug message when a function starts running.
+        """
+        def decorator(func):
+            def wrapper(*args, **kwargs):
+                logging.debug(f"<library> {func.__name__} started running...")
+                return func(*args, **kwargs)
+            return wrapper
+        return decorator
+
+
+class TaskInfo:
+    """
+    Harmless decorators. To ease communication between groupmates - can use it if you want to / find that it makes collaborative development easier.
+    """
+    def completed():
+        """
+        Decorator to indicate that a task has been completed.
+        """
+        def decorator(func):
+            def wrapper(*args, **kwargs):
+                return func(*args, **kwargs)
+            return wrapper
+        return decorator
+    
+    def bryan():
+        """
+        Decorator to indicate that this task is being worked on by Bryan.
+        """
+        def decorator(func):
+            def wrapper(*args, **kwargs):
+                return func(*args, **kwargs)
+            return wrapper
+        return decorator
+    
+    def zicheng():
+        """
+        Decorator to indicate that this task is being worked on by Zicheng.
+        """
+        def decorator(func):
+            def wrapper(*args, **kwargs):
+                return func(*args, **kwargs)
+            return wrapper
+        return decorator
+
+    def michele():
+        """
+        Decorator to indicate that this task is being worked on by Michele.
+        """
+        def decorator(func):
+            def wrapper(*args, **kwargs):
+                return func(*args, **kwargs)
+            return wrapper
+        return decorator
+    
+    def ruikai():
+        """
+        Decorator to indicate that this task is being worked on by Rui Kai.
+        """
+        def decorator(func):
+            def wrapper(*args, **kwargs):
+                return func(*args, **kwargs)
+            return wrapper
+        return decorator
+
+
 class Test:
     """
     Test class - decorators to be used for testing/production phase. Removed for actual deployment.
@@ -82,7 +148,21 @@ class Test:
     def dummy(dummy: Any) -> Any:
         def decorator(func):
             def wrapper(*args, **kwargs):
+                result = func(*args, **kwargs)
                 return dummy
+            return wrapper
+        return decorator
+    
+    @staticmethod
+    def force_input(*forced_args, **forced_kwargs):
+        """
+        Decorator to force specific input arguments and keyword arguments to a function.
+        """
+        def decorator(func):
+            def wrapper(*args, **kwargs):
+                args = forced_args if forced_args else args
+                kwargs.update(forced_kwargs)
+                return func(*args, **kwargs)
             return wrapper
         return decorator
 
@@ -91,6 +171,7 @@ class Test:
         dummy_chunks = ["I am dummy chunk 1", "I am dummy chunk 2", "I am dummy chunk 3"]
         def decorator(func):
             def wrapper(*args, **kwargs):
+                result = func(*args, **kwargs)
                 return dummy_chunks
             return wrapper
         return decorator
@@ -101,6 +182,7 @@ class Test:
         def decorator(func):
             def wrapper(*args, **kwargs):
                 Test.logger.warning("Dummy embedding decorator used - not actual embedding!")
+                result = func(*args, **kwargs)
                 return dummy_embedding
             return wrapper
         return decorator
@@ -116,6 +198,7 @@ class Test:
         dummy_json = [dummy_dict, dummy_dict, dummy_dict]
         def decorator(func):
             def wrapper(*args, **kwargs):
+                result = func(*args, **kwargs)
                 return dummy_json
             return wrapper
         return decorator
@@ -125,6 +208,17 @@ class Test:
         dummy_prompt = "I am a dummy prompt"
         def decorator(func):
             def wrapper(*args, **kwargs):
+                result = func(*args, **kwargs)
                 return dummy_prompt
+            return wrapper
+        return decorator
+    
+    @staticmethod
+    def dummy_answer() -> str:
+        dummy_answer = "I am a dummy answer"
+        def decorator(func):
+            def wrapper(*args, **kwargs):
+                result = func(*args, **kwargs)
+                return dummy_answer
             return wrapper
         return decorator

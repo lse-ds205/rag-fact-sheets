@@ -1,8 +1,28 @@
-Skeleton pipeline can be a bit hard to navigate for a start. But designed to:
-- Create maximum separation of concern, since we have four people
-- High flexibility to either work independently or collaboratively, without disrupting stack workflow.
-- Lean and lightweight, can be assembled/dissembled easily
+The skeleton pipeline is designed to:
 
-python 3.13.2
+- Maximize separation of concerns, accommodating four team members.
+- Provide high flexibility for independent or collaborative work without disrupting the workflow.
+- Remain lean and lightweight, allowing for easy assembly and disassembly.
 
-group4venv
+Python version used: 3.13.2
+
+The virtual environment is pushed because it contains only five packages: `group4venv`. Will eventually .gitignore afterwards
+
+Alternatively, just run (you probably already have these packages):
+
+```bash
+pip install -r requirements/requirements.txt
+```
+
+To execute the pipeline, use the following commands:
+
+```bash
+python interface.py detect run
+python interface.py query ask --prompt "This is a test prompt?"
+```
+
+Suggestion steps:
+1. Look at interface.py
+2. Look at working_file_example.ipynb
+3. Look at /entrypoints
+4. Look at /group4py/src (custom library)
