@@ -12,7 +12,7 @@ from helpers import Logger, Test
 
 logger = logging.getLogger(__name__)
 
-@Logger.log(log_file=project_root / "logs/scrape.log")
+@Logger.log(log_file=project_root / "logs/scrape.log", log_level="DEBUG")
 @Test.sleep(3)
 def run_script():
     """
@@ -24,10 +24,11 @@ def run_script():
     changes = detector.detect_changes()
 
     if changes:
-        logger.warning("[1_SCRAPE] Changes detected. Instantiating the entire pipeline...")
+        logger.critical("[1_SCRAPE] Changes detected. Instantiating the entire pipeline...")
         logger.info("[1_SCRAPE] Running spider...")
 
         try:
+            # TODO: figure out how exactly Jon's spider works and wrap around it
             JonWrapper.run_spider()
             logger.warning("[1_SCRAPE] Spider ran successfully. 1_SCRAPE script exiting.")
         except Exception as e:
@@ -35,6 +36,8 @@ def run_script():
             logger.error(f"[1_SCRAPE] Error running spider: {e}\n\nTraceback:\n{traceback}")
     else:
         logger.warning("[1_SCRAPE] No changes detected. Script exiting.")
+
+    return changes
 
 if __name__ == "__main__":
     run_script()
