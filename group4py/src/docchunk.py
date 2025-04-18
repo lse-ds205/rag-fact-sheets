@@ -7,7 +7,7 @@ sys.path.insert(0, str(project_root))
 import group4py
 from helpers import Logger, Test, TaskInfo
 
-class Chunk:
+class DocChunk:
     """
     Chunk class. General methodology:
         Input: Some form of documents (PDFs, etc.)
@@ -42,7 +42,7 @@ class Chunk:
         # return meal
         pass
 
-    class _Chunk:
+    class _DocChunk:
         """
         Internal chunk class.
         """
@@ -62,7 +62,7 @@ class Chunk:
 class Embedding:
     """
     Embedding class. General methodology:
-        Input: Chunks, in the form of strings
+        Input: DocChunks, in the form of strings
         Output: Embeddings, in the form of a list of floats
     """
     def __init__(self):
