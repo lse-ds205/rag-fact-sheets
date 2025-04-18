@@ -1,0 +1,11 @@
+[project]
+name = "four-rag"
+version = "0.1"
+description = "Python library for DS205 Problem Set 3 - Group 4"
+
+dependencies = [
+
+]
+
+[tool.setuptools]
+packages = ["four-rag"]
