@@ -8,8 +8,8 @@ from typing import List, Dict, Any, Optional, Union, Tuple
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
-from chunk import Chunk, Embedding
-from helpers import Logger, Test, TaskInfo
+from docchunk import DocChunk, Embedding
+from helpers import Logger, Test
 from schema import ChunkModel, EmbeddingModel
 from database import Connection
 from constants.settings import FILE_PROCESSING_CONCURRENCY
@@ -29,13 +29,13 @@ async def process_file_one(file_path: str):
     Process a file and return a list of chunks and embeddings.
     """
     try:
-        chunks = Chunk().chunking_function(file_path)
+        chunks = DocChunk().chunking_function(file_path)
         logger.info(f"[2_PROCESS] Finished chunking {file_path}, cleaning chunks...")
         for chunk in chunks:
             validated_chunk = ChunkModel(placeholder=chunk)
             logger.debug(f"[2_PROCESS] Validated chunks successfully, cleaning chunks...")
 
-        cleaned = Chunk().cleaning_function(chunks)
+        cleaned = DocChunk().cleaning_function(chunks)
         logger.info(f"[2_PROCESS] Finished cleaning chunks, embedding chunks...")
 
         embeddings = Embedding().embed_many(cleaned)

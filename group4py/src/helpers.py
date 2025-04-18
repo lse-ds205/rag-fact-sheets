@@ -178,7 +178,7 @@ class Test:
     
     @staticmethod
     def dummy_embedding() -> List[float]:
-        dummy_embedding = [random.uniform(-1, 1) for _ in range(128)]
+        dummy_embedding = [random.uniform(-1, 1) for _ in range(128)]    # Gives 128-dimensional embedding, randomly generated
         def decorator(func):
             def wrapper(*args, **kwargs):
                 Test.logger.warning("Dummy embedding decorator used - not actual embedding!")

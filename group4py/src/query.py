@@ -7,11 +7,11 @@ sys.path.insert(0, str(project_root))
 import group4py
 from helpers import Logger, Test, TaskInfo
 from constants.prompts import (
-    BOOSTER_PROMPT_1, 
-    BOOSTER_PROMPT_2, 
+    BOOSTER_PROMPT_1,
+    BOOSTER_PROMPT_2,
     BOOSTER_PROMPT_3,
-    CHUNK_PROMPT_1, 
-    CHUNK_PROMPT_2, 
+    CHUNK_PROMPT_1,
+    CHUNK_PROMPT_2,
     CHUNK_PROMPT_3,
     PIPELINE_PROMPT_1,
     PIPELINE_PROMPT_2,
