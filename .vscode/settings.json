@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./group4py/src"
+    ]
+}
