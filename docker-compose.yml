@@ -1,9 +1,7 @@
-# When the time comes, add this for standardisation
-version: "3.8"
-
 services:
   db:
-    image: ankane/pgvector:latest
+    image: pgvector/pgvector:0.7.1-pg16
+    container_name: group-4-postgres
     environment:
       POSTGRES_USER: climate
       POSTGRES_PASSWORD: climate
