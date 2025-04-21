@@ -9,7 +9,7 @@ project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
 from database import Connection
-from chunk import Embedding
+from docchunk import Embedding
 from evaluator import VectorComparison, RegexComparison, SomeOtherComparison, Evaluator
 from query import Booster
 from helpers import Logger, Test
