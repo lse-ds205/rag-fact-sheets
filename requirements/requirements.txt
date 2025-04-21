@@ -3,5 +3,8 @@ colorlog
 pydantic
 sqlalchemy
 ipykernel
+requests
+tqdm
+shutil
 
 -c constraints.txt
