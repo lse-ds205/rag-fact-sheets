@@ -9,7 +9,7 @@ project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
 from docchunk import DocChunk, Embedding
-from helpers import Logger, Test
+from helpers import Logger, Test, TaskInfo
 from schema import ChunkModel, EmbeddingModel
 from database import Connection
 from constants.settings import FILE_PROCESSING_CONCURRENCY
@@ -22,6 +22,8 @@ def get_file_paths():
     """
     pass
 
+@TaskInfo.bryan()
+@TaskInfo.completed()
 async def process_file_one(file_path: str):
     """
     Process a file and return a list of chunks and embeddings.
