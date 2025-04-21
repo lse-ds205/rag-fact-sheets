@@ -31,6 +31,7 @@ class Detector:
             logger.info("[SCRAPE] Changes detected.")
             return True
 
+
 class JonWrapper:
     """
     Wrapper class that wraps around Jon's spider code.
