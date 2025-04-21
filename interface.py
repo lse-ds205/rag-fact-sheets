@@ -102,10 +102,15 @@ def ask(prompt):
     retrieve_run_script = importlib.import_module(retrieve_module_name).run_script
     chunks = retrieve_run_script(prompt=prompt)
     
-    # Interaction with /entrypoints (4)
-    output_module_name = 'entrypoints.4_output'
+    # Interaction with /entrypoints (4) - LLM Response
+    llm_module_name = 'entrypoints.4_llm_response'
+    llm_run_script = importlib.import_module(llm_module_name).run_script
+    llm_response = llm_run_script(top_selected_chunks=chunks, prompt=prompt)
+    
+    # Interaction with /entrypoints (5) - Output Processing
+    output_module_name = 'entrypoints.5_output'
     output_run_script = importlib.import_module(output_module_name).run_script
-    answer = output_run_script(top_selected_chunks=chunks, prompt=prompt)
+    answer = output_run_script(llm_response=llm_response, prompt=prompt)
 
     print(f"[INTERFACE] Question: {prompt}\n[INTERFACE] Answer: {answer}")
 
