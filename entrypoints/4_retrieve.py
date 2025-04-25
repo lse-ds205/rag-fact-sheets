@@ -1,18 +1,19 @@
 import sys
 from pathlib import Path
-import traceback
 import logging
-import argparse
+import traceback
 from typing import List, Dict, Any, Optional, Union, Tuple
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
-from database import Connection
-from docchunk import Embedding
-from evaluator import VectorComparison, RegexComparison, SomeOtherComparison, Evaluator
-from query import Booster
-from helpers import Logger, Test
+from group4py.src.query import find_similar_chunks
+from group4py.src.database import Connection, DocChunk
+from group4py.src.helpers import Logger, Test, TaskInfo
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +25,7 @@ def embed_prompt(prompt):
     logger.info(f"[3_RETRIEVE] Prompt given: {prompt}. Embedding prompt...")
     try:
         boosted_prompt = Booster().boost_function(prompt)
-        embedded_prompt = Embedding().embed_one(boosted_prompt)
+        embedded_prompt = Embedding().embed_transformer(boosted_prompt)
         return embedded_prompt
     
     except Exception as e:

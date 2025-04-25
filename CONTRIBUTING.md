@@ -38,10 +38,37 @@ This should output a path that includes your virtual environment directory. **If
 Install the required dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements/requirements.txt
 ```
 
 **Importantly**, install the `NLTK` downloads:
+
+## 1.1 Install Tesseract OCR
+
+The project uses Optical Character Recognition (OCR) capabilities through the `unstructured` library for PDF text extraction. You need to install Tesseract OCR:
+
+### On Windows:
+1. Download the Tesseract installer from [UB Mannheim](https://github.com/UB-Mannheim/tesseract/wiki)
+2. Run the installer and follow the instructions
+3. Add Tesseract to your PATH environment variable (the installer should offer this option)
+4. Verify installation: `tesseract --version`
+
+### On macOS:
+```bash
+brew install tesseract
+```
+
+### On Linux:
+```bash
+sudo apt-get update
+sudo apt-get install tesseract-ocr
+sudo apt-get install libtesseract-dev
+```
+
+Verify installation:
+```bash
+tesseract --version
+```
 
 ## 2. Set up the Database
 
@@ -105,6 +132,17 @@ docker ps -a
 ```
 
 The STATUS of the container should be "Up".
+
+### 2.4 Setting up the Database
+```bash
+python manual/setup_database.py 
+```
+
+### 2.5 Installing the Embedding Models
+
+```bash
+python manual/install_models.py 
+```
 
 ## 3. Running the Spider
 

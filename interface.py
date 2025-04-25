@@ -8,7 +8,10 @@ project_root = Path(__file__).resolve().parent
 sys.path.insert(0, str(project_root))
 import group4py
 from helpers import Logger, Test
-
+import os
+from dotenv import load_dotenv
+from sqlalchemy import create_engine, text
+    
 """
 Top-down settings:
 """
@@ -39,6 +42,13 @@ def detect():
 def query():
     """
     Query operations. Mirrors to /entrypoints (3) and (4)
+    """
+    pass
+
+@four.group()
+def database():
+    """
+    Climate table operations for database management.
     """
     pass
 
@@ -115,6 +125,119 @@ def ask(prompt):
     print(f"[INTERFACE] Question: {prompt}\n[INTERFACE] Answer: {answer}")
 
     # In future, potential add entrypoints (5) for API, and (6) for App
+
+# ------------------------------------------------------------
+
+"""
+Database operations:
+"""
+
+@database.command()
+@click.option('--confirm', is_flag=True, help='Confirm deletion without additional prompt')
+@click.option('--table', type=click.Choice(['all', 'doc_chunks', 'documents']), default='all', 
+              help='Specify which table to drop rows from')
+@click.option('--all', is_flag=True, help='Delete all rows from the table without restrictions')
+def drop_rows(confirm, table, all):
+    """
+    Drop rows from the specified table (doc_chunks or documents) or all tables.
+    
+    This command helps maintain database health by removing data that might be outdated or no longer needed.
+    Use --all to delete all rows unconditionally.
+    """
+    if not confirm:
+        click.confirm(f'Are you sure you want to delete rows from the {table} table? This action cannot be undone.', abort=True)
+
+    try:
+        # Load environment variables
+        load_dotenv()
+        
+        # Get database connection from environment or use default
+        db_url = os.getenv('DATABASE_URL', 'postgresql://climate:climate@localhost:5432/climate')
+        
+        # Create engine
+        engine = create_engine(db_url)
+        
+        # Connect to the database
+        with engine.connect() as conn:
+            # Start a transaction
+            with conn.begin():
+                # Handle the 'all' table option (previously 'database')
+                if table == 'all':
+                    # Get counts for both tables before deletion
+                    doc_chunks_before = conn.execute(text("SELECT COUNT(*) FROM doc_chunks")).scalar()
+                    documents_before = conn.execute(text("SELECT COUNT(*) FROM documents")).scalar()
+                    
+                    # Delete from both tables
+                    if all:
+                        conn.execute(text("DELETE FROM doc_chunks"))
+                        conn.execute(text("DELETE FROM documents"))
+                    else:
+                        # Use filtered deletion
+                        conn.execute(text("""
+                            DELETE FROM doc_chunks
+                            WHERE doc_id IN (
+                                SELECT doc_id 
+                                FROM documents
+                            )
+                        """))
+                        conn.execute(text("""
+                            DELETE FROM documents
+                            WHERE doc_id IN (
+                                SELECT DISTINCT doc_id 
+                                FROM doc_chunks
+                            )
+                        """))
+                    
+                    # Get counts after deletion
+                    doc_chunks_after = conn.execute(text("SELECT COUNT(*) FROM doc_chunks")).scalar()
+                    documents_after = conn.execute(text("SELECT COUNT(*) FROM documents")).scalar()
+                    
+                    # Report results
+                    print(f"[INTERFACE] Deleted {doc_chunks_before - doc_chunks_after} rows from doc_chunks")
+                    print(f"[INTERFACE] Deleted {documents_before - documents_after} rows from documents")
+                    print(f"[INTERFACE] Total rows deleted: {(doc_chunks_before - doc_chunks_after) + (documents_before - documents_after)}")
+                
+                else:
+                    # Get the count before deletion
+                    before_count = conn.execute(text(f"SELECT COUNT(*) FROM {table}")).scalar()
+                    
+                    # Construct the appropriate SQL based on the table and options
+                    if all:
+                        # Delete all rows without restriction
+                        sql = f"DELETE FROM {table}"
+                    else:
+                        # Use filtered deletion
+                        if table == 'doc_chunks':
+                            sql = """
+                            DELETE FROM doc_chunks
+                            WHERE doc_id IN (
+                                SELECT doc_id 
+                                FROM documents
+                            )
+                            """
+                        elif table == 'documents':
+                            sql = """
+                            DELETE FROM documents
+                            WHERE doc_id IN (
+                                SELECT DISTINCT doc_id 
+                                FROM doc_chunks
+                            )
+                            """
+                    
+                    # Execute the deletion
+                    result = conn.execute(text(sql))
+                    
+                    # Get the count after deletion
+                    after_count = conn.execute(text(f"SELECT COUNT(*) FROM {table}")).scalar()
+                    
+                    # Calculate how many rows were deleted
+                    deleted_count = before_count - after_count
+                    
+                    print(f"[INTERFACE] Successfully deleted {deleted_count} rows from the {table} table.")
+                    print(f"[INTERFACE] Before: {before_count} rows, After: {after_count} rows")
+        
+    except Exception as e:
+        print(f"[INTERFACE] Database error: {e}")
 
 # ------------------------------------------------------------
 

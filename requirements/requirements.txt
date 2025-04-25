@@ -3,5 +3,19 @@ colorlog
 pydantic
 sqlalchemy
 ipykernel
-
+python-dotenv
+transformers
+torch
+psycopg2-binary
+nltk
+unstructured
+langdetect
+pdfminer.six
+pi_heif
+unstructured-inference
+pdf2image
+docx
+gensim
+pikepdf
+tqdm
 -c constraints.txt

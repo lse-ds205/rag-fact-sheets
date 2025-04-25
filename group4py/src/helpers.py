@@ -40,6 +40,14 @@ class Logger:
         root_logger.handlers = []
         root_logger.addHandler(console_handler)
         root_logger.addHandler(file_handler)
+        
+        # Set higher log levels for noisy third-party libraries
+        logging.getLogger('pdfminer').setLevel(logging.WARNING)
+        logging.getLogger('unstructured').setLevel(logging.INFO)
+        logging.getLogger('pikepdf').setLevel(logging.WARNING)
+        logging.getLogger('PIL').setLevel(logging.WARNING)
+        logging.getLogger('matplotlib').setLevel(logging.WARNING)
+        logging.getLogger('asyncio').setLevel(logging.INFO)
 
     @staticmethod
     def log(log_file: Path, log_level: str = "INFO"):
