@@ -32,15 +32,18 @@ data/
 # PDF files anywhere in the project
 *.pdf
 
-# Logs
+# Logs - ignore all log files and log directories anywhere in the project
 logs/
+**/logs/
 *.log
+**/*.log
 
 # Local models folder
 local_models/
 
-# Python cache files
+# Python cache files - ignore all pycache directories anywhere in the project
 __pycache__/
+**/__pycache__/
 *.py[cod]
 *$py.class
 
