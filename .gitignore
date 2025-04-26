@@ -1,4 +1,52 @@
-# group4venv/
-# local/
+# Virtual environments
+group4venv/
+local/
+venv/
 logs/
 .env
+
+# Editor settings
+.vscode/
+.idea/
+
+# JSON files
+*.json
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Dataframes and data files
+*.pkl
+*.parquet
+*.csv
+*.h5
+*.feather
+*.npz
+*.npy
+
+# Data folder - contains PDFs
+data/
+
+# PDF files anywhere in the project
+*.pdf
+
+# Logs
+logs/
+*.log
+
+# Local models folder
+local_models/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# OS specific files
+.DS_Store
+Thumbs.db
