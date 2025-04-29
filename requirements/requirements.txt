@@ -5,6 +5,7 @@ sqlalchemy
 ipykernel
 requests
 tqdm
+psycopg2
 shutil
 
 -c constraints.txt

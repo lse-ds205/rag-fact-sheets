@@ -10,13 +10,34 @@ from typing import Optional, Tuple
 from tqdm import tqdm
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
-from sqlalchemy import create_engine, select
+from sqlalchemy import create_engine, select, Column, Integer, String, Boolean, DateTime, Float
 from sqlalchemy.orm import Session
+from sqlalchemy.ext.declarative import declarative_base
 import logging
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Create base class for SQLAlchemy models
+Base = declarative_base()
+
+# Define the Document model - Adjust this to your table Rui - The Table Name then appears in the "process_downloads" function
+class Document(Base):
+    __tablename__ = 'documents'
+    
+    id = Column(Integer, primary_key=True)
+    url = Column(String, nullable=False)
+    status = Column(String(20), nullable=False)
+    downloaded = Column(Boolean, default=False)
+    downloaded_at = Column(DateTime)
+    file_size = Column(Float)
+    created_at = Column(DateTime, default=datetime.now)
+
+# Database connection
+DB_URL = "postgresql://climate:climate@localhost:5432/climate" ## Adjust the connection as necessary
+engine = create_engine(DB_URL)
+
 
 def create_session() -> requests.Session:
     """Create a requests session with retries and browser-like headers."""
@@ -132,8 +153,9 @@ def process_downloads(db_url: str, download_dir: str = "data", limit: Optional[i
     
     with Session(engine) as session:
         # Query for active documents
-        query = select(YourTableModel).where( # FILL IN THE TABLE WITH RUI KAI'S TABLE
-            YourTableModel.status == 'active' # FILL IN THE TABLE WITH RUI KAI'S TABLE
+        query = select(Document).where( #Change the table name as you see fit here
+            Document.status == 'active',
+            Document.downloaded == False
         )
         
         active_docs = session.execute(query).scalars().all()
@@ -153,7 +175,7 @@ def process_downloads(db_url: str, download_dir: str = "data", limit: Optional[i
                 success, file_size = download_file(http_session, doc.url, save_path, pbar)
                 
                 if success:
-                    # Update document record if needed
+                    # Update document record
                     doc.downloaded = True
                     doc.downloaded_at = datetime.now()
                     doc.file_size = file_size
@@ -170,7 +192,5 @@ def process_downloads(db_url: str, download_dir: str = "data", limit: Optional[i
     
     return len(active_docs), successful
 
-if __name__ == "__main__":
-    # Example usage
-    DB_URL = "postgresql://climate:climate@localhost:5432/rag-fact-sheets-4"
-    process_downloads(DB_URL) 
+# Run the downloader
+# python 1_download.py
