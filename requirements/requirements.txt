@@ -6,6 +6,7 @@ ipykernel
 requests
 tqdm
 psycopg2
+reportlab
 shutil
 
 -c constraints.txt
