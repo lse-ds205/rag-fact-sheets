@@ -3,10 +3,13 @@ colorlog
 pydantic
 sqlalchemy
 ipykernel
+requests
+tqdm
+psycopg2
+reportlab
 python-dotenv
 transformers
 torch
-psycopg2-binary
 nltk
 unstructured
 langdetect
@@ -17,6 +20,5 @@ pdf2image
 docx
 gensim
 pikepdf
-tqdm
 scrapy
 -c constraints.txt
