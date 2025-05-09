@@ -5,16 +5,14 @@ import logging
 import asyncio
 from typing import List, Dict, Any, Optional, Union, Tuple  
 from dotenv import load_dotenv
-
-# Load environment variables from .env file
 load_dotenv()
 
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
-from group4py.src.scrape import scrape_documents
-from group4py.src.helpers import Logger, Test, TaskInfo
-from group4py.src.database import Connection
+from scrape import Detector, DocUpdater
+from helpers import Logger, Test, TaskInfo
+from database import Connection
 
 logger = logging.getLogger(__name__)
 
