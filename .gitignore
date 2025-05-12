@@ -170,5 +170,7 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+# Custom
 scraping-env/
 local_model/
+data/
