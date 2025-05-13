@@ -4,6 +4,7 @@ selenium==4.28.1
 
 # Data analysis
 pandas==2.2.3
+numpy==1.26.4
 
 # Development tools
 ipykernel>=6.21.2
@@ -12,3 +13,31 @@ jupyterlab>=3.6.1
 # Debugging Utilities
 requests==2.31.0 
 ipdb==0.13.13
+
+# Transformers and deep learning
+transformers==4.39.3
+datasets==2.18.0
+torch==2.2.1
+
+# NLP and text processing
+nltk==3.9.1
+gensim==4.3.3
+langdetect==1.0.9
+
+# Vector search
+pgvector==0.2.3
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.28
+
+# Visualisation
+matplotlib==3.10.1
+seaborn==0.12.0
+lets-plot==4.6.0
+
+# Utilities
+ipdb==0.13.13
+python-dotenv==1.0.1 # Load environment variables from .env file
+tqdm==4.67.1
+ipykernel==6.29.5
+ipywidgets==8.1.5
+colorlog>=6.7.0  # For colored logging output
