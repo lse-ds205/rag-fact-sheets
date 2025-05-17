@@ -11,13 +11,13 @@ ipykernel>=6.21.2
 jupyterlab>=3.6.1
 
 # Debugging Utilities
-requests==2.31.0 
+requests==2.32.3
 ipdb==0.13.13
 
 # Transformers and deep learning
-transformers==4.39.3
+transformers==4.51.3
 datasets==2.18.0
-torch==2.2.1
+torch==2.7.0
 
 # NLP and text processing
 nltk==3.9.1
@@ -25,9 +25,10 @@ gensim==4.3.3
 langdetect==1.0.9
 
 # Vector search
-pgvector==0.2.3
+pgvector===0.4.1
 psycopg2-binary==2.9.9
 sqlalchemy==2.0.28
+pgai==0.10.2
 
 # Visualisation
 matplotlib==3.10.1
