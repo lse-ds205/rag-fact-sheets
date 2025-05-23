@@ -6,6 +6,7 @@ import traceback
 from typing import List, Dict, Any, Optional, Union, Tuple
 from dotenv import load_dotenv
 from sqlalchemy import text, func
+import json
 
 # Load environment variables from .env file
 load_dotenv()
@@ -128,7 +129,6 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
                             c.language,
                             c.chunk_metadata,
                             d.country,
-                            c.{embedding_column} <=> :query_vector AS cosine_distance,
                             1 - (c.{embedding_column} <=> :query_vector) AS similarity_score,
                             ROW_NUMBER() OVER (PARTITION BY c.doc_id ORDER BY c.{embedding_column} <=> :query_vector) as rank
                         FROM doc_chunks c
@@ -146,7 +146,6 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
                         language,
                         chunk_metadata,
                         country,
-                        cosine_distance,
                         similarity_score
                     FROM similarity_results
                     WHERE rank <= :n_per_doc
@@ -174,14 +173,13 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
                             c.language,
                             c.chunk_metadata,
                             d.country,
-                            c.{embedding_column} <=> :query_vector AS cosine_distance,
                             1 - (c.{embedding_column} <=> :query_vector) AS similarity_score
                         FROM doc_chunks c
                         JOIN documents d ON c.doc_id = d.doc_id
                         WHERE c.{embedding_column} IS NOT NULL
                         AND LOWER(d.country) = LOWER(:country)
                         AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
-                        ORDER BY c.{embedding_column} <=> :query_vector
+                        ORDER BY 1 - (c.{embedding_column} <=> :query_vector) DESC
                         LIMIT :top_k
                     """)
                     
@@ -202,12 +200,11 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
                             c.language,
                             c.chunk_metadata,
                             NULL as country,
-                            c.{embedding_column} <=> :query_vector AS cosine_distance,
                             1 - (c.{embedding_column} <=> :query_vector) AS similarity_score
                         FROM doc_chunks c
                         WHERE c.{embedding_column} IS NOT NULL
                         AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
-                        ORDER BY c.{embedding_column} <=> :query_vector
+                        ORDER BY 1 - (c.{embedding_column} <=> :query_vector) DESC
                         LIMIT :top_k
                     """)
                     
@@ -219,7 +216,6 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
             
             # Execute query using the session from Connection class
             result = session.execute(query, query_params)
-            
             # Convert results to list of dictionaries
             chunks = []
             for row in result:
@@ -232,8 +228,7 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
                     'language': row[5],
                     'chunk_metadata': row[6],
                     'country': row[7],
-                    'cosine_distance': float(row[8]),
-                    'similarity_score': float(row[9])
+                    'similarity_score': float(row[8])
                 }
                 chunks.append(chunk_data)
             
@@ -272,22 +267,23 @@ def evaluate_chunks(prompt, chunks):
         logger.error(f"[4_RETRIEVE] Error in chunk evaluation: {e}\nTraceback: {traceback_string}")
         raise e
 
+
+
 @Logger.log(log_file=project_root / "logs/retrieve.log", log_level="DEBUG")
-@Test.sleep(1)
 def run_script(prompt: str = None, country: Optional[str] = None) -> List[Dict[str, Any]]:
     try:
         logger.warning(f"\n\n[4_RETRIEVE] Running script...")
         
         # Use example prompt if none provided
         if prompt is None:
-            prompt = "What are the main regulations for carbon emissions trading in the European Union?"
+            prompt = "What are the main policies for emissions reduction?"
             logger.info(f"[4_RETRIEVE] Using example prompt: {prompt}")
         else:
             logger.info(f"[4_RETRIEVE] Using provided prompt: {prompt}")
         
         # Define an example country for use, only if country is specified
         if country is None:
-            country = "Australia"
+            country = "Afghanistan"
             logger.info(f"[4_RETRIEVE] Using example country: {country}")
         else:
             logger.info(f"[4_RETRIEVE] Using provided country: {country}")
@@ -295,19 +291,22 @@ def run_script(prompt: str = None, country: Optional[str] = None) -> List[Dict[s
         # Step 1: Embed the prompt
         embedded_prompt = embed_prompt(prompt)
         
-        # Step 2: Retrieve chunks with appropriate arguments
+        # Step 2: Retrieve chunks
         chunks = retrieve_chunks(
             embedded_prompt=embedded_prompt,
             embedding_type='transformer',  # Better semantic understanding
-            top_k=20,                      # Retrieve top 15 chunks
+            top_k=20,                      # Retrieve top 20 chunks
             ensure_indices=True,           # Ensure indices are created
             n_per_doc=None,                # Get diversity across documents
-            country=None,                  # No country filter
-            min_similarity=0.7             # Filter out chunks with low similarity
+            country=country,               # Filter by country
+            min_similarity=0.5             # Filter out chunks with low similarity
         )
         
         logger.info(f"[4_RETRIEVE] Retrieved {len(chunks)} chunks")
-        
+        output_path = project_root / "data/retrieved_chunks.json"
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(chunks, f, ensure_ascii=False, indent=2)
+        logger.debug(f"[4_RETRIEVE] Dumped {len(chunks)} chunks to {output_path}")
         return chunks
     
         # Uncomment the following lines to evaluate chunks
@@ -328,7 +327,7 @@ def run_script(prompt: str = None, country: Optional[str] = None) -> List[Dict[s
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description='Run the query script with a specified prompt.')
-    parser.add_argument('--prompt', type=str, required=True, help='Prompt to execute the script for.')
+    parser.add_argument('--prompt', type=str, help='Prompt to execute the script for.')
     parser.add_argument('--country', type=str, help='Country to filter documents by (optional).')
     args = parser.parse_args()
     run_script(prompt=args.prompt, country=args.country)

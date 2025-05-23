@@ -175,3 +175,123 @@ AttributeError: 'str' object has no attribute 'get'
 2025-05-23 22:11:56,550 - group4py.src.database - WARNING - <DATABASE> Connected to database successfully
 2025-05-23 22:11:56,566 - __main__ - INFO - [4_RETRIEVE] Successfully retrieved 20 chunks
 2025-05-23 22:11:56,568 - __main__ - INFO - [4_RETRIEVE] Retrieved 20 chunks
+2025-05-23 22:18:29,044 - __main__ - WARNING - 
+
+[4_RETRIEVE] Running script...
+2025-05-23 22:18:29,045 - __main__ - INFO - [4_RETRIEVE] Using provided prompt: What are the main regulations for carbon emissions?
+2025-05-23 22:18:29,047 - __main__ - INFO - [4_RETRIEVE] Using example country: Australia
+2025-05-23 22:18:29,048 - __main__ - INFO - [4_RETRIEVE] Prompt given: What are the main regulations for carbon emissions?. Embedding prompt...
+2025-05-23 22:18:29,049 - root - DEBUG - <library> load_models started running...
+2025-05-23 22:18:29,050 - group4py.src.chunk_embed - INFO - Loading English model from C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\models\english
+2025-05-23 22:18:29,051 - group4py.src.chunk_embed - INFO - Found local English model at C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\local_models\distilroberta-base
+2025-05-23 22:18:29,061 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-05-23 22:18:29,249 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /distilroberta-base/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-05-23 22:18:29,642 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /distilroberta-base/resolve/main/config.json HTTP/1.1" 200 0
+2025-05-23 22:18:31,912 - group4py.src.chunk_embed - INFO - Successfully loaded English model from HuggingFace
+2025-05-23 22:18:31,912 - group4py.src.chunk_embed - INFO - Loading multilingual model from C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\models\multilingual
+2025-05-23 22:18:31,915 - group4py.src.chunk_embed - INFO - Found local multilingual model at C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\local_models\xlm-roberta-base
+2025-05-23 22:18:32,016 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /xlm-roberta-base/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-05-23 22:18:34,346 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /xlm-roberta-base/resolve/main/config.json HTTP/1.1" 200 0
+2025-05-23 22:18:34,612 - group4py.src.chunk_embed - INFO - Successfully loaded multilingual model from HuggingFace
+2025-05-23 22:18:34,613 - group4py.src.chunk_embed - INFO - Successfully loaded embedding models
+2025-05-23 22:18:34,615 - root - DEBUG - <library> embed_transformer started running...
+2025-05-23 22:18:34,772 - __main__ - INFO - [4_RETRIEVE] Prompt successfully embedded to vector of dimension 768
+2025-05-23 22:18:35,115 - __main__ - INFO - [4_RETRIEVE] Retrieving top 20 chunks using transformer embeddings
+2025-05-23 22:18:35,115 - __main__ - INFO - [4_RETRIEVE] Ensuring vector indices exist...
+2025-05-23 22:18:35,118 - root - DEBUG - <library> create_vector_indices started running...
+2025-05-23 22:18:35,119 - group4py.src.evaluator - INFO - Creating pgvector indices for embeddings...
+2025-05-23 22:18:35,196 - group4py.src.evaluator - INFO - Ensured pgvector extension exists
+2025-05-23 22:18:35,207 - group4py.src.evaluator - INFO - Converted transformer_embedding column to vector(768) type
+2025-05-23 22:18:35,210 - group4py.src.evaluator - INFO - Converted word2vec_embedding column to vector(300) type
+2025-05-23 22:18:35,212 - group4py.src.evaluator - INFO - Created transformer_embedding index
+2025-05-23 22:18:35,214 - group4py.src.evaluator - INFO - Created word2vec_embedding index
+2025-05-23 22:18:35,217 - group4py.src.evaluator - INFO - Successfully created all pgvector indices
+2025-05-23 22:18:35,217 - root - DEBUG - <library> get_session started running...
+2025-05-23 22:18:35,218 - root - DEBUG - <library> connect started running...
+2025-05-23 22:18:35,219 - group4py.src.database - INFO - <DATABASE> Connecting...
+2025-05-23 22:18:35,220 - root - DEBUG - <library> get_engine started running...
+2025-05-23 22:18:35,220 - group4py.src.database - INFO - <DATABASE> Getting engine...
+2025-05-23 22:18:35,222 - group4py.src.database - INFO - <DATABASE> Engine created successfully
+2025-05-23 22:18:35,255 - group4py.src.database - WARNING - <DATABASE> Connected to database successfully
+2025-05-23 22:18:35,269 - __main__ - INFO - [4_RETRIEVE] Successfully retrieved 20 chunks
+2025-05-23 22:18:35,271 - __main__ - INFO - [4_RETRIEVE] Retrieved 20 chunks
+2025-05-23 22:18:35,275 - __main__ - DEBUG - [4_RETRIEVE] Dumped 20 chunks to C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\data\retrieved_chunks.json
+2025-05-23 22:27:18,783 - __main__ - WARNING - 
+
+[4_RETRIEVE] Running script...
+2025-05-23 22:27:18,784 - __main__ - INFO - [4_RETRIEVE] Using provided prompt: What are the main regulations for carbon emissions?
+2025-05-23 22:27:18,785 - __main__ - INFO - [4_RETRIEVE] Using example country: Afghanistan
+2025-05-23 22:27:18,785 - __main__ - INFO - [4_RETRIEVE] Prompt given: What are the main regulations for carbon emissions?. Embedding prompt...
+2025-05-23 22:27:18,786 - root - DEBUG - <library> load_models started running...
+2025-05-23 22:27:18,786 - group4py.src.chunk_embed - INFO - Loading English model from C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\models\english
+2025-05-23 22:27:18,787 - group4py.src.chunk_embed - INFO - Found local English model at C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\local_models\distilroberta-base
+2025-05-23 22:27:18,797 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-05-23 22:27:18,968 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /distilroberta-base/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-05-23 22:27:19,316 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /distilroberta-base/resolve/main/config.json HTTP/1.1" 200 0
+2025-05-23 22:27:21,369 - group4py.src.chunk_embed - INFO - Successfully loaded English model from HuggingFace
+2025-05-23 22:27:21,370 - group4py.src.chunk_embed - INFO - Loading multilingual model from C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\models\multilingual
+2025-05-23 22:27:21,372 - group4py.src.chunk_embed - INFO - Found local multilingual model at C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\local_models\xlm-roberta-base
+2025-05-23 22:27:21,490 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /xlm-roberta-base/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-05-23 22:27:23,739 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /xlm-roberta-base/resolve/main/config.json HTTP/1.1" 200 0
+2025-05-23 22:27:23,981 - group4py.src.chunk_embed - INFO - Successfully loaded multilingual model from HuggingFace
+2025-05-23 22:27:23,982 - group4py.src.chunk_embed - INFO - Successfully loaded embedding models
+2025-05-23 22:27:23,984 - root - DEBUG - <library> embed_transformer started running...
+2025-05-23 22:27:24,095 - __main__ - INFO - [4_RETRIEVE] Prompt successfully embedded to vector of dimension 768
+2025-05-23 22:27:24,417 - __main__ - INFO - [4_RETRIEVE] Retrieving top 20 chunks using transformer embeddings
+2025-05-23 22:27:24,418 - __main__ - INFO - [4_RETRIEVE] Ensuring vector indices exist...
+2025-05-23 22:27:24,420 - root - DEBUG - <library> create_vector_indices started running...
+2025-05-23 22:27:24,421 - group4py.src.evaluator - INFO - Creating pgvector indices for embeddings...
+2025-05-23 22:27:24,513 - group4py.src.evaluator - INFO - Ensured pgvector extension exists
+2025-05-23 22:27:24,523 - group4py.src.evaluator - INFO - Converted transformer_embedding column to vector(768) type
+2025-05-23 22:27:24,526 - group4py.src.evaluator - INFO - Converted word2vec_embedding column to vector(300) type
+2025-05-23 22:27:24,529 - group4py.src.evaluator - INFO - Created transformer_embedding index
+2025-05-23 22:27:24,531 - group4py.src.evaluator - INFO - Created word2vec_embedding index
+2025-05-23 22:27:24,534 - group4py.src.evaluator - INFO - Successfully created all pgvector indices
+2025-05-23 22:27:24,535 - root - DEBUG - <library> get_session started running...
+2025-05-23 22:27:24,536 - root - DEBUG - <library> connect started running...
+2025-05-23 22:27:24,537 - group4py.src.database - INFO - <DATABASE> Connecting...
+2025-05-23 22:27:24,538 - root - DEBUG - <library> get_engine started running...
+2025-05-23 22:27:24,539 - group4py.src.database - INFO - <DATABASE> Getting engine...
+2025-05-23 22:27:24,540 - group4py.src.database - INFO - <DATABASE> Engine created successfully
+2025-05-23 22:27:24,591 - group4py.src.database - WARNING - <DATABASE> Connected to database successfully
+2025-05-23 22:35:13,028 - __main__ - WARNING - 
+
+[4_RETRIEVE] Running script...
+2025-05-23 22:35:13,029 - __main__ - INFO - [4_RETRIEVE] Using example prompt: What are the main policies for emissions reduction?
+2025-05-23 22:35:13,029 - __main__ - INFO - [4_RETRIEVE] Using example country: Afghanistan
+2025-05-23 22:35:13,030 - __main__ - INFO - [4_RETRIEVE] Prompt given: What are the main policies for emissions reduction?. Embedding prompt...
+2025-05-23 22:35:13,031 - root - DEBUG - <library> load_models started running...
+2025-05-23 22:35:13,031 - group4py.src.chunk_embed - INFO - Loading English model from C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\models\english
+2025-05-23 22:35:13,032 - group4py.src.chunk_embed - INFO - Found local English model at C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\local_models\distilroberta-base
+2025-05-23 22:35:13,046 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-05-23 22:35:13,208 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /distilroberta-base/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-05-23 22:35:13,584 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /distilroberta-base/resolve/main/config.json HTTP/1.1" 200 0
+2025-05-23 22:35:15,719 - group4py.src.chunk_embed - INFO - Successfully loaded English model from HuggingFace
+2025-05-23 22:35:15,719 - group4py.src.chunk_embed - INFO - Loading multilingual model from C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\models\multilingual
+2025-05-23 22:35:15,720 - group4py.src.chunk_embed - INFO - Found local multilingual model at C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\local_models\xlm-roberta-base
+2025-05-23 22:35:15,834 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /xlm-roberta-base/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-05-23 22:35:18,362 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /xlm-roberta-base/resolve/main/config.json HTTP/1.1" 200 0
+2025-05-23 22:35:18,594 - group4py.src.chunk_embed - INFO - Successfully loaded multilingual model from HuggingFace
+2025-05-23 22:35:18,595 - group4py.src.chunk_embed - INFO - Successfully loaded embedding models
+2025-05-23 22:35:18,595 - root - DEBUG - <library> embed_transformer started running...
+2025-05-23 22:35:18,698 - __main__ - INFO - [4_RETRIEVE] Prompt successfully embedded to vector of dimension 768
+2025-05-23 22:35:19,030 - __main__ - INFO - [4_RETRIEVE] Retrieving chunks for country 'Afghanistan' using transformer embeddings
+2025-05-23 22:35:19,031 - __main__ - INFO - [4_RETRIEVE] Ensuring vector indices exist...
+2025-05-23 22:35:19,033 - root - DEBUG - <library> create_vector_indices started running...
+2025-05-23 22:35:19,035 - group4py.src.evaluator - INFO - Creating pgvector indices for embeddings...
+2025-05-23 22:35:19,112 - group4py.src.evaluator - INFO - Ensured pgvector extension exists
+2025-05-23 22:35:19,122 - group4py.src.evaluator - INFO - Converted transformer_embedding column to vector(768) type
+2025-05-23 22:35:19,125 - group4py.src.evaluator - INFO - Converted word2vec_embedding column to vector(300) type
+2025-05-23 22:35:19,126 - group4py.src.evaluator - INFO - Created transformer_embedding index
+2025-05-23 22:35:19,128 - group4py.src.evaluator - INFO - Created word2vec_embedding index
+2025-05-23 22:35:19,141 - group4py.src.evaluator - INFO - Successfully created all pgvector indices
+2025-05-23 22:35:19,141 - root - DEBUG - <library> get_session started running...
+2025-05-23 22:35:19,142 - root - DEBUG - <library> connect started running...
+2025-05-23 22:35:19,143 - group4py.src.database - INFO - <DATABASE> Connecting...
+2025-05-23 22:35:19,144 - root - DEBUG - <library> get_engine started running...
+2025-05-23 22:35:19,146 - group4py.src.database - INFO - <DATABASE> Getting engine...
+2025-05-23 22:35:19,148 - group4py.src.database - INFO - <DATABASE> Engine created successfully
+2025-05-23 22:35:19,184 - group4py.src.database - WARNING - <DATABASE> Connected to database successfully
+2025-05-23 22:35:19,205 - __main__ - INFO - [4_RETRIEVE] Successfully retrieved 8 chunks for country 'Afghanistan'
+2025-05-23 22:35:19,207 - __main__ - INFO - [4_RETRIEVE] Retrieved 8 chunks
+2025-05-23 22:35:19,210 - __main__ - DEBUG - [4_RETRIEVE] Dumped 8 chunks to C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\data\retrieved_chunks.json

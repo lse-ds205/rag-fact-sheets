@@ -39,60 +39,6 @@ class VectorComparison:
 
     @Logger.debug_log()
     @staticmethod
-    def filter_by_similarity_threshold(chunks: List[Dict[str, Any]], 
-                                     threshold: float = 0.5) -> List[Dict[str, Any]]:
-        """
-        Filter chunks by minimum similarity threshold.
-        
-        Args:
-            chunks: List of chunk dictionaries with similarity scores
-            threshold: Minimum similarity score to keep
-            
-        Returns:
-            Filtered list of chunks
-        """
-        try:
-            filtered_chunks = [
-                chunk for chunk in chunks 
-                if chunk.get('similarity_score', 0) >= threshold
-            ]
-            
-            logger.info(f"Filtered {len(chunks)} chunks to {len(filtered_chunks)} above threshold {threshold}")
-            return filtered_chunks
-            
-        except Exception as e:
-            logger.error(f"Error filtering chunks by threshold: {e}")
-            return chunks
-
-    @Logger.debug_log()
-    @staticmethod
-    def filter_by_cosine_distance_threshold(chunks: List[Dict[str, Any]], 
-                                          max_distance: float = 0.5) -> List[Dict[str, Any]]:
-        """
-        Filter chunks by maximum cosine distance threshold (lower distance = higher similarity).
-        
-        Args:
-            chunks: List of chunk dictionaries with cosine distances
-            max_distance: Maximum cosine distance to keep (0 = identical, 2 = opposite)
-            
-        Returns:
-            Filtered list of chunks
-        """
-        try:
-            filtered_chunks = [
-                chunk for chunk in chunks 
-                if chunk.get('cosine_distance', 2.0) <= max_distance
-            ]
-            
-            logger.info(f"Filtered {len(chunks)} chunks to {len(filtered_chunks)} within distance {max_distance}")
-            return filtered_chunks
-            
-        except Exception as e:
-            logger.error(f"Error filtering chunks by distance threshold: {e}")
-            return chunks
-
-    @Logger.debug_log()
-    @staticmethod
     def create_vector_indices():
         """
         Create pgvector indices for transformer and word2vec embeddings.
@@ -163,7 +109,9 @@ class VectorComparison:
         except Exception as e:
             logger.error(f"Error creating vector indices: {e}")
             return False
-     
+    
+
+
 class RegexComparison:
     """
     Regex comparison class.
