@@ -72,10 +72,11 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
         # If force_reprocess is True and document exists, we need to delete existing chunks
         if force_reprocess and document:
             logger.info(f"[3_PROCESS] Force reprocessing document {doc_id}")
-            engine = connection.get_engine()
             session = connection.get_session()
-            try:                # Remove existing chunks for this document
-                session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_id).delete()
+
+            try:
+                # Remove existing chunks for this document
+                session.query(DocChunkDB).filter(DocChunkDB.doc_id == doc_id).delete()
                 session.commit()
                 logger.info(f"[3_PROCESS] Removed existing chunks for document {doc_id}")
             except Exception as e:
@@ -87,6 +88,7 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
         # If document doesn't exist, create it first before proceeding with chunk processing
         if not document:
             logger.info(f"[3_PROCESS] Document {doc_id} not found in database. Creating record...")
+
             session = connection.get_session()
             
             try:

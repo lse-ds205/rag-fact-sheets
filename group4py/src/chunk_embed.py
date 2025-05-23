@@ -557,23 +557,33 @@ class Embedding:
         return embedded_chunks
 
     @Logger.debug_log()
-    def embed_transformer(self, chunk: Dict[str, Any]) -> List[float]:
+    def embed_transformer(self, input_data) -> List[float]:
         """
         Generate an embedding for a single chunk.
         
         Args:
-            chunk: The chunk to embed
+            input_data: Either a string of text or a chunk dictionary
             
         Returns:
             List of embedding values (vector)
         """
-        if not chunk:
+        # Handle empty input
+        if not input_data:
             return []
-            
-        # Get text and language
-        text = chunk.get('text', '')
-        language = chunk.get('metadata', {}).get('language', 'en')
         
+        # Extract text and language based on input type
+        if isinstance(input_data, str):
+            text = input_data
+            language = 'en'  # Default to English for string input
+        else:
+            # Assume it's a dictionary chunk
+            text = input_data.get('text', '')
+            language = input_data.get('metadata', {}).get('language', 'en')
+    
+        # Ensure models are loaded
+        if not self.models_loaded:
+            self.load_models()
+    
         # Use appropriate model based on language
         if language == 'en' and self.english_model is not None:
             embedding = self._Embedding._embed_strategy_one(text, self.english_tokenizer, self.english_model)
@@ -581,6 +591,7 @@ class Embedding:
             embedding = self._Embedding._embed_strategy_two(text, self.multilingual_tokenizer, self.multilingual_model)
         else:
             # If models failed to load, return dummy embedding
+            logger.warning("No embedding models available, returning empty embedding")
             embedding = []
             
         return embedding
