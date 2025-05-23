@@ -21,12 +21,7 @@ docx
 gensim
 pikepdf
 scrapy
-pytest
-sentence-transformers
-scikit-learn
-networkx
-asyncpg
-numpy
-hf_xet
-supabase
+selenium
+webdriver-manager
+
 -c constraints.txt
