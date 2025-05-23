@@ -21,4 +21,5 @@ docx
 gensim
 pikepdf
 scrapy
+pytest
 -c constraints.txt
