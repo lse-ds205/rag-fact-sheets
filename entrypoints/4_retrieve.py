@@ -271,9 +271,18 @@ def evaluate_chunks(prompt, chunks):
         raise e
 
 
-
 @Logger.log(log_file=project_root / "logs/retrieve.log", log_level="DEBUG")
 def run_script(prompt: str = None, country: Optional[str] = None) -> List[Dict[str, Any]]:
+    """
+    Main function to run the retrieval script.
+    Args:
+        prompt (str): The query prompt to use for retrieval.
+        country (Optional[str]): Optional country name to filter documents by.
+    
+    Returns:
+        List[Dict[str, Any]]: List of retrieved chunks with metadata.
+    
+    """
     try:
         logger.warning(f"\n\n[4_RETRIEVE] Running script...")
         

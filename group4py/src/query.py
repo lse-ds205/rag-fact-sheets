@@ -83,13 +83,13 @@ class ChunkFormatter:
         
         for i, chunk in enumerate(chunks, 1):
             chunk_text = f"""
-CHUNK {i}:
-ID: {chunk.get('id', 'N/A')}
-Document: {chunk.get('doc_id', 'N/A')}
-Country: {chunk.get('country', 'N/A')}
-Content: {chunk.get('content', 'N/A')}
-Similarity Score: {chunk.get('cos_similarity_score', chunk.get('similarity_score', 'N/A'))}
----"""
+                CHUNK {i}:
+                ID: {chunk.get('id', 'N/A')}
+                Document: {chunk.get('doc_id', 'N/A')}
+                Country: {chunk.get('country', 'N/A')}
+                Content: {chunk.get('content', 'N/A')}
+                Similarity Score: {chunk.get('cos_similarity_score', chunk.get('similarity_score', 'N/A'))}
+                ---"""
             formatted_chunks.append(chunk_text)
         
         context_header = f"CONTEXT INFORMATION ({len(chunks)} chunks):\n"
@@ -101,12 +101,15 @@ class LLMClient:
     """
     
     def __init__(self, supports_guided_json: bool = True):
-        self.client = None
         self.supports_guided_json = supports_guided_json
-        self._initialize_client()
-    
-    def _initialize_client(self):
-        """Initialize the OpenAI client with AI API endpoint."""
+        self.client = None
+        
+        # Load LLM configuration from environment variables
+        self.model = os.getenv('LLM_MODEL', 'meta-llama/Meta-Llama-3.1-70B-Instruct')
+        self.temperature = float(os.getenv('LLM_TEMPERATURE', '0.1'))
+        self.max_tokens = int(os.getenv('LLM_MAX_TOKENS', '4000'))
+        
+        # Initialize the OpenAI client with AI API endpoint
         try:
             api_key = os.getenv('AI_API_KEY')
             base_url = os.getenv('AI_BASE_URL')
@@ -123,7 +126,9 @@ class LLMClient:
                 api_key=api_key,
                 base_url=base_url
             )
-            logger.info(f"Successfully initialized LLM client (guided_json: {self.supports_guided_json})")
+            logger.info(f"Successfully initialized LLM client")
+            logger.info(f"Model: {self.model}, Temperature: {self.temperature}, Max Tokens: {self.max_tokens}")
+            logger.info(f"Guided JSON: {self.supports_guided_json}")
             
         except Exception as e:
             logger.error(f"Failed to initialize LLM client: {e}")
@@ -157,14 +162,13 @@ class LLMClient:
         return prompt
     
     @Logger.debug_log()
-    def call_llm(self, prompt: str, model: str = "gpt-4", temperature: float = 0.1) -> LLMResponseModel:
+    def call_llm(self, prompt: str) -> LLMResponseModel:
         """
         Make API call to LLM service with guided JSON response or fallback parsing.
+        Uses configuration from environment variables.
         
         Args:
             prompt: The complete prompt to send
-            model: Model name to use
-            temperature: Temperature for response generation
             
         Returns:
             Structured LLMResponseModel object
@@ -174,14 +178,15 @@ class LLMClient:
             return None
         
         try:
-            logger.info(f"Making LLM API call with model: {model} (guided_json: {self.supports_guided_json})")
+            logger.info(f"Making LLM API call with model: {self.model} (guided_json: {self.supports_guided_json})")
+            logger.debug(f"Temperature: {self.temperature}, Max Tokens: {self.max_tokens}")
             
             # Determine system prompt based on guided JSON support
             system_prompt = LLM_SYSTEM_PROMPT if self.supports_guided_json else LLM_FALLBACK_SYSTEM_PROMPT
             
             # Prepare API call parameters
             api_params = {
-                "model": model,
+                "model": self.model,
                 "messages": [
                     {
                         "role": "system", 
@@ -192,8 +197,8 @@ class LLMClient:
                         "content": prompt
                     }
                 ],
-                "temperature": temperature,
-                "max_tokens": 4000
+                "temperature": self.temperature,
+                "max_tokens": self.max_tokens
             }
             
             # Add guided JSON if supported
@@ -248,6 +253,7 @@ class LLMClient:
         except Exception as e:
             logger.error(f"Error parsing fallback response: {e}")
             raise
+
 
 class ResponseProcessor:
     """
