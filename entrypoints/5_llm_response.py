@@ -242,6 +242,7 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
+    output_file = Path(args.chunks_file).with_name(Path(args.chunks_file).stem + '_response.json')
     try:
         # Determine guided JSON support
         supports_guided_json = not args.no_guided_json
@@ -277,19 +278,27 @@ if __name__ == "__main__":
         
         # Print result for command line usage
         print(json.dumps(result, indent=2, ensure_ascii=False))
+
+        # Dump to json file
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(result, f, indent=2, ensure_ascii=False)
         
     except json.JSONDecodeError as e:
         logger.error(f"Error parsing chunks JSON: {e}")
         error_response = ResponseProcessor._create_error_response(f"Invalid chunks JSON: {str(e)}", args.prompt)
-        print(json.dumps(error_response, indent=2, ensure_ascii=False))
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(error_response, f, indent=2, ensure_ascii=False)
+        
     except FileNotFoundError as e:
         logger.error(f"Chunks file not found: {e}")
         error_response = ResponseProcessor._create_error_response(f"File not found: {str(e)}", args.prompt)
-        print(json.dumps(error_response, indent=2, ensure_ascii=False))
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(error_response, f, indent=2, ensure_ascii=False)
     except Exception as e:
         logger.error(f"Error in main execution: {e}")
         error_response = ResponseProcessor._create_error_response(f"Execution error: {str(e)}", args.prompt)
-        print(json.dumps(error_response, indent=2, ensure_ascii=False))
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(error_response, f, indent=2, ensure_ascii=False)
 
     # Usage examples:
     # Primary method (file-based with guided JSON):

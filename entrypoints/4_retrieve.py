@@ -110,8 +110,8 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
                 logger.error(f"[4_RETRIEVE] Invalid embedding dimensions. Expected {vector_dim}, got {len(embedded_prompt) if embedded_prompt else 0}")
                 return []
             
-            # Convert embedding to pgvector format
-            vector_str = '[' + ','.join(map(str, embedded_prompt)) + ']'
+            # Convert embedding to pgvector format (may not be strictly necessary)
+            vector_str = '[' + ','.join([str(x) for x in embedded_prompt]) + ']'
             
             # Build query based on parameters
             if n_per_doc is not None:
@@ -339,7 +339,7 @@ def run_script(prompt: str = None, country: Optional[str] = None) -> List[Dict[s
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description='Run the query script with a specified prompt.')
-    parser.add_argument('--prompt', type=str, help='Prompt to execute the script for.')
+    parser.add_argument('--prompt', required=True, type=str, help='Prompt to execute the script for.')
     parser.add_argument('--country', type=str, help='Country to filter documents by (optional).')
     args = parser.parse_args()
     run_script(prompt=args.prompt, country=args.country)
