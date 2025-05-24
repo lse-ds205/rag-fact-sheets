@@ -1,11 +1,17 @@
 from pathlib import Path
 import sys
+import sys
 from typing import List, Dict, Any, Optional, Union, Tuple
+import json
+import logging
+import os
+from openai import OpenAI
 
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
 from helpers import Logger, Test, TaskInfo
+from schema import LLMResponseModel
 from constants.prompts import (
     BOOSTER_PROMPT_1,
     BOOSTER_PROMPT_2,
@@ -15,8 +21,14 @@ from constants.prompts import (
     CHUNK_PROMPT_3,
     PIPELINE_PROMPT_1,
     PIPELINE_PROMPT_2,
-    PIPELINE_PROMPT_3
+    PIPELINE_PROMPT_3,
+    LLM_SYSTEM_PROMPT,
+    LLM_GUIDED_PROMPT_TEMPLATE,
+    LLM_FALLBACK_PROMPT_TEMPLATE,
+    LLM_FALLBACK_SYSTEM_PROMPT
 )
+
+logger = logging.getLogger(__name__)
 
 class Booster:
     """
@@ -46,3 +58,285 @@ class QueryEngineering:
     """
     def __init__(self):
         pass
+
+class ChunkFormatter:
+    """
+    Format chunks for LLM consumption.
+    """
+    
+    @staticmethod
+    @Logger.debug_log()
+    def format_chunks_for_context(chunks: List[Dict[str, Any]]) -> str:
+        """
+        Format chunks into a readable context string for the LLM.
+        
+        Args:
+            chunks: List of chunk dictionaries
+            
+        Returns:
+            Formatted context string
+        """
+        if not chunks:
+            return "No context chunks provided."
+        
+        formatted_chunks = []
+        
+        for i, chunk in enumerate(chunks, 1):
+            chunk_text = f"""
+CHUNK {i}:
+ID: {chunk.get('id', 'N/A')}
+Document: {chunk.get('doc_id', 'N/A')}
+Country: {chunk.get('country', 'N/A')}
+Content: {chunk.get('content', 'N/A')}
+Similarity Score: {chunk.get('cos_similarity_score', chunk.get('similarity_score', 'N/A'))}
+---"""
+            formatted_chunks.append(chunk_text)
+        
+        context_header = f"CONTEXT INFORMATION ({len(chunks)} chunks):\n"
+        return context_header + "\n".join(formatted_chunks)
+
+class LLMClient:
+    """
+    Handle LLM API interactions using OpenAI library with custom endpoint.
+    """
+    
+    def __init__(self, supports_guided_json: bool = True):
+        self.client = None
+        self.supports_guided_json = supports_guided_json
+        self._initialize_client()
+    
+    def _initialize_client(self):
+        """Initialize the OpenAI client with AI API endpoint."""
+        try:
+            api_key = os.getenv('AI_API_KEY')
+            base_url = os.getenv('AI_BASE_URL')
+            
+            if not api_key:
+                logger.error("AI_API_KEY not found in environment variables")
+                return
+                
+            if not base_url:
+                logger.error("AI_BASE_URL not found in environment variables")
+                return
+            
+            self.client = OpenAI(
+                api_key=api_key,
+                base_url=base_url
+            )
+            logger.info(f"Successfully initialized LLM client (guided_json: {self.supports_guided_json})")
+            
+        except Exception as e:
+            logger.error(f"Failed to initialize LLM client: {e}")
+            self.client = None
+    
+    @Logger.debug_log()
+    def create_llm_prompt(self, question: str, formatted_chunks: str) -> str:
+        """
+        Create a structured prompt for the LLM based on guided JSON support.
+        
+        Args:
+            question: User's question
+            formatted_chunks: Formatted context chunks
+            
+        Returns:
+            Complete prompt for the LLM
+        """
+        if self.supports_guided_json:
+            # Use clean prompt for guided JSON
+            prompt = LLM_GUIDED_PROMPT_TEMPLATE.format(
+                CONTEXT_CHUNKS=formatted_chunks,
+                USER_QUESTION=question
+            )
+        else:
+            # Use explicit JSON instruction prompt for fallback
+            prompt = LLM_FALLBACK_PROMPT_TEMPLATE.format(
+                CONTEXT_CHUNKS=formatted_chunks,
+                USER_QUESTION=question
+            )
+        
+        return prompt
+    
+    @Logger.debug_log()
+    def call_llm(self, prompt: str, model: str = "gpt-4", temperature: float = 0.1) -> LLMResponseModel:
+        """
+        Make API call to LLM service with guided JSON response or fallback parsing.
+        
+        Args:
+            prompt: The complete prompt to send
+            model: Model name to use
+            temperature: Temperature for response generation
+            
+        Returns:
+            Structured LLMResponseModel object
+        """
+        if not self.client:
+            logger.error("LLM client not initialized")
+            return None
+        
+        try:
+            logger.info(f"Making LLM API call with model: {model} (guided_json: {self.supports_guided_json})")
+            
+            # Determine system prompt based on guided JSON support
+            system_prompt = LLM_SYSTEM_PROMPT if self.supports_guided_json else LLM_FALLBACK_SYSTEM_PROMPT
+            
+            # Prepare API call parameters
+            api_params = {
+                "model": model,
+                "messages": [
+                    {
+                        "role": "system", 
+                        "content": system_prompt
+                    },
+                    {
+                        "role": "user", 
+                        "content": prompt
+                    }
+                ],
+                "temperature": temperature,
+                "max_tokens": 4000
+            }
+            
+            # Add guided JSON if supported
+            if self.supports_guided_json:
+                api_params["extra_body"] = {
+                    "guided_json": LLMResponseModel.model_json_schema()
+                }
+            
+            # Make API call
+            response = self.client.chat.completions.create(**api_params)
+            response_content = response.choices[0].message.content
+            
+            # Parse response based on guided JSON support
+            if self.supports_guided_json:
+                # Direct parsing since JSON structure is enforced
+                parsed_response = LLMResponseModel.model_validate_json(response_content)
+            else:
+                # Fallback parsing with error handling
+                parsed_response = self._parse_fallback_response(response_content)
+            
+            logger.info("Successfully received and parsed LLM response")
+            return parsed_response
+            
+        except Exception as e:
+            logger.error(f"Error calling LLM API: {e}")
+            return None
+    
+    def _parse_fallback_response(self, response_content: str) -> LLMResponseModel:
+        """
+        Parse LLM response when guided JSON is not available.
+        
+        Args:
+            response_content: Raw response text from LLM
+            
+        Returns:
+            Parsed LLMResponseModel object
+        """
+        try:
+            # Extract JSON from response (in case there's extra text)
+            json_start = response_content.find('{')
+            json_end = response_content.rfind('}') + 1
+            
+            if json_start == -1 or json_end == 0:
+                raise ValueError("No JSON found in response")
+            
+            json_text = response_content[json_start:json_end]
+            
+            # Parse and validate with Pydantic
+            parsed_response = LLMResponseModel.model_validate_json(json_text)
+            return parsed_response
+            
+        except Exception as e:
+            logger.error(f"Error parsing fallback response: {e}")
+            raise
+
+class ResponseProcessor:
+    """
+    Process and validate LLM responses.
+    """
+    
+    @staticmethod
+    @Logger.debug_log()
+    def process_llm_response(llm_response: LLMResponseModel, original_chunks: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Process and validate the structured LLM response.
+        
+        Args:
+            llm_response: Structured LLMResponseModel from the API
+            original_chunks: Original chunk data for validation
+            
+        Returns:
+            Processed response dictionary
+        """
+        try:
+            if not llm_response:
+                logger.error("No response from LLM")
+                return ResponseProcessor._create_error_response("No response from LLM")
+            
+            # Convert Pydantic model to dictionary
+            response_dict = llm_response.model_dump()
+            
+            # Validate and enrich citations with original chunk data
+            validated_response = ResponseProcessor._validate_citations(response_dict, original_chunks)
+            
+            logger.info("Successfully processed structured LLM response")
+            return validated_response
+            
+        except Exception as e:
+            logger.error(f"Error processing LLM response: {e}")
+            return ResponseProcessor._create_error_response(f"Processing error: {e}")
+    
+    @staticmethod
+    def _validate_citations(response_data: Dict[str, Any], original_chunks: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Validate and enrich citations with original chunk data."""
+        try:
+            # Create lookup dict for original chunks
+            chunk_lookup = {chunk['id']: chunk for chunk in original_chunks}
+            
+            validated_citations = []
+            
+            for citation in response_data['citations']:
+                chunk_id = citation.get('id')
+                
+                if chunk_id in chunk_lookup:
+                    # Use original chunk data and add how_used from LLM
+                    original_chunk = chunk_lookup[chunk_id].copy()
+                    
+                    # Rename similarity_score to cos_similarity_score if needed
+                    if 'similarity_score' in original_chunk:
+                        original_chunk['cos_similarity_score'] = original_chunk.pop('similarity_score')
+                    
+                    # Add how_used from LLM response
+                    original_chunk['how_used'] = citation.get('how_used', 'No explanation provided')
+                    
+                    validated_citations.append(original_chunk)
+                else:
+                    logger.warning(f"Citation references unknown chunk ID: {chunk_id}")
+                    # Keep the citation as-is even if we can't validate it
+                    validated_citations.append(citation)
+            
+            # Update response with validated citations
+            response_data['citations'] = validated_citations
+            response_data['metadata']['chunks_cited'] = len(validated_citations)
+            
+            return response_data
+            
+        except Exception as e:
+            logger.error(f"Error validating citations: {e}")
+            return response_data
+    
+    @staticmethod
+    def _create_error_response(error_message: str, question: str = "") -> Dict[str, Any]:
+        """Create a standardized error response."""
+        return {
+            "question": question,
+            "answer": {
+                "summary": "Error processing request",
+                "detailed_response": f"An error occurred while processing the request: {error_message}"
+            },
+            "citations": [],
+            "metadata": {
+                "chunks_cited": 0,
+                "primary_countries": []
+            },
+            "error": error_message
+        }
