@@ -107,24 +107,24 @@ def ask(prompt):
     """
     Run the query script with specified chunks and prompt.
     """
-    # Interaction with /entrypoints (3)
-    retrieve_module_name = 'entrypoints.3_retrieve'
+    # Interaction with /entrypoints (4)
+    retrieve_module_name = 'entrypoints.4_retrieve'
     retrieve_run_script = importlib.import_module(retrieve_module_name).run_script
     chunks = retrieve_run_script(prompt=prompt)
     
-    # Interaction with /entrypoints (4) - LLM Response
-    llm_module_name = 'entrypoints.4_llm_response'
+    # Interaction with /entrypoints (5) - LLM Response
+    llm_module_name = 'entrypoints.5_llm_response'
     llm_run_script = importlib.import_module(llm_module_name).run_script
     llm_response = llm_run_script(top_selected_chunks=chunks, prompt=prompt)
     
-    # Interaction with /entrypoints (5) - Output Processing
-    output_module_name = 'entrypoints.5_output'
+    # Interaction with /entrypoints (6) - Output Processing
+    output_module_name = 'entrypoints.6_output'
     output_run_script = importlib.import_module(output_module_name).run_script
     answer = output_run_script(llm_response=llm_response, prompt=prompt)
 
     print(f"[INTERFACE] Question: {prompt}\n[INTERFACE] Answer: {answer}")
 
-    # In future, potential add entrypoints (5) for API, and (6) for App
+    # In future, potential add entrypoints for API and App
 
 # ------------------------------------------------------------
 

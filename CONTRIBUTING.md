@@ -144,7 +144,31 @@ python manual/setup_database.py
 python manual/install_models.py 
 ```
 
-## 3. Running the Spider
+## 3. Create .env file
+Create a `.env` file in the project root directory with the following content:
+
+```plaintext
+# Database settings
+DATABASE_URL=postgresql://climate:climate@localhost:5432/climate
+
+# Embedding model settings
+EMBEDDING_MODEL=sentence-transformers/all-mpnet-base-v2
+EMBEDDING_DIMENSION=768
+
+# File storage settings
+DOWNLOAD_DIR=data/pdfs
+PROCESSED_DIR=data/processed
+
+# OpenAI API settings
+AI_BASE_URL=[Your OpenAI API base URL, e.g., https://api.openai.com/v1]
+AI_API_KEY=[Your OpenAI API key]
+
+LLM_MODEL=[Your LLM model, e.g., gpt-3.5-turbo]
+LLM_TEMPERATURE=0.2 # Decrease this for more deterministic responses
+LLM_MAX_TOKENS=4096 # Increase this to accommodate longer responses
+```
+
+## 4. Running the Spider
 
 To run the NDC spider and collect documents:
 
