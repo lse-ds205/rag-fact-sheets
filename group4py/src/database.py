@@ -8,19 +8,21 @@ from typing import List, Dict, Any, Optional, Union, Tuple
 from datetime import datetime, date
 import json
 import os
+import uuid
 from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.dialects.postgresql import ARRAY
+from uuid import UUID
 
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
-from group4py.src.schema import DatabaseConfig
+from group4py.src.schema import DatabaseConfig, Vector as SchemaVector, DocChunk, LogicalRelationship, NDCDocumentModel
 from helpers import Logger, Test, TaskInfo
 
 Base = declarative_base()
 logger = logging.getLogger(__name__)
 
-class Vector(UserDefinedType):
+class PgVector(UserDefinedType):
     """PostgreSQL vector type for pgvector."""
     
     def __init__(self, dim):
@@ -55,7 +57,7 @@ class Vector(UserDefinedType):
         return process
 
 class Document(Base):
-    """SQLAlchemy model for documents."""
+    """SQLAlchemy model for NDC documents based on the schema definition."""
     __tablename__ = 'documents'
     
     doc_id = Column(String, primary_key=True)
@@ -88,13 +90,60 @@ class Document(Base):
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     
     # Relationship to chunks
-    doc_chunks = relationship("DocChunkDB", back_populates="document")
+    doc_chunks = relationship("DocChunkORM", back_populates="document")
+    
+    def to_schema_model(self) -> NDCDocumentModel:
+        """Convert to Pydantic schema model"""
+        return NDCDocumentModel(
+            doc_id=self.doc_id,
+            country=self.country,
+            title=self.title,
+            url=self.url,
+            language=self.language,
+            submission_date=self.submission_date,
+            file_path=self.file_path,
+            file_size=self.file_size,
+            scraped_at=self.scraped_at,
+            downloaded_at=self.downloaded_at,
+            processed_at=self.processed_at,
+            last_download_attempt=self.last_download_attempt,
+            download_error=self.download_error,
+            download_attempts=self.download_attempts,
+            extracted_text=self.extracted_text,
+            chunks=self.chunks,
+            created_at=self.created_at,
+            updated_at=self.updated_at
+        )
+    
+    @classmethod
+    def from_schema_model(cls, model: NDCDocumentModel) -> 'Document':
+        """Create from Pydantic schema model"""
+        return cls(
+            doc_id=str(model.doc_id),
+            country=model.country,
+            title=model.title,
+            url=model.url,
+            language=model.language,
+            submission_date=model.submission_date,
+            file_path=model.file_path,
+            file_size=model.file_size,
+            scraped_at=model.scraped_at,
+            downloaded_at=model.downloaded_at,
+            processed_at=model.processed_at,
+            last_download_attempt=model.last_download_attempt,
+            download_error=model.download_error,
+            download_attempts=model.download_attempts,
+            extracted_text=model.extracted_text,
+            chunks=model.chunks,
+            created_at=model.created_at,
+            updated_at=model.updated_at
+        )
 
-class DocChunkDB(Base):
-    """SQLAlchemy model for document chunks."""
+class DocChunkORM(Base):
+    """SQLAlchemy ORM model for document chunks based on the schema definition."""
     __tablename__ = 'doc_chunks'
     
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(String, primary_key=True)
     doc_id = Column(String, ForeignKey('documents.doc_id'), nullable=False)
     
     # Chunk content and metadata
@@ -106,9 +155,11 @@ class DocChunkDB(Base):
     # Embeddings - using PostgreSQL ARRAY type for vector storage
     transformer_embedding = Column(ARRAY(Float), nullable=True)
     word2vec_embedding = Column(ARRAY(Float), nullable=True)
+    embedding = Column(ARRAY(Float), nullable=True)
+    content_hash = Column(String, nullable=True)
     
     # Optional metadata about the chunk
-    chunk_metadata = Column(JSON, nullable=True)
+    chunk_data = Column(JSON, nullable=True)
     
     # Timestamps
     created_at = Column(DateTime, default=datetime.now)
@@ -116,6 +167,83 @@ class DocChunkDB(Base):
     
     # Relationship back to document
     document = relationship("Document", back_populates="doc_chunks")
+    
+    def to_schema_model(self) -> DocChunk:
+        """Convert to Pydantic schema model"""
+        return DocChunk(
+            id=self.id,
+            doc_id=self.doc_id,
+            content=self.content,
+            chunk_index=self.chunk_index,
+            paragraph=self.paragraph,
+            language=self.language,
+            transformer_embedding=self.transformer_embedding,
+            word2vec_embedding=self.word2vec_embedding,
+            embedding=self.embedding,
+            content_hash=self.content_hash,
+            chunk_data=self.chunk_data,
+            created_at=self.created_at,
+            updated_at=self.updated_at
+        )
+    
+    @classmethod
+    def from_schema_model(cls, model: DocChunk) -> 'DocChunkORM':
+        """Create from Pydantic schema model"""
+        return cls(
+            id=model.id or str(uuid.uuid4()),
+            doc_id=model.doc_id,
+            content=model.content,
+            chunk_index=model.chunk_index,
+            paragraph=model.paragraph,
+            language=model.language,
+            transformer_embedding=model.transformer_embedding,
+            word2vec_embedding=model.word2vec_embedding,
+            embedding=model.embedding,
+            content_hash=model.content_hash,
+            chunk_data=model.chunk_data,
+            created_at=model.created_at,
+            updated_at=model.updated_at
+        )
+
+class LogicalRelationshipORM(Base):
+    """SQLAlchemy ORM model for logical relationships between chunks."""
+    __tablename__ = 'logical_relationships'
+    
+    id = Column(String, primary_key=True)
+    source_chunk_id = Column(String, ForeignKey('doc_chunks.id'), nullable=False)
+    target_chunk_id = Column(String, ForeignKey('doc_chunks.id'), nullable=False)
+    relationship_type = Column(String, nullable=False)
+    confidence = Column(Float, nullable=False)
+    evidence = Column(Text, nullable=True)
+    method = Column(String, nullable=False, default="rule_based")
+    created_at = Column(DateTime, default=datetime.now)
+    
+    def to_schema_model(self) -> LogicalRelationship:
+        """Convert to Pydantic schema model"""
+        return LogicalRelationship(
+            id=self.id,
+            source_chunk_id=self.source_chunk_id,
+            target_chunk_id=self.target_chunk_id,
+            relationship_type=self.relationship_type,
+            confidence=self.confidence,
+            evidence=self.evidence,
+            method=self.method,
+            created_at=self.created_at
+        )
+    
+    @classmethod
+    def from_schema_model(cls, model: LogicalRelationship) -> 'LogicalRelationshipORM':
+        """Create from Pydantic schema model"""
+        return cls(
+            id=model.id or str(uuid.uuid4()),
+            source_chunk_id=str(model.source_chunk_id),
+            target_chunk_id=str(model.target_chunk_id),
+            relationship_type=model.relationship_type,
+            confidence=model.confidence,
+            evidence=model.evidence,
+            method=model.method,
+            created_at=model.created_at
+        )
 
 class ExtractedDataEncoder(json.JSONEncoder):
     """Custom JSON encoder for handling special data types."""
@@ -237,15 +365,15 @@ class Connection:
             return self.session_factory()
         else:
             raise Exception("Database not connected, cannot create session")
-
+            
     @Logger.debug_log()
     def upload(self, data: Any, table: str = None):
         """
         Upload data to database
         
         Args:
-            data: Data to upload (can be Document, DocChunkDB, or list of either)
-            table: Table to upload to ('documents' or 'doc_chunks'). If None, determines automatically from data type.
+            data: Data to upload (can be Document, DocChunkORM, LogicalRelationshipORM, or list of either)
+            table: Table to upload to ('documents', 'doc_chunks', 'logical_relationships'). If None, determines automatically from data type.
             
         Returns:
             bool: Success status
@@ -253,8 +381,8 @@ class Connection:
         logger.info("<DATABASE> Uploading data into database...")
         
         # Validate table parameter if provided
-        if table and table not in ['documents', 'doc_chunks']:
-            logger.error(f"<DATABASE> Invalid table specified: {table}. Must be 'documents' or 'doc_chunks'.")
+        if table and table not in ['documents', 'doc_chunks', 'logical_relationships']:
+            logger.error(f"<DATABASE> Invalid table specified: {table}. Must be 'documents', 'doc_chunks', or 'logical_relationships'.")
             return False
         
         try:
@@ -265,7 +393,13 @@ class Connection:
                 if isinstance(data, list):
                     # Validate data types if table is specified
                     if table:
-                        expected_class = Document if table == 'documents' else DocChunkDB
+                        if table == 'documents':
+                            expected_class = Document
+                        elif table == 'doc_chunks':
+                            expected_class = DocChunkORM
+                        else:
+                            expected_class = LogicalRelationshipORM
+                            
                         if not all(isinstance(item, expected_class) for item in data):
                             logger.error(f"<DATABASE> Data type mismatch for table '{table}'")
                             return False
@@ -273,7 +407,13 @@ class Connection:
                 else:
                     # Validate data type if table is specified
                     if table:
-                        expected_class = Document if table == 'documents' else DocChunkDB
+                        if table == 'documents':
+                            expected_class = Document
+                        elif table == 'doc_chunks':
+                            expected_class = DocChunkORM
+                        else:
+                            expected_class = LogicalRelationshipORM
+                            
                         if not isinstance(data, expected_class):
                             logger.error(f"<DATABASE> Data type mismatch for table '{table}'")
                             return False
@@ -289,12 +429,11 @@ class Connection:
                 return False
                 
             finally:
-                session.close()
-                
+                session.close()                
         except Exception as e:
             logger.error(f"<DATABASE> Session creation error: {e}")
             return False
-
+            
     @Logger.debug_log()
     def update_processed(self, model_class, record_id, chunks=None, id_field='doc_id', table: str = None):
         """
@@ -305,7 +444,7 @@ class Connection:
             record_id: Identifier value for the record
             chunks: Optional data to store with the record
             id_field: Name of the identifier field (default: 'doc_id')
-            table: Table to update ('documents' or 'doc_chunks'). If None, determines automatically from model_class.
+            table: Table to update ('documents', 'doc_chunks', 'logical_relationships'). If None, determines automatically from model_class.
             
         Returns:
             bool: True if update successful, False otherwise
@@ -313,13 +452,19 @@ class Connection:
         logger.info(f"<DATABASE> Updating processed status for {model_class.__name__} with {id_field}={record_id}")
         
         # Validate table parameter if provided
-        if table and table not in ['documents', 'doc_chunks']:
-            logger.error(f"<DATABASE> Invalid table specified: {table}. Must be 'documents' or 'doc_chunks'.")
+        if table and table not in ['documents', 'doc_chunks', 'logical_relationships']:
+            logger.error(f"<DATABASE> Invalid table specified: {table}. Must be 'documents', 'doc_chunks', or 'logical_relationships'.")
             return False
             
         # Match model_class with table if specified
         if table:
-            expected_class = Document if table == 'documents' else DocChunkDB
+            if table == 'documents':
+                expected_class = Document
+            elif table == 'doc_chunks':
+                expected_class = DocChunkORM
+            else:
+                expected_class = LogicalRelationshipORM
+                
             if model_class != expected_class:
                 logger.warning(f"<DATABASE> Model class {model_class.__name__} doesn't match specified table '{table}'")
         
@@ -354,7 +499,6 @@ class Connection:
                 session.rollback()
             finally:
                 session.close()
-        
         except Exception as e:
             logger.error(f"<DATABASE> Database connection error: {e}")
         
@@ -373,8 +517,8 @@ class Connection:
             dict: Dictionary with metadata or None if not found
         """
         # Validate table parameter
-        if table not in ['documents', 'doc_chunks']:
-            logger.error(f"<DATABASE> Invalid table specified: {table}. Must be 'documents' or 'doc_chunks'.")
+        if table not in ['documents', 'doc_chunks', 'logical_relationships']:
+            logger.error(f"<DATABASE> Invalid table specified: {table}. Must be 'documents', 'doc_chunks', or 'logical_relationships'.")
             return None
             
         logger.info(f"<DATABASE> Getting metadata for document {doc_id} from table '{table}'")
@@ -388,13 +532,11 @@ class Connection:
                     row = result.fetchone()
                     if not row:
                         return None
-                    
                     submission_date = row[2]
                     if submission_date and isinstance(submission_date, datetime):
                         submission_date = submission_date.isoformat()
                     elif submission_date:
                         submission_date = str(submission_date)
-                    
                     return {
                         'country': row[0] or '',
                         'document_title': row[1] or '',
@@ -402,12 +544,12 @@ class Connection:
                     }
                 elif table == 'doc_chunks':
                     # Get metadata for chunks related to the document
-                    query = text("SELECT chunk_index, language, chunk_metadata FROM doc_chunks WHERE doc_id = :doc_id")
+                    query = text("SELECT chunk_index, language, chunk_data FROM doc_chunks WHERE doc_id = :doc_id")
                     result = conn.execute(query, {"doc_id": doc_id})
                     rows = result.fetchall()
                     if not rows:
                         return None
-                    
+                
                     chunks_metadata = []
                     for row in rows:
                         metadata = {
@@ -425,7 +567,7 @@ class Connection:
         except Exception as e:
             logger.error(f"<DATABASE> Error retrieving document metadata from {table}: {e}")
             return None
-        
+
     @Logger.debug_log()
     def check_document_processed(self, doc_id: str) -> Tuple[bool, Optional[Document]]:
         """
@@ -468,5 +610,81 @@ class Connection:
         except Exception as e:
             logger.error(f"<DATABASE> Database connection error: {e}")
             return False, None
+            
+    @Logger.debug_log()
+    def get_logical_relationships(self, 
+                                 relationship_type: Optional[str] = None, 
+                                 min_confidence: float = 0.0, 
+                                 limit: int = 10) -> List[LogicalRelationshipORM]:
+        """
+        Get logical relationships from the database with optional filtering
+        
+        Args:
+            relationship_type: Filter by relationship type (e.g., 'SUPPORTS', 'EXPLAINS')
+            min_confidence: Minimum confidence score (0.0-1.0)
+            limit: Maximum number of relationships to return
+            
+        Returns:
+            List[LogicalRelationshipORM]: List of matching relationships
+        """
+        logger.info("<DATABASE> Getting logical relationships")
+        
+        try:
+            session = self.get_session()
+            
+            try:
+                query = session.query(LogicalRelationshipORM)
+                
+                # Apply filters if provided
+                if relationship_type:
+                    query = query.filter(LogicalRelationshipORM.relationship_type == relationship_type.upper())
+                
+                if min_confidence > 0:
+                    query = query.filter(LogicalRelationshipORM.confidence >= min_confidence)
+                
+                # Apply limit and execute
+                results = query.order_by(LogicalRelationshipORM.confidence.desc()).limit(limit).all()
+                
+                return results
+                
+            except Exception as e:
+                logger.error(f"<DATABASE> Error retrieving logical relationships: {e}")
+                return []
+            finally:
+                session.close()
+                
+        except Exception as e:
+            logger.error(f"<DATABASE> Database connection error: {e}")
+            return []
+            
+    @Logger.debug_log()
+    def count_relationships(self, by_type: bool = False) -> Union[int, Dict[str, int]]:
+        """
+        Count logical relationships in the database
+        
+        Args:
+            by_type: If True, returns counts grouped by relationship type
+            
+        Returns:
+            Union[int, Dict[str, int]]: Total count or dictionary of counts by type
+        """
+        logger.info("<DATABASE> Counting logical relationships")
+        
+        try:
+            engine = self.get_engine()
+            with engine.connect() as conn:
+                if by_type:
+                    query = text("SELECT relationship_type, COUNT(*) as count FROM logical_relationships GROUP BY relationship_type")
+                    result = conn.execute(query)
+                    counts = {row[0]: row[1] for row in result}
+                    return counts
+                else:
+                    query = text("SELECT COUNT(*) as count FROM logical_relationships")
+                    result = conn.execute(query)
+                    count = result.scalar()
+                    return count or 0
+        except Exception as e:
+            logger.error(f"<DATABASE> Error counting relationships: {e}")
+            return 0 if not by_type else {}
 
 

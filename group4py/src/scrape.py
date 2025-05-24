@@ -6,13 +6,15 @@ from scrapy.selector import Selector
 from datetime import datetime
 from dateutil.parser import parse
 from typing import List, Dict, Set, Optional
+import uuid
+from uuid import UUID
 
 project_root = Path(__file__).resolve().parents[2]
 TEMPORARY_HTML_FILE = project_root / "group4py/src/constants/hardcoded.html"
 sys.path.insert(0, str(project_root))
 import group4py
 from constants.settings import DOCS_URL
-from schema import NDCDocumentBase
+from schema import NDCDocumentModel
 from helpers import Logger, Test, TaskInfo
 
 logger = logging.getLogger(__name__)
@@ -89,15 +91,15 @@ class Detector:
 
 class DocUpdater:
     @staticmethod
-    def extract_metadata_from_containers(containers) -> List[NDCDocumentBase]:
+    def extract_metadata_from_containers(containers) -> List[NDCDocumentModel]:
         """
-        Extract metadata from container elements and create NDCDocumentBase objects.
+        Extract metadata from container elements and create NDCDocumentModel objects.
         
         Args:
             containers: List of container elements from the NDC registry page
             
         Returns:
-            List of NDCDocumentBase objects with metadata
+            List of NDCDocumentModel objects with metadata
         """
         logger.info("Extracting metadata from containers")
         documents = []
@@ -123,17 +125,23 @@ class DocUpdater:
                 try:
                     # Get language and title if available
                     lang = langs[i] if i < len(langs) else None
-                    doc_title = doc_titles[i] if i < len(doc_titles) else None
+                    doc_title = doc_titles[i] if i < len(doc_titles) else None                    # Create NDCDocumentModel object
+                    # Generate a UUID for doc_id - use a deterministic UUID based on the URL
+                    doc_id = uuid.uuid5(uuid.NAMESPACE_URL, doc)
                     
-                    # Create NDCDocumentBase object
-                    document = NDCDocumentBase(
+                    document = NDCDocumentModel(
+                        doc_id=doc_id,
                         country=country,
                         title=doc_title,
                         url=doc,
                         language=lang,
                         submission_date=None,
                         file_path=None,
-                        file_size=None
+                        file_size=None,
+                        scraped_at=datetime.now(),
+                        created_at=datetime.now(),
+                        updated_at=datetime.now(),
+                        download_attempts=0
                     )
                     
                     # Set submission date

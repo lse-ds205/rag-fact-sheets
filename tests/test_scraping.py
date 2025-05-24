@@ -8,7 +8,7 @@ project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
 from group4py.src.scrape import Detector, DocUpdater
-from group4py.src.schema import NDCDocumentBase
+from group4py.src.schema import NDCDocumentModel
 
 @pytest.fixture
 def detector():

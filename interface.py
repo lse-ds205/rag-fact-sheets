@@ -239,6 +239,205 @@ def drop_rows(confirm, table, all):
     except Exception as e:
         print(f"[INTERFACE] Database error: {e}")
 
+@database.command()
+@click.option('--confirm', is_flag=True, help='Confirm table deletion without additional prompt')
+def drop_tables(confirm):
+    """
+    Drop ALL tables from the database completely.
+    
+    This command removes the entire table structure, not just the data.
+    Use this when you want to completely reset the database schema.
+    WARNING: This is irreversible and will delete all data!
+    """
+    if not confirm:
+        click.confirm('Are you sure you want to DROP ALL TABLES? This will permanently delete all table structures and data. This action cannot be undone.', abort=True)
+
+    try:
+        # Load environment variables
+        load_dotenv()
+        
+        # Get database connection from environment or use default
+        db_url = os.getenv('DATABASE_URL', 'postgresql://climate:climate@localhost:5432/climate')
+        
+        # Create engine
+        engine = create_engine(db_url)
+        
+        # Connect to the database
+        with engine.connect() as conn:
+            # Get all table names first
+            result = conn.execute(text("""
+                SELECT tablename 
+                FROM pg_tables 
+                WHERE schemaname = 'public'
+                ORDER BY tablename
+            """))
+            tables = [row[0] for row in result.fetchall()]
+            
+            if not tables:
+                print("[INTERFACE] No tables found to drop.")
+                return
+            
+            print(f"[INTERFACE] Found {len(tables)} tables to drop: {', '.join(tables)}")
+            
+            # Drop all tables with CASCADE to handle foreign key constraints
+            dropped_count = 0
+            for table in tables:
+                try:
+                    conn.execute(text(f"DROP TABLE IF EXISTS {table} CASCADE"))
+                    conn.commit()
+                    print(f"[INTERFACE] Dropped table: {table}")
+                    dropped_count += 1
+                except Exception as table_error:
+                    print(f"[INTERFACE] Warning: Could not drop table {table}: {table_error}")
+            
+            # Clean up sequences (auto-increment counters)
+            try:
+                result = conn.execute(text("""
+                    SELECT sequencename 
+                    FROM pg_sequences 
+                    WHERE schemaname = 'public'
+                """))
+                sequences = [row[0] for row in result.fetchall()]
+                
+                for sequence in sequences:
+                    try:
+                        conn.execute(text(f"DROP SEQUENCE IF EXISTS {sequence} CASCADE"))
+                        conn.commit()
+                        print(f"[INTERFACE] Dropped sequence: {sequence}")
+                    except Exception as seq_error:
+                        print(f"[INTERFACE] Warning: Could not drop sequence {sequence}: {seq_error}")
+            except Exception:
+                pass  # Sequences table might not exist in older PostgreSQL versions
+            
+            # Clean up views
+            try:
+                result = conn.execute(text("""
+                    SELECT viewname 
+                    FROM pg_views 
+                    WHERE schemaname = 'public'
+                """))
+                views = [row[0] for row in result.fetchall()]
+                
+                for view in views:
+                    try:
+                        conn.execute(text(f"DROP VIEW IF EXISTS {view} CASCADE"))
+                        conn.commit()
+                        print(f"[INTERFACE] Dropped view: {view}")
+                    except Exception as view_error:
+                        print(f"[INTERFACE] Warning: Could not drop view {view}: {view_error}")
+            except Exception:
+                pass  # Views might not exist
+            
+            print(f"[INTERFACE] Successfully dropped {dropped_count} tables and cleaned up database objects.")
+            print("[INTERFACE] Database schema has been completely reset.")
+        
+    except Exception as e:
+        print(f"[INTERFACE] Database error: {e}")
+
+@database.command()
+def show_relationships():
+    """
+    Display relationship information from the logical_relationships table.
+    
+    Shows the total count of relationships and a sample of the first 5 records.
+    """
+    try:
+        # Load environment variables
+        load_dotenv()
+        
+        from group4py.src.database import Connection
+        from sqlalchemy import text
+
+        conn = Connection()
+        conn.connect()
+
+        with conn.get_engine().connect() as db:
+            # Get total count of relationships
+            result = db.execute(text('SELECT COUNT(*) FROM logical_relationships')).fetchone()
+            print(f'[INTERFACE] Relationships in database: {result[0]}')
+            
+            # Sample of relationships
+            sample = db.execute(text('SELECT source_chunk_id, target_chunk_id, relationship_type, confidence FROM logical_relationships LIMIT 5')).fetchall()
+            print("\n[INTERFACE] Sample relationships:")
+            for row in sample:
+                print(f"Source: {row[0]} -> Target: {row[1]} | Type: {row[2]} | Confidence: {row[3]:.2f}")
+                
+    except Exception as e:
+        print(f"[INTERFACE] Database error: {e}")
+
+@database.command()
+@click.option('--type', 'rel_type', type=str, help='Filter by relationship type (e.g., SUPPORTS, CONTRADICTS)')
+@click.option('--min-confidence', type=float, default=0.0, help='Minimum confidence score (0.0 to 1.0)')
+@click.option('--limit', type=int, default=10, help='Maximum number of relationships to show')
+def analyze_relationships(rel_type, min_confidence, limit):
+    """
+    Analyze relationships in the logical_relationships table with filtering options.
+    
+    Filter by relationship type and/or minimum confidence score.
+    """
+    try:
+        # Load environment variables
+        load_dotenv()
+        
+        from group4py.src.database import Connection
+        from sqlalchemy import text
+
+        conn = Connection()
+        conn.connect()
+
+        with conn.get_engine().connect() as db:
+            # Base query
+            query = """
+                SELECT source_chunk_id, target_chunk_id, relationship_type, confidence, evidence, method, created_at
+                FROM logical_relationships
+                WHERE 1=1
+            """
+            params = {}
+            
+            # Add filters if provided
+            if rel_type:
+                query += " AND relationship_type = :rel_type"
+                params['rel_type'] = rel_type
+                
+            if min_confidence > 0:
+                query += " AND confidence >= :min_confidence"
+                params['min_confidence'] = min_confidence
+                
+            # Add order by and limit
+            query += " ORDER BY confidence DESC LIMIT :limit"
+            params['limit'] = limit
+            
+            # Execute query
+            relationships = db.execute(text(query), params).fetchall()
+            
+            # Get statistics by relationship type
+            type_stats = db.execute(text("""
+                SELECT relationship_type, COUNT(*) as count, AVG(confidence) as avg_confidence
+                FROM logical_relationships
+                GROUP BY relationship_type
+                ORDER BY count DESC
+            """)).fetchall()
+            
+            # Display results
+            print(f"\n[INTERFACE] Relationship Statistics by Type:")
+            print("-" * 60)
+            print(f"{'Type':<15} | {'Count':>8} | {'Avg Confidence':>15}")
+            print("-" * 60)
+            for row in type_stats:
+                print(f"{row[0]:<15} | {row[1]:>8} | {row[2]:>15.4f}")
+            
+            # Display filtered relationships
+            print(f"\n[INTERFACE] Showing {len(relationships)} relationships:")
+            print("-" * 80)
+            for row in relationships:
+                print(f"Source: {row[0]} → Target: {row[1]} | Type: {row[2]} | Confidence: {row[3]:.2f}")
+                print(f"Evidence: {row[4][:100]}{'...' if len(row[4]) > 100 else ''}")
+                print(f"Method: {row[5]} | Created: {row[6]}")
+                print("-" * 80)
+                
+    except Exception as e:
+        print(f"[INTERFACE] Database error: {e}")
+
 # ------------------------------------------------------------
 
 if __name__ == "__main__":

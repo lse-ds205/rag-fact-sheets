@@ -24,7 +24,7 @@ def download_models():
     
     try:
         # Download English model from Hugging Face
-        model_name = "distilroberta-base"
+        model_name = "climatebert/distilroberta-base-climate-f"
         tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=ENGLISH_MODEL_DIR)
         model = AutoModel.from_pretrained(model_name, cache_dir=ENGLISH_MODEL_DIR)
         

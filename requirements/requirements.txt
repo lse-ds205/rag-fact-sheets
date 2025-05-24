@@ -22,4 +22,11 @@ gensim
 pikepdf
 scrapy
 pytest
+sentence-transformers
+scikit-learn
+networkx
+asyncpg
+numpy
+hf_xet
+supabase
 -c constraints.txt

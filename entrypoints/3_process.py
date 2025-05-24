@@ -10,6 +10,8 @@ from sqlalchemy import create_engine, text
 from datetime import datetime, date
 from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
+import uuid
+from uuid import UUID
 
 # Load environment variables from .env file
 load_dotenv()
@@ -20,9 +22,11 @@ import group4py
 from group4py.src.extract_document import extract_text_from_pdf
 from group4py.src.chunk_embed import DocChunk as DocChunker, Embedding
 from group4py.src.helpers import Logger, Test, TaskInfo
-from group4py.src.schema import DocChunkCreate, Vector
-from group4py.src.database import Connection, Document, DocChunkDB
+from group4py.src.schema import DocChunk
+from group4py.src.database import Connection, Document, DocChunkORM
 from group4py.src.constants.settings import FILE_PROCESSING_CONCURRENCY
+from group4py.src.hop_rag import HopRAGGraphProcessor
+from group4py.src.schema import DatabaseConfig
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +44,6 @@ def get_file_paths():
     
     # Convert Path objects to strings
     return [str(file_path) for file_path in pdf_files]
-
 
 async def process_file_one(file_path: str, force_reprocess: bool = False):
     """
@@ -70,11 +73,9 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
         if force_reprocess and document:
             logger.info(f"[3_PROCESS] Force reprocessing document {doc_id}")
             engine = connection.get_engine()
-            Session = sessionmaker(bind=engine)
-            session = Session()
-            try:
-                # Remove existing chunks for this document
-                session.query(DocChunkDB).filter(DocChunkDB.doc_id == doc_id).delete()
+            session = connection.get_session()
+            try:                # Remove existing chunks for this document
+                session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_id).delete()
                 session.commit()
                 logger.info(f"[3_PROCESS] Removed existing chunks for document {doc_id}")
             except Exception as e:
@@ -86,9 +87,7 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
         # If document doesn't exist, create it first before proceeding with chunk processing
         if not document:
             logger.info(f"[3_PROCESS] Document {doc_id} not found in database. Creating record...")
-            engine = connection.get_engine()
-            Session = sessionmaker(bind=engine)
-            session = Session()
+            session = connection.get_session()
             
             try:
                 # Extract document metadata from filename
@@ -157,23 +156,22 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
         if not cleaned_chunks or len(cleaned_chunks) == 0:
             logger.error(f"[3_PROCESS] No valid chunks after cleaning for {file_path}")
             return None
-        
-        # 4. Create DocChunkCreate objects before uploading
+        # 4. Create DocChunk objects before uploading
         db_chunks = []
         for i, chunk in enumerate(cleaned_chunks):
             # Skip empty chunks
             if not chunk.get('text', '').strip():
                 logger.warning(f"[3_PROCESS] Skipping empty chunk {i} from {file_path}")
                 continue
-                
-            # Create a DocChunkCreate instead of DocChunkModel
-            chunk_model = DocChunkDB(
+                  # Create a DocChunkORM instance
+            chunk_model = DocChunkORM(
+                id=str(uuid.uuid4()),
                 doc_id=file_name,
                 content=chunk.get('text', ''),
                 chunk_index=i,
                 paragraph=chunk.get('metadata', {}).get('paragraph_number'),
                 language=chunk.get('metadata', {}).get('language'),
-                chunk_metadata=chunk.get('metadata', {})
+                chunk_data=chunk.get('metadata', {})
             )
             
             db_chunks.append(chunk_model)
@@ -229,13 +227,11 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
             word2vec_embedded_chunks = cleaned_chunks  # Use original chunks without embeddings
         
         # 9. Process the embeddings and update the database
-        engine = connection.get_engine()
-        Session = sessionmaker(bind=engine)
-        session = Session()
+        session = connection.get_session()
 
-        try:
+        try:            
             # Retrieve the existing chunks from the database to get their IDs
-            db_chunk_query = session.query(DocChunkDB).filter(DocChunkDB.doc_id == doc_id).all()
+            db_chunk_query = session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_id).all()
             db_chunk_dict = {chunk.chunk_index: chunk for chunk in db_chunk_query}
             
             # Update each chunk with its embeddings
@@ -271,9 +267,83 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                     db_chunk.word2vec_embedding = word2vec_embedding
                     logger.debug(f"[3_PROCESS] Updated word2vec embedding for chunk {i} (length: {len(word2vec_embedding)})")
         
-            # Commit all changes
+            # Commit embedding changes
             session.commit()
             logger.info(f"[3_PROCESS] Successfully updated embeddings for document {doc_id}")
+            
+            # 10. Run HopRAG processing after embeddings are complete
+            try:
+                logger.info(f"[3_PROCESS] Running HopRAG processing for {doc_id}")
+                config = DatabaseConfig.from_env()
+                processor = HopRAGGraphProcessor(config)
+                await processor.initialize()
+                
+                # Generate embeddings if needed
+                logger.info(f"[3_PROCESS] Processing embeddings in batch for {doc_id}")
+                await processor.process_embeddings_batch(batch_size=100)
+                
+                # Build relationships for this document's chunks with enhanced logging
+                logger.info(f"[3_PROCESS] Building logical relationships for {doc_id}")
+                
+                # Get the current relationship count before building
+                rel_count_before = 0
+                try:
+                    with processor.db_connection.get_engine().connect() as conn:
+                        result = conn.execute(text("SELECT COUNT(*) FROM logical_relationships"))
+                        rel_count_before = result.scalar() or 0
+                        logger.info(f"[3_PROCESS] Current relationship count: {rel_count_before}")
+                except Exception as e:
+                    logger.warning(f"[3_PROCESS] Could not get relationship count: {e}")
+                
+                # Build relationships with more detailed parameters
+                # Add filtering to focus only on chunks from the current document
+                logger.info(f"[3_PROCESS] Building relationships specifically for document: {doc_id}")
+                doc_chunk_count = await processor.get_doc_chunk_count(doc_id)
+                logger.info(f"[3_PROCESS] Document {doc_id} has {doc_chunk_count} chunks to process for relationships")
+                
+                # Ensure we're focused on this document's chunks
+                await processor.build_relationships_sparse(
+                    max_neighbors=30, 
+                    min_confidence=0.55,
+                    doc_id=doc_id,  # Add document ID filter to focus on current document
+                    force_commit=True  # Ensure relationships are committed to database
+                )
+                
+                # Check how many relationships were added
+                try:
+                    with processor.db_connection.get_engine().connect() as conn:
+                        # Check relationships for this specific document
+                        result = conn.execute(text("""
+                            SELECT COUNT(*) FROM logical_relationships lr
+                            JOIN doc_chunks dc1 ON lr.source_chunk_id = dc1.id
+                            WHERE dc1.doc_id = :doc_id
+                        """), {"doc_id": doc_id})
+                        doc_relationships = result.scalar() or 0
+                        
+                        # Get total relationships
+                        result = conn.execute(text("SELECT COUNT(*) FROM logical_relationships"))
+                        rel_count_after = result.scalar() or 0
+                        
+                        new_rels = rel_count_after - rel_count_before
+                        logger.info(f"[3_PROCESS] Added {new_rels} new relationships. Total now: {rel_count_after}")
+                        logger.info(f"[3_PROCESS] Document {doc_id} has {doc_relationships} relationships")
+                except Exception as e:
+                    logger.warning(f"[3_PROCESS] Could not get updated relationship count: {e}")
+                
+                # Clean up
+                await processor.close()
+                logger.info(f"[3_PROCESS] HopRAG processing completed for {doc_id}")
+                
+                # Ensure any remaining changes from HopRAG are committed to the database
+                session.commit()
+                logger.info(f"[3_PROCESS] Successfully committed HopRAG relationship changes")
+                
+            except Exception as e:
+                session.rollback()  # Roll back any failed HopRAG changes
+                logger.error(f"[3_PROCESS] HopRAG processing failed for {doc_id}: {str(e)}")
+                import traceback
+                logger.error(f"[3_PROCESS] Traceback: {traceback.format_exc()}")
+                # Don't fail the entire process if HopRAG fails
             
         except Exception as e:
             session.rollback()
@@ -282,6 +352,7 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
             session.close()
         
         logger.info(f"[3_PROCESS] File {file_path} processed successfully")
+        
         return db_chunks
     
     except Exception as e:
@@ -294,7 +365,7 @@ async def process_file_many(file_path):
     async with semaphore:
         return await process_file_one(file_path)
 
-@Logger.log(log_file=project_root / "logs/process.log", log_level="DEBUG")
+@Logger.log(log_file=project_root / "logs/process.log", log_level="INFO")
 async def run_script(force_reprocess: bool = False):
     try:
         logger.warning(f"\n\n[3_PROCESS] Running script with force_reprocess={force_reprocess}...")
