@@ -130,12 +130,15 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
                             c.chunk_metadata,
                             d.country,
                             1 - (c.{embedding_column} <=> :query_vector) AS similarity_score,
-                            ROW_NUMBER() OVER (PARTITION BY c.doc_id ORDER BY c.{embedding_column} <=> :query_vector) as rank
+                            ROW_NUMBER() OVER (
+                                PARTITION BY c.doc_id 
+                                ORDER BY c.{embedding_column} <=> :query_vector
+                            ) as rank
                         FROM doc_chunks c
                         JOIN documents d ON c.doc_id = d.doc_id
                         WHERE c.{embedding_column} IS NOT NULL
-                        AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
-                        {country_filter}
+                          AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
+                          {country_filter}
                     )
                     SELECT 
                         id,
@@ -177,8 +180,8 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
                         FROM doc_chunks c
                         JOIN documents d ON c.doc_id = d.doc_id
                         WHERE c.{embedding_column} IS NOT NULL
-                        AND LOWER(d.country) = LOWER(:country)
-                        AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
+                          AND LOWER(d.country) = LOWER(:country)
+                          AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
                         ORDER BY 1 - (c.{embedding_column} <=> :query_vector) DESC
                         LIMIT :top_k
                     """)
@@ -203,7 +206,7 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
                             1 - (c.{embedding_column} <=> :query_vector) AS similarity_score
                         FROM doc_chunks c
                         WHERE c.{embedding_column} IS NOT NULL
-                        AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
+                          AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
                         ORDER BY 1 - (c.{embedding_column} <=> :query_vector) DESC
                         LIMIT :top_k
                     """)
@@ -216,6 +219,7 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
             
             # Execute query using the session from Connection class
             result = session.execute(query, query_params)
+            
             # Convert results to list of dictionaries
             chunks = []
             for row in result:
@@ -246,7 +250,6 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
         traceback_string = traceback.format_exc()
         logger.error(f"[4_RETRIEVE] Error in chunk retrieval: {e}\nTraceback: {traceback_string}")
         return []
-    
 
 @Test.dummy_chunk()
 def evaluate_chunks(prompt, chunks):
