@@ -12,6 +12,9 @@
 ### 🧠 1a Embedding Strategy 
 - **Word2vec** 📝
 - **Transformer Embeddings (Climate Bert)** 🌍
+  - Uses pre-trained BERT model fine-tuned on climate policy data
+  - Captures contextual relationships between words and phrases
+  - Generates dense vector representations of text chunks (dimension: 768)
 - **BM25+ Dense Embeddings (Hybrid Search)** 🔍
   - **BM25** - This is a sparse keyword search
     - Traditional keyword-based ranking function 
