@@ -31,13 +31,15 @@ class Logger:
 
         console_handler = colorlog.StreamHandler()
         console_handler.setFormatter(color_formatter)
-        
+
         file_handler = logging.FileHandler(log_file, mode="a")
         file_handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
         
         root_logger = logging.getLogger()
         root_logger.setLevel(log_level)
-        root_logger.handlers = []
+
+        root_logger.handlers.clear()
+        
         root_logger.addHandler(console_handler)
         root_logger.addHandler(file_handler)
         
@@ -58,8 +60,7 @@ class Logger:
         """
         def decorator(func):
             def wrapper(*args, **kwargs):
-                if not logging.getLogger().hasHandlers():
-                    Logger.setup_logging(log_file, log_level)
+                Logger.setup_logging(log_file, log_level)
                 result = func(*args, **kwargs)
                 return result
             return wrapper
