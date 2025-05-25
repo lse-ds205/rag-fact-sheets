@@ -1,3 +1,5 @@
+### THIS SCRIPT IS NOW DEPRECATED, IT HAS BEEN REPLACED BY 3_chunk.py and 3.5_embed.py
+
 import sys
 from pathlib import Path
 import traceback
@@ -369,6 +371,11 @@ async def process_file_many(file_path):
 
 @Logger.log(log_file=project_root / "logs/process.log", log_level="INFO")
 async def run_script(force_reprocess: bool = False):
+    """
+    WARNING: THIS SCRIPT IS NOW DEPRECATED, IT HAS BEEN REPLACED BY 3_chunk.py and 3.5_embed.py.
+    
+    YOU SHOULD NOT REFERENCE OR RUN THIS SCRIPT DIRECTLY.
+    """
     try:
         logger.warning(f"\n\n[3_PROCESS] Running script with force_reprocess={force_reprocess}...")
         file_paths = get_file_paths()

@@ -79,21 +79,59 @@ Detect operations:
 @click.option('--option2', is_flag=True, help='Placeholder for option 2.')
 def run(option1, option2):
     """
-    Run detection and processing.
+    Run detection and processing with the new two-step approach.
     """
     # Interaction with /entrypoints (1)
-    module_name_scrape = 'entrypoints.1_scrape'
+    module_name_scrape = 'entrypoints.2_scrape'
     run_script_scrape = importlib.import_module(module_name_scrape).run_script
     changes = run_script_scrape()
 
     # Interaction with /entrypoints (2). Note: only triggered if changes are detected
     if changes:
-        module_name_process = 'entrypoints.2_process'
-        run_script_process = importlib.import_module(module_name_process).run_script
-        asyncio.run(run_script_process())
-        print("[INTERFACE] Changes detected, processed successfully.")
+        # Step 1: Chunking
+        print("[INTERFACE] Changes detected, starting chunking process...")
+        module_name_chunk = 'entrypoints.3_chunk'
+        run_script_chunk = importlib.import_module(module_name_chunk).run_script
+        asyncio.run(run_script_chunk())
+        print("[INTERFACE] Chunking completed successfully.")
+        
+        # Step 2: Embedding
+        print("[INTERFACE] Starting embedding process...")
+        module_name_embed = 'entrypoints.3.5_embed'
+        run_script_embed = importlib.import_module(module_name_embed).run_script
+        asyncio.run(run_script_embed())
+        print("[INTERFACE] Embedding completed successfully.")
+        
+        print("[INTERFACE] All processing completed successfully.")
     else:
         print("[INTERFACE] No changes detected, skipping processing.")
+
+
+# Add new commands for running individual steps
+@detect.command()
+@click.option('--force', is_flag=True, help='Force reprocessing of all documents.')
+def chunk(force):
+    """
+    Run only the chunking step.
+    """
+    print("[INTERFACE] Running chunking process...")
+    module_name_chunk = 'entrypoints.3_chunk'
+    run_script_chunk = importlib.import_module(module_name_chunk).run_script
+    asyncio.run(run_script_chunk(force_reprocess=force))
+    print("[INTERFACE] Chunking completed successfully.")
+
+
+@detect.command() 
+@click.option('--force', is_flag=True, help='Force regeneration of embeddings.')
+def embed(force):
+    """
+    Run only the embedding step.
+    """
+    print("[INTERFACE] Running embedding process...")
+    module_name_embed = 'entrypoints.3.5_embed'
+    run_script_embed = importlib.import_module(module_name_embed).run_script
+    asyncio.run(run_script_embed(force_reembed=force))
+    print("[INTERFACE] Embedding completed successfully.")
 
 # ------------------------------------------------------------
 
