@@ -24,4 +24,4 @@ jobs:
         run: pip install -r requirements/detect.txt
 
       - name: Run Detector
-        run: python "entrypoints/1_scrape.py"
+        run: python "entrypoints/2_scrape.py"

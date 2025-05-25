@@ -183,15 +183,15 @@ Compares existing and new documents to find differences.
 
 ### Utility Functions
 
-#### `generate_doc_id(url: str) -> str`
+#### `uuid.uuid5(uuid.NAMESPACE_URL, url) -> UUID`
 
-Generates document ID from PDF URL by extracting the filename.
+Generates a deterministic UUID from a URL using the UUID5 algorithm. This creates consistent identifiers for documents based on their source URLs.
 
 **Parameters:**
 - `url` (str): PDF URL
 
 **Returns:**
-- `str`: Document ID based on PDF filename, with fallback to hash
+- `UUID`: UUID object generated from the URL
 
 ## Configuration
 

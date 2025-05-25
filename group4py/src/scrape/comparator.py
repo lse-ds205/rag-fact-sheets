@@ -3,15 +3,15 @@
 import logging
 from typing import Dict, List, Union
 
-from ..schema import NDCDocumentModel, NDCDocumentBase
+from ..schema import NDCDocumentModel
 
 logger = logging.getLogger(__name__)
 
 
 def compare_documents(
     existing_docs: List[NDCDocumentModel], 
-    new_docs: List[NDCDocumentBase]
-) -> Dict[str, List[Union[NDCDocumentModel, NDCDocumentBase]]]:
+    new_docs: List[NDCDocumentModel]
+) -> Dict[str, List[NDCDocumentModel]]:
     """
     Compare existing and new documents to find differences.
     
@@ -52,7 +52,7 @@ def compare_documents(
     return result
 
 
-def _has_metadata_changed(existing_doc: NDCDocumentModel, new_doc: NDCDocumentBase) -> bool:
+def _has_metadata_changed(existing_doc: NDCDocumentModel, new_doc: NDCDocumentModel) -> bool:
     """Check if document metadata has changed."""
     return (
         existing_doc.title != new_doc.title or 

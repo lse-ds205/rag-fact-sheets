@@ -3,10 +3,10 @@
 import logging
 from datetime import datetime
 from typing import List
+import uuid
 
 from ..database import Connection, Document
-from ..schema import NDCDocumentModel, NDCDocumentBase
-from .id_generator import generate_doc_id
+from ..schema import NDCDocumentModel
 from .exceptions import DatabaseConnectionError, DocumentValidationError
 
 logger = logging.getLogger(__name__)
@@ -47,7 +47,7 @@ def retrieve_existing_documents() -> List[NDCDocumentModel]:
         raise DatabaseConnectionError(f"Database connection failed: {str(e)}") from e
 
 
-def insert_new_documents(new_docs: List[NDCDocumentBase]) -> int:
+def insert_new_documents(new_docs: List[NDCDocumentModel]) -> int:
     """
     Insert new documents into the database.
     
@@ -99,7 +99,7 @@ def insert_new_documents(new_docs: List[NDCDocumentBase]) -> int:
         raise DatabaseConnectionError(f"Document insertion failed: {str(e)}") from e
 
 
-def update_existing_documents(updated_docs: List[NDCDocumentBase]) -> int:
+def update_existing_documents(updated_docs: List[NDCDocumentModel]) -> int:
     """
     Update existing documents in the database with new metadata.
     
@@ -181,9 +181,9 @@ def _convert_db_to_model(db_doc: Document) -> NDCDocumentModel:
     )
 
 
-def _convert_base_to_db(doc: NDCDocumentBase) -> Document:
-    """Convert NDCDocumentBase to SQLAlchemy Document."""
-    doc_id = generate_doc_id(doc.url)
+def _convert_base_to_db(doc: NDCDocumentModel) -> Document:
+    """Convert NDCDocumentModel to SQLAlchemy Document."""
+    doc_id = uuid.uuid5(uuid.NAMESPACE_URL, doc.url)
     return Document(
         doc_id=doc_id,
         country=doc.country,
@@ -195,7 +195,7 @@ def _convert_base_to_db(doc: NDCDocumentBase) -> Document:
     )
 
 
-def _update_document_metadata(existing_doc: Document, new_doc: NDCDocumentBase) -> None:
+def _update_document_metadata(existing_doc: Document, new_doc: NDCDocumentModel) -> None:
     """Update existing document with new metadata."""
     existing_doc.title = new_doc.title
     existing_doc.language = new_doc.language

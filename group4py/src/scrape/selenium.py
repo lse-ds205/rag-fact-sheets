@@ -14,12 +14,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime
 from dateutil.parser import parse
 from typing import List, Dict, Set, Optional
+import uuid
 
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
 from constants.settings import DOCS_URL, HEADERS, COOKIES
-from schema import NDCDocumentBase
+from schema import NDCDocumentModel
 from helpers import Logger, Test, TaskInfo
 
 logger = logging.getLogger(__name__)
@@ -43,7 +44,6 @@ class SeleniumDetector:
             if self.headless:
                 chrome_options.add_argument("--headless")
             
-            # Add production-ready options
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--disable-gpu")
@@ -52,18 +52,14 @@ class SeleniumDetector:
             chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
             chrome_options.add_experimental_option('useAutomationExtension', False)
             
-            # Set user agent from settings
             if 'User-Agent' in HEADERS:
                 chrome_options.add_argument(f"--user-agent={HEADERS['User-Agent']}")
             
-            # Initialize driver with automatic driver management
             service = Service(ChromeDriverManager().install())
             self.driver = webdriver.Chrome(service=service, options=chrome_options)
             
-            # Execute script to remove webdriver property
             self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
             
-            # Set timeouts
             self.driver.implicitly_wait(10)
             self.driver.set_page_load_timeout(self.timeout)
             
@@ -76,10 +72,8 @@ class SeleniumDetector:
     def _add_cookies(self):
         """Add cookies from settings to the driver."""
         try:
-            # First navigate to the domain to set cookies
             self.driver.get(DOCS_URL)
             
-            # Add each cookie
             for name, value in COOKIES.items():
                 try:
                     self.driver.add_cookie({
@@ -104,13 +98,10 @@ class SeleniumDetector:
             try:
                 self.logger.info(f"Loading page {DOCS_URL} (attempt {attempt + 1}/{max_retries})")
                 
-                # Add cookies first
                 self._add_cookies()
                 
-                # Navigate to the page
                 self.driver.get(DOCS_URL)
                 
-                # Wait for the table to be present
                 WebDriverWait(self.driver, self.timeout).until(
                     EC.presence_of_element_located((By.XPATH, '//table[contains(@class, "table-hover")]'))
                 )
@@ -145,22 +136,17 @@ class SeleniumDetector:
         try:
             self.logger.info(f"Extracting all containers from {DOCS_URL}")
             
-            # Load the page
             if not self._load_page():
                 raise Exception("Failed to load page")
             
-            # Wait for and find all submission rows
             wait = WebDriverWait(self.driver, self.timeout)
             
-            # Wait for table to be fully loaded
             wait.until(
                 EC.presence_of_element_located((By.XPATH, '//table[contains(@class, "table-hover")]/tbody'))
             )
             
-            # Add a small delay to ensure dynamic content is loaded
             time.sleep(2)
             
-            # Find all submission rows
             rows = self.driver.find_elements(
                 By.XPATH, 
                 '//table[contains(@class, "table-hover")]/tbody//tr[contains(@class, "submission")]'
@@ -188,7 +174,6 @@ class SeleniumDetector:
         all_links = []
         for i, row in enumerate(containers):
             try:
-                # Find all links in the second column (td[2])
                 link_elements = row.find_elements(By.XPATH, './/td[2]//a[@href]')
                 
                 for link_element in link_elements:
@@ -251,7 +236,7 @@ class SeleniumDetector:
 
 class SeleniumDocUpdater:
     @staticmethod
-    def extract_metadata_from_containers(containers) -> List[NDCDocumentBase]:
+    def extract_metadata_from_containers(containers) -> List[NDCDocumentModel]:
         """
         Extract metadata from WebElement containers and create NDCDocumentBase objects.
         
@@ -266,21 +251,17 @@ class SeleniumDocUpdater:
         
         for i, row in enumerate(containers):
             try:
-                # Extract data from columns
                 cols = row.find_elements(By.XPATH, './td')
                 
-                # Make sure we have enough columns
                 if len(cols) < 7:
                     logger.warning(f"Row {i} has insufficient columns ({len(cols)}), skipping")
                     continue
                 
-                # Extract country name from first column
                 try:
                     country = cols[0].text.strip()
                 except:
                     country = ""
                 
-                # Extract languages, documents, and titles from second column
                 try:
                     lang_elements = cols[1].find_elements(By.XPATH, './/span')
                     langs = [elem.text.strip() for elem in lang_elements if elem.text.strip()]
@@ -299,17 +280,14 @@ class SeleniumDocUpdater:
                     logger.warning(f"Error extracting docs from row {i}: {str(e)}")
                     langs, docs, doc_titles = [], [], []
                 
-                # Extract backup date from column 6
                 try:
                     backup_date = cols[6].text.strip()
                 except:
                     backup_date = ""
                 
-                # Extract date from URL paths
                 upload_dates = []
                 for doc in docs:
                     try:
-                        # Extract date from URL path (e.g., /sites/default/files/2025-02/...)
                         parts = doc.split("/")
                         for part in parts:
                             if len(part) == 7 and part.count('-') == 1:  # Format: YYYY-MM
@@ -320,25 +298,25 @@ class SeleniumDocUpdater:
                     except:
                         upload_dates.append("")
                 
-                # Create documents
                 for j, doc in enumerate(docs):
                     try:
-                        # Get language and title if available
                         lang = langs[j] if j < len(langs) else None
                         doc_title = doc_titles[j] if j < len(doc_titles) else None
                         
-                        # Create NDCDocumentBase object (for scraped documents)
-                        document = NDCDocumentBase(
+                        document = NDCDocumentModel(
+                            doc_id=uuid.uuid4(),
                             country=country,
                             title=doc_title,
                             url=doc,
                             language=lang,
                             submission_date=None,
                             file_path=None,
-                            file_size=None
+                            file_size=None,
+                            scraped_at=datetime.now(),
+                            created_at=datetime.now(),
+                            updated_at=datetime.now()
                         )
                         
-                        # Set submission date
                         try: 
                             date = upload_dates[j] if j < len(upload_dates) else ""
                             if date:
@@ -363,8 +341,7 @@ class SeleniumDocUpdater:
         logger.info(f"Extracted metadata for {len(documents)} documents")
         return documents
 
-# Convenience function for easy usage
-def scrape_ndc_documents(headless: bool = True, timeout: int = 30) -> List[NDCDocumentBase]:
+def scrape_ndc_documents(headless: bool = True, timeout: int = 30) -> List[NDCDocumentModel]:
     """
     Convenience function to scrape NDC documents using Selenium.
     
@@ -373,16 +350,14 @@ def scrape_ndc_documents(headless: bool = True, timeout: int = 30) -> List[NDCDo
         timeout: Timeout in seconds for page operations
         
     Returns:
-        List of NDCDocumentBase objects
+        List of NDCDocumentModel objects
     """
     with SeleniumDetector(headless=headless, timeout=timeout) as detector:
         containers = detector.extract_all_containers()
         documents = SeleniumDocUpdater.extract_metadata_from_containers(containers)
         return documents
 
-# Example usage and testing
 if __name__ == "__main__":
-    # Set up logging
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -391,22 +366,18 @@ if __name__ == "__main__":
     try:
         logger.info("Starting Selenium-based NDC document scraping")
         
-        # Test the scraper
         documents = scrape_ndc_documents(headless=True, timeout=30)
         
         logger.info(f"Successfully scraped {len(documents)} documents")
         
-        # Print first few documents for verification
         for i, doc in enumerate(documents[:5]):
             logger.info(f"Document {i+1}: {doc.country} - {doc.title} - {doc.url}")
         
-        # Test link extraction
         with SeleniumDetector(headless=True, timeout=30) as detector:
             containers = detector.extract_all_containers()
             pdf_links = detector.extract_all_pdf_links(containers)
             logger.info(f"Extracted {len(pdf_links)} PDF links")
             
-            # Test change detection with empty old list
             changes = detector.check_new_links(pdf_links, [])
             logger.info(f"Change detection: {len(changes['new'])} new, {len(changes['current'])} current, {len(changes['old'])} old")
         

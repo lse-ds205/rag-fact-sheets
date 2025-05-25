@@ -4,7 +4,7 @@ import logging
 import traceback
 from typing import Dict, Any, Optional
 
-from ..selenium_scrape import scrape_ndc_documents
+from .selenium import scrape_ndc_documents
 from .db_operations import retrieve_existing_documents, insert_new_documents, update_existing_documents
 from .comparator import compare_documents
 from .config import ScrapingConfig, DEFAULT_CONFIG
