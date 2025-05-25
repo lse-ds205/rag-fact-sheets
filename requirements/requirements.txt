@@ -47,6 +47,7 @@ Scrapy==2.13.0
 selenium==4.33.0
 soupsieve==2.7
 webdriver-manager==4.0.2
+responses==0.25.7
 
 # HTTP clients and networking
 certifi==2025.4.26

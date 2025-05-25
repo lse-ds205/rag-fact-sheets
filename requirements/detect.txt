@@ -1,5 +1,0 @@
--r base.txt
-
-# some dependencies
-
--c constraints.txt

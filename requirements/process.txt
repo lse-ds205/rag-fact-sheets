@@ -1,5 +1,3 @@
--r base.txt
+# required packages
 
-# some dependencies
-
--c constraints.txt
+-c requirements.txt
