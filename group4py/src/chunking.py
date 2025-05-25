@@ -7,7 +7,7 @@ import re
 from nltk.tokenize import sent_tokenize
 import logging
 from datetime import datetime
-from group4py.src.database import Connection
+
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
@@ -207,9 +207,9 @@ class DocChunk:
         logger.info(f"Cleaning {len(elements)} document chunks")
         
         # Apply cleaning strategies in sequence using proper static method references
-        cleaned_elements = ChunkCleaner.merge_short_chunks(elements, min_length)
-        cleaned_elements = ChunkCleaner.split_long_chunks(cleaned_elements, max_length)
-        cleaned_elements = ChunkCleaner.remove_gibberish(cleaned_elements)
+        cleaned_elements = DocChunk._DocChunk.merge_short_chunks(elements, min_length)
+        cleaned_elements = DocChunk._DocChunk.split_long_chunks(cleaned_elements, max_length)
+        cleaned_elements = DocChunk._DocChunk.remove_gibberish(cleaned_elements)
         
         logger.info(f"Cleaning complete. Produced {len(cleaned_elements)} chunks")
         return cleaned_elements
@@ -271,188 +271,186 @@ class DocChunk:
             logger.error(f"Error generating JSON file: {e}")
             return ""
 
-
-class ChunkCleaner:
-    """
-    Internal chunk cleaning class with various cleaning strategies.
-    """
-    
-    @staticmethod
-    def merge_short_chunks(elements: List[Dict[str, Any]], min_length: int = 20) -> List[Dict[str, Any]]:
+    class _DocChunk:
         """
-        Merge chunks that are shorter than the minimum length threshold.
-        
-        Args:
-            elements: List of document elements
-            min_length: Minimum length threshold for a chunk
-            
-        Returns:
-            List of merged chunks
+        Internal chunk class with various cleaning strategies.
         """
-        if not elements:
-            return elements
-        
-        merged_elements = []
-        current_chunk = None
-        
-        for element in elements:
-            text = element.get('text', '')
+        @staticmethod
+        def merge_short_chunks(elements: List[Dict[str, Any]], min_length: int = 20) -> List[Dict[str, Any]]:
+            """
+            Merge chunks that are shorter than the minimum length threshold.
             
-            if current_chunk is None:
-                current_chunk = element
-            elif len(current_chunk.get('text', '')) < min_length:
-                # Merge with current chunk
-                current_chunk['text'] = current_chunk.get('text', '') + ' ' + text
+            Args:
+                elements: List of document elements
+                min_length: Minimum length threshold for a chunk
                 
-                # Merge metadata where appropriate
-                if 'metadata' in element and 'metadata' in current_chunk:
-                    # Merge element types
-                    if 'element_types' in element['metadata'] and 'element_types' in current_chunk['metadata']:
-                        for et in element['metadata']['element_types']:
-                            if et not in current_chunk['metadata']['element_types']:
-                                current_chunk['metadata']['element_types'].append(et)
+            Returns:
+                List of merged chunks
+            """
+            if not elements:
+                return elements
+            
+            merged_elements = []
+            current_chunk = None
+            
+            for element in elements:
+                text = element.get('text', '')
+                
+                if current_chunk is None:
+                    current_chunk = element
+                elif len(current_chunk.get('text', '')) < min_length:
+                    # Merge with current chunk
+                    current_chunk['text'] = current_chunk.get('text', '') + ' ' + text
                     
-                    # Merge paragraph numbers if they exist
-                    if 'paragraph_numbers' in element['metadata'] and 'paragraph_numbers' in current_chunk['metadata']:
-                        for pn in element['metadata']['paragraph_numbers']:
-                            if pn not in current_chunk['metadata']['paragraph_numbers']:
-                                current_chunk['metadata']['paragraph_numbers'].append(pn)
-                    
-                    # Merge paragraph IDs if they exist
-                    if 'paragraph_ids' in element['metadata'] and 'paragraph_ids' in current_chunk['metadata']:
-                        for pid in element['metadata']['paragraph_ids']:
-                            if pid not in current_chunk['metadata']['paragraph_ids']:
-                                current_chunk['metadata']['paragraph_ids'].append(pid)
-            else:
-                # Current chunk is long enough, add to results
+                    # Merge metadata where appropriate
+                    if 'metadata' in element and 'metadata' in current_chunk:
+                        # Merge element types
+                        if 'element_types' in element['metadata'] and 'element_types' in current_chunk['metadata']:
+                            for et in element['metadata']['element_types']:
+                                if et not in current_chunk['metadata']['element_types']:
+                                    current_chunk['metadata']['element_types'].append(et)
+                        
+                        # Merge paragraph numbers if they exist
+                        if 'paragraph_numbers' in element['metadata'] and 'paragraph_numbers' in current_chunk['metadata']:
+                            for pn in element['metadata']['paragraph_numbers']:
+                                if pn not in current_chunk['metadata']['paragraph_numbers']:
+                                    current_chunk['metadata']['paragraph_numbers'].append(pn)
+                        
+                        # Merge paragraph IDs if they exist
+                        if 'paragraph_ids' in element['metadata'] and 'paragraph_ids' in current_chunk['metadata']:
+                            for pid in element['metadata']['paragraph_ids']:
+                                if pid not in current_chunk['metadata']['paragraph_ids']:
+                                    current_chunk['metadata']['paragraph_ids'].append(pid)
+                else:
+                    # Current chunk is long enough, add to results
+                    merged_elements.append(current_chunk)
+                    current_chunk = element
+            
+            # Don't forget the last chunk
+            if current_chunk is not None:
                 merged_elements.append(current_chunk)
-                current_chunk = element
-        
-        # Don't forget the last chunk
-        if current_chunk is not None:
-            merged_elements.append(current_chunk)
-        
-        return merged_elements
-        
-    @staticmethod
-    def split_long_chunks(elements: List[Dict[str, Any]], max_length: int = 1000) -> List[Dict[str, Any]]:
-        """
-        Split chunks that are longer than the maximum length threshold.
-        
-        Args:
-            elements: List of document elements
-            max_length: Maximum length threshold for a chunk
             
-        Returns:
-            List of split chunks
-        """
-        if not elements:
-            return elements
+            return merged_elements
             
-        result = []
-        chunk_id_counter = 0
-        
-        for element in elements:
-            text = element.get('text', '')
+        @staticmethod
+        def split_long_chunks(elements: List[Dict[str, Any]], max_length: int = 1000) -> List[Dict[str, Any]]:
+            """
+            Split chunks that are longer than the maximum length threshold.
             
-            # If the element is short enough, keep it as is
-            if len(text) <= max_length:
-                result.append(element)
-                continue
+            Args:
+                elements: List of document elements
+                max_length: Maximum length threshold for a chunk
+                
+            Returns:
+                List of split chunks
+            """
+            if not elements:
+                return elements
+                
+            result = []
+            chunk_id_counter = 0
             
-            # If the element has sentences, use those for splitting
-            sentences = element.get('sentences', [])
-            if not sentences and text:
-                # If no sentences are provided but we have text, tokenize it
-                sentences = sent_tokenize(text)
-            
-            if not sentences:
-                # If still no sentences, just add the element as is
-                result.append(element)
-                continue
-            
-            # Split into multiple chunks
-            current_chunk_text = ""
-            current_sentences = []
-            
-            for sentence in sentences:
-                # Check if adding this sentence would exceed the max length
-                if len(current_chunk_text) + len(sentence) + 1 > max_length and current_chunk_text:
-                    # Create a new chunk with current content
+            for element in elements:
+                text = element.get('text', '')
+                
+                # If the element is short enough, keep it as is
+                if len(text) <= max_length:
+                    result.append(element)
+                    continue
+                
+                # If the element has sentences, use those for splitting
+                sentences = element.get('sentences', [])
+                if not sentences and text:
+                    # If no sentences are provided but we have text, tokenize it
+                    sentences = sent_tokenize(text)
+                
+                if not sentences:
+                    # If still no sentences, just add the element as is
+                    result.append(element)
+                    continue
+                
+                # Split into multiple chunks
+                current_chunk_text = ""
+                current_sentences = []
+                
+                for sentence in sentences:
+                    # Check if adding this sentence would exceed the max length
+                    if len(current_chunk_text) + len(sentence) + 1 > max_length and current_chunk_text:
+                        # Create a new chunk with current content
+                        new_chunk = {
+                            "id": f"chunk_{chunk_id_counter}",
+                            "text": current_chunk_text.strip(),
+                            "sentences": current_sentences,
+                            "metadata": element.get('metadata', {}).copy()  # Copy metadata
+                        }
+                        result.append(new_chunk)
+                        chunk_id_counter += 1
+                        
+                        # Reset for next chunk
+                        current_chunk_text = sentence
+                        current_sentences = [sentence]
+                    else:
+                        # Add to current chunk
+                        if current_chunk_text:
+                            current_chunk_text += " " + sentence
+                        else:
+                            current_chunk_text = sentence
+                        current_sentences.append(sentence)
+                
+                # Add the last chunk if there's content
+                if current_chunk_text:
                     new_chunk = {
                         "id": f"chunk_{chunk_id_counter}",
                         "text": current_chunk_text.strip(),
                         "sentences": current_sentences,
-                        "metadata": element.get('metadata', {}).copy()  # Copy metadata
+                        "metadata": element.get('metadata', {}).copy()
                     }
                     result.append(new_chunk)
                     chunk_id_counter += 1
-                    
-                    # Reset for next chunk
-                    current_chunk_text = sentence
-                    current_sentences = [sentence]
-                else:
-                    # Add to current chunk
-                    if current_chunk_text:
-                        current_chunk_text += " " + sentence
-                    else:
-                        current_chunk_text = sentence
-                    current_sentences.append(sentence)
             
-            # Add the last chunk if there's content
-            if current_chunk_text:
-                new_chunk = {
-                    "id": f"chunk_{chunk_id_counter}",
-                    "text": current_chunk_text.strip(),
-                    "sentences": current_sentences,
-                    "metadata": element.get('metadata', {}).copy()
-                }
-                result.append(new_chunk)
-                chunk_id_counter += 1
-        
-        return result
-        
-    @staticmethod
-    def remove_gibberish(elements: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """
-        Remove gibberish text from chunks.
-        
-        This function removes common OCR artifacts and formatting issues.
-        
-        Args:
-            elements: List of document elements
+            return result
             
-        Returns:
-            List of cleaned chunks
-        """
-        if not elements:
-            return elements
+        @staticmethod
+        def remove_gibberish(elements: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+            """
+            Remove gibberish text from chunks.
             
-        cleaned_elements = []
-        
-        for element in elements:
-            if 'text' not in element:
-                continue
+            This function removes common OCR artifacts and formatting issues.
+            
+            Args:
+                elements: List of document elements
                 
-            text = element['text']
+            Returns:
+                List of cleaned chunks
+            """
+            if not elements:
+                return elements
+                
+            cleaned_elements = []
             
-            # Replace multiple spaces with a single space
-            text = ' '.join(text.split())
+            for element in elements:
+                if 'text' not in element:
+                    continue
+                    
+                text = element['text']
+                
+                # Replace multiple spaces with a single space
+                text = ' '.join(text.split())
+                
+                # Remove common OCR artifacts
+                text = text.replace('•', '').replace('|', '').replace('¦', '')
+                
+                # Remove excessive punctuation
+                for char in '.,;:!?':
+                    text = text.replace(f'{char}{char}{char}', f'{char}')
+                    text = text.replace(f'{char} {char}', f'{char}')
+                
+                # Only include elements that have meaningful content
+                if len(text.strip()) > 5:  # Arbitrary threshold to filter out tiny fragments
+                    element['text'] = text.strip()
+                    cleaned_elements.append(element)
             
-            # Remove common OCR artifacts
-            text = text.replace('•', '').replace('|', '').replace('¦', '')
-            
-            # Remove excessive punctuation
-            for char in '.,;:!?':
-                text = text.replace(f'{char}{char}{char}', f'{char}')
-                text = text.replace(f'{char} {char}', f'{char}')
-            
-            # Only include elements that have meaningful content
-            if len(text.strip()) > 5:  # Arbitrary threshold to filter out tiny fragments
-                element['text'] = text.strip()
-                cleaned_elements.append(element)
-        
-        return cleaned_elements
+            return cleaned_elements
 
 
 class ExtractedDataEncoder(json.JSONEncoder):
