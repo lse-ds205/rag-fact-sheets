@@ -505,6 +505,7 @@ class DocChunk:
 def _is_severely_corrupted(text: str) -> bool:
     """
     Check if text is so corrupted it should be completely rejected.
+    Updated to be less aggressive with legitimate formatted text.
     
     Args:
         text: Text to check
@@ -515,17 +516,24 @@ def _is_severely_corrupted(text: str) -> bool:
     if not text or len(text) < 10:
         return True
     
-    # Count CID references
+    # Count CID references - this is the primary corruption indicator
     cid_count = len(re.findall(r'\(cid:\d+\)', text))
     word_count = len(text.split())
     
-    # If more than 50% of "words" are CID references, reject
-    if word_count > 0 and (cid_count / word_count) > 0.5:
+    # If more than 30% of "words" are CID references, reject (was 50%)
+    if word_count > 0 and (cid_count / word_count) > 0.3:
         return True
     
-    # Check for strings that are mostly non-alphabetic
-    alpha_chars = sum(1 for c in text if c.isalpha())
-    if len(text) > 20 and (alpha_chars / len(text)) < 0.3:
+    # Check for strings that are mostly non-alphabetic, but be more lenient
+    # Include accented characters and common punctuation
+    legit_char_pattern = r'[a-zA-Z0-9àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞß\s.,;:!?()\-\'"]'
+    legit_chars = len(re.findall(legit_char_pattern, text))
+    
+    if len(text) > 20 and (legit_chars / len(text)) < 0.4:  # Lowered from 0.7 to 0.4
+        return True
+    
+    # Check for excessive Unicode replacement characters
+    if text.count('�') + text.count('\ufffd') > 5:
         return True
     
     return False
@@ -533,6 +541,7 @@ def _is_severely_corrupted(text: str) -> bool:
 def _clean_corrupted_text(text: str) -> str:
     """
     Clean text with character corruption issues.
+    Updated to preserve legitimate formatting.
     
     Args:
         text: Text to clean
@@ -546,11 +555,16 @@ def _clean_corrupted_text(text: str) -> str:
     # Remove CID references
     text = re.sub(r'\(cid:\d+\)', ' ', text)
     
-    # Remove excessive repeated characters (but preserve some like ... or ---)
-    text = re.sub(r'(.)\1{5,}', r'\1\1\1', text)
+    # Remove excessive repeated characters, but preserve table of contents dots
+    # Only replace if it's not a table of contents pattern
+    if not re.match(r'^[^.]*\.{10,}[^.]*$', text):  # Not a table of contents
+        text = re.sub(r'(.)\1{10,}', r'\1\1\1', text)  # Reduce excessive repetition
     
-    # Remove problematic Unicode characters that often indicate corruption
-    text = re.sub(r'[\uf8ff\uf8f0-\uf8ff]', ' ', text)
+    # Remove Unicode replacement characters
+    text = text.replace('�', ' ').replace('\ufffd', ' ')
+    
+    # Remove problematic control characters but preserve normal spaces and newlines
+    text = re.sub(r'[\x00-\x08\x0E-\x1F\x7F]', ' ', text)
     
     # Clean up whitespace
     text = re.sub(r'\s+', ' ', text)

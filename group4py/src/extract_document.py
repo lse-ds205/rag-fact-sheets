@@ -94,7 +94,7 @@ def extract_text_from_pdf(
             # Check for PDF corruption/encoding issues
             if _has_character_corruption(text):
                 has_corruption = True
-                logger.warning(f"Detected character corruption in element {i}: {text[:100]}...")
+                logger.debug(f"Detected character corruption in element {i}: {text[:100]}...")
                 continue  # Skip corrupted elements
             
             # Skip very short or empty text
@@ -152,6 +152,11 @@ def extract_text_from_pdf(
             except Exception as meta_error:
                 logger.warning(f"Error extracting metadata from element {i}: {meta_error}")
                 # Keep default metadata values
+            
+            processed_elements.append({
+                'text': text,
+                'metadata': metadata
+            })
 
         # If we detected corruption and got poor results, try OCR
         if has_corruption and len(processed_elements) < 5:
@@ -180,6 +185,7 @@ def extract_text_from_pdf(
 def _has_character_corruption(text: str) -> bool:
     """
     Detect if text contains character encoding corruption typical of PDF extraction issues.
+    Improved to reduce false positives with legitimate formatted text.
     
     Args:
         text: Text to check for corruption
@@ -190,22 +196,12 @@ def _has_character_corruption(text: str) -> bool:
     if not text:
         return False
     
-    # Check for CID (Character ID) corruption
+    # Check for CID (Character ID) corruption - this is the main indicator
     cid_pattern = r'\(cid:\d+\)'
     cid_matches = len(re.findall(cid_pattern, text))
     
     # If more than 10% of the text appears to be CID references, it's corrupted
     if cid_matches > 0 and (cid_matches * 10) > len(text.split()):
-        return True
-    
-    # Check for excessive repeated characters (often indicates corruption)
-    repeated_char_pattern = r'(.)\1{10,}'  # Same character repeated 10+ times
-    if re.search(repeated_char_pattern, text):
-        return True
-    
-    # Check for high percentage of non-printable or unusual characters
-    printable_chars = sum(1 for c in text if c.isprintable() and ord(c) < 127)
-    if len(text) > 0 and (printable_chars / len(text)) < 0.7:
         return True
     
     return False
@@ -267,6 +263,11 @@ def _retry_with_ocr(pdf_path: str, languages_list: list) -> List[Dict[str, Any]]
                         
             except Exception as meta_error:
                 logger.warning(f"Error extracting OCR metadata from element {i}: {meta_error}")
+            
+            processed_elements.append({
+                'text': text,
+                'metadata': metadata
+            })
 
         logger.info(f"OCR extraction produced {len(processed_elements)} elements")
         return processed_elements
