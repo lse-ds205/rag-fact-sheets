@@ -18,7 +18,8 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import NearestNeighbors
 from sqlalchemy import text
-from database import Connection, Document, DocChunkORM
+import uuid
+from database import Connection, Document, DocChunkORM, LogicalRelationshipORM
 from schema import DatabaseConfig, LogicalRelationship
 
 # Configure logging
@@ -28,15 +29,15 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ChunkData:
     """Memory-efficient chunk representation"""
-    chunk_id: int
+    chunk_id: str  # Changed from int to str to handle UUIDs
     content: str
     embedding: Optional[np.ndarray] = None
 
 @dataclass
 class RelationshipScore:
     """Relationship detection result"""
-    source_id: int
-    target_id: int
+    source_id: str  # Changed from int to str to handle UUIDs
+    target_id: str  # Changed from int to str to handle UUIDs
     relationship_type: str
     confidence: float
     evidence: str
@@ -45,7 +46,7 @@ class RelationshipScore:
 @dataclass
 class GraphAnalysisResult:
     """Graph analysis result for ranking"""
-    chunk_id: int
+    chunk_id: str  # Changed from int to str to handle UUIDs
     content: str
     centrality_scores: Dict[str, float]
     community_id: int
@@ -54,7 +55,7 @@ class GraphAnalysisResult:
 @dataclass
 class NodeClassification:
     """Classification result for a single node"""
-    chunk_id: int
+    chunk_id: str  # Changed from int to str to handle UUIDs
     content: str
     centrality_scores: Dict[str, float]
     combined_score: float
@@ -66,11 +67,23 @@ class MemoryOptimizedEmbedder:
     """Memory-efficient embedding generator"""
     
     def __init__(self, model_name: str = "all-MiniLM-L6-v2", batch_size: int = 32):
-        self.model = SentenceTransformer(model_name)
         self.batch_size = batch_size
+        
+        try:
+            # Try to load as sentence transformer first
+            self.model = SentenceTransformer(model_name)
+            logger.info(f"Loaded sentence transformer model: {model_name}")
+        except Exception as e:
+            logger.warning(f"Failed to load {model_name} as sentence transformer: {e}")
+            
+            # Fallback to a reliable model
+            fallback_model = "all-MiniLM-L6-v2"
+            logger.info(f"Falling back to reliable model: {fallback_model}")
+            self.model = SentenceTransformer(fallback_model)
+            
         self.embedding_dim = self.model.get_sentence_embedding_dimension()
-        logger.info(f"Initialized embedder: {model_name} (dim: {self.embedding_dim})")
-    
+        logger.info(f"Initialized embedder with embedding dimension: {self.embedding_dim}")
+
     def encode_batch(self, texts: List[str]) -> np.ndarray:
         """Encode texts in batches to manage memory"""
         embeddings = []
@@ -181,36 +194,62 @@ class LogicalRelationshipDetector:
         # Pattern strength (more specific patterns = higher strength)
         pattern_strength = 0.8 if r'\d+' in source_pattern else 0.6
         
-        # Distance penalty (closer chunks more likely to be related)
-        # Convert chunk_id to int if it's a string to avoid TypeError
-        try:
-            source_id = int(source.chunk_id) if isinstance(source.chunk_id, str) else source.chunk_id
-            target_id = int(target.chunk_id) if isinstance(target.chunk_id, str) else target.chunk_id
-            distance_penalty = max(0.1, 1.0 - abs(source_id - target_id) * 0.001)
-        except (ValueError, TypeError):
-            # Fallback if conversion fails or other errors occur
-            distance_penalty = 0.5  # Use a neutral value
-            logger.warning(f"Could not calculate distance penalty between chunks {source.chunk_id} and {target.chunk_id}. Using default value.")
+        # For UUID chunk IDs, we can't calculate meaningful distance penalty
+        # Instead, we'll use other factors to determine relationship strength
+        source_id_str = str(source.chunk_id)
+        target_id_str = str(target.chunk_id)
         
-        # Combined confidence
-        confidence = (
-            0.3 * semantic_sim + 
-            0.5 * pattern_strength + 
-            0.2 * distance_penalty
+        # Check if these are UUIDs (contain hyphens and are 36 characters long)
+        is_uuid_format = (
+            len(source_id_str) == 36 and '-' in source_id_str and
+            len(target_id_str) == 36 and '-' in target_id_str
         )
+        
+        if is_uuid_format:
+            # For UUIDs, we can't use numeric distance, so we'll use semantic similarity more heavily
+            # and add a small randomness factor based on the UUID to break ties
+            uuid_factor = 0.1 * (hash(source_id_str + target_id_str) % 100) / 100
+            
+            # Weighted confidence calculation for UUIDs (no distance penalty)
+            confidence = (
+                0.5 * semantic_sim +      # Increase semantic weight
+                0.4 * pattern_strength +  # Keep pattern strength important
+                0.1 * uuid_factor        # Small factor for tie-breaking
+            )
+        else:
+            # Try to use numeric distance for non-UUID IDs
+            try:
+                source_id = int(source.chunk_id) if isinstance(source.chunk_id, str) else source.chunk_id
+                target_id = int(target.chunk_id) if isinstance(target.chunk_id, str) else target.chunk_id
+                distance_penalty = max(0.1, 1.0 - abs(source_id - target_id) * 0.001);
+                
+                # Original confidence calculation for numeric IDs
+                confidence = (
+                    0.3 * semantic_sim + 
+                    0.5 * pattern_strength + 
+                    0.2 * distance_penalty
+                )
+            except (ValueError, TypeError):
+                # Fallback for any other ID format
+                logger.debug(f"Using fallback confidence calculation for chunks {source.chunk_id} and {target.chunk_id}")
+                confidence = (
+                    0.6 * semantic_sim + 
+                    0.4 * pattern_strength
+                )
         
         return min(confidence, 1.0)
 
 class HopRAGGraphProcessor:
     """Main graph processing engine with memory optimization"""
     
-    def __init__(self, db_config: DatabaseConfig, embedding_model: str = "climatebert/distilroberta-base-climate-f"):
+    def __init__(self, db_config: DatabaseConfig, embedding_model: str = "all-MiniLM-L6-v2"):
         self.db_config = db_config
         self.db_connection = Connection(config=db_config)
         self.embedder = MemoryOptimizedEmbedder(embedding_model)
         self.relationship_detector = LogicalRelationshipDetector()
         self.executor = ThreadPoolExecutor(max_workers=4)
-        
+        logger.info(f"HopRAGGraphProcessor initialized with model: {embedding_model}")
+
     async def initialize(self):
         """Initialize database connections"""
         success = self.db_connection.connect()
@@ -288,7 +327,7 @@ class HopRAGGraphProcessor:
             if doc_id:
                 logger.info(f"Building relationships for document: {doc_id}")
                 chunks_data = conn.execute(text("""
-                    SELECT id, content, transformer_embedding
+                    SELECT id, content, transformer_embedding, chunk_index
                     FROM doc_chunks 
                     WHERE transformer_embedding IS NOT NULL
                     AND doc_id = :doc_id
@@ -296,7 +335,7 @@ class HopRAGGraphProcessor:
                 """), {"doc_id": doc_id}).fetchall()
             else:
                 chunks_data = conn.execute(text("""
-                    SELECT id, content, transformer_embedding
+                    SELECT id, content, transformer_embedding, chunk_index
                     FROM doc_chunks 
                     WHERE transformer_embedding IS NOT NULL
                     ORDER BY id
@@ -310,6 +349,7 @@ class HopRAGGraphProcessor:
         
         # Convert to numpy for efficient operations
         chunk_ids = [row.id for row in chunks_data]
+        chunk_indices = [row.chunk_index for row in chunks_data]
         embeddings = np.array([row.transformer_embedding for row in chunks_data])
         
         # Use approximate nearest neighbors for efficiency
@@ -320,14 +360,17 @@ class HopRAGGraphProcessor:
         all_relationships = []
         batch_size = 100
         
+        # Create a mapping from chunk_id to chunk_index for distance calculation
+        id_to_index = {chunk_id: index for chunk_id, index in zip(chunk_ids, chunk_indices)}
+        
         for i in range(0, len(chunks_data), batch_size):
             batch_end = min(i + batch_size, len(chunks_data))
             batch_chunks = []
             
-            # Create ChunkData objects for current batch
+            # Create ChunkData objects for current batch with chunk_index instead of id
             for j in range(i, batch_end):
                 chunk_data = ChunkData(
-                    chunk_id=chunk_ids[j],
+                    chunk_id=chunk_ids[j],  # Keep UUID as ID
                     content=chunks_data[j].content,
                     embedding=embeddings[j]
                 )
@@ -370,62 +413,44 @@ class HopRAGGraphProcessor:
             del batch_chunks
             gc.collect()
         
-        # Insert relationships (using ORM to ensure consistency)
+        # Insert relationships using the Connection class upload method
         if all_relationships:
             logger.info(f"Inserting {len(all_relationships)} relationships into database")
             
-            # Create relationships table if it doesn't exist
-            with engine.connect() as conn:
-                conn.execute(text("""
-                    CREATE TABLE IF NOT EXISTS logical_relationships (
-                        id SERIAL PRIMARY KEY,
-                        source_chunk_id INTEGER NOT NULL,
-                        target_chunk_id INTEGER NOT NULL,
-                        relationship_type VARCHAR(50) NOT NULL,
-                        confidence FLOAT NOT NULL,
-                        evidence TEXT,
-                        method VARCHAR(50) DEFAULT 'rule_based',
-                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                        FOREIGN KEY (source_chunk_id) REFERENCES doc_chunks(id),
-                        FOREIGN KEY (target_chunk_id) REFERENCES doc_chunks(id)
-                    )
-                """))
-                conn.commit()
-                
-                # Insert relationships in batches for better performance
-                try:
-                    # Use batch execution for better performance
-                    for i in range(0, len(all_relationships), 100):
-                        batch = all_relationships[i:i+100]
-                        # Execute batch as transaction
-                        conn.begin()
-                        for rel in batch:
-                            conn.execute(text("""
-                                INSERT INTO logical_relationships 
-                                (source_chunk_id, target_chunk_id, relationship_type, confidence, evidence, method)
-                                VALUES (:source_id, :target_id, :rel_type, :confidence, :evidence, :method)
-                            """), {
-                                "source_id": rel.source_id,
-                                "target_id": rel.target_id,
-                                "rel_type": rel.relationship_type,
-                                "confidence": rel.confidence,
-                                "evidence": rel.evidence,
-                                "method": rel.method
-                            })
-                        conn.commit()
-                        logger.info(f"Inserted batch {i//100 + 1} of {(len(all_relationships) + 99)//100}")
-                        
-                    # Force commit if requested (extra safety)
-                    if force_commit:
-                        conn.commit()
-                        logger.info("Forced final commit of relationship data")
-                
-                except Exception as e:
-                    logger.error(f"Error inserting relationships: {e}")
-                    conn.rollback()
-                    raise
+            # Convert RelationshipScore objects to LogicalRelationshipORM objects
+            relationship_orms = []
+            for rel in all_relationships:
+                relationship_orm = LogicalRelationshipORM(
+                    id=str(uuid.uuid4()),
+                    source_chunk_id=str(rel.source_id),
+                    target_chunk_id=str(rel.target_id),
+                    relationship_type=rel.relationship_type,
+                    confidence=float(rel.confidence),
+                    evidence=rel.evidence,
+                    method=rel.method
+                )
+                relationship_orms.append(relationship_orm)
             
-            logger.info(f"Successfully inserted {len(all_relationships)} relationships into logical_relationships table")
+            # Use the Connection class upload method with batch processing
+            try:
+                # Process in smaller batches to avoid overwhelming the database
+                batch_size = 100
+                for i in range(0, len(relationship_orms), batch_size):
+                    batch = relationship_orms[i:i+batch_size]
+                    success = self.db_connection.upload(batch, table='logical_relationships')
+                    
+                    if not success:
+                        logger.error(f"Failed to upload relationship batch {i//batch_size + 1}")
+                        raise Exception(f"Database upload failed for batch {i//batch_size + 1}")
+                    
+                    logger.info(f"Uploaded relationship batch {i//batch_size + 1} of {(len(relationship_orms) + batch_size - 1)//batch_size}")
+                
+                logger.info(f"Successfully uploaded {len(relationship_orms)} relationships using Connection.upload()")
+                
+            except Exception as e:
+                logger.error(f"Error uploading relationships using Connection class: {e}")
+                raise
+            
         else:
             logger.warning("No relationships detected to insert")
         
@@ -440,21 +465,19 @@ class HopRAGGraphProcessor:
         engine = self.db_connection.get_engine()
         
         with engine.connect() as conn:
-            # Optimized BFS query with correct table names
+            # Fixed BFS query with correct CTE syntax            
             result = conn.execute(text("""
                 WITH RECURSIVE hop_expansion AS (
-                    -- Initial query matching with relevance scoring
+                    -- Initial query matching (no ORDER BY or LIMIT allowed here)
                     SELECT 
                         dc.id as chunk_id,
                         dc.content,
                         ARRAY[dc.id] as path,
                         0 as hops,
-                        1.0 as confidence,
-                        ts_rank(to_tsvector('english', dc.content), plainto_tsquery('english', :query)) as initial_relevance
+                        CAST(1.0 AS DOUBLE PRECISION) as confidence,
+                        CAST(ts_rank(to_tsvector('english', dc.content), plainto_tsquery('english', :query)) AS DOUBLE PRECISION) as initial_relevance
                     FROM doc_chunks dc
                     WHERE to_tsvector('english', dc.content) @@ plainto_tsquery('english', :query)
-                    ORDER BY initial_relevance DESC
-                    LIMIT 5
                     
                     UNION ALL
                     
@@ -474,6 +497,31 @@ class HopRAGGraphProcessor:
                       AND he.confidence > 0.4
                       AND NOT (lr.target_chunk_id = ANY(he.path))
                       AND array_length(he.path, 1) < 20
+                ),
+                -- Separate CTE to get top initial matches
+                top_initial AS (
+                    SELECT chunk_id, content, hops, confidence, initial_relevance
+                    FROM hop_expansion
+                    WHERE hops = 0
+                    ORDER BY initial_relevance DESC
+                    LIMIT 5
+                ),
+                -- Combine top initial matches with their expansions
+                filtered_expansion AS (
+                    SELECT he.chunk_id, he.content, he.hops, he.confidence, he.initial_relevance
+                    FROM hop_expansion he
+                    WHERE he.hops = 0 
+                      AND he.chunk_id IN (SELECT chunk_id FROM top_initial)
+                    
+                    UNION ALL
+                    
+                    SELECT he.chunk_id, he.content, he.hops, he.confidence, he.initial_relevance
+                    FROM hop_expansion he
+                    WHERE he.hops > 0
+                      AND EXISTS (
+                          SELECT 1 FROM top_initial ti 
+                          WHERE ti.chunk_id = ANY(he.path)
+                      )
                 )
                 SELECT DISTINCT 
                     chunk_id, 
@@ -481,7 +529,7 @@ class HopRAGGraphProcessor:
                     hops, 
                     confidence,
                     initial_relevance
-                FROM hop_expansion
+                FROM filtered_expansion
                 WHERE confidence > 0.3
                 ORDER BY confidence DESC, initial_relevance DESC, hops ASC
                 LIMIT :top_k;
@@ -489,7 +537,7 @@ class HopRAGGraphProcessor:
         
         return [dict(row._mapping) for row in result]
     
-    async def analyze_graph_structure(self, chunk_ids: List[int]) -> List[GraphAnalysisResult]:
+    async def analyze_graph_structure(self, chunk_ids: List[str]) -> List[GraphAnalysisResult]:  # Changed parameter type
         """Analyze graph structure and compute centrality measures"""
         
         if not chunk_ids:
@@ -499,7 +547,7 @@ class HopRAGGraphProcessor:
         
         # Get subgraph data with correct table names
         with engine.connect() as conn:
-            # Get nodes
+            # Get nodes - convert chunk_ids to list for PostgreSQL array compatibility
             nodes_data = conn.execute(text("""
                 SELECT id as chunk_id, content 
                 FROM doc_chunks 

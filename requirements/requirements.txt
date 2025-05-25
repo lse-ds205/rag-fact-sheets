@@ -23,5 +23,14 @@ pikepdf
 scrapy
 selenium
 webdriver-manager
+pytest
+sentence-transformers
+scikit-learn
+networkx
+asyncpg
+numpy
+hf_xet
+supabase
+pytesseract
 
 -c constraints.txt

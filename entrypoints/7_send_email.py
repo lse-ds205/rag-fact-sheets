@@ -8,9 +8,11 @@ import os
 import sys
 import json
 import argparse
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List, Union
 from dotenv import load_dotenv
 from supabase import create_client, Client
+import base64
+from pathlib import Path
 
 # Load environment variables from .env file
 load_dotenv()
@@ -224,6 +226,241 @@ class SupabaseEmailSender:
                 "error": str(e),
                 "status_code": None
             }
+    
+    def send_email_with_attachments(
+        self,
+        to_email: str,
+        subject: str,
+        html_content: str,
+        attachments: Optional[List[Dict[str, Any]]] = None,
+        from_email: Optional[str] = None,
+        text_content: Optional[str] = None,
+        reply_to: Optional[str] = None,
+        cc: Optional[str] = None,
+        bcc: Optional[str] = None,
+        tags: Optional[Dict[str, str]] = None
+    ) -> Dict[str, Any]:
+        """
+        Send an email with attachments using Supabase Edge Function.
+        
+        Args:
+            to_email (str): Recipient email address (required)
+            subject (str): Email subject (required)
+            html_content (str): HTML content of the email (required)
+            attachments (List[Dict], optional): List of attachment dictionaries
+            from_email (str, optional): Sender email address
+            text_content (str, optional): Plain text content
+            reply_to (str, optional): Reply-to email address
+            cc (str, optional): CC email address
+            bcc (str, optional): BCC email address
+            tags (Dict[str, str], optional): Tags for email tracking
+            
+        Attachment format:
+            {
+                "filename": "report.csv",
+                "content": "csv_content_string",
+                "content_type": "text/csv"
+            }
+            
+        Returns:
+            Dict[str, Any]: Response from the Edge Function
+        """
+        try:
+            # Use default sender if not provided
+            if not from_email:
+                from_email = self.get_default_sender()
+            
+            # Prepare the email payload
+            email_payload = {
+                "to": to_email,
+                "from": from_email,
+                "subject": subject,
+                "html": html_content,
+            }
+            
+            # Add optional fields if provided
+            if text_content:
+                email_payload["text"] = text_content
+            if reply_to:
+                email_payload["reply_to"] = reply_to
+            if cc:
+                email_payload["cc"] = cc
+            if bcc:
+                email_payload["bcc"] = bcc
+            if tags:
+                email_payload["tags"] = tags
+            
+            # Process attachments
+            if attachments:
+                processed_attachments = []
+                for attachment in attachments:
+                    # Encode content as base64 for transmission
+                    content = attachment.get("content", "")
+                    if isinstance(content, str):
+                        content_base64 = base64.b64encode(content.encode('utf-8')).decode('utf-8')
+                    else:
+                        content_base64 = base64.b64encode(content).decode('utf-8')
+                    
+                    processed_attachment = {
+                        "filename": attachment.get("filename", "attachment.txt"),
+                        "content": content_base64,
+                        "content_type": attachment.get("content_type", "text/plain")
+                    }
+                    processed_attachments.append(processed_attachment)
+                
+                email_payload["attachments"] = processed_attachments
+                print(f"📎 Attachments: {len(processed_attachments)} files")
+            
+            print(f"📧 Sending email to: {to_email}")
+            print(f"📝 Subject: {subject}")
+            print(f"👤 From: {from_email}")
+            
+            # Invoke the Edge Function
+            response = self.supabase.functions.invoke(
+                self.edge_function_name,
+                invoke_options={
+                    "body": email_payload
+                }
+            )
+            
+            # Handle different response formats from Supabase Python client
+            if hasattr(response, 'status_code'):
+                status_code = response.status_code
+            else:
+                status_code = getattr(response, 'status', 200)
+            
+            if status_code == 200:
+                print("✅ Email with attachments sent successfully!")
+                
+                # Extract response data
+                if hasattr(response, 'json'):
+                    response_data = response.json()
+                elif hasattr(response, 'data'):
+                    response_data = response.data
+                else:
+                    response_data = {"message": "Email sent successfully"}
+                
+                return {
+                    "success": True,
+                    "data": response_data,
+                    "status_code": status_code,
+                    "email_id": response_data.get("id") if isinstance(response_data, dict) else None
+                }
+            else:
+                print(f"❌ Failed to send email with attachments. Status: {status_code}")
+                
+                # Extract error message
+                if hasattr(response, 'text'):
+                    error_msg = response.text
+                elif hasattr(response, 'data'):
+                    error_msg = str(response.data)
+                else:
+                    error_msg = f"HTTP {status_code} error"
+                
+                return {
+                    "success": False,
+                    "error": error_msg,
+                    "status_code": status_code
+                }
+                
+        except Exception as e:
+            print(f"❌ Error sending email with attachments: {str(e)}")
+            return {
+                "success": False,
+                "error": str(e),
+                "status_code": None
+            }
+    
+    def send_ndc_report_email(
+        self,
+        to_email: str,
+        country: str,
+        submission_date: str,
+        target_years: Union[List[str], str],
+        questions_answers: Dict[str, str],
+        hoprag_results: Optional[Dict[str, Any]] = None,
+        from_email: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """
+        Send a complete NDC report email with both HTML and CSV attachments.
+        
+        Args:
+            to_email: Recipient email address
+            country: Country name
+            submission_date: Submission date
+            target_years: Target year(s)
+            questions_answers: Q&A dictionary
+            hoprag_results: Optional HopRAG analysis results
+            from_email: Optional sender email
+            
+        Returns:
+            Dict[str, Any]: Response from email sending
+        """
+        try:
+            # Import formatters
+            sys.path.append(str(Path(__file__).parent.parent))
+            from group4py.src.helpers import HTMLFormatter, CSVFormatter
+            
+            # Generate HTML content
+            html_content = HTMLFormatter.format_to_html(
+                country=country,
+                submission_date=submission_date,
+                target_years=target_years,
+                questions_answers=questions_answers
+            )
+            
+            # Generate CSV content
+            csv_content = CSVFormatter.format_to_csv(
+                country=country,
+                submission_date=submission_date,
+                target_years=target_years,
+                questions_answers=questions_answers
+            )
+            
+            # Prepare attachments
+            attachments = [
+                {
+                    "filename": f"ndc_report_{country.lower().replace(' ', '_')}.csv",
+                    "content": csv_content,
+                    "content_type": "text/csv"
+                }
+            ]
+            
+            # Add HopRAG results if available
+            if hoprag_results:
+                hoprag_csv = CSVFormatter.format_hoprag_results_to_csv(
+                    hoprag_results=hoprag_results,
+                    country=country,
+                    submission_date=submission_date,
+                    target_years=target_years
+                )
+                attachments.append({
+                    "filename": f"hoprag_analysis_{country.lower().replace(' ', '_')}.csv",
+                    "content": hoprag_csv,
+                    "content_type": "text/csv"
+                })
+            
+            # Email subject
+            subject = f"TPI X DS205 NDC Report - {country}"
+            
+            # Send email with attachments
+            return self.send_email_with_attachments(
+                to_email=to_email,
+                subject=subject,
+                html_content=html_content,
+                attachments=attachments,
+                from_email=from_email,
+                text_content=f"Please find attached the NDC report for {country}.",
+                tags={"report_type": "ndc", "country": country}
+            )
+            
+        except Exception as e:
+            print(f"❌ Error sending NDC report email: {str(e)}")
+            return {
+                "success": False,
+                "error": str(e),
+                "status_code": None
+            }
 
 
 def parse_arguments():
@@ -235,10 +472,18 @@ def parse_arguments():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
+  # Send NDC report with CSV attachment
+  python send_email.py --ndc-report --to user@example.com --country Singapore \\
+                       --submission-date "2022-06-01" --target-years "2030,2050"
+
+  # Send NDC report with custom Q&A data
+  python send_email.py --ndc-report --to user@example.com --country Singapore \\
+                       --qa-file questions_answers.json
+
   # Basic email (uses defaults from .env)
   python send_email.py
 
-  # Custom recipient and subject
+  # Custom recipient and subject  
   python send_email.py --to user@example.com --subject "Hello World"
 
   # Full custom email
@@ -253,6 +498,38 @@ Examples:
   # Load HTML from file
   python send_email.py --to user@example.com --html-file email.html
         """
+    )
+    
+    # NDC Report specific arguments
+    parser.add_argument(
+        '--ndc-report',
+        action='store_true',
+        help='Send a complete NDC report with HTML and CSV attachments'
+    )
+    
+    parser.add_argument(
+        '--country',
+        help='Country name for NDC report'
+    )
+    
+    parser.add_argument(
+        '--submission-date',
+        help='Submission date for NDC report (YYYY-MM-DD format)'
+    )
+    
+    parser.add_argument(
+        '--target-years',
+        help='Target years for NDC report (comma-separated, e.g., "2030,2050")'
+    )
+    
+    parser.add_argument(
+        '--qa-file',
+        help='JSON file containing questions and answers'
+    )
+    
+    parser.add_argument(
+        '--hoprag-file',
+        help='JSON file containing HopRAG analysis results'
     )
     
     # Required/Primary arguments
@@ -444,69 +721,117 @@ def main():
         # Initialize the email sender
         email_sender = SupabaseEmailSender()
         
-        # Get email configuration from environment variables or use defaults
-        recipient = args.to or os.getenv('EMAIL_RECIPIENT', email_sender.get_default_recipient())
-        subject = args.subject or os.getenv('EMAIL_SUBJECT', 'Test Email from GitHub Actions')
-        sender = getattr(args, 'from', None) or os.getenv('EMAIL_SENDER', email_sender.get_default_sender())
-        
-        # Handle template emails
-        if args.template:
-            try:
-                template_data = json.loads(args.template_data) if args.template_data else {}
-            except json.JSONDecodeError:
-                raise ValueError(f"Invalid JSON in template data: {args.template_data}")
+        # Handle NDC report emails
+        if args.ndc_report:
+            # Get required NDC report parameters
+            country = args.country or "Unknown Country"
+            submission_date = args.submission_date or "Not specified"
             
-            result = email_sender.send_template_email(
+            # Parse target years
+            if args.target_years:
+                target_years = [year.strip() for year in args.target_years.split(',')]
+            else:
+                target_years = ["2030"]
+            
+            # Load Q&A data
+            if args.qa_file:
+                try:
+                    with open(args.qa_file, 'r', encoding='utf-8') as f:
+                        questions_answers = json.load(f)
+                except Exception as e:
+                    raise ValueError(f"Error loading Q&A file: {e}")
+            else:
+                # Use default questions from CSVFormatter
+                sys.path.append(str(Path(__file__).parent.parent))
+                from group4py.src.helpers import CSVFormatter
+                questions_answers = CSVFormatter.DEFAULT_QUESTIONS
+            
+            # Load HopRAG results if provided
+            hoprag_results = None
+            if args.hoprag_file:
+                try:
+                    with open(args.hoprag_file, 'r', encoding='utf-8') as f:
+                        hoprag_results = json.load(f)
+                except Exception as e:
+                    print(f"Warning: Could not load HopRAG file: {e}")
+            
+            # Get recipient
+            recipient = args.to or email_sender.get_default_recipient()
+            
+            # Send NDC report email
+            result = email_sender.send_ndc_report_email(
                 to_email=recipient,
-                template_name=args.template,
-                template_data=template_data
+                country=country,
+                submission_date=submission_date,
+                target_years=target_years,
+                questions_answers=questions_answers,
+                hoprag_results=hoprag_results,
+                from_email=getattr(args, 'from', None)
             )
         else:
-            # Handle content from files or arguments
-            html_content = None
-            text_content = None
+            # Get email configuration from environment variables or use defaults
+            recipient = args.to or os.getenv('EMAIL_RECIPIENT', email_sender.get_default_recipient())
+            subject = args.subject or os.getenv('EMAIL_SUBJECT', 'Test Email from GitHub Actions')
+            sender = getattr(args, 'from', None) or os.getenv('EMAIL_SENDER', email_sender.get_default_sender())
             
-            if args.html:
-                html_content = args.html
-            elif args.html_file:
-                html_content = load_file_content(args.html_file)
+            # Handle template emails
+            if args.template:
+                try:
+                    template_data = json.loads(args.template_data) if args.template_data else {}
+                except json.JSONDecodeError:
+                    raise ValueError(f"Invalid JSON in template data: {args.template_data}")
                 
-            if args.text:
-                text_content = args.text
-            elif args.text_file:
-                text_content = load_file_content(args.text_file)
+                result = email_sender.send_template_email(
+                    to_email=recipient,
+                    template_name=args.template,
+                    template_data=template_data
+                )
+            else:
+                # Handle content from files or arguments
+                html_content = None
+                text_content = None
                 
-            # If no content is provided, create default content
-            if not html_content and not text_content:
-                html_content, text_content = create_default_content(args)
-                
-            # Print what would be sent in dry run mode
-            if args.dry_run:
-                print("\n=== DRY RUN - EMAIL WOULD BE SENT WITH THESE DETAILS ===")
-                print(f"To: {recipient}")
-                print(f"From: {sender}")
-                print(f"Subject: {subject}")
-                print(f"Reply-To: {args.reply_to}")
-                print(f"CC: {args.cc}")
-                print(f"BCC: {args.bcc}")
-                print("\n--- HTML Content ---")
-                print(html_content[:500] + ("..." if len(html_content) > 500 else ""))
-                print("\n--- Text Content ---")
-                print(text_content[:500] + ("..." if len(text_content) > 500 else ""))
-                print("\n=== DRY RUN COMPLETE - NO EMAIL SENT ===")
-                return
-                
-            # Send the email
-            result = email_sender.send_email(
-                to_email=recipient,  # Receiver
-                subject=subject,     # Subject
-                html_content=html_content,  # Message content (HTML)
-                from_email=sender,   # Sender
-                text_content=text_content,  # Message content (plain text)
-                reply_to=args.reply_to,
-                cc=args.cc,
-                bcc=args.bcc
-            )
+                if args.html:
+                    html_content = args.html
+                elif args.html_file:
+                    html_content = load_file_content(args.html_file)
+                    
+                if args.text:
+                    text_content = args.text
+                elif args.text_file:
+                    text_content = load_file_content(args.text_file)
+                    
+                # If no content is provided, create default content
+                if not html_content and not text_content:
+                    html_content, text_content = create_default_content(args)
+                    
+                # Print what would be sent in dry run mode
+                if args.dry_run:
+                    print("\n=== DRY RUN - EMAIL WOULD BE SENT WITH THESE DETAILS ===")
+                    print(f"To: {recipient}")
+                    print(f"From: {sender}")
+                    print(f"Subject: {subject}")
+                    print(f"Reply-To: {args.reply_to}")
+                    print(f"CC: {args.cc}")
+                    print(f"BCC: {args.bcc}")
+                    print("\n--- HTML Content ---")
+                    print(html_content[:500] + ("..." if len(html_content) > 500 else ""))
+                    print("\n--- Text Content ---")
+                    print(text_content[:500] + ("..." if len(text_content) > 500 else ""))
+                    print("\n=== DRY RUN COMPLETE - NO EMAIL SENT ===")
+                    return
+                    
+                # Send the email
+                result = email_sender.send_email(
+                    to_email=recipient,  # Receiver
+                    subject=subject,     # Subject
+                    html_content=html_content,  # Message content (HTML)
+                    from_email=sender,   # Sender
+                    text_content=text_content,  # Message content (plain text)
+                    reply_to=args.reply_to,
+                    cc=args.cc,
+                    bcc=args.bcc
+                )
         
         # Print result and exit with appropriate code
         if result['success']:

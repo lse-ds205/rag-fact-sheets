@@ -8,9 +8,11 @@ from helpers import Logger, Test, TaskInfo
 import os
 import json
 import nltk
+import traceback  # Add missing traceback import
 from typing import List, Dict, Any, Optional
 import logging  # Add explicit logging import
 from tqdm import tqdm  # Import tqdm for progress bars
+import re  # Import re for regular expressions
 
 # Ensure NLTK data is available
 try:
@@ -53,9 +55,9 @@ def extract_text_from_pdf(
         
     Returns:
         List of extracted elements with their metadata
-    """
-    # Validate and map strategy parameter
+    """    # Validate and map strategy parameter
     # Valid strategies for partition_pdf are "fast", "ocr_only", and "auto"
+    # Note: "hi_res" is not a valid strategy for partition_pdf
     valid_strategies = ["fast", "ocr_only", "auto"]
                 
     if strategy not in valid_strategies:
@@ -83,87 +85,100 @@ def extract_text_from_pdf(
         
         logger.info(f"Extracted {len(elements)} elements from PDF")
         
-        # Initialize paragraph tracking
-        paragraphs_by_page = {}  # Dict to track paragraph numbers by page
-        last_element_type = None
-        last_page_number = None
-        global_paragraph_count = 0  # Track paragraphs across the entire document
+        # Process and filter elements
+        processed_elements = []
         
-        # Convert unstructured elements to a more usable dictionary format
-        result = []
-        
-        # Use tqdm to track element processing
-        for i, element in enumerate(tqdm(elements, desc=f"Processing {filename}", unit="element", leave=False)):
-            # Skip empty elements
-            if not hasattr(element, 'text') or not element.text.strip():
+        for i, element in enumerate(elements):
+            # Get text content
+            text = str(element).strip() if element else ""
+            
+            # Skip very short or empty text
+            if len(text) < 10:
                 continue
-                
-            # Create a dictionary with element information
-            element_dict = {
-                "id": f"element_{i}",
-                "type": element.category if hasattr(element, 'category') else type(element).__name__,
-                "text": element.text if hasattr(element, 'text') else str(element),
-                "metadata": {
-                    "filename": filename
-                }
+            
+            # Skip common PDF artifacts
+            skip_patterns = [
+                r'^\d+$',  # Just page numbers
+                r'^[ivxlcdm]+$',  # Roman numerals only
+                r'^[\s\-_=\.]+$',  # Just punctuation/whitespace
+                r'^(page|pg)\s*\d+$',  # Page indicators
+            ]
+            
+            if any(re.match(pattern, text.lower()) for pattern in skip_patterns):
+                continue
+              # Extract metadata - handle both dict-like and object-like structures
+            metadata = {
+                'element_index': i,
+                'element_type': type(element).__name__,
+                'page_number': 1,  # Default value, will be updated below if available
+                'extraction_strategy': strategy
             }
             
-            # Get page number if available
-            page_number = None
-            if hasattr(element, "metadata") and hasattr(element.metadata, "page_number"):
-                page_number = element.metadata.page_number
-            elif hasattr(element, "page_number"):
-                page_number = element.page_number
-            else:
-                page_number = 0
-                
-            element_dict["metadata"]["page_number"] = page_number
+            # Handle metadata extraction from unstructured elements
+            try:
+                if hasattr(element, 'metadata') and element.metadata:
+                    element_metadata = element.metadata
+                    
+                    # Handle different metadata types
+                    if hasattr(element_metadata, 'page_number'):
+                        metadata['page_number'] = element_metadata.page_number
+                    elif hasattr(element_metadata, '__dict__'):
+                        # Convert object to dict and extract page_number
+                        meta_dict = element_metadata.__dict__
+                        metadata['page_number'] = meta_dict.get('page_number', 1)
+                    
+                    # Extract coordinates if available
+                    if hasattr(element_metadata, 'coordinates'):
+                        metadata['coordinates'] = element_metadata.coordinates
+                    elif hasattr(element_metadata, '__dict__'):
+                        meta_dict = element_metadata.__dict__
+                        if 'coordinates' in meta_dict:
+                            metadata['coordinates'] = meta_dict['coordinates']
+                    
+                    # Extract filename if available
+                    if hasattr(element_metadata, 'filename'):
+                        metadata['source_file'] = element_metadata.filename
+                    elif hasattr(element_metadata, '__dict__'):
+                        meta_dict = element_metadata.__dict__
+                        if 'filename' in meta_dict:
+                            metadata['source_file'] = meta_dict['filename']
+                            
+            except Exception as meta_error:
+                logger.warning(f"Error extracting metadata from element {i}: {meta_error}")
+                # Keep default metadata values
             
-            # Initialize or get paragraph counter for this page
-            if page_number not in paragraphs_by_page:
-                paragraphs_by_page[page_number] = 0
-                
-            # Determine if this is a new paragraph based on element type and context
-            is_new_paragraph = False
-            if page_number != last_page_number:  # New page = new paragraph
-                is_new_paragraph = True
-            elif element.category != last_element_type if hasattr(element, 'category') else True:  # Type change = new paragraph
-                is_new_paragraph = True
-            elif (hasattr(element, 'category') and 
-                  element.category == "NarrativeText" and last_element_type in ["Title", "ListItem"]):
-                is_new_paragraph = True
-                
-            if is_new_paragraph:
-                paragraphs_by_page[page_number] += 1
-                global_paragraph_count += 1  # Increment global paragraph counter
-                
-            # Update tracking variables
-            last_element_type = element.category if hasattr(element, 'category') else None
-            last_page_number = page_number
-            
-            # Add paragraph information to metadata
-            paragraph_id = f"p{page_number}_para{paragraphs_by_page[page_number]}"
-            element_dict["metadata"]["paragraph_id"] = paragraph_id
-            element_dict["metadata"]["paragraph_number"] = paragraphs_by_page[page_number]  # Add explicit paragraph number
-            element_dict["metadata"]["global_paragraph_number"] = global_paragraph_count  # Add global paragraph number
-            
-            # Add coordinates if available
-            if hasattr(element, "coordinates"):
-                element_dict["metadata"]["coordinates"] = element.coordinates
-                
-            # Add any other metadata that might be useful
-            if hasattr(element, "metadata"):
-                for key, value in vars(element.metadata).items():
-                    if key not in ["page_number"]:  # Skip already added metadata
-                        element_dict["metadata"][key] = value
-                        
-            result.append(element_dict)
+            processed_elements.append({
+                'text': text,
+                'metadata': metadata
+            })
         
-        logger.info(f"Successfully processed {len(result)} non-empty elements")
-        return result
+        logger.info(f"Successfully processed {len(processed_elements)} non-empty elements")
+        
+        # If we got no valid elements, try to extract any text we can find
+        if not processed_elements:
+            logger.warning(f"No valid elements found with strategy {strategy}, attempting basic text extraction")
+            
+            # Try to get any text content at all
+            for i, element in enumerate(elements):
+                text = str(element).strip() if element else ""
+                if text and len(text) > 0:  # Accept any non-empty text
+                    processed_elements.append({
+                        'text': text,
+                        'metadata': {
+                            'element_index': i,
+                            'element_type': type(element).__name__,
+                            'page_number': 1,
+                            'extraction_strategy': f"{strategy}_fallback"
+                        }
+                    })
+            
+            logger.info(f"Fallback extraction found {len(processed_elements)} elements")
+        
+        return processed_elements
         
     except Exception as e:
-        logger.error(f"Error extracting text from PDF {pdf_path}: {str(e)}", exc_info=True)
+        logger.error(f"Error extracting text from PDF {pdf_path}: {e}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         return []
     
 @Logger.debug_log()    

@@ -5,6 +5,8 @@ from pathlib import Path
 import traceback
 import logging
 import asyncio
+import argparse
+import json
 from typing import List, Dict, Any, Optional, Union, Tuple
 from dotenv import load_dotenv
 import os 
@@ -75,10 +77,10 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
         if force_reprocess and document:
             logger.info(f"[3_PROCESS] Force reprocessing document {doc_id}")
             session = connection.get_session()
-
             try:
                 # Remove existing chunks for this document
-                session.query(DocChunkDB).filter(DocChunkDB.doc_id == doc_id).delete()
+                session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_id).delete()
+
                 session.commit()
                 logger.info(f"[3_PROCESS] Removed existing chunks for document {doc_id}")
             except Exception as e:
@@ -126,20 +128,168 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                 session.add(new_document)
                 session.commit()
                 logger.info(f"[3_PROCESS] Created document record for {doc_id}")
+                
+                # Store document attributes before closing session to avoid DetachedInstanceError
+                document_country = new_document.country
                 document = new_document
+                
             except Exception as e:
                 logger.error(f"[3_PROCESS] Error creating document record: {e}")
                 session.rollback()
+                document_country = 'Unknown'
             finally:
                 session.close()
+        else:
+            # Store document attributes before any potential session changes
+            try:
+                # Create a new session to safely access the document attributes
+                temp_session = connection.get_session()
+                # Refresh the document object in the new session
+                document = temp_session.merge(document)
+                document_country = document.country if document.country else 'Unknown'
+                temp_session.close()
+            except Exception as e:
+                logger.warning(f"[3_PROCESS] Could not access document country: {e}")
+                document_country = 'Unknown'
         
-        # 1. Extract text from PDF
-        extracted_elements = extract_text_from_pdf(file_path)
+        # If force_reprocess is True and document exists, we need to delete existing chunks and relationships
+        if force_reprocess and document:
+            logger.info(f"[3_PROCESS] Force reprocessing document {doc_id}")
+            session = connection.get_session()
+            try:
+                # First, delete any logical relationships that reference this document's chunks
+                from group4py.src.database import LogicalRelationshipORM
+                
+                # Get all chunk IDs for this document
+                chunk_ids_subquery = session.query(DocChunkORM.id).filter(DocChunkORM.doc_id == doc_id).subquery()
+                
+                # Delete relationships where either source or target chunk belongs to this document
+                deleted_relationships = session.query(LogicalRelationshipORM).filter(
+                    (LogicalRelationshipORM.source_chunk_id.in_(chunk_ids_subquery)) |
+                    (LogicalRelationshipORM.target_chunk_id.in_(chunk_ids_subquery))
+                ).delete(synchronize_session=False)
+                
+                if deleted_relationships > 0:
+                    logger.info(f"[3_PROCESS] Deleted {deleted_relationships} relationships for document {doc_id}")
+                
+                # Now delete the chunks
+                deleted_chunks = session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_id).delete()
+                logger.info(f"[3_PROCESS] Removed {deleted_chunks} existing chunks for document {doc_id}")
+                
+                session.commit()
+                
+            except Exception as e:
+                logger.error(f"[3_PROCESS] Error removing existing chunks and relationships: {e}")
+                logger.error(f"[3_PROCESS] Traceback: {traceback.format_exc()}")
+                session.rollback()
+            finally:
+                session.close()
+          # Store document attributes before session closes to avoid DetachedInstanceError - this line can be removed as it's now handled above
+        # document_country = document.country if document else 'Unknown'
+        
+        # 1. Extract text from PDF with multiple strategies
+        extracted_elements = None
+        extraction_strategies = ['fast', 'auto', 'ocr_only']  # Use valid strategies for unstructured partition_pdf
+        
+        for strategy in extraction_strategies:
+            try:
+                logger.info(f"[3_PROCESS] Attempting text extraction with strategy: {strategy}")
+                raw_extracted_elements = extract_text_from_pdf(file_path, strategy=strategy)
+                
+                # Check if we got meaningful content from the extraction function
+                if raw_extracted_elements and len(raw_extracted_elements) > 0:
+                    logger.info(f"[3_PROCESS] Strategy {strategy} extracted {len(raw_extracted_elements)} elements")
+                    
+                    # Handle different element structures - some may be dicts, others may be objects
+                    text_content = []
+                    for elem in raw_extracted_elements:
+                        try:
+                            # Try dict-like access first
+                            if hasattr(elem, 'get'):
+                                text = elem.get('text', '').strip()
+                            # Try object attribute access
+                            elif hasattr(elem, 'text'):
+                                text = getattr(elem, 'text', '').strip()
+                            # Try direct string conversion
+                            elif isinstance(elem, str):
+                                text = elem.strip()
+                            # Try converting object to dict
+                            elif hasattr(elem, '__dict__'):
+                                elem_dict = elem.__dict__
+                                text = elem_dict.get('text', '').strip()
+                            else:
+                                text = str(elem).strip()
+                            
+                            if text:
+                                # Create standardized element structure
+                                standardized_elem = {
+                                    'text': text,
+                                    'metadata': {}
+                                }
+                                
+                                # Try to extract metadata if available
+                                try:
+                                    if hasattr(elem, 'get'):
+                                        standardized_elem['metadata'] = elem.get('metadata', {})
+                                    elif hasattr(elem, 'metadata'):
+                                        metadata = getattr(elem, 'metadata', {})
+                                        if hasattr(metadata, '__dict__'):
+                                            standardized_elem['metadata'] = metadata.__dict__
+                                        else:
+                                            standardized_elem['metadata'] = metadata if isinstance(metadata, dict) else {}
+                                    elif hasattr(elem, '__dict__'):
+                                        # Extract relevant metadata from object attributes
+                                        elem_dict = elem.__dict__
+                                        metadata = {}
+                                        for key, value in elem_dict.items():
+                                            if key != 'text' and not key.startswith('_'):
+                                                metadata[key] = value
+                                        standardized_elem['metadata'] = metadata
+                                except Exception as meta_error:
+                                    logger.warning(f"[3_PROCESS] Could not extract metadata from element: {meta_error}")
+                                    standardized_elem['metadata'] = {}
+                                
+                                text_content.append(standardized_elem)
+                        except Exception as elem_error:
+                            logger.warning(f"[3_PROCESS] Error processing element with strategy {strategy}: {elem_error}")
+                            continue
+                    
+                    if text_content:
+                        logger.info(f"[3_PROCESS] Successfully extracted {len(text_content)} text elements using {strategy} strategy")
+                        extracted_elements = text_content
+                        break  # Success! Stop trying other strategies
+                    else:
+                        logger.warning(f"[3_PROCESS] Strategy {strategy} returned elements but no actual text content")
+                else:
+                    logger.warning(f"[3_PROCESS] Strategy {strategy} returned no elements")
+                    
+            except Exception as e:
+                logger.warning(f"[3_PROCESS] Strategy {strategy} failed: {e}")
+                # Include traceback for debugging
+                logger.debug(f"[3_PROCESS] Strategy {strategy} traceback: {traceback.format_exc()}")
+                extracted_elements = None
+                continue
+        
+        # If all extraction strategies failed, try to create a minimal fallback
         if not extracted_elements:
-            logger.error(f"[3_PROCESS] No text extracted from {file_path}")
-            return None
+            logger.error(f"[3_PROCESS] All text extraction strategies failed for {file_path}")
+            
+            # Create a minimal fallback chunk with filename information
+            fallback_text = f"Document: {Path(file_path).name}\nCountry: {document_country}\nNote: Text extraction failed - document may be image-based or corrupted."
+            
+            extracted_elements = [{
+                'text': fallback_text,
+                'metadata': {
+                    'page_number': 1,
+                    'paragraph_number': 1,
+                    'extraction_method': 'fallback',
+                    'extraction_status': 'failed'
+                }
+            }]
+            
+            logger.warning(f"[3_PROCESS] Using fallback content for {file_path}")
         
-        logger.info(f"[3_PROCESS] Extracted {len(extracted_elements)} elements from {file_path}")
+        logger.info(f"[3_PROCESS] Final extracted elements count: {len(extracted_elements)}")
         
         # 2. Create chunks from the extracted text
         doc_chunker = DocChunker()
@@ -159,7 +309,21 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
         # Validate cleaned chunks before proceeding
         if not cleaned_chunks or len(cleaned_chunks) == 0:
             logger.error(f"[3_PROCESS] No valid chunks after cleaning for {file_path}")
-            return None
+            
+            # Create a minimal chunk if we have none
+            if extracted_elements:
+                minimal_chunk = {
+                    'text': extracted_elements[0].get('text', f"Minimal content for {Path(file_path).name}"),
+                    'metadata': {
+                        'chunk_index': 0,
+                        'extraction_method': 'minimal_fallback'
+                    }
+                }                
+                cleaned_chunks = [minimal_chunk]
+                logger.warning(f"[3_PROCESS] Created minimal fallback chunk for {file_path}")
+            else:
+                return None
+                
         # 4. Create DocChunk objects before uploading
         db_chunks = []
         for i, chunk in enumerate(cleaned_chunks):
@@ -167,7 +331,8 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
             if not chunk.get('text', '').strip():
                 logger.warning(f"[3_PROCESS] Skipping empty chunk {i} from {file_path}")
                 continue
-                  # Create a DocChunkORM instance
+                
+            # Create a DocChunkORM instance
             chunk_model = DocChunkORM(
                 id=str(uuid.uuid4()),
                 doc_id=file_name,
@@ -271,8 +436,6 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                     db_chunk.word2vec_embedding = word2vec_embedding
                     logger.debug(f"[3_PROCESS] Updated word2vec embedding for chunk {i} (length: {len(word2vec_embedding)})")
         
-            # Commit embedding changes
-            session.commit()
             logger.info(f"[3_PROCESS] Successfully updated embeddings for document {doc_id}")
             
             # 10. Run HopRAG processing after embeddings are complete
@@ -289,15 +452,9 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                 # Build relationships for this document's chunks with enhanced logging
                 logger.info(f"[3_PROCESS] Building logical relationships for {doc_id}")
                 
-                # Get the current relationship count before building
-                rel_count_before = 0
-                try:
-                    with processor.db_connection.get_engine().connect() as conn:
-                        result = conn.execute(text("SELECT COUNT(*) FROM logical_relationships"))
-                        rel_count_before = result.scalar() or 0
-                        logger.info(f"[3_PROCESS] Current relationship count: {rel_count_before}")
-                except Exception as e:
-                    logger.warning(f"[3_PROCESS] Could not get relationship count: {e}")
+                # Get the current relationship count before building using Connection class
+                rel_count_before = processor.db_connection.count_relationships()
+                logger.info(f"[3_PROCESS] Current relationship count: {rel_count_before}")
                 
                 # Build relationships with more detailed parameters
                 # Add filtering to focus only on chunks from the current document
@@ -313,24 +470,63 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                     force_commit=True  # Ensure relationships are committed to database
                 )
                 
-                # Check how many relationships were added
+                # Save HopRAG results to data folder
                 try:
-                    with processor.db_connection.get_engine().connect() as conn:
-                        # Check relationships for this specific document
-                        result = conn.execute(text("""
-                            SELECT COUNT(*) FROM logical_relationships lr
-                            JOIN doc_chunks dc1 ON lr.source_chunk_id = dc1.id
-                            WHERE dc1.doc_id = :doc_id
-                        """), {"doc_id": doc_id})
-                        doc_relationships = result.scalar() or 0
+                    logger.info(f"[3_PROCESS] Generating and saving HopRAG results for {doc_id}")
+                    
+                    # Test query processing for this document
+                    test_query = f"{doc_id} NDC targets emissions"
+                    hoprag_results = await processor.get_top_ranked_nodes(test_query, max_hops=3)
+                    
+                    # Create data directory structure
+                    data_dir = project_root / "data" / "hoprag_results"
+                    data_dir.mkdir(parents=True, exist_ok=True)
+                    
+                    # Generate timestamp for unique filename
+                    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                    results_filename = data_dir / f"hoprag_results_{doc_id}_{timestamp}.json"
+                      # Save results to JSON file
+                    with open(results_filename, 'w', encoding='utf-8') as f:
+                        json.dump(hoprag_results, f, indent=2, ensure_ascii=False, default=str)
+                    
+                    logger.info(f"[3_PROCESS] HopRAG results saved to: {results_filename}")
+                    logger.info(f"[3_PROCESS] Results summary - Total nodes: {hoprag_results.get('total_nodes', 0)}, "
+                              f"Top nodes: {len(hoprag_results.get('top_nodes', []))}, "
+                              f"Execution time: {hoprag_results.get('execution_time_ms', 0)}ms")
+                    
+                    # Also save a classification analysis if available
+                    try:
+                        from group4py.src.hop_rag import HopRAGClassifier
+                        classifier = HopRAGClassifier()
+                        classification_results = classifier.classify_nodes(hoprag_results)
                         
-                        # Get total relationships
-                        result = conn.execute(text("SELECT COUNT(*) FROM logical_relationships"))
-                        rel_count_after = result.scalar() or 0
+                        # Save classification results
+                        classification_filename = data_dir / f"hoprag_classification_{doc_id}_{timestamp}.json"
+                        with open(classification_filename, 'w', encoding='utf-8') as f:
+                            json.dump(classification_results, f, indent=2, ensure_ascii=False, default=str)
                         
-                        new_rels = rel_count_after - rel_count_before
-                        logger.info(f"[3_PROCESS] Added {new_rels} new relationships. Total now: {rel_count_after}")
-                        logger.info(f"[3_PROCESS] Document {doc_id} has {doc_relationships} relationships")
+                        logger.info(f"[3_PROCESS] HopRAG classification saved to: {classification_filename}")
+                        logger.info(f"[3_PROCESS] Classification summary - "
+                                  f"Total classified: {classification_results['classification_summary']['total_classified']}, "
+                                  f"Categories: {list(classification_results['classification_summary']['category_distribution'].keys())}")
+                        
+                    except Exception as classification_error:
+                        logger.warning(f"[3_PROCESS] Could not generate classification for {doc_id}: {classification_error}")
+                    
+                except Exception as save_error:
+                    logger.error(f"[3_PROCESS] Failed to save HopRAG results for {doc_id}: {save_error}")
+                    # Don't fail the entire process if saving results fails
+                
+                # Check how many relationships were added using Connection class
+                try:
+                    rel_count_after = processor.db_connection.count_relationships()
+                    new_rels = rel_count_after - rel_count_before
+                    logger.info(f"[3_PROCESS] Added {new_rels} new relationships. Total now: {rel_count_after}")
+                    
+                    # Get relationship counts by type for this document
+                    relationship_counts = processor.db_connection.count_relationships(by_type=True)
+                    logger.info(f"[3_PROCESS] Relationship counts by type: {relationship_counts}")
+                    
                 except Exception as e:
                     logger.warning(f"[3_PROCESS] Could not get updated relationship count: {e}")
                 
@@ -345,10 +541,9 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
             except Exception as e:
                 session.rollback()  # Roll back any failed HopRAG changes
                 logger.error(f"[3_PROCESS] HopRAG processing failed for {doc_id}: {str(e)}")
-                import traceback
-                logger.error(f"[3_PROCESS] Traceback: {traceback.format_exc()}")
+                #logger.error(f"[3_PROCESS] Traceback: {traceback.format_exc()}")
                 # Don't fail the entire process if HopRAG fails
-            
+
         except Exception as e:
             session.rollback()
             logger.error(f"[3_PROCESS] Error updating embeddings in database: {e}")
@@ -360,8 +555,8 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
         return db_chunks
     
     except Exception as e:
-        traceback_string = traceback.format_exc()
-        logger.error(f"[3_PROCESS] Error processing file {file_path}: {e}\n\nTraceback:\n{traceback_string}")
+        logger.error(f"[3_PROCESS] Error processing file {file_path}: {e}")
+        logger.error(f"[3_PROCESS] Traceback: {traceback.format_exc()}")
         return None
 
 async def process_file_many(file_path): 
