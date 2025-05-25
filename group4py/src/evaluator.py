@@ -63,8 +63,7 @@ class VectorComparison:
             # Get a session using the Connection class
             session = connection.get_session()
             
-            try:
-                # Determine which embedding column to use and convert prompt to vector string
+            try:                # Determine which embedding column to use and convert prompt to vector string
                 if embedding_type == 'transformer':
                     embedding_column = 'transformer_embedding'
                     vector_dim = 768
@@ -80,10 +79,8 @@ class VectorComparison:
                     logger.error(f"[VECTOR_SIMILARITY] Invalid embedding dimensions. Expected {vector_dim}, got {len(embedded_prompt) if embedded_prompt else 0}")
                     return []
                 
-                # Convert embedding to pgvector format
-                vector_str = '[' + ','.join(map(str, embedded_prompt)) + ']'
-                
-                # Build query based on parameters
+                # Convert embedding to PostgreSQL vector literal format
+                vector_literal = '[' + ','.join(map(str, embedded_prompt)) + ']'                # Build query based on parameters
                 if n_per_doc is not None:
                     # Query to get top N chunks per document with optional country filter
                     country_filter = "AND LOWER(d.country) = LOWER(:country)" if country else ""
@@ -97,17 +94,17 @@ class VectorComparison:
                                 c.chunk_index,
                                 c.paragraph,
                                 c.language,
-                                c.chunk_metadata,
+                                c.chunk_data,
                                 d.country,
-                                1 - (c.{embedding_column} <=> :query_vector) AS similarity_score,
+                                1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score,
                                 ROW_NUMBER() OVER (
                                     PARTITION BY c.doc_id 
-                                    ORDER BY c.{embedding_column} <=> :query_vector
+                                    ORDER BY c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})
                                 ) as rank
                             FROM doc_chunks c
                             JOIN documents d ON c.doc_id = d.doc_id
                             WHERE c.{embedding_column} IS NOT NULL
-                              AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
+                              AND 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) >= :min_similarity
                               {country_filter}
                         )
                         SELECT 
@@ -117,16 +114,14 @@ class VectorComparison:
                             chunk_index,
                             paragraph,
                             language,
-                            chunk_metadata,
+                            chunk_data,
                             country,
                             similarity_score
-                        FROM similarity_results
-                        WHERE rank <= :n_per_doc
+                        FROM similarity_results                        WHERE rank <= :n_per_doc
                         ORDER BY similarity_score DESC
                     """)
                     
                     query_params = {
-                        'query_vector': vector_str,
                         'n_per_doc': n_per_doc,
                         'min_similarity': min_similarity
                     }
@@ -144,20 +139,19 @@ class VectorComparison:
                                 c.chunk_index,
                                 c.paragraph,
                                 c.language,
-                                c.chunk_metadata,
+                                c.chunk_data,
                                 d.country,
-                                1 - (c.{embedding_column} <=> :query_vector) AS similarity_score
+                                1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
                             FROM doc_chunks c
                             JOIN documents d ON c.doc_id = d.doc_id
                             WHERE c.{embedding_column} IS NOT NULL
                               AND LOWER(d.country) = LOWER(:country)
-                              AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
-                            ORDER BY 1 - (c.{embedding_column} <=> :query_vector) DESC
+                              AND 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) >= :min_similarity
+                            ORDER BY 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) DESC
                             LIMIT :top_k
                         """)
                         
                         query_params = {
-                            'query_vector': vector_str,
                             'country': country,
                             'top_k': top_k,
                             'min_similarity': min_similarity
@@ -171,18 +165,17 @@ class VectorComparison:
                                 c.chunk_index,
                                 c.paragraph,
                                 c.language,
-                                c.chunk_metadata,
+                                c.chunk_data,
                                 NULL as country,
-                                1 - (c.{embedding_column} <=> :query_vector) AS similarity_score
+                                1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
                             FROM doc_chunks c
                             WHERE c.{embedding_column} IS NOT NULL
-                              AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
-                            ORDER BY 1 - (c.{embedding_column} <=> :query_vector) DESC
+                              AND 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) >= :min_similarity
+                            ORDER BY 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) DESC
                             LIMIT :top_k
                         """)
                         
                         query_params = {
-                            'query_vector': vector_str,
                             'top_k': top_k,
                             'min_similarity': min_similarity
                         }
@@ -200,7 +193,7 @@ class VectorComparison:
                         'chunk_index': row[3],
                         'paragraph': row[4],
                         'language': row[5],
-                        'chunk_metadata': row[6],
+                        'chunk_data': row[6],
                         'country': row[7],
                         'similarity_score': float(row[8])
                     }
@@ -255,14 +248,11 @@ class VectorComparison:
                 # Validate query_embedding dimensions
                 if not query_embedding or len(query_embedding) != vector_dim:
                     logger.error(f"[CHUNK_SIMILARITY] Invalid query embedding dimensions. Expected {vector_dim}, got {len(query_embedding) if query_embedding else 0}")
-                    return 0.0
-                
-                # Convert query embedding to pgvector format
-                vector_str = '[' + ','.join(map(str, query_embedding)) + ']'
-                
-                # Query to find the chunk by content and calculate similarity
+                    return 0.0                # Convert query embedding to PostgreSQL vector literal format
+                vector_literal = '[' + ','.join(map(str, query_embedding)) + ']'
+                  # Query to find the chunk by content and calculate similarity
                 query = text(f"""
-                    SELECT 1 - (c.{embedding_column} <=> :query_vector) AS similarity_score
+                    SELECT 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
                     FROM doc_chunks c
                     WHERE c.content = :chunk_content
                       AND c.{embedding_column} IS NOT NULL
@@ -270,7 +260,6 @@ class VectorComparison:
                 """)
                 
                 result = session.execute(query, {
-                    'query_vector': vector_str,
                     'chunk_content': chunk_content
                 })
                 
@@ -326,27 +315,22 @@ class VectorComparison:
                 # Validate query_embedding dimensions
                 if not query_embedding or len(query_embedding) != vector_dim:
                     logger.error(f"[BATCH_SIMILARITY] Invalid query embedding dimensions. Expected {vector_dim}, got {len(query_embedding) if query_embedding else 0}")
-                    return {}
-                
-                # Convert query embedding to pgvector format
-                vector_str = '[' + ','.join(map(str, query_embedding)) + ']'
+                    return {}                # Convert query embedding to PostgreSQL vector literal format
+                vector_literal = '[' + ','.join(map(str, query_embedding)) + ']'
                 
                 # Convert chunk_ids to tuple for SQL IN clause
                 chunk_ids_tuple = tuple(chunk_ids)
-                
-                # Query to calculate similarity for all specified chunks
+                  # Query to calculate similarity for all specified chunks
                 query = text(f"""
                     SELECT 
                         c.id,
-                        1 - (c.{embedding_column} <=> :query_vector) AS similarity_score
+                        1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
                     FROM doc_chunks c
-                    WHERE c.id IN :chunk_ids
+                    WHERE c.id = ANY(:chunk_ids)
                       AND c.{embedding_column} IS NOT NULL
-                """)
-                
+                """)                
                 result = session.execute(query, {
-                    'query_vector': vector_str,
-                    'chunk_ids': chunk_ids_tuple
+                    'chunk_ids': chunk_ids
                 })
                 
                 # Build result dictionary
@@ -748,7 +732,7 @@ class FuzzyRegexComparison:
             
             # Contextual pattern matching for different climate categories
             total_contextual_score = 0.0
-            for category, patterns in self.climate_patterns.items():
+            for category, patterns in results['contextual_matches'].items():
                 match_result = self.fuzzy_pattern_match(processed_chunk, patterns)
                 results['contextual_matches'][category] = match_result
                 total_contextual_score += match_result['total_score']

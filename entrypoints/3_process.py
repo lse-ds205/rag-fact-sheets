@@ -27,7 +27,7 @@ from group4py.src.extract_document import extract_text_from_pdf
 from group4py.src.chunk_embed import DocChunk as DocChunker, Embedding
 from group4py.src.helpers import Logger, Test, TaskInfo
 from group4py.src.schema import DocChunk
-from group4py.src.database import Connection, Document, DocChunkORM
+from group4py.src.database import Connection, NDCDocumentORM as Document, DocChunkORM
 from group4py.src.constants.settings import FILE_PROCESSING_CONCURRENCY
 from group4py.src.hop_rag import HopRAGGraphProcessor
 from group4py.src.schema import DatabaseConfig
@@ -63,7 +63,10 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
         logger.info(f"[3_PROCESS] Processing file {file_path}")
         
         # Check if document has already been processed
-        connection = Connection()
+        from group4py.src.schema import DatabaseConfig
+        config = DatabaseConfig.from_env()
+        connection = Connection(config)
+        connection.connect()
         doc_id = file_name
         
         # Use the new check_document_processed function
@@ -72,27 +75,47 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
         if is_processed and not force_reprocess:
             logger.info(f"[3_PROCESS] Document {doc_id} has already been processed. Skipping.")
             return None
-            
-        # If force_reprocess is True and document exists, we need to delete existing chunks
+        
+        # Convert string doc_id to UUID using deterministic UUID5 (do this once at the start)
+        doc_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, doc_id)
+        
+        # Handle force reprocessing and document creation in a coordinated way
         if force_reprocess and document:
             logger.info(f"[3_PROCESS] Force reprocessing document {doc_id}")
             session = connection.get_session()
             try:
-                # Remove existing chunks for this document
-                session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_id).delete()
-
+                # First, delete any logical relationships that reference this document's chunks
+                from group4py.src.database import LogicalRelationshipORM
+                from sqlalchemy import select
+                
+                # Get all chunk IDs for this document using explicit select
+                chunk_ids_query = select(DocChunkORM.id).filter(DocChunkORM.doc_id == doc_uuid)
+                
+                # Delete relationships where either source or target chunk belongs to this document
+                deleted_relationships = session.query(LogicalRelationshipORM).filter(
+                    (LogicalRelationshipORM.source_chunk_id.in_(chunk_ids_query)) |
+                    (LogicalRelationshipORM.target_chunk_id.in_(chunk_ids_query))
+                ).delete(synchronize_session=False)
+                
+                if deleted_relationships > 0:
+                    logger.info(f"[3_PROCESS] Deleted {deleted_relationships} relationships for document {doc_id}")
+                
+                # Now delete the chunks
+                deleted_chunks = session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_uuid).delete()
+                logger.info(f"[3_PROCESS] Removed {deleted_chunks} existing chunks for document {doc_id}")
+                
                 session.commit()
-                logger.info(f"[3_PROCESS] Removed existing chunks for document {doc_id}")
+                
             except Exception as e:
-                logger.error(f"[3_PROCESS] Error removing existing chunks: {e}")
+                logger.error(f"[3_PROCESS] Error removing existing chunks and relationships: {e}")
+                logger.error(f"[3_PROCESS] Traceback: {traceback.format_exc()}")
                 session.rollback()
             finally:
                 session.close()
         
-        # If document doesn't exist, create it first before proceeding with chunk processing
+        # Ensure document exists in database
         if not document:
             logger.info(f"[3_PROCESS] Document {doc_id} not found in database. Creating record...")
-
             session = connection.get_session()
             
             try:
@@ -115,14 +138,15 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                 
                 # Create document record
                 new_document = Document(
-                    doc_id=doc_id,
+                    doc_id=doc_uuid,
                     country=country,
                     title=f"{country} NDC",
-                    url="",  # Empty URL since we're processing local files
+                    url=f"file:///{file_path.replace(os.sep, '/')}",  # Convert local path to file:// URL
                     language=language,
                     submission_date=submission_date,
                     file_path=file_path,
-                    file_size=Path(file_path).stat().st_size / (1024 * 1024)  # Size in MB
+                    file_size=Path(file_path).stat().st_size / (1024 * 1024),  # Size in MB
+                    scraped_at=datetime.now()  # Use current timestamp for local files
                 )
                 
                 session.add(new_document)
@@ -137,6 +161,8 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                 logger.error(f"[3_PROCESS] Error creating document record: {e}")
                 session.rollback()
                 document_country = 'Unknown'
+                # If we can't create the document, we can't proceed
+                return None
             finally:
                 session.close()
         else:
@@ -159,21 +185,22 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
             try:
                 # First, delete any logical relationships that reference this document's chunks
                 from group4py.src.database import LogicalRelationshipORM
+                from sqlalchemy import select
                 
-                # Get all chunk IDs for this document
-                chunk_ids_subquery = session.query(DocChunkORM.id).filter(DocChunkORM.doc_id == doc_id).subquery()
+                # Get all chunk IDs for this document using explicit select
+                chunk_ids_query = select(DocChunkORM.id).filter(DocChunkORM.doc_id == doc_uuid)
                 
                 # Delete relationships where either source or target chunk belongs to this document
                 deleted_relationships = session.query(LogicalRelationshipORM).filter(
-                    (LogicalRelationshipORM.source_chunk_id.in_(chunk_ids_subquery)) |
-                    (LogicalRelationshipORM.target_chunk_id.in_(chunk_ids_subquery))
+                    (LogicalRelationshipORM.source_chunk_id.in_(chunk_ids_query)) |
+                    (LogicalRelationshipORM.target_chunk_id.in_(chunk_ids_query))
                 ).delete(synchronize_session=False)
                 
                 if deleted_relationships > 0:
                     logger.info(f"[3_PROCESS] Deleted {deleted_relationships} relationships for document {doc_id}")
                 
                 # Now delete the chunks
-                deleted_chunks = session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_id).delete()
+                deleted_chunks = session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_uuid).delete()
                 logger.info(f"[3_PROCESS] Removed {deleted_chunks} existing chunks for document {doc_id}")
                 
                 session.commit()
@@ -184,8 +211,6 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                 session.rollback()
             finally:
                 session.close()
-          # Store document attributes before session closes to avoid DetachedInstanceError - this line can be removed as it's now handled above
-        # document_country = document.country if document else 'Unknown'
         
         # 1. Extract text from PDF with multiple strategies
         extracted_elements = None
@@ -323,9 +348,9 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                 logger.warning(f"[3_PROCESS] Created minimal fallback chunk for {file_path}")
             else:
                 return None
-                
-        # 4. Create DocChunk objects before uploading
+                  # 4. Create DocChunk objects before uploading
         db_chunks = []
+        
         for i, chunk in enumerate(cleaned_chunks):
             # Skip empty chunks
             if not chunk.get('text', '').strip():
@@ -334,8 +359,8 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                 
             # Create a DocChunkORM instance
             chunk_model = DocChunkORM(
-                id=str(uuid.uuid4()),
-                doc_id=file_name,
+                id=uuid.uuid4(),  # Use UUID object instead of string
+                doc_id=doc_uuid,  # Use the UUID we created at the start
                 content=chunk.get('text', ''),
                 chunk_index=i,
                 paragraph=chunk.get('metadata', {}).get('paragraph_number'),
@@ -349,7 +374,7 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
         if not db_chunks:
             logger.error(f"[3_PROCESS] No valid chunks to upload for {file_path}")
             return None
-            
+        
         # 5. Upload chunks to the database, specifically to doc_chunks table
         logger.info(f"[3_PROCESS] Attempting to upload {len(db_chunks)} chunks to database for {file_path}")
         upload_success = connection.upload(db_chunks, table='doc_chunks')
@@ -397,12 +422,12 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
         
         # 9. Process the embeddings and update the database
         session = connection.get_session()
-
-        try:            
+        try:           
             # Retrieve the existing chunks from the database to get their IDs
-            db_chunk_query = session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_id).all()
+            db_chunk_query = session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_uuid).all()
             db_chunk_dict = {chunk.chunk_index: chunk for chunk in db_chunk_query}
             
+            embeddings_updated = 0
             # Update each chunk with its embeddings
             for i, chunk in enumerate(cleaned_chunks):
                 # Skip chunks that don't exist in the database
@@ -423,20 +448,30 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                 # Get the corresponding database object
                 db_chunk = db_chunk_dict[i]
                 
+                # Track if we updated anything
+                chunk_updated = False
+                
                 # Update embeddings if they exist and are valid
                 if transformer_embedding and isinstance(transformer_embedding, list) and len(transformer_embedding) > 0:
                     # Ensure all elements are floats
                     transformer_embedding = [float(val) if not isinstance(val, float) else val for val in transformer_embedding]
                     db_chunk.transformer_embedding = transformer_embedding
+                    chunk_updated = True
                     logger.debug(f"[3_PROCESS] Updated transformer embedding for chunk {i} (length: {len(transformer_embedding)})")
                 
                 if word2vec_embedding and isinstance(word2vec_embedding, list) and len(word2vec_embedding) > 0:
                     # Ensure all elements are floats
                     word2vec_embedding = [float(val) if not isinstance(val, float) else val for val in word2vec_embedding]
                     db_chunk.word2vec_embedding = word2vec_embedding
+                    chunk_updated = True
                     logger.debug(f"[3_PROCESS] Updated word2vec embedding for chunk {i} (length: {len(word2vec_embedding)})")
+                
+                if chunk_updated:
+                    embeddings_updated += 1
         
-            logger.info(f"[3_PROCESS] Successfully updated embeddings for document {doc_id}")
+            # Commit the embedding updates
+            session.commit()
+            logger.info(f"[3_PROCESS] Successfully updated embeddings for {embeddings_updated} chunks in document {doc_id}")
             
             # 10. Run HopRAG processing after embeddings are complete
             try:
@@ -470,53 +505,6 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                     force_commit=True  # Ensure relationships are committed to database
                 )
                 
-                # Save HopRAG results to data folder
-                try:
-                    logger.info(f"[3_PROCESS] Generating and saving HopRAG results for {doc_id}")
-                    
-                    # Test query processing for this document
-                    test_query = f"{doc_id} NDC targets emissions"
-                    hoprag_results = await processor.get_top_ranked_nodes(test_query, max_hops=3)
-                    
-                    # Create data directory structure
-                    data_dir = project_root / "data" / "hoprag_results"
-                    data_dir.mkdir(parents=True, exist_ok=True)
-                    
-                    # Generate timestamp for unique filename
-                    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-                    results_filename = data_dir / f"hoprag_results_{doc_id}_{timestamp}.json"
-                      # Save results to JSON file
-                    with open(results_filename, 'w', encoding='utf-8') as f:
-                        json.dump(hoprag_results, f, indent=2, ensure_ascii=False, default=str)
-                    
-                    logger.info(f"[3_PROCESS] HopRAG results saved to: {results_filename}")
-                    logger.info(f"[3_PROCESS] Results summary - Total nodes: {hoprag_results.get('total_nodes', 0)}, "
-                              f"Top nodes: {len(hoprag_results.get('top_nodes', []))}, "
-                              f"Execution time: {hoprag_results.get('execution_time_ms', 0)}ms")
-                    
-                    # Also save a classification analysis if available
-                    try:
-                        from group4py.src.hop_rag import HopRAGClassifier
-                        classifier = HopRAGClassifier()
-                        classification_results = classifier.classify_nodes(hoprag_results)
-                        
-                        # Save classification results
-                        classification_filename = data_dir / f"hoprag_classification_{doc_id}_{timestamp}.json"
-                        with open(classification_filename, 'w', encoding='utf-8') as f:
-                            json.dump(classification_results, f, indent=2, ensure_ascii=False, default=str)
-                        
-                        logger.info(f"[3_PROCESS] HopRAG classification saved to: {classification_filename}")
-                        logger.info(f"[3_PROCESS] Classification summary - "
-                                  f"Total classified: {classification_results['classification_summary']['total_classified']}, "
-                                  f"Categories: {list(classification_results['classification_summary']['category_distribution'].keys())}")
-                        
-                    except Exception as classification_error:
-                        logger.warning(f"[3_PROCESS] Could not generate classification for {doc_id}: {classification_error}")
-                    
-                except Exception as save_error:
-                    logger.error(f"[3_PROCESS] Failed to save HopRAG results for {doc_id}: {save_error}")
-                    # Don't fail the entire process if saving results fails
-                
                 # Check how many relationships were added using Connection class
                 try:
                     rel_count_after = processor.db_connection.count_relationships()
@@ -534,19 +522,19 @@ async def process_file_one(file_path: str, force_reprocess: bool = False):
                 await processor.close()
                 logger.info(f"[3_PROCESS] HopRAG processing completed for {doc_id}")
                 
-                # Ensure any remaining changes from HopRAG are committed to the database
+                # Final commit to ensure all changes are persisted
                 session.commit()
-                logger.info(f"[3_PROCESS] Successfully committed HopRAG relationship changes")
+                logger.info(f"[3_PROCESS] Successfully committed all changes for document {doc_id}")
                 
             except Exception as e:
                 session.rollback()  # Roll back any failed HopRAG changes
                 logger.error(f"[3_PROCESS] HopRAG processing failed for {doc_id}: {str(e)}")
-                #logger.error(f"[3_PROCESS] Traceback: {traceback.format_exc()}")
                 # Don't fail the entire process if HopRAG fails
 
         except Exception as e:
             session.rollback()
             logger.error(f"[3_PROCESS] Error updating embeddings in database: {e}")
+            logger.error(f"[3_PROCESS] Traceback: {traceback.format_exc()}")
         finally:
             session.close()
         

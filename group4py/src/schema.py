@@ -75,9 +75,8 @@ class DocChunk(BaseModel):
     
     # Metadata field (renamed to chunk_data in the database to avoid SQLAlchemy reserved word conflict)
     chunk_data: Optional[Dict[str, Any]] = Field(default_factory=dict)  # JSONB metadata stored in chunk_data column
-    
-    # HopRAG-specific columns (added by setup script)
-    embedding: Optional[List[float]] = None  # Vector embedding for HopRAG (VECTOR type)
+      # HopRAG-specific columns (added by setup script)
+    hoprag_embedding: Optional[List[float]] = None  # Vector embedding for HopRAG (VECTOR type)
     content_hash: Optional[str] = None
     
     # Timestamps
@@ -91,7 +90,7 @@ class DocChunkUpdate(BaseModel):
     """Pydantic model for updating document chunks."""
     transformer_embedding: Optional[List[float]] = None
     word2vec_embedding: Optional[List[float]] = None
-    embedding: Optional[List[float]] = None
+    hoprag_embedding: Optional[List[float]] = None
     content_hash: Optional[str] = None
     chunk_data: Optional[Dict[str, Any]] = None
 

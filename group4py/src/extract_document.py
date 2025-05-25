@@ -8,11 +8,11 @@ from helpers import Logger, Test, TaskInfo
 import os
 import json
 import nltk
-import traceback  # Add missing traceback import
+import traceback
+import logging
+import re
 from typing import List, Dict, Any, Optional
-import logging  # Add explicit logging import
-from tqdm import tqdm  # Import tqdm for progress bars
-import re  # Import re for regular expressions
+from tqdm import tqdm
 
 # Ensure NLTK data is available
 try:
@@ -55,9 +55,8 @@ def extract_text_from_pdf(
         
     Returns:
         List of extracted elements with their metadata
-    """    # Validate and map strategy parameter
-    # Valid strategies for partition_pdf are "fast", "ocr_only", and "auto"
-    # Note: "hi_res" is not a valid strategy for partition_pdf
+    """
+    # Validate and map strategy parameter
     valid_strategies = ["fast", "ocr_only", "auto"]
                 
     if strategy not in valid_strategies:
@@ -68,11 +67,10 @@ def extract_text_from_pdf(
         filename = os.path.basename(pdf_path)
         logger.info(f"Extracting text from PDF: {pdf_path} using strategy: {strategy}")
         
-       
         languages_list = [lang.strip() for lang in languages.split(',')] if languages else ['eng']
         logger.debug(f"Using languages: {languages_list}")
         
-        # Extract elements from the PDF - removed chunking_strategy parameter
+        # Extract elements from the PDF
         logger.debug(f"Starting PDF extraction with extract_images={extract_images}, infer_table_structure={infer_table_structure}")
         elements = partition_pdf(
             filename=pdf_path, 
@@ -87,10 +85,17 @@ def extract_text_from_pdf(
         
         # Process and filter elements
         processed_elements = []
+        has_corruption = False
         
         for i, element in enumerate(elements):
             # Get text content
             text = str(element).strip() if element else ""
+            
+            # Check for PDF corruption/encoding issues
+            if _has_character_corruption(text):
+                has_corruption = True
+                logger.warning(f"Detected character corruption in element {i}: {text[:100]}...")
+                continue  # Skip corrupted elements
             
             # Skip very short or empty text
             if len(text) < 10:
@@ -106,7 +111,8 @@ def extract_text_from_pdf(
             
             if any(re.match(pattern, text.lower()) for pattern in skip_patterns):
                 continue
-              # Extract metadata - handle both dict-like and object-like structures
+
+            # Extract metadata - handle both dict-like and object-like structures
             metadata = {
                 'element_index': i,
                 'element_type': type(element).__name__,
@@ -146,41 +152,129 @@ def extract_text_from_pdf(
             except Exception as meta_error:
                 logger.warning(f"Error extracting metadata from element {i}: {meta_error}")
                 # Keep default metadata values
-            
-            processed_elements.append({
-                'text': text,
-                'metadata': metadata
-            })
+
+        # If we detected corruption and got poor results, try OCR
+        if has_corruption and len(processed_elements) < 5:
+            logger.warning(f"Detected significant character corruption, attempting OCR extraction")
+            return _retry_with_ocr(pdf_path, languages_list)
         
         logger.info(f"Successfully processed {len(processed_elements)} non-empty elements")
         
         # If we got no valid elements, try to extract any text we can find
         if not processed_elements:
-            logger.warning(f"No valid elements found with strategy {strategy}, attempting basic text extraction")
-            
-            # Try to get any text content at all
-            for i, element in enumerate(elements):
-                text = str(element).strip() if element else ""
-                if text and len(text) > 0:  # Accept any non-empty text
-                    processed_elements.append({
-                        'text': text,
-                        'metadata': {
-                            'element_index': i,
-                            'element_type': type(element).__name__,
-                            'page_number': 1,
-                            'extraction_strategy': f"{strategy}_fallback"
-                        }
-                    })
-            
-            logger.info(f"Fallback extraction found {len(processed_elements)} elements")
-        
+            logger.warning(f"No valid elements found with strategy {strategy}, attempting OCR fallback")
+            return _retry_with_ocr(pdf_path, languages_list)
+
         return processed_elements
         
     except Exception as e:
         logger.error(f"Error extracting text from PDF {pdf_path}: {e}")
         logger.error(f"Traceback: {traceback.format_exc()}")
-        return []
+        # Try OCR as last resort
+        try:
+            logger.info("Attempting OCR as last resort for failed extraction")
+            return _retry_with_ocr(pdf_path, ['eng'])
+        except:
+            return []
+
+def _has_character_corruption(text: str) -> bool:
+    """
+    Detect if text contains character encoding corruption typical of PDF extraction issues.
     
+    Args:
+        text: Text to check for corruption
+        
+    Returns:
+        True if corruption is detected
+    """
+    if not text:
+        return False
+    
+    # Check for CID (Character ID) corruption
+    cid_pattern = r'\(cid:\d+\)'
+    cid_matches = len(re.findall(cid_pattern, text))
+    
+    # If more than 10% of the text appears to be CID references, it's corrupted
+    if cid_matches > 0 and (cid_matches * 10) > len(text.split()):
+        return True
+    
+    # Check for excessive repeated characters (often indicates corruption)
+    repeated_char_pattern = r'(.)\1{10,}'  # Same character repeated 10+ times
+    if re.search(repeated_char_pattern, text):
+        return True
+    
+    # Check for high percentage of non-printable or unusual characters
+    printable_chars = sum(1 for c in text if c.isprintable() and ord(c) < 127)
+    if len(text) > 0 and (printable_chars / len(text)) < 0.7:
+        return True
+    
+    return False
+
+def _retry_with_ocr(pdf_path: str, languages_list: list) -> List[Dict[str, Any]]:
+    """
+    Retry PDF extraction using OCR when standard extraction fails or produces corruption.
+    
+    Args:
+        pdf_path: Path to PDF file
+        languages_list: List of languages for OCR
+        
+    Returns:
+        List of extracted elements using OCR
+    """
+    try:
+        logger.info(f"Attempting OCR extraction for {pdf_path}")
+        
+        # Force OCR extraction
+        elements = partition_pdf(
+            filename=pdf_path, 
+            strategy="ocr_only",
+            extract_images_in_pdf=False,
+            infer_table_structure=True,
+            languages=languages_list
+        )
+        
+        processed_elements = []
+        
+        for i, element in enumerate(elements):
+            text = str(element).strip() if element else ""
+            
+            # Still check for corruption in OCR results
+            if _has_character_corruption(text):
+                logger.debug(f"OCR element {i} still has corruption, skipping")
+                continue
+            
+            if len(text) < 10:
+                continue
+
+            # Extract metadata
+            metadata = {
+                'element_index': i,
+                'element_type': type(element).__name__,
+                'page_number': 1,
+                'extraction_strategy': 'ocr_fallback'
+            }
+            
+            # Handle metadata extraction from unstructured elements
+            try:
+                if hasattr(element, 'metadata') and element.metadata:
+                    element_metadata = element.metadata
+                    
+                    if hasattr(element_metadata, 'page_number'):
+                        metadata['page_number'] = element_metadata.page_number
+                    elif hasattr(element_metadata, '__dict__'):
+                        meta_dict = element_metadata.__dict__
+                        metadata['page_number'] = meta_dict.get('page_number', 1)
+                        
+            except Exception as meta_error:
+                logger.warning(f"Error extracting OCR metadata from element {i}: {meta_error}")
+
+        logger.info(f"OCR extraction produced {len(processed_elements)} elements")
+        return processed_elements
+        
+    except Exception as e:
+        logger.error(f"OCR extraction also failed for {pdf_path}: {e}")
+        return []
+
 @Logger.debug_log()    
 def extract_text_from_docx(docx_path: str) -> List[Dict[str, Any]]:
     """

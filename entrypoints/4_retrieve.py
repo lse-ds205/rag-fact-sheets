@@ -23,6 +23,8 @@ from group4py.src.constants.prompts import (
     QUESTION_PROMPT_1, QUESTION_PROMPT_2, QUESTION_PROMPT_3, QUESTION_PROMPT_4,
     QUESTION_PROMPT_5, QUESTION_PROMPT_6, QUESTION_PROMPT_7, QUESTION_PROMPT_8
 )
+from group4py.src.database import Connection
+from group4py.src.schema import DatabaseConfig
 
 logger = logging.getLogger(__name__)
 
@@ -92,14 +94,39 @@ def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: 
     logger.info(f"[4_RETRIEVE] Evaluating {len(chunks)} chunks using multiple methods for query: '{prompt}'")
     
     try:
+        # Step 1: Calculate vector similarities for all chunks
+        logger.info("[4_RETRIEVE] Calculating vector similarities for all chunks...")
+        vector_comp = VectorComparison()
+        
+        # Get chunk IDs for batch similarity calculation
+        chunk_ids = [chunk['id'] for chunk in chunks]
+        
+        # Calculate similarities in batch
+        similarities = vector_comp.batch_similarity_calculation(
+            chunk_ids=chunk_ids,
+            query_embedding=embedded_prompt,
+            embedding_type='transformer'
+        )
+        
+        # Add similarity scores to chunks
+        chunks_with_similarity = []
+        for chunk in chunks:
+            chunk_id = chunk['id']
+            similarity_score = similarities.get(chunk_id, 0.0)
+            
+            # Add similarity score to chunk
+            chunk['similarity_score'] = similarity_score
+            chunks_with_similarity.append(chunk)
+        
+        logger.info(f"[4_RETRIEVE] Calculated vector similarities for {len(chunks_with_similarity)} chunks")
+        
         # Initialize comparison engines
-        vector_comparison = VectorComparison()
         regex_comparison = RegexComparison()
         fuzzy_regex_comparison = FuzzyRegexComparison()
         
         evaluated_chunks = []
         
-        for i, chunk in enumerate(chunks):
+        for i, chunk in enumerate(chunks_with_similarity):
             chunk_content = chunk.get('content', '')
             if not chunk_content:
                 logger.warning(f"[4_RETRIEVE] Chunk {i} has no content, skipping evaluation")
@@ -109,7 +136,7 @@ def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: 
             # Start with the chunk as-is
             evaluated_chunk = chunk.copy()
             
-            # 1. Apply regex evaluation (keyword-based)
+            # 2. Apply regex evaluation (keyword-based)
             try:
                 regex_eval = regex_comparison.evaluate_chunk_score(chunk_content, prompt)
                 evaluated_chunk['regex_evaluation'] = regex_eval
@@ -128,7 +155,7 @@ def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: 
                 evaluated_chunk['keyword_matches'] = 0
                 evaluated_chunk['regex_evaluation'] = {'error': str(e)}
             
-            # 2. Apply fuzzy regex evaluation (context-based)
+            # 3. Apply fuzzy regex evaluation (context-based)
             try:
                 fuzzy_eval = fuzzy_regex_comparison.evaluate_chunk_relevance(chunk_content, prompt)
                 evaluated_chunk['fuzzy_evaluation'] = fuzzy_eval
@@ -140,27 +167,8 @@ def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: 
                 evaluated_chunk['fuzzy_score'] = 0.0
                 evaluated_chunk['fuzzy_evaluation'] = {'error': str(e)}
             
-            # 3. Add additional vector similarity if embedded_prompt is provided
-            additional_vector_score = None
-            if embedded_prompt and chunk.get('id'):
-                try:
-                    # Get additional vector similarity for specific chunk
-                    chunk_id = chunk['id']
-                    chunk_ids = [chunk_id]
-                    similarities = vector_comparison.batch_similarity_calculation(
-                        chunk_ids=chunk_ids,
-                        query_embedding=embedded_prompt,
-                        embedding_type='transformer'
-                    )
-                    
-                    if similarities and chunk_id in similarities:
-                        additional_vector_score = similarities[chunk_id]
-                        evaluated_chunk['additional_vector_score'] = additional_vector_score
-                except Exception as e:
-                    logger.error(f"[4_RETRIEVE] Error in additional vector calculation for chunk {i}: {e}")
-            
             # 4. Calculate combined score using all available methods
-            original_similarity = evaluated_chunk.get('similarity_score', 0.0)
+            similarity_score = evaluated_chunk.get('similarity_score', 0.0)
             regex_score = evaluated_chunk.get('regex_score', 0.0)
             fuzzy_score = evaluated_chunk.get('fuzzy_score', 0.0)
             
@@ -171,21 +179,10 @@ def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: 
             
             # Combine scores
             combined_score = (
-                vector_weight * original_similarity +
+                vector_weight * similarity_score +
                 regex_weight * regex_score +
                 fuzzy_weight * fuzzy_score
             )
-            
-            # If we have additional vector score (from batch similarity), blend it in
-            if additional_vector_score is not None:
-                # Blend the two vector scores (original and additional)
-                blended_vector_score = (original_similarity + additional_vector_score) / 2
-                combined_score = (
-                    vector_weight * blended_vector_score +
-                    regex_weight * regex_score +
-                    fuzzy_weight * fuzzy_score
-                )
-                evaluated_chunk['blended_vector_score'] = blended_vector_score
             
             evaluated_chunk['combined_score'] = combined_score
             
@@ -240,30 +237,30 @@ def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: 
         # Return original chunks if evaluation fails
         return chunks
 
-
 def retrieve_chunks(embedded_prompt, prompt, embedding_type='transformer', top_k=20, 
                    ensure_indices=True, country=None, n_per_doc=None, min_similarity=0.0):
     """
-    Retrieve and evaluate the most similar chunks from the database.
+    Retrieve and evaluate the most similar chunks from the database using comprehensive evaluation.
+    First evaluates ALL chunks, then returns top ones based on weighted average score.
     
     Args:
         embedded_prompt: The embedded query vector (list of floats)
         prompt: Original text prompt for evaluation
         embedding_type: Type of embedding to use ('transformer' or 'word2vec')
-        top_k: Number of top similar chunks to retrieve (ignored if n_per_doc is specified)
+        top_k: Number of top similar chunks to retrieve
         ensure_indices: Whether to ensure vector indices exist before querying
         country: Optional country name to filter documents by
         n_per_doc: Optional number of chunks to return per document (overrides top_k)
         min_similarity: Minimum similarity threshold (0-1)
         
     Returns:
-        List of dictionaries containing evaluated chunks with scores
+        List of dictionaries containing evaluated chunks with comprehensive scores
     """
     try:
         if country:
-            logger.info(f"[4_RETRIEVE] Retrieving chunks for country '{country}' using {embedding_type} embeddings")
+            logger.info(f"[4_RETRIEVE] Retrieving chunks for country '{country}' using comprehensive evaluation")
         else:
-            logger.info(f"[4_RETRIEVE] Retrieving top {top_k} chunks using {embedding_type} embeddings")
+            logger.info(f"[4_RETRIEVE] Retrieving top {top_k} chunks using comprehensive evaluation")
         
         # Ensure vector indices exist if requested
         if ensure_indices:
@@ -271,34 +268,87 @@ def retrieve_chunks(embedded_prompt, prompt, embedding_type='transformer', top_k
             if not VectorComparison.create_vector_indices():
                 logger.warning("[4_RETRIEVE] Failed to create vector indices, continuing anyway...")
         
-        # Use VectorComparison class to retrieve similar chunks
-        vector_comp = VectorComparison()
-        chunks = vector_comp.get_vector_similarity(
-            embedded_prompt=embedded_prompt,
-            embedding_type=embedding_type,
-            top_k=top_k,
-            min_similarity=min_similarity,
-            country=country,
-            n_per_doc=n_per_doc
+        # Step 1: Get ALL chunks from database for comprehensive evaluation
+        config = DatabaseConfig.from_env()
+        db_connection = Connection(config)
+        
+        if not db_connection.connect():
+            logger.error("[4_RETRIEVE] Failed to connect to database")
+            return []
+        
+        # Get all chunks for the specified country or all chunks
+        logger.info("[4_RETRIEVE] Retrieving all chunks for comprehensive evaluation...")
+        all_chunks = db_connection.get_all_chunks_for_evaluation(country=country)
+        
+        if not all_chunks:
+            logger.warning("[4_RETRIEVE] No chunks found in database")
+            return []
+        
+        logger.info(f"[4_RETRIEVE] Retrieved {len(all_chunks)} chunks from database")
+        
+        # Step 2: Run comprehensive evaluation on ALL chunks (includes vector similarity calculation)
+        logger.info(f"[4_RETRIEVE] Running comprehensive evaluation on {len(all_chunks)} chunks...")
+        evaluated_chunks = evaluate_chunks(
+            prompt=prompt, 
+            chunks=all_chunks,
+            embedded_prompt=embedded_prompt
         )
         
-        if country:
-            logger.info(f"[4_RETRIEVE] Successfully retrieved {len(chunks)} chunks for country '{country}'")
-        else:
-            logger.info(f"[4_RETRIEVE] Successfully retrieved {len(chunks)} chunks")
-        
-        # Evaluate chunks using regex, fuzzy regex, and additional vector comparisons
-        if chunks:
-            evaluated_chunks = evaluate_chunks(
-                prompt=prompt, 
-                chunks=chunks,
-                embedded_prompt=embedded_prompt  # Pass in the embedded prompt for additional similarity checks
-            )
-            logger.info(f"[4_RETRIEVE] Chunks evaluated. Using {len(evaluated_chunks)} evaluated chunks.")
-            return evaluated_chunks
-        else:
-            logger.warning(f"[4_RETRIEVE] No chunks retrieved to evaluate.")
+        if not evaluated_chunks:
+            logger.warning("[4_RETRIEVE] No chunks after evaluation")
             return []
+        
+        # Step 3: Sort by combined weighted score (already done in evaluate_chunks)
+        logger.info("[4_RETRIEVE] Chunks sorted by weighted average score (vector + regex + fuzzy)")
+        
+        # Step 4: Apply minimum similarity filter after evaluation
+        if min_similarity > 0.0:
+            pre_filter_count = len(evaluated_chunks)
+            evaluated_chunks = [
+                chunk for chunk in evaluated_chunks 
+                if chunk.get('combined_score', 0) >= min_similarity
+            ]
+            logger.info(f"[4_RETRIEVE] Filtered {pre_filter_count} chunks to {len(evaluated_chunks)} using min_similarity={min_similarity}")
+        
+        # Step 5: Handle n_per_doc constraint if specified
+        if n_per_doc is not None:
+            logger.info(f"[4_RETRIEVE] Applying n_per_doc constraint: {n_per_doc} chunks per document")
+            doc_chunk_counts = {}
+            final_chunks = []
+            
+            for chunk in evaluated_chunks:
+                doc_id = chunk.get('doc_id', 'unknown')
+                if doc_chunk_counts.get(doc_id, 0) < n_per_doc:
+                    final_chunks.append(chunk)
+                    doc_chunk_counts[doc_id] = doc_chunk_counts.get(doc_id, 0) + 1
+                
+                # Stop if we have enough chunks
+                if len(final_chunks) >= top_k:
+                    break
+            
+            evaluated_chunks = final_chunks
+            logger.info(f"[4_RETRIEVE] After n_per_doc filtering: {len(evaluated_chunks)} chunks")
+        
+        # Step 6: Limit to requested top_k
+        if len(evaluated_chunks) > top_k:
+            evaluated_chunks = evaluated_chunks[:top_k]
+            logger.info(f"[4_RETRIEVE] Limited results to top {top_k} chunks")
+        
+        # Log final statistics
+        if evaluated_chunks:
+            top_scores = [chunk.get('combined_score', 0) for chunk in evaluated_chunks[:5]]
+            logger.info(f"[4_RETRIEVE] Top 5 combined scores: {[f'{score:.3f}' for score in top_scores]}")
+            
+            # Show breakdown of top chunk
+            top_chunk = evaluated_chunks[0]
+            vector_score = top_chunk.get('similarity_score', 0)
+            regex_score = top_chunk.get('regex_score', 0)
+            fuzzy_score = top_chunk.get('fuzzy_score', 0)
+            combined_score = top_chunk.get('combined_score', 0)
+            logger.info(f"[4_RETRIEVE] Top chunk breakdown: Vector={vector_score:.3f}, Regex={regex_score:.3f}, Fuzzy={fuzzy_score:.3f}, Combined={combined_score:.3f}")
+        
+        logger.info(f"[4_RETRIEVE] Final result: {len(evaluated_chunks)} comprehensively evaluated and ranked chunks")
+        return evaluated_chunks
             
     except Exception as e:
         traceback_string = traceback.format_exc()

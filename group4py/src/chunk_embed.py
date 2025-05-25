@@ -1,14 +1,15 @@
 import sys
-from pathlib import Path
-from typing import List, Dict, Any, Optional, Union, Tuple
-import json
 import os
+import json
 import re
-from nltk.tokenize import sent_tokenize
+import logging
 import torch
 import numpy as np
+from pathlib import Path
+from typing import List, Dict, Any, Optional, Union, Tuple
+from nltk.tokenize import sent_tokenize
 from gensim.models import Word2Vec
-import logging
+
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
@@ -472,8 +473,16 @@ class DocChunk:
             for element in elements:
                 if 'text' not in element:
                     continue
-                    
+                
                 text = element['text']
+                
+                # Check for severe corruption that should cause chunk rejection
+                if _is_severely_corrupted(text):
+                    logger.warning(f"Rejecting severely corrupted chunk: {text[:50]}...")
+                    continue
+                
+                # Clean up the text
+                text = _clean_corrupted_text(text)
                 
                 # Replace multiple spaces with a single space
                 text = ' '.join(text.split())
@@ -493,6 +502,61 @@ class DocChunk:
             
             return cleaned_elements
 
+def _is_severely_corrupted(text: str) -> bool:
+    """
+    Check if text is so corrupted it should be completely rejected.
+    
+    Args:
+        text: Text to check
+        
+    Returns:
+        True if text should be rejected
+    """
+    if not text or len(text) < 10:
+        return True
+    
+    # Count CID references
+    cid_count = len(re.findall(r'\(cid:\d+\)', text))
+    word_count = len(text.split())
+    
+    # If more than 50% of "words" are CID references, reject
+    if word_count > 0 and (cid_count / word_count) > 0.5:
+        return True
+    
+    # Check for strings that are mostly non-alphabetic
+    alpha_chars = sum(1 for c in text if c.isalpha())
+    if len(text) > 20 and (alpha_chars / len(text)) < 0.3:
+        return True
+    
+    return False
+
+def _clean_corrupted_text(text: str) -> str:
+    """
+    Clean text with character corruption issues.
+    
+    Args:
+        text: Text to clean
+        
+    Returns:
+        Cleaned text
+    """
+    if not text:
+        return text
+    
+    # Remove CID references
+    text = re.sub(r'\(cid:\d+\)', ' ', text)
+    
+    # Remove excessive repeated characters (but preserve some like ... or ---)
+    text = re.sub(r'(.)\1{5,}', r'\1\1\1', text)
+    
+    # Remove problematic Unicode characters that often indicate corruption
+    text = re.sub(r'[\uf8ff\uf8f0-\uf8ff]', ' ', text)
+    
+    # Clean up whitespace
+    text = re.sub(r'\s+', ' ', text)
+    
+    return text.strip()
+    
 class Embedding:
 
     """
@@ -677,7 +741,7 @@ class Embedding:
                 for country_key, lang_code in COUNTRY_LANG_MAP.items():
                     if country_key in country:
                         return lang_code
-                        
+
             # Check if filename contains country names
             for country_key, lang_code in COUNTRY_LANG_MAP.items():
                 if country_key in filename.lower():
