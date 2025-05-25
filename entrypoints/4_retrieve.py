@@ -16,12 +16,27 @@ sys.path.insert(0, str(project_root))
 import group4py
 from group4py.src.database import Connection
 from group4py.src.helpers import Logger, Test, TaskInfo
-from group4py.src.evaluator import Evaluator
-from group4py.src.evaluator import VectorComparison, RegexComparison, SomeOtherComparison
+from group4py.src.evaluator import Evaluator, VectorComparison, RegexComparison, FuzzyRegexComparison
 from group4py.src.chunk_embed import Embedding
 from group4py.src.query import Booster
+from group4py.src.constants.prompts import (
+    QUESTION_PROMPT_1, QUESTION_PROMPT_2, QUESTION_PROMPT_3, QUESTION_PROMPT_4,
+    QUESTION_PROMPT_5, QUESTION_PROMPT_6, QUESTION_PROMPT_7, QUESTION_PROMPT_8
+)
 
 logger = logging.getLogger(__name__)
+
+# Dictionary mapping question numbers to their respective prompts
+QUESTION_PROMPTS = {
+    1: QUESTION_PROMPT_1,
+    2: QUESTION_PROMPT_2,
+    3: QUESTION_PROMPT_3,
+    4: QUESTION_PROMPT_4,
+    5: QUESTION_PROMPT_5,
+    6: QUESTION_PROMPT_6,
+    7: QUESTION_PROMPT_7,
+    8: QUESTION_PROMPT_8
+}
 
 
 def embed_prompt(prompt):
@@ -58,13 +73,182 @@ def embed_prompt(prompt):
         raise e
     
 
-def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ensure_indices=True, 
-                   country=None, n_per_doc=None, min_similarity=0.0):
+def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: List[float] = None) -> List[Dict[str, Any]]:
     """
-    Retrieve the top K most similar chunks from the database using pgvector similarity search.
+    Evaluate chunks using multiple comparison methods: vector similarity, regex patterns, and fuzzy matching.
+    
+    Args:
+        prompt: The original user query
+        chunks: List of chunk dictionaries to evaluate
+        embedded_prompt: Optional embedded prompt vector for additional similarity calculations
+        
+    Returns:
+        List of chunks with evaluation scores and metadata added
+    """
+    if not chunks:
+        logger.info("[4_RETRIEVE] No chunks to evaluate")
+        return []
+    
+    logger.info(f"[4_RETRIEVE] Evaluating {len(chunks)} chunks using multiple methods for query: '{prompt}'")
+    
+    try:
+        # Initialize comparison engines
+        vector_comparison = VectorComparison()
+        regex_comparison = RegexComparison()
+        fuzzy_regex_comparison = FuzzyRegexComparison()
+        
+        evaluated_chunks = []
+        
+        for i, chunk in enumerate(chunks):
+            chunk_content = chunk.get('content', '')
+            if not chunk_content:
+                logger.warning(f"[4_RETRIEVE] Chunk {i} has no content, skipping evaluation")
+                evaluated_chunks.append(chunk)
+                continue
+            
+            # Start with the chunk as-is
+            evaluated_chunk = chunk.copy()
+            
+            # 1. Apply regex evaluation (keyword-based)
+            try:
+                regex_eval = regex_comparison.evaluate_chunk_score(chunk_content, prompt)
+                evaluated_chunk['regex_evaluation'] = regex_eval
+                evaluated_chunk['regex_score'] = regex_eval['regex_score']
+                evaluated_chunk['keyword_matches'] = regex_eval['keyword_matches']
+                evaluated_chunk['query_types'] = regex_eval.get('query_types', [])
+                
+                # Get keyword highlights for debugging/explanation
+                highlights = regex_comparison.get_keyword_highlights(chunk_content, prompt)
+                if highlights:
+                    evaluated_chunk['keyword_highlights'] = highlights
+                
+            except Exception as e:
+                logger.error(f"[4_RETRIEVE] Error in regex evaluation for chunk {i}: {e}")
+                evaluated_chunk['regex_score'] = 0.0
+                evaluated_chunk['keyword_matches'] = 0
+                evaluated_chunk['regex_evaluation'] = {'error': str(e)}
+            
+            # 2. Apply fuzzy regex evaluation (context-based)
+            try:
+                fuzzy_eval = fuzzy_regex_comparison.evaluate_chunk_relevance(chunk_content, prompt)
+                evaluated_chunk['fuzzy_evaluation'] = fuzzy_eval
+                evaluated_chunk['fuzzy_score'] = fuzzy_eval['final_score']
+                evaluated_chunk['semantic_patterns'] = fuzzy_eval.get('semantic_patterns', [])
+                
+            except Exception as e:
+                logger.error(f"[4_RETRIEVE] Error in fuzzy evaluation for chunk {i}: {e}")
+                evaluated_chunk['fuzzy_score'] = 0.0
+                evaluated_chunk['fuzzy_evaluation'] = {'error': str(e)}
+            
+            # 3. Add additional vector similarity if embedded_prompt is provided
+            additional_vector_score = None
+            if embedded_prompt and chunk.get('id'):
+                try:
+                    # Get additional vector similarity for specific chunk
+                    chunk_id = chunk['id']
+                    chunk_ids = [chunk_id]
+                    similarities = vector_comparison.batch_similarity_calculation(
+                        chunk_ids=chunk_ids,
+                        query_embedding=embedded_prompt,
+                        embedding_type='transformer'
+                    )
+                    
+                    if similarities and chunk_id in similarities:
+                        additional_vector_score = similarities[chunk_id]
+                        evaluated_chunk['additional_vector_score'] = additional_vector_score
+                except Exception as e:
+                    logger.error(f"[4_RETRIEVE] Error in additional vector calculation for chunk {i}: {e}")
+            
+            # 4. Calculate combined score using all available methods
+            original_similarity = evaluated_chunk.get('similarity_score', 0.0)
+            regex_score = evaluated_chunk.get('regex_score', 0.0)
+            fuzzy_score = evaluated_chunk.get('fuzzy_score', 0.0)
+            
+            # Configurable weights for different scoring methods
+            vector_weight = 0.55  # Vector similarity has highest weight
+            regex_weight = 0.25   # Direct keyword matches
+            fuzzy_weight = 0.20   # Fuzzy contextual matching
+            
+            # Combine scores
+            combined_score = (
+                vector_weight * original_similarity +
+                regex_weight * regex_score +
+                fuzzy_weight * fuzzy_score
+            )
+            
+            # If we have additional vector score (from batch similarity), blend it in
+            if additional_vector_score is not None:
+                # Blend the two vector scores (original and additional)
+                blended_vector_score = (original_similarity + additional_vector_score) / 2
+                combined_score = (
+                    vector_weight * blended_vector_score +
+                    regex_weight * regex_score +
+                    fuzzy_weight * fuzzy_score
+                )
+                evaluated_chunk['blended_vector_score'] = blended_vector_score
+            
+            evaluated_chunk['combined_score'] = combined_score
+            
+            # Add information about how the score was calculated
+            evaluated_chunk['score_weights'] = {
+                'vector_weight': vector_weight,
+                'regex_weight': regex_weight,
+                'fuzzy_weight': fuzzy_weight
+            }
+            
+            # Add to our collection of evaluated chunks
+            evaluated_chunks.append(evaluated_chunk)
+        
+        # Sort by combined score (highest first)
+        evaluated_chunks.sort(key=lambda x: x.get('combined_score', 0), reverse=True)
+        
+        # Log evaluation statistics
+        regex_scores = [c.get('regex_score', 0) for c in evaluated_chunks]
+        fuzzy_scores = [c.get('fuzzy_score', 0) for c in evaluated_chunks]
+        keyword_counts = [c.get('keyword_matches', 0) for c in evaluated_chunks]
+        
+        if regex_scores:
+            avg_regex_score = sum(regex_scores) / len(regex_scores)
+            avg_fuzzy_score = sum(fuzzy_scores) / len(fuzzy_scores)
+            avg_keyword_matches = sum(keyword_counts) / len(keyword_counts)
+            max_regex_score = max(regex_scores)
+            max_fuzzy_score = max(fuzzy_scores)
+            
+            logger.info(f"[4_RETRIEVE] Evaluation complete:")
+            logger.info(f"  - Average regex score: {avg_regex_score:.3f}")
+            logger.info(f"  - Average fuzzy score: {avg_fuzzy_score:.3f}")
+            logger.info(f"  - Average keyword matches: {avg_keyword_matches:.1f}")
+            logger.info(f"  - Max regex score: {max_regex_score:.3f} | Max fuzzy score: {max_fuzzy_score:.3f}")
+            
+            # Show top 5 evaluated chunks
+            logger.debug("[4_RETRIEVE] Top evaluated chunks:")
+            for i, chunk in enumerate(evaluated_chunks[:5], 1):
+                combined = chunk.get('combined_score', 0)
+                similarity = chunk.get('similarity_score', 0)
+                regex = chunk.get('regex_score', 0)
+                fuzzy = chunk.get('fuzzy_score', 0)
+                matches = chunk.get('keyword_matches', 0)
+                semantic = ", ".join(chunk.get('semantic_patterns', []))
+                logger.debug(f"  #{i}: Combined={combined:.3f} (Vector={similarity:.3f}, Regex={regex:.3f}, Fuzzy={fuzzy:.3f})")
+                logger.debug(f"     Keywords: {matches} matches | Semantic: {semantic}")
+        
+        return evaluated_chunks
+        
+    except Exception as e:
+        traceback_string = traceback.format_exc()
+        logger.error(f"[4_RETRIEVE] Error in chunk evaluation: {e}\nTraceback: {traceback_string}")
+        # Return original chunks if evaluation fails
+        return chunks
+
+
+def retrieve_chunks(embedded_prompt, prompt, embedding_type='transformer', top_k=20, 
+                   ensure_indices=True, country=None, n_per_doc=None, min_similarity=0.0):
+    """
+    Retrieve and evaluate the most similar chunks from the database.
     
     Args:
         embedded_prompt: The embedded query vector (list of floats)
+        prompt: Original text prompt for evaluation
         embedding_type: Type of embedding to use ('transformer' or 'word2vec')
         top_k: Number of top similar chunks to retrieve (ignored if n_per_doc is specified)
         ensure_indices: Whether to ensure vector indices exist before querying
@@ -73,7 +257,7 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
         min_similarity: Minimum similarity threshold (0-1)
         
     Returns:
-        List of dictionaries containing chunk data and similarity scores
+        List of dictionaries containing evaluated chunks with scores
     """
     try:
         if country:
@@ -87,196 +271,47 @@ def retrieve_chunks(embedded_prompt, embedding_type='transformer', top_k=20, ens
             if not VectorComparison.create_vector_indices():
                 logger.warning("[4_RETRIEVE] Failed to create vector indices, continuing anyway...")
         
-        # Create database connection using the Connection class
-        connection = Connection()
+        # Use VectorComparison class to retrieve similar chunks
+        vector_comp = VectorComparison()
+        chunks = vector_comp.get_vector_similarity(
+            embedded_prompt=embedded_prompt,
+            embedding_type=embedding_type,
+            top_k=top_k,
+            min_similarity=min_similarity,
+            country=country,
+            n_per_doc=n_per_doc
+        )
         
-        # Get a session using the Connection class
-        session = connection.get_session()
+        if country:
+            logger.info(f"[4_RETRIEVE] Successfully retrieved {len(chunks)} chunks for country '{country}'")
+        else:
+            logger.info(f"[4_RETRIEVE] Successfully retrieved {len(chunks)} chunks")
         
-        try:
-            # Determine which embedding column to use and convert prompt to vector string
-            if embedding_type == 'transformer':
-                embedding_column = 'transformer_embedding'
-                vector_dim = 768
-            elif embedding_type == 'word2vec':
-                embedding_column = 'word2vec_embedding'
-                vector_dim = 300
-            else:
-                logger.error(f"[4_RETRIEVE] Invalid embedding_type: {embedding_type}")
-                return []
-            
-            # Validate embedded_prompt dimensions
-            if not embedded_prompt or len(embedded_prompt) != vector_dim:
-                logger.error(f"[4_RETRIEVE] Invalid embedding dimensions. Expected {vector_dim}, got {len(embedded_prompt) if embedded_prompt else 0}")
-                return []
-            
-            # Convert embedding to pgvector format (may not be strictly necessary)
-            vector_str = '[' + ','.join([str(x) for x in embedded_prompt]) + ']'
-            
-            # Build query based on parameters
-            if n_per_doc is not None:
-                # Query to get top N chunks per document with optional country filter
-                country_filter = "AND LOWER(d.country) = LOWER(:country)" if country else ""
-                
-                query = text(f"""
-                    WITH similarity_results AS (
-                        SELECT 
-                            c.id,
-                            c.doc_id,
-                            c.content,
-                            c.chunk_index,
-                            c.paragraph,
-                            c.language,
-                            c.chunk_metadata,
-                            d.country,
-                            1 - (c.{embedding_column} <=> :query_vector) AS similarity_score,
-                            ROW_NUMBER() OVER (
-                                PARTITION BY c.doc_id 
-                                ORDER BY c.{embedding_column} <=> :query_vector
-                            ) as rank
-                        FROM doc_chunks c
-                        JOIN documents d ON c.doc_id = d.doc_id
-                        WHERE c.{embedding_column} IS NOT NULL
-                          AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
-                          {country_filter}
-                    )
-                    SELECT 
-                        id,
-                        doc_id,
-                        content,
-                        chunk_index,
-                        paragraph,
-                        language,
-                        chunk_metadata,
-                        country,
-                        similarity_score
-                    FROM similarity_results
-                    WHERE rank <= :n_per_doc
-                    ORDER BY similarity_score DESC
-                """)
-                
-                query_params = {
-                    'query_vector': vector_str,
-                    'n_per_doc': n_per_doc,
-                    'min_similarity': min_similarity
-                }
-                if country:
-                    query_params['country'] = country
-                    
-            else:
-                # Standard query for top K chunks with optional country filter
-                if country:
-                    query = text(f"""
-                        SELECT 
-                            c.id,
-                            c.doc_id,
-                            c.content,
-                            c.chunk_index,
-                            c.paragraph,
-                            c.language,
-                            c.chunk_metadata,
-                            d.country,
-                            1 - (c.{embedding_column} <=> :query_vector) AS similarity_score
-                        FROM doc_chunks c
-                        JOIN documents d ON c.doc_id = d.doc_id
-                        WHERE c.{embedding_column} IS NOT NULL
-                          AND LOWER(d.country) = LOWER(:country)
-                          AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
-                        ORDER BY 1 - (c.{embedding_column} <=> :query_vector) DESC
-                        LIMIT :top_k
-                    """)
-                    
-                    query_params = {
-                        'query_vector': vector_str,
-                        'country': country,
-                        'top_k': top_k,
-                        'min_similarity': min_similarity
-                    }
-                else:
-                    query = text(f"""
-                        SELECT 
-                            c.id,
-                            c.doc_id,
-                            c.content,
-                            c.chunk_index,
-                            c.paragraph,
-                            c.language,
-                            c.chunk_metadata,
-                            NULL as country,
-                            1 - (c.{embedding_column} <=> :query_vector) AS similarity_score
-                        FROM doc_chunks c
-                        WHERE c.{embedding_column} IS NOT NULL
-                          AND 1 - (c.{embedding_column} <=> :query_vector) >= :min_similarity
-                        ORDER BY 1 - (c.{embedding_column} <=> :query_vector) DESC
-                        LIMIT :top_k
-                    """)
-                    
-                    query_params = {
-                        'query_vector': vector_str,
-                        'top_k': top_k,
-                        'min_similarity': min_similarity
-                    }
-            
-            # Execute query using the session from Connection class
-            result = session.execute(query, query_params)
-            
-            # Convert results to list of dictionaries
-            chunks = []
-            for row in result:
-                chunk_data = {
-                    'id': row[0],
-                    'doc_id': row[1],
-                    'content': row[2],
-                    'chunk_index': row[3],
-                    'paragraph': row[4],
-                    'language': row[5],
-                    'chunk_metadata': row[6],
-                    'country': row[7],
-                    'similarity_score': float(row[8])
-                }
-                chunks.append(chunk_data)
-            
-            if country:
-                logger.info(f"[4_RETRIEVE] Successfully retrieved {len(chunks)} chunks for country '{country}'")
-            else:
-                logger.info(f"[4_RETRIEVE] Successfully retrieved {len(chunks)} chunks")
-            return chunks
-            
-        finally:
-            # Close the session
-            session.close()
+        # Evaluate chunks using regex, fuzzy regex, and additional vector comparisons
+        if chunks:
+            evaluated_chunks = evaluate_chunks(
+                prompt=prompt, 
+                chunks=chunks,
+                embedded_prompt=embedded_prompt  # Pass in the embedded prompt for additional similarity checks
+            )
+            logger.info(f"[4_RETRIEVE] Chunks evaluated. Using {len(evaluated_chunks)} evaluated chunks.")
+            return evaluated_chunks
+        else:
+            logger.warning(f"[4_RETRIEVE] No chunks retrieved to evaluate.")
+            return []
             
     except Exception as e:
         traceback_string = traceback.format_exc()
         logger.error(f"[4_RETRIEVE] Error in chunk retrieval: {e}\nTraceback: {traceback_string}")
         return []
 
-@Test.dummy_chunk()
-def evaluate_chunks(prompt, chunks):
-    try:
-        vector_comparison = VectorComparison()
-        regex_comparison = RegexComparison()
-        some_other_comparison = SomeOtherComparison()
-    except Exception as e:
-        traceback_string = traceback.format_exc()
-        logger.error(f"[4_RETRIEVE] Error in chunk evaluation: {e}\nTraceback: {traceback_string}")
-        raise e
-    
-    try:
-        evaluated_chunks = Evaluator(), vector_comparison, regex_comparison, some_other_comparison
-        return evaluated_chunks
-    except Exception as e:
-        traceback_string = traceback.format_exc()
-        logger.error(f"[4_RETRIEVE] Error in chunk evaluation: {e}\nTraceback: {traceback_string}")
-        raise e
-
 
 @Logger.log(log_file=project_root / "logs/retrieve.log", log_level="DEBUG")
-def run_script(prompt: str = None, country: Optional[str] = None) -> List[Dict[str, Any]]:
+def run_script(question_number: int = None, country: Optional[str] = None) -> List[Dict[str, Any]]:
     """
     Main function to run the retrieval script.
     Args:
-        prompt (str): The query prompt to use for retrieval.
+        question_number (int): The question number (1-8) to use from predefined prompts.
         country (Optional[str]): Optional country name to filter documents by.
     
     Returns:
@@ -286,12 +321,16 @@ def run_script(prompt: str = None, country: Optional[str] = None) -> List[Dict[s
     try:
         logger.warning(f"\n\n[4_RETRIEVE] Running script...")
         
-        # Use example prompt if none provided
-        if prompt is None:
-            prompt = "What are the main policies for emissions reduction?"
-            logger.info(f"[4_RETRIEVE] Using example prompt: {prompt}")
+        # Select the question prompt based on the question number
+        if question_number is None or question_number not in QUESTION_PROMPTS:
+            question_number = 1  # Default to question 1 if invalid or not provided
+            logger.info(f"[4_RETRIEVE] Using default question number: {question_number}")
         else:
-            logger.info(f"[4_RETRIEVE] Using provided prompt: {prompt}")
+            logger.info(f"[4_RETRIEVE] Using question number: {question_number}")
+        
+        # Get the prompt text from the corresponding QUESTION_PROMPT
+        prompt = QUESTION_PROMPTS[question_number]
+        logger.info(f"[4_RETRIEVE] Selected prompt: {prompt[:100]}...")
         
         # Define an example country for use, only if country is specified
         if country is None:
@@ -303,9 +342,10 @@ def run_script(prompt: str = None, country: Optional[str] = None) -> List[Dict[s
         # Step 1: Embed the prompt
         embedded_prompt = embed_prompt(prompt)
         
-        # Step 2: Retrieve chunks
-        chunks = retrieve_chunks(
+        # Step 2: Retrieve and evaluate chunks in a single function call
+        evaluated_chunks = retrieve_chunks(
             embedded_prompt=embedded_prompt,
+            prompt=prompt,
             embedding_type='transformer',  # Better semantic understanding
             top_k=20,                      # Retrieve top 20 chunks
             ensure_indices=True,           # Ensure indices are created
@@ -313,23 +353,34 @@ def run_script(prompt: str = None, country: Optional[str] = None) -> List[Dict[s
             country=country,               # Filter by country
             min_similarity=0.5             # Filter out chunks with low similarity
         )
+        logger.info(f"[4_RETRIEVE] Retrieved and evaluated {len(evaluated_chunks)} chunks")
         
-        logger.info(f"[4_RETRIEVE] Retrieved {len(chunks)} chunks")
-        output_path = project_root / "data/retrieved_chunks.json"
-        with open(output_path, "w", encoding="utf-8") as f:
-            json.dump(chunks, f, ensure_ascii=False, indent=2)
-        logger.debug(f"[4_RETRIEVE] Dumped {len(chunks)} chunks to {output_path}")
-        return chunks
-    
-        # Uncomment the following lines to evaluate chunks
-        # Step 3: Evaluate chunks
-        # if chunks:
-        #     evaluated_chunks = evaluate_chunks(prompt, chunks)
-        #     logger.warning(f"[4_RETRIEVE] Chunks evaluated. Narrowed down to {len(evaluated_chunks) if evaluated_chunks else 0} chunks.")
-        #     return evaluated_chunks
-        # else:
-        #     logger.warning(f"[4_RETRIEVE] No chunks retrieved.")
-        #     return []
+        if evaluated_chunks:
+            # Create a metadata object to include with the evaluated chunks
+            metadata = {
+                "question_number": question_number,
+                "query_text": prompt,
+                "country": country,
+                "timestamp": Logger.get_timestamp(),
+                "chunk_count": len(evaluated_chunks)
+            }
+            
+            # Create final output with query information and evaluated chunks
+            final_output = {
+                "metadata": metadata,
+                "evaluated_chunks": evaluated_chunks
+            }
+            
+            # Save only the evaluated chunks with score breakdowns
+            evaluated_output_path = project_root / "data/evaluated_chunks.json"
+            with open(evaluated_output_path, "w", encoding="utf-8") as f:
+                json.dump(final_output, f, ensure_ascii=False, indent=2)
+            logger.debug(f"[4_RETRIEVE] Saved {len(evaluated_chunks)} evaluated chunks with query metadata to {evaluated_output_path}")
+            
+            return evaluated_chunks
+        else:
+            logger.warning(f"[4_RETRIEVE] No chunks retrieved.")
+            return []
 
     except Exception as e:
         traceback_string = traceback.format_exc()
@@ -338,15 +389,13 @@ def run_script(prompt: str = None, country: Optional[str] = None) -> List[Dict[s
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description='Run the query script with a specified prompt.')
-    parser.add_argument('--prompt', required=True, type=str, help='Prompt to execute the script for.')
+    parser = argparse.ArgumentParser(description='Run the retrieval script with a specified question number.')
+    parser.add_argument('--question', type=int, choices=range(1, 9), 
+                        help='Question number (1-8) to select a predefined prompt.')
     parser.add_argument('--country', type=str, help='Country to filter documents by (optional).')
     args = parser.parse_args()
-    run_script(prompt=args.prompt, country=args.country)
+    run_script(question_number=args.question, country=args.country)
 
-    # When argparse is added, can no longer press the 'run button' in VSCode/Cursor.
-    # Instead, need to python xx.py --argument
-    # This is to, potentially, allow an alternative way of bridging, 
-    #   of the end-to-end communication between interface.py/Github Actions and these sub-entrypoints
-    #   because xx.py --argument could work better than calling the function directly
-    # E.g. use in terminal: python 4_retrieve.py --prompt "I am a prompt"
+    # Usage examples:
+    # python 4_retrieve.py --question 1 --country "Japan"
+    # python 4_retrieve.py --question 4  # Uses default country (Afghanistan)

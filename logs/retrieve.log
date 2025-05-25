@@ -336,3 +336,148 @@ AttributeError: 'str' object has no attribute 'get'
 2025-05-24 15:19:02,730 - __main__ - INFO - [4_RETRIEVE] Successfully retrieved 20 chunks for country 'Afghanistan'
 2025-05-24 15:19:02,732 - __main__ - INFO - [4_RETRIEVE] Retrieved 20 chunks
 2025-05-24 15:19:02,734 - __main__ - DEBUG - [4_RETRIEVE] Dumped 20 chunks to C:\Users\Zicheng Liu\prog\LSE\DS205\final_project\data\retrieved_chunks.json
+2025-05-25 17:03:40,604 - __main__ - WARNING - 
+
+[4_RETRIEVE] Running script...
+2025-05-25 17:03:40,634 - __main__ - INFO - [4_RETRIEVE] Using default question number: 1
+2025-05-25 17:03:40,636 - __main__ - INFO - [4_RETRIEVE] Selected prompt: What does the country promise as their emissions reduction target?
+
+Please extract:
+- The specific r...
+2025-05-25 17:03:40,636 - __main__ - INFO - [4_RETRIEVE] Using example country: Afghanistan
+2025-05-25 17:03:40,636 - __main__ - INFO - [4_RETRIEVE] Prompt given: What does the country promise as their emissions reduction target?
+
+Please extract:
+- The specific reduction percentage or amount
+- The target year(s) for achieving this reduction
+- Whether the target is absolute or relative
+- Whether it's an economy-wide target or sector-specific
+- Any conditions attached to the target (conditional vs. unconditional)
+. Embedding prompt...
+2025-05-25 17:03:40,638 - root - DEBUG - <library> load_models started running...
+2025-05-25 17:03:40,638 - group4py.src.chunk_embed - INFO - Loading English model from C:\Users\nayrb\Documents\rag-fact-sheets-4\models\english
+2025-05-25 17:03:40,640 - group4py.src.chunk_embed - INFO - Found local English model at C:\Users\nayrb\Documents\rag-fact-sheets-4\local_models\distilroberta-base
+2025-05-25 17:03:40,648 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-05-25 17:03:40,836 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /distilroberta-base/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-05-25 17:03:41,259 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /distilroberta-base/resolve/main/config.json HTTP/1.1" 200 0
+2025-05-25 17:03:47,037 - group4py.src.chunk_embed - INFO - Successfully loaded English model from HuggingFace
+2025-05-25 17:03:47,037 - group4py.src.chunk_embed - INFO - Loading multilingual model from C:\Users\nayrb\Documents\rag-fact-sheets-4\models\multilingual
+2025-05-25 17:03:47,037 - group4py.src.chunk_embed - INFO - Found local multilingual model at C:\Users\nayrb\Documents\rag-fact-sheets-4\local_models\xlm-roberta-base
+2025-05-25 17:03:47,162 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /xlm-roberta-base/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-05-25 17:03:49,625 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /xlm-roberta-base/resolve/main/config.json HTTP/1.1" 200 0
+2025-05-25 17:03:49,838 - group4py.src.chunk_embed - INFO - Successfully loaded multilingual model from HuggingFace
+2025-05-25 17:03:49,839 - group4py.src.chunk_embed - INFO - Successfully loaded embedding models
+2025-05-25 17:03:49,839 - root - DEBUG - <library> embed_transformer started running...
+2025-05-25 17:03:50,011 - __main__ - INFO - [4_RETRIEVE] Prompt successfully embedded to vector of dimension 768
+2025-05-25 17:03:50,384 - __main__ - INFO - [4_RETRIEVE] Retrieving chunks for country 'Afghanistan' using transformer embeddings
+2025-05-25 17:03:50,405 - __main__ - INFO - [4_RETRIEVE] Ensuring vector indices exist...
+2025-05-25 17:03:50,405 - root - DEBUG - <library> create_vector_indices started running...
+2025-05-25 17:03:50,405 - group4py.src.evaluator - INFO - Creating pgvector indices for embeddings...
+2025-05-25 17:03:50,577 - group4py.src.evaluator - INFO - Ensured pgvector extension exists
+2025-05-25 17:03:50,683 - group4py.src.evaluator - ERROR - Error creating vector indices: (psycopg2.errors.DataException) expected 768 dimensions, not 384
+
+[SQL: 
+                    ALTER TABLE doc_chunks 
+                    ALTER COLUMN transformer_embedding TYPE vector(768)
+                    USING transformer_embedding::vector(768);
+                ]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2025-05-25 17:03:50,684 - __main__ - WARNING - [4_RETRIEVE] Failed to create vector indices, continuing anyway...
+2025-05-25 17:03:50,684 - root - DEBUG - <library> get_vector_similarity started running...
+2025-05-25 17:03:50,684 - root - DEBUG - <library> get_session started running...
+2025-05-25 17:03:50,686 - root - DEBUG - <library> connect started running...
+2025-05-25 17:03:50,686 - group4py.src.database - INFO - <DATABASE> Connecting...
+2025-05-25 17:03:50,686 - root - DEBUG - <library> get_engine started running...
+2025-05-25 17:03:50,686 - group4py.src.database - INFO - <DATABASE> Getting engine...
+2025-05-25 17:03:50,688 - group4py.src.database - INFO - <DATABASE> Engine created successfully
+2025-05-25 17:03:50,756 - group4py.src.database - WARNING - <DATABASE> Connected to database successfully
+2025-05-25 17:03:50,830 - group4py.src.evaluator - ERROR - [VECTOR_SIMILARITY] Error in chunk retrieval: (psycopg2.errors.UndefinedColumn) column c.chunk_metadata does not exist
+LINE 9:                                 c.chunk_metadata,
+                                        ^
+
+[SQL: 
+                            SELECT 
+                                c.id,
+                                c.doc_id,
+                                c.content,
+                                c.chunk_index,
+                                c.paragraph,
+                                c.language,
+                                c.chunk_metadata,
+                                d.country,
+                                1 - (c.transformer_embedding <=> %(query_vector)s) AS similarity_score
+                            FROM doc_chunks c
+                            JOIN documents d ON c.doc_id = d.doc_id
+                            WHERE c.transformer_embedding IS NOT NULL
+                              AND LOWER(d.country) = LOWER(%(country)s)
+                              AND 1 - (c.transformer_embedding <=> %(query_vector)s) >= %(min_similarity)s
+                            ORDER BY 1 - (c.transformer_embedding <=> %(query_vector)s) DESC
+                            LIMIT %(top_k)s
+                        ]
+[parameters: {'query_vector': '[0.039739783853292465,0.08332464098930359,-0.029216744005680084,-0.0773056149482727,0.09902496635913849,-0.0700436607003212,-0.04986235126852989,0.10 ... (15633 characters truncated) ... 222,-0.031034350395202637,0.08075037598609924,0.10637442022562027,0.020337332040071487,0.01133054867386818,0.04389696568250656,-0.026852790266275406]', 'country': 'Afghanistan', 'min_similarity': 0.5, 'top_k': 20}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback: Traceback (most recent call last):
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\venv\lib\site-packages\sqlalchemy\engine\default.py", line 945, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column c.chunk_metadata does not exist
+LINE 9:                                 c.chunk_metadata,
+                                        ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\group4py\src\evaluator.py", line 191, in get_vector_similarity
+    result = session.execute(query, query_params)
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\venv\lib\site-packages\sqlalchemy\orm\session.py", line 2260, in _execute_internal
+    result = conn.execute(
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\venv\lib\site-packages\sqlalchemy\sql\elements.py", line 523, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\venv\lib\site-packages\sqlalchemy\engine\base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\venv\lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\nayrb\Documents\rag-fact-sheets-4\venv\lib\site-packages\sqlalchemy\engine\default.py", line 945, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column c.chunk_metadata does not exist
+LINE 9:                                 c.chunk_metadata,
+                                        ^
+
+[SQL: 
+                            SELECT 
+                                c.id,
+                                c.doc_id,
+                                c.content,
+                                c.chunk_index,
+                                c.paragraph,
+                                c.language,
+                                c.chunk_metadata,
+                                d.country,
+                                1 - (c.transformer_embedding <=> %(query_vector)s) AS similarity_score
+                            FROM doc_chunks c
+                            JOIN documents d ON c.doc_id = d.doc_id
+                            WHERE c.transformer_embedding IS NOT NULL
+                              AND LOWER(d.country) = LOWER(%(country)s)
+                              AND 1 - (c.transformer_embedding <=> %(query_vector)s) >= %(min_similarity)s
+                            ORDER BY 1 - (c.transformer_embedding <=> %(query_vector)s) DESC
+                            LIMIT %(top_k)s
+                        ]
+[parameters: {'query_vector': '[0.039739783853292465,0.08332464098930359,-0.029216744005680084,-0.0773056149482727,0.09902496635913849,-0.0700436607003212,-0.04986235126852989,0.10 ... (15633 characters truncated) ... 222,-0.031034350395202637,0.08075037598609924,0.10637442022562027,0.020337332040071487,0.01133054867386818,0.04389696568250656,-0.026852790266275406]', 'country': 'Afghanistan', 'min_similarity': 0.5, 'top_k': 20}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+2025-05-25 17:03:50,832 - __main__ - INFO - [4_RETRIEVE] Successfully retrieved 0 chunks for country 'Afghanistan'
+2025-05-25 17:03:50,833 - __main__ - WARNING - [4_RETRIEVE] No chunks retrieved to evaluate.
+2025-05-25 17:03:50,833 - __main__ - INFO - [4_RETRIEVE] Retrieved and evaluated 0 chunks
+2025-05-25 17:03:50,834 - __main__ - WARNING - [4_RETRIEVE] No chunks retrieved.
