@@ -43,7 +43,10 @@ project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
 from group4py.src.extract_document import extract_text_from_pdf
+#============================= DEPRECATED IMPORTS ============================
 from group4py.src.chunk_embed import DocChunk as DocChunker, Embedding
+#============================================================================
+
 from group4py.src.helpers import Logger, Test, TaskInfo
 from group4py.src.schema import DocChunk
 from group4py.src.database import Connection, NDCDocumentORM as Document, DocChunkORM

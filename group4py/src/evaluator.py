@@ -6,7 +6,7 @@ from typing import List, Dict, Any, Optional, Union, Tuple
 import logging
 from sqlalchemy import create_engine, text
 from group4py.src.database import Connection
-from group4py.src.chunk_embed import Embedding
+from group4py.src.embedding import TransformerEmbedding, CombinedEmbedding
 from group4py.src.helpers import Logger
 import re
 from difflib import SequenceMatcher
@@ -32,10 +32,10 @@ class VectorComparison:
         Initialize the vector comparison engine.
         
         Args:
-            connection: Database connection. If None, creates a new one.
-        """
+            connection: Database connection. If None, creates a new one.        """
         self.connection = connection if connection is not None else Connection()
-        self.embedding_engine = Embedding()
+        self.embedding_engine = TransformerEmbedding()
+        self.embedding_engine.load_models()
         self.logger = logging.getLogger(__name__)
 
     @Logger.debug_log()

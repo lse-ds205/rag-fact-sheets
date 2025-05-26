@@ -1,3 +1,24 @@
+"""
+################################################################################
+#                              ⚠️  DEPRECATION WARNING  ⚠️                   #
+################################################################################
+#                                                                              #
+#  THIS MODULE IS DEPRECATED AND SHOULD NOT BE USED!                          #
+#                                                                              #
+#  This module has been replaced by:                                          #
+#    • chunking.py - for the DocChunker class (was DocChunk)                  #
+#    • embedding.py - for embedding functionality                             #
+#                                                                              #
+#  Migration guide:                                                           #
+#    • DocChunk class → use DocChunker from chunking.py                       #
+#    • Embedding class → use TransformerEmbedding or CombinedEmbedding        #
+#      from embedding.py                                                       #
+#                                                                              #
+#  Please update your imports to use the new modules!                         #
+#                                                                              #
+################################################################################
+"""
+
 import sys
 import os
 import json
@@ -59,6 +80,10 @@ COUNTRY_LANG_MAP = {
 
 class DocChunk:
     """
+    ⚠️⚠️⚠️ DEPRECATED CLASS ⚠️⚠️⚠️
+    
+    This class is deprecated! Use DocChunker from chunking.py instead.
+    
     Chunk class. General methodology:
         Input: Some form of documents (PDFs, etc.)
         Output: A list of chunks
@@ -574,6 +599,11 @@ def _clean_corrupted_text(text: str) -> str:
 class Embedding:
 
     """
+    ⚠️⚠️⚠️ DEPRECATED CLASS ⚠️⚠️⚠️
+    
+    This class is deprecated! Use TransformerEmbedding or CombinedEmbedding 
+    from embedding.py instead.
+    
     Embedding class. General methodology:
         Input: DocChunks, in the form of strings
         Output: Embeddings, in the form of a list of floats

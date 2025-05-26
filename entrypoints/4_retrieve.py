@@ -17,7 +17,7 @@ import group4py
 from group4py.src.database import Connection
 from group4py.src.helpers import Logger, Test, TaskInfo
 from group4py.src.evaluator import Evaluator, VectorComparison, RegexComparison, FuzzyRegexComparison
-from group4py.src.chunk_embed import Embedding
+from group4py.src.embedding import TransformerEmbedding, CombinedEmbedding
 from group4py.src.query import Booster
 from group4py.src.constants.prompts import (
     QUESTION_PROMPT_1, QUESTION_PROMPT_2, QUESTION_PROMPT_3, QUESTION_PROMPT_4,
@@ -58,9 +58,8 @@ def embed_prompt(prompt):
         # booster = Booster()
         # boosted_prompt = booster.boost_function(prompt)
         # logger.debug(f"[4_RETRIEVE] Prompt boosted: {boosted_prompt[:50]}...")
-        
-        # Initialize the embedding model, load models
-        embedding_model = Embedding()
+          # Initialize the embedding model, load models
+        embedding_model = TransformerEmbedding()
         embedding_model.load_models()
 
         # Embed the prompt using transformer model
