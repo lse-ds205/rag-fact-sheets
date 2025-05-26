@@ -17,7 +17,7 @@ pdfminer.six
 pi_heif
 unstructured-inference
 pdf2image
-# docx
+python-docx
 gensim
 pikepdf
 scrapy
