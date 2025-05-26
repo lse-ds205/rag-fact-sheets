@@ -63,9 +63,8 @@ class DocChunk(BaseModel):
     """Unified Pydantic model for document chunks - matches doc_chunks table structure"""
     # Primary key
     id: Optional[UUID] = None
-    
     # Core chunk data
-    doc_id: str = Field(..., description="Foreign key to documents table")
+    doc_id: UUID = Field(..., description="Foreign key to documents table")
     content: str = Field(..., min_length=10)
     chunk_index: int = Field(..., ge=0)
     paragraph: Optional[int] = None
