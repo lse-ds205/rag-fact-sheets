@@ -17,7 +17,7 @@ from helpers import Logger, Test, TaskInfo
 logger = logging.getLogger(__name__)
 
 
-class DocChunk:
+class DocChunker:
     """
     Document chunking class. General methodology:
         Input: Some form of documents (PDFs, etc.)
@@ -204,12 +204,10 @@ class DocChunk:
         Returns:
             List of cleaned and processed chunks
         """
-        logger.info(f"Cleaning {len(elements)} document chunks")
-        
-        # Apply cleaning strategies in sequence using proper static method references
-        cleaned_elements = DocChunk._DocChunk.merge_short_chunks(elements, min_length)
-        cleaned_elements = DocChunk._DocChunk.split_long_chunks(cleaned_elements, max_length)
-        cleaned_elements = DocChunk._DocChunk.remove_gibberish(cleaned_elements)
+        logger.info(f"Cleaning {len(elements)} document chunks")        # Apply cleaning strategies in sequence using proper static method references
+        cleaned_elements = DocChunker._DocChunker.merge_short_chunks(elements, min_length)
+        cleaned_elements = DocChunker._DocChunker.split_long_chunks(cleaned_elements, max_length)
+        cleaned_elements = DocChunker._DocChunker.remove_gibberish(cleaned_elements)
         
         logger.info(f"Cleaning complete. Produced {len(cleaned_elements)} chunks")
         return cleaned_elements
@@ -235,7 +233,7 @@ class DocChunk:
             "metadata": {
                 "total_chunks": len(chunks),
                 "timestamp": datetime.now().isoformat(),
-                "source": "chunk.py"
+                "source": "chunking.py"
             },
             "chunks": chunks
         }
@@ -263,7 +261,6 @@ class DocChunk:
             # Convert to JSON and save to file
             with open(output_path, 'w', encoding='utf-8') as file:
                 json.dump(output_data, file, indent=2, cls=ExtractedDataEncoder)
-                
             logger.info(f"Successfully generated JSON with {len(chunks)} chunks at {output_path}")
             return str(output_path)
             
@@ -271,7 +268,7 @@ class DocChunk:
             logger.error(f"Error generating JSON file: {e}")
             return ""
 
-    class _DocChunk:
+    class _DocChunker:
         """
         Internal chunk class with various cleaning strategies.
         """
@@ -431,8 +428,16 @@ class DocChunk:
             for element in elements:
                 if 'text' not in element:
                     continue
-                    
+                
                 text = element['text']
+                
+                # Check for severe corruption that should cause chunk rejection
+                if _is_severely_corrupted(text):
+                    logger.warning(f"Rejecting severely corrupted chunk: {text[:50]}...")
+                    continue
+                
+                # Clean up the text
+                text = _clean_corrupted_text(text)
                 
                 # Replace multiple spaces with a single space
                 text = ' '.join(text.split())
@@ -451,6 +456,77 @@ class DocChunk:
                     cleaned_elements.append(element)
             
             return cleaned_elements
+
+
+def _is_severely_corrupted(text: str) -> bool:
+    """
+    Check if text is so corrupted it should be completely rejected.
+    Updated to be less aggressive with legitimate formatted text.
+    
+    Args:
+        text: Text to check
+        
+    Returns:
+        True if text should be rejected
+    """
+    if not text or len(text) < 10:
+        return True
+    
+    # Count CID references - this is the primary corruption indicator
+    cid_count = len(re.findall(r'\(cid:\d+\)', text))
+    word_count = len(text.split())
+    
+    # If more than 30% of "words" are CID references, reject (was 50%)
+    if word_count > 0 and (cid_count / word_count) > 0.3:
+        return True
+    
+    # Check for strings that are mostly non-alphabetic, but be more lenient
+    # Include accented characters and common punctuation
+    legit_char_pattern = r'[a-zA-Z0-9àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞß\s.,;:!?()\-\'"]'
+    legit_chars = len(re.findall(legit_char_pattern, text))
+    
+    if len(text) > 20 and (legit_chars / len(text)) < 0.4:  # Lowered from 0.7 to 0.4
+        return True
+    
+    # Check for excessive Unicode replacement characters
+    if text.count('�') + text.count('\ufffd') > 5:
+        return True
+    
+    return False
+
+
+def _clean_corrupted_text(text: str) -> str:
+    """
+    Clean text with character corruption issues.
+    Updated to preserve legitimate formatting.
+    
+    Args:
+        text: Text to clean
+        
+    Returns:
+        Cleaned text
+    """
+    if not text:
+        return text
+    
+    # Remove CID references
+    text = re.sub(r'\(cid:\d+\)', ' ', text)
+    
+    # Remove excessive repeated characters, but preserve table of contents dots
+    # Only replace if it's not a table of contents pattern
+    if not re.match(r'^[^.]*\.{10,}[^.]*$', text):  # Not a table of contents
+        text = re.sub(r'(.)\1{10,}', r'\1\1\1', text)  # Reduce excessive repetition
+    
+    # Remove Unicode replacement characters
+    text = text.replace('�', ' ').replace('\ufffd', ' ')
+    
+    # Remove problematic control characters but preserve normal spaces and newlines
+    text = re.sub(r'[\x00-\x08\x0E-\x1F\x7F]', ' ', text)
+    
+    # Clean up whitespace
+    text = re.sub(r'\s+', ' ', text)
+    
+    return text.strip()
 
 
 class ExtractedDataEncoder(json.JSONEncoder):

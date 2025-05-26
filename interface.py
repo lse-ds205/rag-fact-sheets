@@ -81,12 +81,12 @@ def run(option1, option2):
     """
     Run detection and processing with the new two-step approach.
     """
-    # Interaction with /entrypoints (1)
+    # Interaction with /entrypoints (2) - scraping
     module_name_scrape = 'entrypoints.2_scrape'
     run_script_scrape = importlib.import_module(module_name_scrape).run_script
     changes = run_script_scrape()
 
-    # Interaction with /entrypoints (2). Note: only triggered if changes are detected
+    # Interaction with /entrypoints (3) - chunking. Note: only triggered if changes are detected
     if changes:
         # Step 1: Chunking
         print("[INTERFACE] Changes detected, starting chunking process...")
@@ -106,8 +106,6 @@ def run(option1, option2):
     else:
         print("[INTERFACE] No changes detected, skipping processing.")
 
-
-# Add new commands for running individual steps
 @detect.command()
 @click.option('--force', is_flag=True, help='Force reprocessing of all documents.')
 def chunk(force):

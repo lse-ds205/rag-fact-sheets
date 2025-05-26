@@ -9,7 +9,8 @@ import importlib
 
 # Import modules (required for numeric prefixes)
 scrape_module = importlib.import_module('entrypoints.2_scrape')
-process_module = importlib.import_module('entrypoints.3_process')
+chunk_module = importlib.import_module('entrypoints.3_chunk')
+embed_module = importlib.import_module('entrypoints.3.5_embed')
 retrieve_module = importlib.import_module('entrypoints.4_retrieve')
 llm_module = importlib.import_module('entrypoints.5_llm_response')
 download_module = importlib.import_module('entrypoints.1_download')
@@ -20,9 +21,13 @@ def run_scrape():
     """Run the scraping/detection process."""
     return scrape_module.run_script()
 
-async def run_process(force_reprocess: bool = False):
-    """Run the document processing pipeline."""
-    return await process_module.run_script(force_reprocess=force_reprocess)
+async def run_chunk(force_reprocess: bool = False):
+    """Run the document chunking pipeline."""
+    return await chunk_module.run_script(force_reprocess=force_reprocess)
+
+async def run_embed(force_reembed: bool = False):
+    """Run the embedding generation pipeline."""
+    return await embed_module.run_script(force_reembed=force_reembed)
 
 def run_retrieve(prompt: str):
     """Run the retrieval process to find relevant chunks."""
@@ -40,12 +45,15 @@ def run_output():
     """Run the output processing."""
     return output_module.main()
 
+
+
 # Expose all functions
 __all__ = [
     'run_scrape',
-    'run_process', 
+    'run_chunk',
+    'run_embed', 
     'run_retrieve',
     'run_llm_response',
     'run_download',
     'run_output'
-] 
+]

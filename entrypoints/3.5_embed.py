@@ -18,7 +18,7 @@ sys.path.insert(0, str(project_root))
 import group4py
 from group4py.src.embedding import CombinedEmbedding
 from group4py.src.helpers import Logger, Test, TaskInfo
-from group4py.src.database import Connection, Document, DocChunkORM
+from group4py.src.database import Connection, NDCDocumentORM as Document, DocChunkORM
 from group4py.src.schema import DatabaseConfig
 from group4py.src.hop_rag import HopRAGGraphProcessor
 
@@ -33,7 +33,9 @@ def collect_all_chunk_texts():
     """
     logger.info("[3.5_EMBED] Collecting all chunks from database for global Word2Vec training...")
     
-    connection = Connection()
+    config = DatabaseConfig.from_env()
+    connection = Connection(config)
+    connection.connect()
     session = connection.get_session()
     
     try:
@@ -67,9 +69,7 @@ async def embed_all_chunks(force_reembed: bool = False):
         logger.error("[3.5_EMBED] No chunks found in database")
         return
     
-    # Step 2: Use the collected texts for Word2Vec training (handled by CombinedEmbedding)
-    
-    # Step 3: Initialize embedding models
+    # Step 2: Initialize embedding models
     logger.info("[3.5_EMBED] Loading embedding models...")
     embedding_model = CombinedEmbedding()
     
@@ -94,8 +94,10 @@ async def embed_all_chunks(force_reembed: bool = False):
         logger.error("[3.5_EMBED] No embedding models loaded successfully")
         return
 
-    # Step 4: Get all chunks from database
-    connection = Connection()
+    # Step 3: Get all chunks from database
+    config = DatabaseConfig.from_env()
+    connection = Connection(config)
+    connection.connect()
     session = connection.get_session()
     
     try:
@@ -114,7 +116,7 @@ async def embed_all_chunks(force_reembed: bool = False):
             logger.info("[3.5_EMBED] No chunks need embedding. All done!")
             return
         
-        # Step 5: Generate embeddings for all chunks
+        # Step 4: Generate embeddings for all chunks
         logger.info("[3.5_EMBED] Generating embeddings for chunks...")
         
         processed_count = 0
@@ -150,13 +152,14 @@ async def embed_all_chunks(force_reembed: bool = False):
                     
             except Exception as e:
                 logger.error(f"[3.5_EMBED] Error processing chunk {str(chunk.id)}: {str(e)}")
+                logger.error(f"[3.5_EMBED] Traceback: {traceback.format_exc()}")
                 continue
         
         # Final commit
         session.commit()
-        logger.info(f"[3.5_EMBED] Successfully generated embeddings for {len(chunks_query)} chunks")
+        logger.info(f"[3.5_EMBED] Successfully generated embeddings for {processed_count} chunks")
         
-        # Step 6: Run HopRAG processing after embeddings are complete
+        # Step 5: Run HopRAG processing after embeddings are complete
         try:
             logger.info("[3.5_EMBED] Starting HopRAG processing...")
             config = DatabaseConfig.from_env()
@@ -211,7 +214,6 @@ async def embed_all_chunks(force_reembed: bool = False):
         except Exception as e:
             session.rollback()  # Roll back any failed HopRAG changes
             logger.error(f"[3.5_EMBED] HopRAG processing failed: {str(e)}")
-            import traceback
             logger.error(f"[3.5_EMBED] HopRAG Traceback: {traceback.format_exc()}")
             # Don't fail the entire process if HopRAG fails - embeddings are still valid
         
@@ -240,8 +242,8 @@ async def run_script(force_reembed: bool = False):
         logger.warning("[3.5_EMBED] Embedding and relationship processing completed successfully. All chunks now have embeddings and logical relationships.")
         
     except Exception as e:
-        traceback_string = traceback.format_exc()
-        logger.critical(f"\n\n\n\n[PIPELINE BROKE!] - Error in 3.5_embed.py: {e}\n\nTraceback: {traceback_string}\n\n\n\n")
+        logger.critical(f"\n\n\n\n[PIPELINE BROKE!] - Error in 3.5_embed.py: {e}")
+        logger.critical(f"[PIPELINE BROKE!] - Traceback: {traceback.format_exc()}")
         raise e
 
 
