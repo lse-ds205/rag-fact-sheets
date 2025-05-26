@@ -388,6 +388,14 @@ class DocChunk:
                             for pid in element['metadata']['paragraph_ids']:
                                 if pid not in current_chunk['metadata']['paragraph_ids']:
                                     current_chunk['metadata']['paragraph_ids'].append(pid)
+                        
+                        # Update country if not set yet but available in this element
+                        if not current_chunk['metadata'].get('country') and element['metadata'].get('country'):
+                            current_chunk['metadata']['country'] = element['metadata'].get('country')
+                        
+                        # Update document_title if not set yet but available in this element
+                        if not current_chunk['metadata'].get('document_title') and element['metadata'].get('document_title'):
+                            current_chunk['metadata']['document_title'] = element['metadata'].get('document_title')
                 else:
                     # Current chunk is long enough, add to results
                     merged_elements.append(current_chunk)

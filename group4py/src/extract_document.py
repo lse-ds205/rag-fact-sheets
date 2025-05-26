@@ -1,10 +1,5 @@
 from pathlib import Path
 import sys
-project_root = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(project_root))
-import group4py
-from helpers import Logger, Test, TaskInfo
-
 import os
 import json
 import nltk
@@ -13,6 +8,14 @@ import logging
 import re
 from typing import List, Dict, Any, Optional
 from tqdm import tqdm
+from unstructured.partition.pdf import partition_pdf
+
+project_root = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(project_root))
+from helpers import Logger, Test, TaskInfo
+
+# Get a logger for this module
+logger = logging.getLogger(__name__)
 
 # Ensure NLTK data is available
 try:
@@ -21,10 +24,93 @@ except LookupError:
     nltk.download('punkt', quiet=True)
 
 from nltk.tokenize import sent_tokenize
-from unstructured.partition.pdf import partition_pdf
 
-# Get a logger for this module
-logger = logging.getLogger(__name__)
+def _extract_country_from_filename(pdf_path: str) -> str:
+    """
+    Extract country name from PDF filename.
+    
+    Args:
+        pdf_path: Path to the PDF file
+        
+    Returns:
+        Country name or 'Unknown'
+    """
+    filename = os.path.basename(pdf_path)
+    filename_lower = filename.lower()
+    
+    # Common country name patterns in filenames
+    country_patterns = {
+        'afghanistan': 'Afghanistan',
+        'albania': 'Albania',
+        'algeria': 'Algeria',
+        'argentina': 'Argentina',
+        'australia': 'Australia',
+        'austria': 'Austria',
+        'bangladesh': 'Bangladesh',
+        'belgium': 'Belgium',
+        'brazil': 'Brazil',
+        'canada': 'Canada',
+        'chile': 'Chile',
+        'china': 'China',
+        'colombia': 'Colombia',
+        'costa_rica': 'Costa Rica',
+        'egypt': 'Egypt',
+        'ethiopia': 'Ethiopia',
+        'france': 'France',
+        'germany': 'Germany',
+        'ghana': 'Ghana',
+        'india': 'India',
+        'indonesia': 'Indonesia',
+        'iran': 'Iran',
+        'iraq': 'Iraq',
+        'italy': 'Italy',
+        'japan': 'Japan',
+        'kenya': 'Kenya',
+        'madagascar': 'Madagascar',
+        'malaysia': 'Malaysia',
+        'mexico': 'Mexico',
+        'morocco': 'Morocco',
+        'nigeria': 'Nigeria',
+        'pakistan': 'Pakistan',
+        'peru': 'Peru',
+        'philippines': 'Philippines',
+        'poland': 'Poland',
+        'russia': 'Russia',
+        'saudi_arabia': 'Saudi Arabia',
+        'singapore': 'Singapore',
+        'south_africa': 'South Africa',
+        'south_korea': 'South Korea',
+        'spain': 'Spain',
+        'thailand': 'Thailand',
+        'turkey': 'Turkey',
+        'ukraine': 'Ukraine',
+        'united_kingdom': 'United Kingdom',
+        'uk': 'United Kingdom',
+        'united_states': 'United States',
+        'usa': 'United States',
+        'vietnam': 'Vietnam',
+    }
+    
+    # Try to find country in filename
+    for pattern, country_name in country_patterns.items():
+        if pattern in filename_lower:
+            return country_name
+    
+    # If no pattern found, try to extract from first part of filename
+    # Many files are named like "country_language_date.pdf"
+    filename_parts = filename.replace('.pdf', '').split('_')
+    if filename_parts:
+        first_part = filename_parts[0].lower()
+        # Try exact match first
+        for pattern, country_name in country_patterns.items():
+            if first_part == pattern:
+                return country_name
+        
+        # If still no match, capitalize the first part as a fallback
+        if len(first_part) > 2:
+            return first_part.replace('_', ' ').title()
+
+    return 'Unknown'
 
 @Logger.debug_log()
 def extract_text_from_pdf(
@@ -60,12 +146,14 @@ def extract_text_from_pdf(
     valid_strategies = ["fast", "ocr_only", "auto"]
                 
     if strategy not in valid_strategies:
-        logger.warning(f"Invalid strategy: {strategy}. Defaulting to 'fast'")
+        logger.warning(f"Invalid strategy '{strategy}', using 'fast' instead")
         strategy = "fast"
 
     try:
         filename = os.path.basename(pdf_path)
+        country = _extract_country_from_filename(pdf_path)
         logger.info(f"Extracting text from PDF: {pdf_path} using strategy: {strategy}")
+        logger.info(f"Detected country: {country}")
         
         languages_list = [lang.strip() for lang in languages.split(',')] if languages else ['eng']
         logger.debug(f"Using languages: {languages_list}")
@@ -117,7 +205,11 @@ def extract_text_from_pdf(
                 'element_index': i,
                 'element_type': type(element).__name__,
                 'page_number': 1,  # Default value, will be updated below if available
-                'extraction_strategy': strategy
+                'paragraph_number': None,
+                'extraction_strategy': strategy,
+                'filename': filename,
+                'country': country,
+                'document_title': f"{country} NDC"
             }
             
             # Handle metadata extraction from unstructured elements
@@ -135,11 +227,11 @@ def extract_text_from_pdf(
                     
                     # Extract coordinates if available
                     if hasattr(element_metadata, 'coordinates'):
-                        metadata['coordinates'] = element_metadata.coordinates
+                        metadata['coordinates'] = str(element_metadata.coordinates)
                     elif hasattr(element_metadata, '__dict__'):
                         meta_dict = element_metadata.__dict__
                         if 'coordinates' in meta_dict:
-                            metadata['coordinates'] = meta_dict['coordinates']
+                            metadata['coordinates'] = str(meta_dict['coordinates'])
                     
                     # Extract filename if available
                     if hasattr(element_metadata, 'filename'):
@@ -148,10 +240,26 @@ def extract_text_from_pdf(
                         meta_dict = element_metadata.__dict__
                         if 'filename' in meta_dict:
                             metadata['source_file'] = meta_dict['filename']
-                            
+                    
+                    # Try to extract paragraph number from coordinates or other metadata
+                    if hasattr(element_metadata, '__dict__'):
+                        meta_dict = element_metadata.__dict__
+                        # Look for any field that might indicate paragraph/element order
+                        for key in ['paragraph', 'para', 'element_id', 'order']:
+                            if key in meta_dict and isinstance(meta_dict[key], (int, str)):
+                                try:
+                                    metadata['paragraph_number'] = int(meta_dict[key])
+                                    break
+                                except (ValueError, TypeError):
+                                    continue
+                                    
             except Exception as meta_error:
                 logger.warning(f"Error extracting metadata from element {i}: {meta_error}")
                 # Keep default metadata values
+            
+            # If no paragraph number found, use element index
+            if metadata['paragraph_number'] is None:
+                metadata['paragraph_number'] = i + 1
             
             processed_elements.append({
                 'text': text,
@@ -219,6 +327,8 @@ def _retry_with_ocr(pdf_path: str, languages_list: list) -> List[Dict[str, Any]]
     """
     try:
         logger.info(f"Attempting OCR extraction for {pdf_path}")
+        filename = os.path.basename(pdf_path)
+        country = _extract_country_from_filename(pdf_path)
         
         # Force OCR extraction
         elements = partition_pdf(
@@ -247,7 +357,11 @@ def _retry_with_ocr(pdf_path: str, languages_list: list) -> List[Dict[str, Any]]
                 'element_index': i,
                 'element_type': type(element).__name__,
                 'page_number': 1,
-                'extraction_strategy': 'ocr_fallback'
+                'paragraph_number': i + 1,
+                'extraction_strategy': 'ocr_fallback',
+                'filename': filename,
+                'country': country,
+                'document_title': f"{country} NDC"
             }
             
             # Handle metadata extraction from unstructured elements
@@ -261,6 +375,15 @@ def _retry_with_ocr(pdf_path: str, languages_list: list) -> List[Dict[str, Any]]
                         meta_dict = element_metadata.__dict__
                         metadata['page_number'] = meta_dict.get('page_number', 1)
                         
+                        # Try to extract paragraph number
+                        for key in ['paragraph', 'para', 'element_id', 'order']:
+                            if key in meta_dict and isinstance(meta_dict[key], (int, str)):
+                                try:
+                                    metadata['paragraph_number'] = int(meta_dict[key])
+                                    break
+                                except (ValueError, TypeError):
+                                    continue
+                        
             except Exception as meta_error:
                 logger.warning(f"Error extracting OCR metadata from element {i}: {meta_error}")
             
@@ -269,25 +392,24 @@ def _retry_with_ocr(pdf_path: str, languages_list: list) -> List[Dict[str, Any]]
                 'metadata': metadata
             })
 
-        logger.info(f"OCR extraction produced {len(processed_elements)} elements")
+        logger.info(f"OCR extraction completed with {len(processed_elements)} elements")
         return processed_elements
         
     except Exception as e:
-        logger.error(f"OCR extraction also failed for {pdf_path}: {e}")
+        logger.error(f"OCR extraction failed for {pdf_path}: {e}")
         return []
 
 @Logger.debug_log()    
 def extract_text_from_docx(docx_path: str) -> List[Dict[str, Any]]:
     """
-    Extract text from a DOCX file.
+    Extract text from a DOCX file using python-docx.
     
     Args:
         docx_path: Path to the DOCX file
         
     Returns:
-        A list of dictionaries with text and metadata
+        List of extracted text elements with metadata
     """
-    logger.info(f"Extracting text from DOCX: {docx_path}")
     try:
         # Only import docx when needed
         from docx import Document
@@ -299,9 +421,10 @@ def extract_text_from_docx(docx_path: str) -> List[Dict[str, Any]]:
     except Exception as e:
         logger.error(f"Error extracting text from DOCX {docx_path}: {str(e)}", exc_info=True)
         return [{'text': f"ERROR: Could not extract text from {docx_path}. {str(e)}", 'type': 'error'}]
-    
+
     # Get the filename for metadata
     filename = os.path.basename(docx_path)
+    country = _extract_country_from_filename(docx_path)
     elements = []
     page_number = 1  # DOCX doesn't have a concept of pages, so we simulate it
     paragraph_count = 0
@@ -328,11 +451,14 @@ def extract_text_from_docx(docx_path: str) -> List[Dict[str, Any]]:
                 'text': text,
                 'metadata': {
                     'page_number': page_number,
+                    'paragraph_number': paragraph_count,
                     'filename': filename,
+                    'country': country,
+                    'document_title': f"{country} Document",
                     'paragraph_id': f"p{page_number}_para{paragraph_count}",
                     'style': paragraph.style.name
                 }
             })
     
-    logger.info(f"Successfully extracted {len(elements)} elements from DOCX")
+    logger.info(f"Extracted {len(elements)} elements from DOCX file")
     return elements

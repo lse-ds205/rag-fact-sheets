@@ -6,6 +6,7 @@ from typing import List, Dict, Any, Optional, Union, Tuple
 import argparse
 import json
 from dotenv import load_dotenv
+from datetime import datetime
 
 # Load environment variables from .env file
 load_dotenv()
@@ -79,19 +80,29 @@ def load_chunks_and_prompt_from_file(filepath: str) -> Tuple[List[Dict[str, Any]
         chunks = None
         
         if isinstance(data, dict):
-            # Look for prompt in various possible keys
-            prompt_keys = ['prompt', 'query', 'question', 'user_prompt', 'user_query']
-            for key in prompt_keys:
-                if key in data and data[key]:
-                    prompt = data[key]
-                    break
+            # First check for the metadata structure from 4_retrieve.py
+            if 'metadata' in data and isinstance(data['metadata'], dict):
+                metadata = data['metadata']
+                prompt = metadata.get('query_text') or metadata.get('prompt') or metadata.get('query')
             
-            # Look for chunks in various possible keys
-            chunk_keys = ['chunks', 'retrieved_chunks', 'context_chunks', 'documents']
-            for key in chunk_keys:
-                if key in data and isinstance(data[key], list):
-                    chunks = data[key]
-                    break
+            # If no prompt found in metadata, look for direct keys
+            if not prompt:
+                prompt_keys = ['prompt', 'query', 'question', 'user_prompt', 'user_query']
+                for key in prompt_keys:
+                    if key in data and data[key]:
+                        prompt = data[key]
+                        break
+            
+            # Look for chunks - check for evaluated_chunks first (from 4_retrieve.py)
+            if 'evaluated_chunks' in data and isinstance(data['evaluated_chunks'], list):
+                chunks = data['evaluated_chunks']
+            else:
+                # Look for other chunk keys
+                chunk_keys = ['chunks', 'retrieved_chunks', 'context_chunks', 'documents']
+                for key in chunk_keys:
+                    if key in data and isinstance(data[key], list):
+                        chunks = data[key]
+                        break
             
             # If chunks not found in nested structure, check if the entire dict is chunk data
             if chunks is None and 'content' in data:
@@ -104,15 +115,19 @@ def load_chunks_and_prompt_from_file(filepath: str) -> Tuple[List[Dict[str, Any]
             if chunks and isinstance(chunks[0], dict):
                 chunk_meta = chunks[0].get('metadata', {}) or chunks[0].get('chunk_metadata', {})
                 if isinstance(chunk_meta, dict):
-                    prompt = chunk_meta.get('prompt') or chunk_meta.get('query')
+                    prompt = chunk_meta.get('prompt') or chunk_meta.get('query') or chunk_meta.get('query_text')
         else:
             raise ValueError(f"Invalid JSON structure in file: {filepath}")
         
         # Validate that we found both prompt and chunks
         if not prompt:
-            raise ValueError(f"No prompt found in JSON file. Expected keys: {prompt_keys}")
+            # Additional debugging for the specific structure
+            logger.error(f"[5_LLM_RESPONSE] JSON structure debug: {list(data.keys()) if isinstance(data, dict) else type(data)}")
+            if isinstance(data, dict) and 'metadata' in data:
+                logger.error(f"[5_LLM_RESPONSE] Metadata keys: {list(data['metadata'].keys())}")
+            raise ValueError(f"No prompt found in JSON file. Expected keys: ['query_text' in metadata, 'prompt', 'query', 'question', 'user_prompt', 'user_query']")
         if not chunks:
-            raise ValueError(f"No chunks found in JSON file. Expected keys: {chunk_keys}")
+            raise ValueError(f"No chunks found in JSON file. Expected keys: ['evaluated_chunks', 'chunks', 'retrieved_chunks', 'context_chunks', 'documents']")
         if not isinstance(chunks, list):
             raise ValueError(f"Chunks must be a list, got: {type(chunks)}")
         
@@ -190,15 +205,16 @@ def process_response(llm_response: Any, original_chunks: List[Dict[str, Any]], q
     try:
         logger.info("[5_LLM_RESPONSE] Processing LLM response...")
         
-        if not llm_response:
-            logger.error("[5_LLM_RESPONSE] No LLM response to process")
-            return ResponseProcessor._create_error_response("No response from LLM service", question)
-        
-        # Process and validate response
+        # Create response processor
         response_processor = ResponseProcessor()
-        final_response = response_processor.process_llm_response(llm_response, original_chunks)
         
-        logger.info(f"[5_LLM_RESPONSE] Response processed successfully with {len(final_response.get('citations', []))} citations")
+        # Process the response with original chunks for citation validation
+        final_response = response_processor.process_llm_response(
+            llm_response=llm_response,
+            original_chunks=original_chunks
+        )
+        
+        logger.info("[5_LLM_RESPONSE] Successfully processed LLM response")
         return final_response
         
     except Exception as e:
@@ -206,75 +222,91 @@ def process_response(llm_response: Any, original_chunks: List[Dict[str, Any]], q
         logger.error(f"[5_LLM_RESPONSE] Error in process_response: {e}\nTraceback: {traceback_string}")
         
         # Return error response
-        return ResponseProcessor._create_error_response(f"Error processing response: {str(e)}", question)
+        return {
+            "answer": f"Error processing response: {str(e)}",
+            "citations": [],
+            "confidence": 0.0,
+            "question": question,
+            "error": True,
+            "error_details": str(e)
+        }
 
-@Logger.log(log_file=project_root / "logs/llm_response.log", log_level="DEBUG")
-def run_script(chunks_filepath: str, prompt_override: Optional[str] = None, supports_guided_json: bool = True) -> Dict[str, Any]:
+def main():
     """
-    Main script function.
-    General flow: Load chunks and prompt -> Setup LLM -> Get response -> Process response.
-    
-    Args:
-        chunks_filepath (str): Path to JSON file containing chunks and prompt
-        prompt_override (Optional[str]): Optional prompt override (if None, reads from JSON file)
-        supports_guided_json (bool): Whether the LLM API supports guided JSON responses
-        
-    Returns:
-        JSON-serializable LLM response dictionary
+    Main execution function for the LLM response pipeline.
     """
     try:
-        logger.warning(f"\n\n[5_LLM_RESPONSE] Running script...")
-        logger.info(f"[5_LLM_RESPONSE] Chunks file: {chunks_filepath}")
-        logger.info(f"[5_LLM_RESPONSE] Guided JSON: {supports_guided_json}")
+        # Setup logging
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
         
-        # Validate inputs
-        if not chunks_filepath:
-            raise ValueError("Chunks filepath is required")
+        logger.info("[5_LLM_RESPONSE] Starting LLM response pipeline...")
         
-        # Step 1: Load chunks and prompt from file
-        chunks, prompt = load_chunks_and_prompt_from_file(chunks_filepath)
+        # Default file path for chunks data
+        chunks_file_path = "data/evaluated_chunks.json"
         
-        # Use prompt override if provided
-        if prompt_override:
-            logger.info(f"[5_LLM_RESPONSE] Using prompt override instead of JSON prompt")
-            prompt = prompt_override
+        # Check if file path provided as command line argument
+        if len(sys.argv) > 1:
+            chunks_file_path = sys.argv[1]
         
-        logger.warning(f"[5_LLM_RESPONSE] Using prompt: {prompt}")
+        # Convert to absolute path
+        file_path = Path(chunks_file_path)
+        if not file_path.is_absolute():
+            file_path = Path(project_root) / chunks_file_path
         
-        # Step 2: Setup LLM
-        llm_client = setup_llm(supports_guided_json=supports_guided_json)
+        logger.info(f"[5_LLM_RESPONSE] Loading chunks from: {file_path}")
         
-        # Step 3: Get response
+        # Load chunks and prompt from file
+        chunks, prompt = load_chunks_and_prompt_from_file(str(file_path))
+        
+        # Setup LLM client
+        llm_client = setup_llm(supports_guided_json=True)
+        
+        # Get LLM response
         llm_response = get_llm_response(llm_client, prompt, chunks)
         
-        # Step 4: Process response
+        if llm_response is None:
+            logger.error("[5_LLM_RESPONSE] Failed to get LLM response")
+            return
+        
+        # Process the response
         final_response = process_response(llm_response, chunks, prompt)
         
-        # Log summary
-        if "error" not in final_response:
-            logger.warning(f"[5_LLM_RESPONSE] Script completed successfully.")
-            logger.info(f"[5_LLM_RESPONSE] Generated answer with {final_response.get('metadata', {}).get('chunks_cited', 0)} citations")
-            logger.info(f"[5_LLM_RESPONSE] Primary countries: {final_response.get('metadata', {}).get('primary_countries', [])}")
-        else:
-            logger.error(f"[5_LLM_RESPONSE] Script completed with error: {final_response.get('error', 'Unknown error')}")
+        # Save the final response
+        output_file = project_root / "data" / "llm_response.json"
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(final_response, f, indent=2, ensure_ascii=False)
         
-        logger.warning("[5_LLM_RESPONSE] Script finished. Exiting.")
-        return final_response
+        logger.info(f"[5_LLM_RESPONSE] Final response saved to: {output_file}")
+        logger.info("[5_LLM_RESPONSE] LLM response pipeline completed successfully")
+        
+        # Print summary - fix the answer display logic
+        print(f"\n=== LLM Response Summary ===")
+        print(f"Question: {prompt[:100]}...")
+        
+        # Handle both string and dictionary answer formats
+        answer = final_response.get('answer', 'No answer')
+        if isinstance(answer, dict):
+            # If answer is a dictionary, try to get summary or detailed_response
+            answer_text = answer.get('summary', answer.get('detailed_response', str(answer)))
+        else:
+            # If answer is a string, use it directly
+            answer_text = str(answer)
+        
+        print(f"Answer: {answer_text[:200]}...")
+        print(f"Citations: {len(final_response.get('citations', []))}")
+        print(f"Confidence: {final_response.get('confidence', 0.0)}")
+        print(f"Output saved to: {output_file}")
         
     except Exception as e:
         traceback_string = traceback.format_exc()
-        logger.critical(f"\n\n\n\n[PIPELINE BROKE!] - Error in 5_llm_response.py: {e}\n\nTraceback: {traceback_string}\n\n\n\n")
-        
-        # Return error response even if pipeline breaks
-        fallback_prompt = prompt_override or "Unknown question"
-        return ResponseProcessor._create_error_response(f"Pipeline error: {str(e)}", fallback_prompt)
+        logger.error(f"[5_LLM_RESPONSE] Error in main: {e}\nTraceback: {traceback_string}")
+        print(f"Error: {e}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Run the LLM response script with chunks and prompt from a JSON file.')
-    
-    # Primary arguments (required)
-    parser.add_argument('--chunks-file', type=str, required=True, 
-                       help='Path to JSON file containing chunks and prompt.')
+    parser = argparse.ArgumentParser(description='Run the LLM response script with chunks and prompt from evaluated_chunks.json.')
     
     # Optional arguments
     parser.add_argument('--prompt', type=str, 
@@ -284,15 +316,12 @@ if __name__ == "__main__":
     
     # Legacy support for old argument names
     parser.add_argument('--chunks', type=str, 
-                       help='JSON string of chunks (legacy support, overrides --chunks-file if provided).')
+                       help='JSON string of chunks (legacy support).')
     
     args = parser.parse_args()
     
     output_file = Path(args.chunks_file).with_name(Path(args.chunks_file).stem + '_response.json')
     try:
-        # Determine guided JSON support
-        supports_guided_json = not args.no_guided_json
-        
         if args.chunks:
             # Legacy support: create temporary file from JSON string
             logger.info("Using legacy JSON string input (--chunks parameter)")
@@ -301,8 +330,7 @@ if __name__ == "__main__":
                 chunks_list = json.loads(args.chunks)
             except json.JSONDecodeError as e:
                 logger.error(f"Error parsing chunks JSON string: {e}")
-                error_response = ResponseProcessor._create_error_response(f"Invalid chunks JSON: {str(e)}", args.prompt or "Unknown")
-                print(json.dumps(error_response, indent=2, ensure_ascii=False))
+                print(json.dumps({"error": f"Invalid chunks JSON: {str(e)}"}, indent=2, ensure_ascii=False))
                 sys.exit(1)
             
             # Create temporary file with both chunks and prompt
@@ -317,55 +345,39 @@ if __name__ == "__main__":
                 temp_filepath = temp_file.name
             
             try:
-                result = run_script(
-                    chunks_filepath=temp_filepath, 
-                    prompt_override=args.prompt,  # Use prompt override for legacy mode
-                    supports_guided_json=supports_guided_json
-                )
+                # Override the chunks file path for main()
+                sys.argv = [sys.argv[0], temp_filepath]
+                main()
             finally:
                 # Clean up temporary file
                 import os
                 os.unlink(temp_filepath)
         else:
-            # Primary method: use file directly, prompt read from JSON
-            result = run_script(
-                chunks_filepath=args.chunks_file, 
-                prompt_override=args.prompt,  # Optional override
-                supports_guided_json=supports_guided_json
-            )
+            # Primary method: use evaluated_chunks.json automatically
+            chunks_file_path = project_root / "data" / "evaluated_chunks.json"
+            
+            if not chunks_file_path.exists():
+                logger.error(f"Evaluated chunks file not found: {chunks_file_path}")
+                print(json.dumps({"error": f"File not found: {chunks_file_path}"}, indent=2, ensure_ascii=False))
+                sys.exit(1)
+            
+            # Run main function directly
+            main()
         
-        # Print result for command line usage
-        print(json.dumps(result, indent=2, ensure_ascii=False))
-
-        # Dump to json file
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(result, f, indent=2, ensure_ascii=False)
-        
-    except FileNotFoundError as e:
-        logger.error(f"Chunks file not found: {e}")
-        error_response = ResponseProcessor._create_error_response(f"File not found: {str(e)}", args.prompt or "Unknown")
-        print(json.dumps(error_response, indent=2, ensure_ascii=False))
-        sys.exit(1)
-    except ValueError as e:
-        logger.error(f"Data validation error: {e}")
-        error_response = ResponseProcessor._create_error_response(f"Data error: {str(e)}", args.prompt or "Unknown")
-        print(json.dumps(error_response, indent=2, ensure_ascii=False))
-        sys.exit(1)
     except Exception as e:
         logger.error(f"Error in main execution: {e}")
-        error_response = ResponseProcessor._create_error_response(f"Execution error: {str(e)}", args.prompt or "Unknown")
-        print(json.dumps(error_response, indent=2, ensure_ascii=False))
+        print(json.dumps({"error": f"Execution error: {str(e)}"}, indent=2, ensure_ascii=False))
         sys.exit(1)
 
     # Usage examples:
-    # Primary method (reads prompt from JSON file):
-    # python 5_llm_response.py --chunks-file data/chunks_with_prompt.json
+    # Primary method (reads from data/evaluated_chunks.json automatically):
+    # python 5_llm_response.py
     #
     # With prompt override:
-    # python 5_llm_response.py --chunks-file data/chunks_with_prompt.json --prompt "Override question?"
+    # python 5_llm_response.py --prompt "Override question?"
     #
     # Without guided JSON (fallback mode):
-    # python 5_llm_response.py --chunks-file data/chunks_with_prompt.json --no-guided-json
+    # python 5_llm_response.py --no-guided-json
     #
     # Legacy method (JSON string with prompt required):
     # python 5_llm_response.py --chunks '[{"id": 1, "content": "test"}]' --prompt "What is this about?"

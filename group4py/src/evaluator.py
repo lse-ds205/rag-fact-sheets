@@ -1,42 +1,83 @@
 from pathlib import Path
 import sys
 import os
-import traceback
-from typing import List, Dict, Any, Optional, Union, Tuple
-import logging
-from sqlalchemy import create_engine, text
-from group4py.src.database import Connection
-from group4py.src.embedding import TransformerEmbedding, CombinedEmbedding
-from group4py.src.helpers import Logger
 import re
+import logging
+import traceback
+import numpy as np
+from typing import List, Dict, Any, Optional, Union, Tuple
+from sklearn.metrics.pairwise import cosine_similarity
+from sqlalchemy import text, func, create_engine
+import uuid
 from difflib import SequenceMatcher
-
-logger = logging.getLogger(__name__)
 
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
-import group4py
-from constants.regex import (
-    ndc_keyword_mapper, NDCKeywordMapper, QueryType, KeywordGroup,
-    REGEX_NDC_TARGETS, REGEX_EMISSIONS, REGEX_RENEWABLE_ENERGY, 
-    REGEX_CLIMATE_FINANCE, REGEX_NUMERICAL_TARGETS, REGEX_POLICY_MEASURES
-)
-from helpers import Logger, Test, TaskInfo
 
-class VectorComparison:
+from group4py.src.database import Connection
+from group4py.src.schema import DatabaseConfig
+from group4py.src.helpers import Logger, Test, TaskInfo
+
+# Set up logging
+logger = logging.getLogger(__name__)
+
+class Evaluator:
     """
-    Vector comparison class for performing similarity searches using pgvector embeddings.
+    Base class for all evaluation methods.
+    Provides common functionality for different evaluation strategies.
     """
-    def __init__(self, connection: Connection = None):
+    
+    def __init__(self):
+        self.name = self.__class__.__name__
+        logger.debug(f"Initialized {self.name} evaluator")
+    
+    def evaluate(self, chunks: List[Dict[str, Any]], query: str) -> List[Dict[str, Any]]:
         """
-        Initialize the vector comparison engine.
+        Base evaluation method to be overridden by subclasses.
         
         Args:
-            connection: Database connection. If None, creates a new one.        """
-        self.connection = connection if connection is not None else Connection()
-        self.embedding_engine = TransformerEmbedding()
-        self.embedding_engine.load_models()
-        self.logger = logging.getLogger(__name__)
+            chunks: List of chunks to evaluate
+            query: Query string to evaluate against
+            
+        Returns:
+            List of evaluated chunks with scores
+        """
+        raise NotImplementedError("Subclasses must implement evaluate method")
+    
+    def normalize_score(self, score: float, min_val: float = 0.0, max_val: float = 1.0) -> float:
+        """
+        Normalize a score to be within the specified range.
+        
+        Args:
+            score: Score to normalize
+            min_val: Minimum value of normalized range
+            max_val: Maximum value of normalized range
+            
+        Returns:
+            Normalized score
+        """
+        return max(min_val, min(max_val, score))
+
+class VectorComparison(Evaluator):
+    """
+    Vector-based similarity comparison using cosine similarity.
+    """
+    
+    def __init__(self, connection=None):
+        """
+        Initialize VectorComparison with optional database connection.
+        
+        Args:
+            connection: Optional database Connection instance
+        """
+        super().__init__()
+        if connection is not None:
+            self.connection = connection
+        else:
+            # Create a connection with default config
+            config = DatabaseConfig.from_env()
+            self.connection = Connection(config)
+            self.connection.connect()
 
     @Logger.debug_log()
     def get_vector_similarity(self, embedded_prompt: List[float], embedding_type: str = 'transformer', 
@@ -420,121 +461,110 @@ class VectorComparison:
             logger.error(f"Error creating vector indices: {e}")
             return False
 
-class RegexComparison:
+class RegexComparison(Evaluator):
     """
-    Regex comparison class for evaluating chunks based on keyword matches.
+    Regex-based comparison for keyword and pattern matching.
     """
-    def __init__(self, keyword_mapper: NDCKeywordMapper = None):
-        """
-        Initialize RegexComparison with keyword mapper
-        
-        Args:
-            keyword_mapper: Optional NDCKeywordMapper instance. Uses global instance if None.
-        """
-        self.keyword_mapper = keyword_mapper or ndc_keyword_mapper
-        self.logger = logging.getLogger(__name__)
     
-    @Logger.debug_log()
+    def __init__(self):
+        super().__init__()
+        # Climate-specific keywords and patterns
+        self.climate_keywords = {
+            'emissions': ['emission', 'emissions', 'ghg', 'greenhouse gas', 'co2', 'carbon dioxide', 'methane', 'nitrous oxide'],
+            'targets': ['target', 'goal', 'objective', 'commitment', 'reduction', 'increase', 'percentage', '%'],
+            'energy': ['renewable', 'solar', 'wind', 'hydro', 'nuclear', 'fossil fuel', 'coal', 'oil', 'gas'],
+            'adaptation': ['adaptation', 'resilience', 'climate change', 'vulnerability', 'impact'],
+            'mitigation': ['mitigation', 'reduction', 'abatement', 'sequestration', 'offset'],
+            'finance': ['finance', 'funding', 'investment', 'cost', 'budget', 'billion', 'million'],
+            'policy': ['policy', 'regulation', 'law', 'framework', 'strategy', 'plan', 'program']
+        }
+        
+        # Numerical patterns
+        self.number_patterns = {
+            'percentage': r'\d+(?:\.\d+)?%',
+            'year': r'20\d{2}',
+            'emission_amount': r'\d+(?:\.\d+)?\s*(?:Mt|Gt|kt|t)?\s*CO2(?:e|eq)?',
+            'monetary': r'\$?\d+(?:\.\d+)?\s*(?:billion|million|trillion)'
+        }
+
     def evaluate_chunk_score(self, chunk_content: str, query: str) -> Dict[str, Any]:
         """
-        Evaluate how well a chunk matches the query based on keyword patterns.
+        Evaluate a chunk using regex patterns and keyword matching.
         
         Args:
-            chunk_content: The text content of the chunk
-            query: The user's query
+            chunk_content: Content of the chunk to evaluate
+            query: Query string to match against
             
         Returns:
-            Dict containing:
-                - regex_score: Overall regex matching score (0.0 to 1.0)
-                - keyword_matches: Number of total keyword matches
-                - match_details: Detailed breakdown by query type
-                - query_types: Detected query types for the query
+            Dictionary with evaluation results
         """
-        try:
-            # Get comprehensive evaluation from the keyword mapper
-            evaluation = self.keyword_mapper.evaluate_chunk_keywords(chunk_content, query)
-            
-            # Normalize the score to 0-1 range (assuming max reasonable score is 20)
-            max_reasonable_score = 20.0
-            normalized_score = min(evaluation['total_score'] / max_reasonable_score, 1.0)
-            
-            result = {
-                'regex_score': normalized_score,
-                'keyword_matches': evaluation['total_matches'],
-                'match_details': evaluation['match_breakdown'],
-                'query_types': evaluation['detected_types'],
-                'raw_score': evaluation['total_score']
-            }
-            
-            self.logger.debug(f"[REGEX_EVAL] Query: '{query[:50]}...' | Score: {normalized_score:.3f} | Matches: {evaluation['total_matches']}")
-            
-            return result
-            
-        except Exception as e:
-            self.logger.error(f"[REGEX_EVAL] Error evaluating chunk: {e}")
-            return {
-                'regex_score': 0.0,
-                'keyword_matches': 0,
-                'match_details': {},
-                'query_types': [],
-                'raw_score': 0.0,
-                'error': str(e)
-            }
-    
-    @Logger.debug_log()
-    def get_keyword_highlights(self, chunk_content: str, query: str) -> Dict[str, Any]:
+        chunk_lower = chunk_content.lower()
+        query_lower = query.lower()
+        
+        # Count keyword matches by category
+        category_matches = {}
+        total_matches = 0
+        
+        for category, keywords in self.climate_keywords.items():
+            matches = sum(1 for keyword in keywords if keyword in chunk_lower)
+            category_matches[category] = matches
+            total_matches += matches
+        
+        # Check for numerical patterns
+        numerical_matches = {}
+        for pattern_name, pattern in self.number_patterns.items():
+            matches = len(re.findall(pattern, chunk_content, re.IGNORECASE))
+            numerical_matches[pattern_name] = matches
+            total_matches += matches
+        
+        # Query-specific keyword matching
+        query_words = re.findall(r'\w+', query_lower)
+        query_matches = sum(1 for word in query_words if word in chunk_lower and len(word) > 2)
+        
+        # Calculate regex score (0-1)
+        base_score = min(total_matches / 10.0, 1.0)  # Normalize to max 1.0
+        query_boost = min(query_matches / max(len(query_words), 1), 1.0)
+        
+        regex_score = 0.7 * base_score + 0.3 * query_boost
+        
+        return {
+            'regex_score': regex_score,
+            'keyword_matches': total_matches,
+            'category_matches': category_matches,
+            'numerical_matches': numerical_matches,
+            'query_word_matches': query_matches,
+            'query_types': list(category_matches.keys())
+        }
+
+    def get_keyword_highlights(self, chunk_content: str, query: str) -> List[str]:
         """
-        Extract highlighted keywords from chunk based on query patterns.
+        Get highlighted keywords found in the chunk.
         
         Args:
-            chunk_content: The text content of the chunk
-            query: The user's query
+            chunk_content: Content to search in
+            query: Query to find keywords from
             
         Returns:
-            Dictionary with highlighted keywords and their positions
+            List of highlighted keyword phrases
         """
-        try:
-            # Detect query types
-            detected_types = self.keyword_mapper.detect_query_type(query)
-            highlights = {}
-            
-            # For each detected query type, find pattern matches
-            for query_type, confidence in detected_types:
-                if query_type in self.keyword_mapper.compiled_patterns:
-                    patterns = self.keyword_mapper.compiled_patterns[query_type]
-                    
-                    # Find matches for each category
-                    primary_matches = self._find_matches(patterns['primary'], chunk_content)
-                    secondary_matches = self._find_matches(patterns['secondary'], chunk_content)
-                    contextual_matches = self._find_matches(patterns['contextual'], chunk_content)
-                    
-                    # Add to highlights if we found matches
-                    if primary_matches or secondary_matches or contextual_matches:
-                        highlights[query_type.value] = {
-                            'primary': primary_matches,
-                            'secondary': secondary_matches,
-                            'contextual': contextual_matches
-                        }
-            
-            return highlights
+        highlights = []
+        chunk_lower = chunk_content.lower()
         
-        except Exception as e:
-            self.logger.error(f"[KEYWORD_HIGHLIGHTS] Error getting highlights: {e}")
-            return {}
-    
-    def _find_matches(self, pattern, text):
-        """Helper method to find all matches with their positions"""
-        matches = []
-        for match in pattern.finditer(text):
-            matches.append({
-                'text': match.group(),
-                'start': match.start(),
-                'end': match.end()
-            })
-        return matches
+        # Find query words
+        query_words = re.findall(r'\w+', query.lower())
+        for word in query_words:
+            if len(word) > 2 and word in chunk_lower:
+                highlights.append(word)
+        
+        # Find climate keywords
+        for category, keywords in self.climate_keywords.items():
+            for keyword in keywords:
+                if keyword in chunk_lower:
+                    highlights.append(f"{keyword} ({category})")
+        
+        return highlights[:10]  # Limit to top 10 highlights
 
-
-class FuzzyRegexComparison:
+class FuzzyRegexComparison(Evaluator):
     """
     Fuzzy regex comparison class that implements advanced text matching techniques
     including fuzzy matching, n-gram analysis, and contextual pattern recognition.
@@ -548,9 +578,9 @@ class FuzzyRegexComparison:
             fuzzy_threshold: Minimum similarity score for fuzzy matching (0.0 to 1.0)
             ngram_size: Size of n-grams for text analysis
         """
+        super().__init__()
         self.fuzzy_threshold = fuzzy_threshold
         self.ngram_size = ngram_size
-        self.logger = logging.getLogger(__name__)
         
         # Climate-specific patterns for contextual matching
         self.climate_patterns = {
@@ -579,7 +609,7 @@ class FuzzyRegexComparison:
                 r'\b(?:baseline|reference)\s+year'
             ]
         }
-    
+
     @Logger.debug_log()
     def preprocess_text(self, text: str) -> str:
         """
@@ -785,67 +815,68 @@ class FuzzyRegexComparison:
             'targets': 1.1   # Slightly boost target-related content
         }
         
-        similarity_result = self.contextual_similarity_score(chunk_content, query)
-        
-        # Apply boost factors based on detected patterns
-        boosted_score = similarity_result['fuzzy_score']
-        applied_boosts = []
-        
-        for pattern in similarity_result['semantic_patterns']:
-            if pattern in boost_factors:
-                boost = boost_factors[pattern]
-                boosted_score *= boost
-                applied_boosts.append(f"{pattern}: {boost}x")
-        
-        # Cap the final score at 1.0
-        final_score = min(boosted_score, 1.0)
-        
-        return {
-            'final_score': final_score,
-            'base_fuzzy_score': similarity_result['fuzzy_score'],
-            'query_coverage': similarity_result['query_coverage'],
-            'contextual_matches': similarity_result['contextual_matches'],
-            'semantic_patterns': similarity_result['semantic_patterns'],
-            'total_matches': similarity_result['total_matches'],
-            'applied_boosts': applied_boosts,
-            'boost_multiplier': boosted_score / similarity_result['fuzzy_score'] if similarity_result['fuzzy_score'] > 0 else 1.0
-        }
-
-class Evaluator:
-    """
-    Evaluator class. General methodology:
-    """
-    def __init__(self):
-        pass
-
-    @Logger.debug_log()
-    def evaluate_total_score():
-        """
-        Some function(s) to evaluate the prompt.
-        """
-        score_1 = Evaluator._Evaluator.evaluate_function_1()
-        score_2 = Evaluator._Evaluator.evaluate_function_2()
-        total_score = score_1 + score_2
-        pass
-
-    @Logger.debug_log()
-    def some_other_evaluation():
-        pass
-
-    class _Evaluator:
-
-        @Logger.debug_log()
-        @staticmethod
-        def evaluate_function_1():
-            """
-            Some function(s) to evaluate the prompt.
-            """
-            pass
-
-        @Logger.debug_log()
-        @staticmethod
-        def evaluate_function_2():
-            """
-            Some function(s) to evaluate the prompt.
-            """
-            pass
+        try:
+            # Simple fuzzy matching implementation
+            chunk_lower = chunk_content.lower()
+            query_lower = query.lower()
+            
+            # Query coverage calculation
+            query_words = [word for word in query_lower.split() if len(word) > 2]
+            word_matches = sum(1 for word in query_words if word in chunk_lower)
+            query_coverage = word_matches / len(query_words) if query_words else 0.0
+            
+            # Pattern matching for climate categories
+            pattern_scores = {}
+            total_pattern_matches = 0
+            semantic_patterns = []
+            
+            for category, patterns in self.climate_patterns.items():
+                category_matches = 0
+                for pattern in patterns:
+                    matches = len(re.findall(pattern, chunk_content, re.IGNORECASE))
+                    category_matches += matches
+                    total_pattern_matches += matches
+                
+                if category_matches > 0:
+                    semantic_patterns.append(category)
+                    pattern_scores[category] = category_matches
+            
+            # Calculate base score
+            base_score = 0.4 * query_coverage + 0.6 * min(total_pattern_matches / 5.0, 1.0)
+            
+            # Apply boost factors
+            boosted_score = base_score
+            applied_boosts = []
+            
+            for pattern in semantic_patterns:
+                if pattern in boost_factors:
+                    boost = boost_factors[pattern]
+                    boosted_score *= boost
+                    applied_boosts.append(f"{pattern}: {boost}x")
+            
+            final_score = min(boosted_score, 1.0)
+            
+            return {
+                'final_score': final_score,
+                'base_fuzzy_score': base_score,
+                'query_coverage': query_coverage,
+                'contextual_matches': pattern_scores,
+                'semantic_patterns': semantic_patterns,
+                'total_matches': total_pattern_matches,
+                'applied_boosts': applied_boosts,
+                'boost_multiplier': boosted_score / base_score if base_score > 0 else 1.0
+            }
+            
+        except Exception as e:
+            logger.error(f"Error in fuzzy evaluation: {e}")
+            return {
+                'final_score': 0.0,
+                'base_fuzzy_score': 0.0,
+                'query_coverage': 0.0,
+                'contextual_matches': {},
+                'semantic_patterns': [],
+                'total_matches': 0,
+                'applied_boosts': [],
+                'boost_multiplier': 1.0,
+                'error': str(e)
+            }
