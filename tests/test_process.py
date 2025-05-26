@@ -1,3 +1,16 @@
+"""
+⚠️⚠️⚠️ DEPRECATION WARNING ⚠️⚠️⚠️
+
+This test file tests the DEPRECATED 3_process.py script!
+
+The 3_process.py script has been replaced by:
+  • 3_chunk.py - for document chunking
+  • 3.5_embed.py - for embedding generation
+
+This test file should be updated to test the new scripts instead.
+Consider creating separate test files for 3_chunk.py and 3.5_embed.py.
+"""
+
 import sys
 import asyncio
 import pytest
