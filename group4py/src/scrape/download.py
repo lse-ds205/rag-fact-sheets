@@ -1,5 +1,5 @@
 """
-Document Downloader Module
+Document Downloader Module for Scraping
 
 This module provides functionality to download PDF, DOC, and DOCX documents from URLs,
 handling various edge cases and server restrictions.
@@ -13,8 +13,17 @@ from typing import Optional, Dict, List
 
 import requests
 
+from .exceptions import DocumentDownloadError, UnsupportedFormatError, FileValidationError
 
-logger = logging.getLogger("document_downloader")
+logger = logging.getLogger(__name__)
+
+SUPPORTED_EXTENSIONS = ['.pdf', '.doc', '.docx']
+SUPPORTED_CONTENT_TYPES = [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+]
+
 
 def download_pdf(
     url: str,
@@ -22,7 +31,7 @@ def download_pdf(
     force_download: bool = False,
     max_retries: int = 3,
     timeout: int = 30
-) -> Optional[str]:
+) -> str:
     """
     Download a document (PDF, DOC, DOCX) from a URL and save it to the specified folder.
     
@@ -34,15 +43,19 @@ def download_pdf(
         timeout: Timeout for HTTP requests in seconds.
         
     Returns:
-        Path to the downloaded document if successful, None otherwise.
+        Path to the downloaded document.
+        
+    Raises:
+        DocumentDownloadError: If the download fails.
+        UnsupportedFormatError: If the document format is not supported.
+        FileValidationError: If the file validation fails.
     """
 
     if not url or not url.startswith(('http://', 'https://')):
-        logger.error(f"Invalid URL: {url}")
-        return None
+        raise DocumentDownloadError(f"Invalid URL: {url}")
     
     if output_dir is None:
-        script_dir = pathlib.Path(__file__).parent.parent.parent
+        script_dir = pathlib.Path(__file__).parent.parent.parent.parent
         output_dir = os.path.join(script_dir, "data", "pdfs")
     
     logger.info(f"Using output directory: {output_dir}")
@@ -51,12 +64,9 @@ def download_pdf(
     parsed_url = urlparse(url)
     filename = unquote(os.path.basename(parsed_url.path))
     
-    supported_extensions = ['.pdf', '.doc', '.docx']
     file_extension = os.path.splitext(filename.lower())[1]
     
-    # If filename is empty or doesn't have a supported extension, create a default name
-    if not filename or file_extension not in supported_extensions:
-        # Try to guess extension from URL if possible
+    if not filename or file_extension not in SUPPORTED_EXTENSIONS:
         if url.lower().endswith('.pdf'):
             file_extension = '.pdf'
         elif url.lower().endswith('.doc'):
@@ -64,16 +74,13 @@ def download_pdf(
         elif url.lower().endswith('.docx'):
             file_extension = '.docx'
         else:
-            # Default to PDF if unknown
-            file_extension = '.pdf'
+            raise UnsupportedFormatError(f"URL doesn't end with a supported extension: {url}")
             
-        logger.warning(f"URL doesn't end with a supported extension: {url}")
+        logger.warning(f"URL doesn't have a valid filename with extension, using URL extension: {url}")
         filename = f"document_{hash(url) % 10000}{file_extension}"
     
-    # Full path to save the file
     output_path = os.path.join(output_dir, filename)
     
-    # Download the document
     return _download_with_requests(url, output_path, force_download, max_retries, timeout)
 
 
@@ -83,7 +90,7 @@ def _download_with_requests(
     force_download: bool = False,
     max_retries: int = 3,
     timeout: int = 30
-) -> Optional[str]:
+) -> str:
     """
     Download a document file using the requests library.
     
@@ -95,9 +102,14 @@ def _download_with_requests(
         timeout: Request timeout in seconds.
         
     Returns:
-        Path to the downloaded file if successful, None otherwise.
+        Path to the downloaded file if successful.
+        
+    Raises:
+        DocumentDownloadError: If the download fails.
+        UnsupportedFormatError: If the document format is not supported.
+        FileValidationError: If the file validation fails.
     """
-    # Use realistic browser headers to avoid being blocked
+
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
                       '(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
@@ -109,7 +121,6 @@ def _download_with_requests(
         'Cache-Control': 'max-age=0',
     }
     
-    # Add referer if URL has a domain
     if '://' in url:
         parsed_url = urlparse(url)
         base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
@@ -118,10 +129,8 @@ def _download_with_requests(
     try:
         logger.info(f"Downloading document from {url}")
         
-        # Use a session to maintain cookies and connection
         session = requests.Session()
         
-        # Try with retries
         for attempt in range(max_retries):
             try:
                 response = session.get(
@@ -135,66 +144,56 @@ def _download_with_requests(
                 break
             except (requests.RequestException, requests.Timeout) as e:
                 if attempt == max_retries - 1:
-                    raise
+                    raise DocumentDownloadError(f"Failed to download after {max_retries} attempts: {str(e)}")
                 logger.warning(f"Attempt {attempt+1} failed: {e}. Retrying immediately.")
         
-        # If we get redirected, log the final URL
         if response.url != url:
             logger.info(f"Redirected to: {response.url}")
         
-        # Expected content types for documents - ONLY PDF, DOC, DOCX
-        valid_content_types = [
-            'application/pdf',
-            'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-        ]
+        has_valid_extension = any(url.lower().endswith(ext) for ext in SUPPORTED_EXTENSIONS)
         
-        # Check if URL ends with a valid extension - ONLY PDF, DOC, DOCX
-        has_valid_extension = any(url.lower().endswith(ext) for ext in ['.pdf', '.doc', '.docx'])
-        
-        # Check content type, but don't fail if URL ends with valid extension or force_download is True
         content_type = response.headers.get('Content-Type', '').lower()
-        valid_content_type = any(vct in content_type for vct in valid_content_types)
+        valid_content_type = any(vct in content_type for vct in SUPPORTED_CONTENT_TYPES)
         
         if not valid_content_type and not force_download and not has_valid_extension:
-            logger.error(f"Content is not a supported document type (PDF, DOC, DOCX). Content-Type: {content_type}")
-            return None
+            raise UnsupportedFormatError(
+                f"Content is not a supported document type (PDF, DOC, DOCX). Content-Type: {content_type}"
+            )
             
-        # If content type doesn't match but URL has valid extension, just log a warning
         if not valid_content_type and has_valid_extension:
             logger.warning(f"URL has document extension but Content-Type is: {content_type}. "
                           "Proceeding with download anyway.")
         
-        # Save the document with proper error handling
         try:
             with open(output_path, 'wb') as f:
                 for chunk in response.iter_content(chunk_size=8192):
                     if chunk:
                         f.write(chunk)
         except OSError as e:
-            logger.error(f"Error writing file to {output_path}: {e}")
-            return None
+            raise DocumentDownloadError(f"Error writing file to {output_path}: {str(e)}")
         
-        # Verify the file was downloaded and has content
         if not os.path.exists(output_path) or os.path.getsize(output_path) == 0:
-            logger.error("Downloaded file is empty or does not exist")
-            return None
+            raise FileValidationError("Downloaded file is empty or does not exist")
             
-        # Simple validation based on file extension
         file_ext = os.path.splitext(output_path)[1].lower()
         if file_ext == '.pdf' and not _is_pdf_file(output_path):
-            logger.warning("Downloaded file does not appear to be a valid PDF")
-            # Continue anyway, since we trust the URL
+            raise FileValidationError("Downloaded file does not appear to be a valid PDF")
         
         logger.info(f"Document successfully downloaded to {output_path}")
         return output_path
         
+    except (DocumentDownloadError, UnsupportedFormatError, FileValidationError):
+        if os.path.exists(output_path):
+            os.remove(output_path)
+        raise
     except requests.exceptions.RequestException as e:
-        logger.error(f"Error downloading document: {e}")
-        return None
+        if os.path.exists(output_path):
+            os.remove(output_path)
+        raise DocumentDownloadError(f"Error downloading document: {str(e)}")
     except Exception as e:
-        logger.error(f"Unexpected error: {e}")
-        return None
+        if os.path.exists(output_path):
+            os.remove(output_path)
+        raise DocumentDownloadError(f"Unexpected error: {str(e)}")
 
 
 def _is_pdf_file(file_path: str) -> bool:
@@ -213,4 +212,4 @@ def _is_pdf_file(file_path: str) -> bool:
             return header.startswith('%PDF')
     except Exception as e:
         logger.warning(f"Could not verify PDF format: {e}")
-        return False
+        return False 

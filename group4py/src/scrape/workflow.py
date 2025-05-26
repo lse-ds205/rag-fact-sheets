@@ -3,12 +3,21 @@
 import logging
 import traceback
 from typing import Dict, Any, Optional
+import os
+from pathlib import Path
 
 from .selenium import scrape_ndc_documents
 from .db_operations import retrieve_existing_documents, insert_new_documents, update_existing_documents
 from .comparator import compare_documents
 from .config import ScrapingConfig, DEFAULT_CONFIG
-from .exceptions import WorkflowError, DocumentScrapingError
+from .exceptions import (
+    WorkflowError, 
+    DocumentScrapingError, 
+    DocumentDownloadError, 
+    UnsupportedFormatError, 
+    FileValidationError
+)
+from .download import download_pdf
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +34,7 @@ def run_scraping_workflow(config: Optional[ScrapingConfig] = None) -> Dict[str, 
         
     Raises:
         WorkflowError: If workflow execution fails
+        DocumentScrapingError: If document scraping fails
     """
     if config is None:
         config = DEFAULT_CONFIG
@@ -55,10 +65,19 @@ def run_scraping_workflow(config: Optional[ScrapingConfig] = None) -> Dict[str, 
         
         # Step 4: Process new documents
         inserted_count = 0
+        downloaded_count = 0
+        failed_downloads = 0
         if changes['new']:
             logger.info(f"Step 4: Processing {len(changes['new'])} new documents...")
             inserted_count = insert_new_documents(changes['new'])
             logger.info(f"Successfully inserted {inserted_count}/{len(changes['new'])} new documents")
+            
+            # Step 4.1: Download new documents
+            logger.info(f"Step 4.1: Downloading {len(changes['new'])} new documents...")
+            downloaded_count, failed_downloads = _download_new_documents(changes['new'], config)
+            logger.info(f"Successfully downloaded {downloaded_count}/{len(changes['new'])} new documents")
+            if failed_downloads > 0:
+                logger.warning(f"Failed to download {failed_downloads} documents")
         else:
             logger.info("Step 4: No new documents to process")
         
@@ -84,7 +103,15 @@ def run_scraping_workflow(config: Optional[ScrapingConfig] = None) -> Dict[str, 
             logger.info("Step 6: No removed documents found")
         
         # Step 7: Summary
-        result = _create_result_summary(existing_docs, new_docs, changes, inserted_count, updated_count)
+        result = _create_result_summary(
+            existing_docs, 
+            new_docs, 
+            changes, 
+            inserted_count, 
+            updated_count, 
+            downloaded_count,
+            failed_downloads
+        )
         _log_workflow_summary(result)
         
         logger.info("NDC document scraping workflow completed successfully!")
@@ -98,6 +125,58 @@ def run_scraping_workflow(config: Optional[ScrapingConfig] = None) -> Dict[str, 
         raise WorkflowError(f"Workflow execution failed: {str(e)}") from e
 
 
+def _download_new_documents(new_docs, config: ScrapingConfig) -> tuple:
+    """
+    Download new documents.
+    
+    Args:
+        new_docs: List of new documents to download
+        config: Scraping configuration
+        
+    Returns:
+        Tuple of (successful_downloads, failed_downloads)
+    """
+    # Create output directory if it doesn't exist
+    project_root = Path(__file__).resolve().parents[3]
+    output_dir = os.path.join(project_root, "data", "pdfs")
+    os.makedirs(output_dir, exist_ok=True)
+    
+    successful_downloads = 0
+    failed_downloads = 0
+    
+    for doc in new_docs:
+        try:
+            logger.info(f"Downloading document: {doc.country} - {doc.title} from {doc.url}")
+            output_path = download_pdf(
+                url=doc.url,
+                output_dir=output_dir,
+                force_download=False,
+                max_retries=config.max_retries,
+                timeout=config.timeout
+            )
+            
+            successful_downloads += 1
+            logger.info(f"Successfully downloaded document to {output_path}")
+            
+        except UnsupportedFormatError as e:
+            failed_downloads += 1
+            logger.error(f"Unsupported format for {doc.url}: {str(e)}")
+            
+        except FileValidationError as e:
+            failed_downloads += 1
+            logger.error(f"File validation failed for {doc.url}: {str(e)}")
+            
+        except DocumentDownloadError as e:
+            failed_downloads += 1
+            logger.error(f"Failed to download {doc.url}: {str(e)}")
+            
+        except Exception as e:
+            failed_downloads += 1
+            logger.error(f"Unexpected error downloading {doc.url}: {str(e)}")
+    
+    return successful_downloads, failed_downloads
+
+
 def _log_removed_documents(removed_docs, limit: int = 5) -> None:
     """Log details of removed documents."""
     for doc in removed_docs[:limit]:
@@ -106,7 +185,15 @@ def _log_removed_documents(removed_docs, limit: int = 5) -> None:
         logger.info(f"  ... and {len(removed_docs) - limit} more")
 
 
-def _create_result_summary(existing_docs, new_docs, changes, inserted_count, updated_count) -> Dict[str, Any]:
+def _create_result_summary(
+    existing_docs, 
+    new_docs, 
+    changes, 
+    inserted_count, 
+    updated_count, 
+    downloaded_count=0,
+    failed_downloads=0
+) -> Dict[str, Any]:
     """Create workflow result summary."""
     return {
         'existing_count': len(existing_docs),
@@ -115,6 +202,8 @@ def _create_result_summary(existing_docs, new_docs, changes, inserted_count, upd
         'updated_count': len(changes.get('updated', [])),
         'removed_count': len(changes.get('removed', [])),
         'inserted_count': inserted_count,
+        'downloaded_count': downloaded_count,
+        'failed_downloads': failed_downloads,
         'updated_actual_count': updated_count,
         'success': True
     }
@@ -127,6 +216,9 @@ def _log_workflow_summary(result: Dict[str, Any]) -> None:
     logger.info(f"  Documents in database: {result['existing_count']}")
     logger.info(f"  Documents on website: {result['scraped_count']}")
     logger.info(f"  New documents inserted: {result['inserted_count']}")
+    logger.info(f"  New documents downloaded: {result.get('downloaded_count', 0)}")
+    if result.get('failed_downloads', 0) > 0:
+        logger.info(f"  Failed downloads: {result.get('failed_downloads', 0)}")
     logger.info(f"  Documents updated: {result['updated_actual_count']}")
     logger.info(f"  Documents removed (not processed): {result['removed_count']}")
     logger.info("=" * 60) 

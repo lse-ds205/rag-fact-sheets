@@ -8,7 +8,7 @@ making it easy for API routes to access individual pipeline stages.
 import importlib
 
 # Import modules (required for numeric prefixes)
-scrape_module = importlib.import_module('entrypoints.2_scrape')
+scrape_module = importlib.import_module('entrypoints.1_scrape')
 chunk_module = importlib.import_module('entrypoints.3_chunk')
 embed_module = importlib.import_module('entrypoints.3.5_embed')
 retrieve_module = importlib.import_module('entrypoints.4_retrieve')

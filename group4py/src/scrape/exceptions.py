@@ -23,4 +23,19 @@ class DocumentValidationError(ScrapeError):
 
 class WorkflowError(ScrapeError):
     """Raised when workflow execution fails."""
+    pass
+
+
+class DocumentDownloadError(ScrapeError):
+    """Raised when document download fails."""
+    pass
+
+
+class UnsupportedFormatError(DocumentDownloadError):
+    """Raised when document format is not supported."""
+    pass
+
+
+class FileValidationError(DocumentDownloadError):
+    """Raised when file validation fails."""
     pass 

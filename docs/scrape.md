@@ -5,6 +5,11 @@
 - [Overview](#overview)
 - [Architecture](#architecture)
 - [API Reference](#api-reference)
+  - [Core Functions](#core-functions)
+  - [Database Operations](#database-operations)
+  - [Comparison Operations](#comparison-operations)
+  - [Download Operations](#download-operations)
+  - [Utility Functions](#utility-functions)
 - [Configuration](#configuration)
 - [Error Handling](#error-handling)
 - [Usage Patterns](#usage-patterns)
@@ -24,6 +29,8 @@ The `scrape` module provides a robust, production-ready solution for scraping, c
 - **Custom Exception Hierarchy**: Precise error categorization and handling
 - **Configuration Management**: Flexible deployment and runtime configuration
 - **Production Ready**: Comprehensive logging, monitoring, and error recovery
+- **Integrated Document Download**: Automatic download of new documents with format validation
+- **Strict Format Validation**: Only PDF, DOC, and DOCX formats are supported
 
 ### Design Principles
 
@@ -42,7 +49,8 @@ group4py/src/scrape/
 ├── workflow.py           # Orchestration layer
 ├── db_operations.py      # Data access layer
 ├── comparator.py         # Business logic layer
-├── id_generator.py       # Utility layer
+├── download.py           # Document download functionality
+├── selenium.py           # Web scraping layer
 ├── config.py             # Configuration management
 └── exceptions.py         # Custom exception hierarchy
 ```
@@ -54,6 +62,7 @@ group4py/src/scrape/
 - Handles high-level error management and recovery
 - Provides comprehensive logging and reporting
 - Returns structured results for monitoring
+- Integrates document downloading for new documents
 
 #### Data Access Layer (`db_operations.py`)
 - Encapsulates all database interactions
@@ -67,11 +76,17 @@ group4py/src/scrape/
 - Easily testable and maintainable
 - Focused on domain-specific operations
 
-#### Utility Layer (`id_generator.py`)
-- Single-purpose utility functions
-- Robust error handling with fallbacks
-- URL parsing and sanitization
-- Deterministic ID generation
+#### Document Download Layer (`download.py`)
+- Handles downloading documents from URLs
+- Validates document formats (PDF, DOC, DOCX only)
+- Provides robust error handling and retry logic
+- Ensures clean up of partial downloads on failure
+
+#### Web Scraping Layer (`selenium.py`)
+- Interacts with the UNFCCC website using Selenium
+- Extracts document metadata and URLs
+- Handles browser automation and page navigation
+- Manages browser sessions and cleanup
 
 ### Data Flow
 
@@ -81,10 +96,12 @@ graph TD
     B --> C[Database Operations]
     B --> D[Selenium Scraper]
     B --> E[Document Comparator]
-    C --> F[Database]
-    D --> G[UNFCCC Website]
-    E --> H[Change Detection]
-    H --> C
+    B --> F[Document Downloader]
+    C --> G[Database]
+    D --> H[UNFCCC Website]
+    E --> I[Change Detection]
+    I --> C
+    F --> J[File System]
 ```
 
 ## API Reference
@@ -106,6 +123,8 @@ Executes the complete NDC document scraping workflow.
   - `updated_count`: Number of documents with changes
   - `removed_count`: Number of documents no longer on website
   - `inserted_count`: Number of documents successfully inserted
+  - `downloaded_count`: Number of documents successfully downloaded
+  - `failed_downloads`: Number of documents that failed to download
   - `updated_actual_count`: Number of documents successfully updated
   - `success`: Boolean indicating workflow success
 
@@ -121,6 +140,7 @@ from group4py.src.scrape import run_scraping_workflow
 try:
     result = run_scraping_workflow()
     print(f"Processed {result['inserted_count']} new documents")
+    print(f"Downloaded {result['downloaded_count']} new documents")
     print(f"Updated {result['updated_actual_count']} existing documents")
 except WorkflowError as e:
     logger.error(f"Workflow failed: {e}")
@@ -181,6 +201,44 @@ Compares existing and new documents to find differences.
   - `updated`: Documents with changed metadata
   - `removed`: Documents in database but not on website
 
+### Download Operations
+
+#### `download_pdf(url: str, output_dir: Optional[str] = None, force_download: bool = False, max_retries: int = 3, timeout: int = 30) -> str`
+
+Downloads a document (PDF, DOC, DOCX) from a URL and saves it to the specified folder.
+
+**Parameters:**
+- `url` (str): URL of the document to download
+- `output_dir` (Optional[str]): Directory to save documents. If None, uses 'data/pdfs' in the project root
+- `force_download` (bool): If True, download regardless of content type
+- `max_retries` (int): Maximum number of retry attempts for failed downloads
+- `timeout` (int): Timeout for HTTP requests in seconds
+
+**Returns:**
+- `str`: Path to the downloaded document
+
+**Raises:**
+- `DocumentDownloadError`: If the download fails
+- `UnsupportedFormatError`: If the document format is not supported (only PDF, DOC, DOCX allowed)
+- `FileValidationError`: If the file validation fails
+
+**Example:**
+```python
+from group4py.src.scrape import download_pdf
+
+try:
+    output_path = download_pdf(
+        url="https://example.com/document.pdf",
+        output_dir="./downloads",
+        max_retries=5
+    )
+    print(f"Document downloaded to {output_path}")
+except UnsupportedFormatError as e:
+    print(f"Format not supported: {e}")
+except DocumentDownloadError as e:
+    print(f"Download failed: {e}")
+```
+
 ### Utility Functions
 
 #### `uuid.uuid5(uuid.NAMESPACE_URL, url) -> UUID`
@@ -203,20 +261,20 @@ The `ScrapingConfig` dataclass provides comprehensive configuration options:
 @dataclass
 class ScrapingConfig:
     # Selenium settings
-    headless: bool = True              # Run browser in headless mode
-    timeout: int = 30                  # Page load timeout in seconds
-    max_retries: int = 3               # Maximum retry attempts
-    retry_delay: int = 5               # Delay between retries in seconds
+    headless: bool = True
+    timeout: int = 30
+    max_retries: int = 3
+    retry_delay: int = 5
     
     # Logging settings
-    log_removed_limit: int = 5         # Number of removed docs to log
+    log_removed_limit: int = 5
     
     # Database settings
-    batch_size: Optional[int] = None   # Batch size for database operations
+    batch_size: Optional[int] = None
     
     # Workflow settings
-    abort_on_no_docs: bool = True      # Abort if no documents scraped
-    process_removed_docs: bool = False # Process removed documents
+    abort_on_no_docs: bool = True
+    process_removed_docs: bool = False
 ```
 
 ### Configuration Examples
@@ -261,270 +319,157 @@ test_config = ScrapingConfig(
 
 ## Error Handling
 
-### Exception Hierarchy
+The module implements a comprehensive exception hierarchy for precise error handling:
 
 ```
 ScrapeError (base)
-├── DatabaseConnectionError    # Database connectivity issues
-├── DocumentScrapingError     # Web scraping failures
-├── DocumentValidationError   # Document validation failures
-└── WorkflowError            # Workflow execution failures
+├── DatabaseConnectionError
+├── DocumentScrapingError
+├── DocumentValidationError
+├── WorkflowError
+└── DocumentDownloadError
+    ├── UnsupportedFormatError
+    └── FileValidationError
 ```
 
-### Exception Details
+### Exception Types
 
 #### `ScrapeError`
-Base exception for all scraping operations. Inherit from this for custom exceptions.
+Base exception for all scraping-related errors.
 
 #### `DatabaseConnectionError`
-Raised when database connection fails or database operations encounter errors.
-
-**Common Causes:**
-- Database server unavailable
-- Invalid connection credentials
-- Network connectivity issues
-- SQL query errors
+Raised when database connection or operations fail.
 
 #### `DocumentScrapingError`
 Raised when document scraping from the website fails.
 
-**Common Causes:**
-- Website unavailable or changed structure
-- Selenium WebDriver issues
-- Network timeouts
-- Anti-bot detection
-
 #### `DocumentValidationError`
-Raised when document validation fails during processing.
-
-**Common Causes:**
-- Invalid document metadata
-- Missing required fields
-- Data type mismatches
-- URL parsing errors
+Raised when document validation fails during database operations.
 
 #### `WorkflowError`
-Raised when workflow execution fails due to unexpected errors.
+Raised when the overall workflow execution fails.
 
-**Common Causes:**
-- Unhandled exceptions in workflow steps
-- Configuration errors
-- Resource exhaustion
-- System-level failures
+#### `DocumentDownloadError`
+Raised when document download fails.
 
-### Error Handling Patterns
+#### `UnsupportedFormatError`
+Raised when document format is not supported (only PDF, DOC, DOCX allowed).
 
-#### Basic Error Handling
-```python
-from group4py.src.scrape import (
-    run_scraping_workflow,
-    DatabaseConnectionError,
-    DocumentScrapingError,
-    WorkflowError
-)
+#### `FileValidationError`
+Raised when file validation fails after download.
 
-try:
-    result = run_scraping_workflow()
-    logger.info(f"Workflow completed successfully: {result}")
-except DatabaseConnectionError as e:
-    logger.error(f"Database error: {e}")
-    # Implement database retry logic
-except DocumentScrapingError as e:
-    logger.error(f"Scraping error: {e}")
-    # Implement scraping retry logic
-except WorkflowError as e:
-    logger.error(f"Workflow error: {e}")
-    # Implement workflow recovery logic
-```
+### Error Handling Strategy
 
-#### Advanced Error Handling with Retry Logic
-```python
-import time
-from typing import Optional
+The module implements a multi-level error handling strategy:
 
-def run_scraping_with_retry(
-    max_attempts: int = 3,
-    retry_delay: int = 60,
-    config: Optional[ScrapingConfig] = None
-) -> Dict[str, Any]:
-    """Run scraping workflow with retry logic."""
-    
-    for attempt in range(max_attempts):
-        try:
-            return run_scraping_workflow(config)
-        except DatabaseConnectionError as e:
-            if attempt < max_attempts - 1:
-                logger.warning(f"Database error on attempt {attempt + 1}: {e}")
-                time.sleep(retry_delay)
-                continue
-            raise
-        except DocumentScrapingError as e:
-            if attempt < max_attempts - 1:
-                logger.warning(f"Scraping error on attempt {attempt + 1}: {e}")
-                time.sleep(retry_delay)
-                continue
-            raise
-        except WorkflowError as e:
-            # Don't retry workflow errors
-            raise
-    
-    raise WorkflowError(f"Failed after {max_attempts} attempts")
-```
+1. **Function-Level Handling**: Each function validates inputs and handles its own specific errors
+2. **Module-Level Handling**: The workflow orchestrator catches and logs function-specific errors
+3. **Entrypoint-Level Handling**: The entrypoint catches and reports workflow errors
 
 ## Usage Patterns
 
 ### Basic Usage
 
-#### Simple Workflow Execution
-```python
-from group4py.src.scrape import run_scraping_workflow
+The simplest way to use the scrape module is through the `run_scraping_workflow` function:
 
-# Execute with default configuration
+```python
+from group4py.src.scrape import run_scraping_workflow, ScrapingConfig
+
+# Use default configuration
 result = run_scraping_workflow()
 
-# Check results
-if result['success']:
-    print(f"✅ Workflow completed successfully")
-    print(f"📊 New documents: {result['inserted_count']}")
-    print(f"🔄 Updated documents: {result['updated_actual_count']}")
-else:
-    print("❌ Workflow failed")
-```
-
-#### Custom Configuration
-```python
-from group4py.src.scrape import run_scraping_workflow, ScrapingConfig
-
-# Create custom configuration
+# Or customize the configuration
 config = ScrapingConfig(
-    headless=False,
-    timeout=60,
-    process_removed_docs=True
+    headless=False,  # Show browser window during scraping
+    timeout=60,      # Increase timeout for slow connections
+    max_retries=5    # More retries for unreliable connections
 )
-
-# Execute with custom configuration
 result = run_scraping_workflow(config)
+
+# Access workflow statistics
+print(f"Found {result['new_count']} new documents")
+print(f"Downloaded {result['downloaded_count']} documents")
+print(f"Failed to download {result['failed_downloads']} documents")
 ```
 
-### Advanced Usage Patterns
+### Document Download Only
 
-#### Monitoring and Alerting
+If you need to download documents without the full workflow:
+
 ```python
-import logging
-from datetime import datetime
-from group4py.src.scrape import run_scraping_workflow, ScrapingConfig
+from group4py.src.scrape import download_pdf
 
-def monitored_scraping_workflow():
-    """Execute scraping workflow with comprehensive monitoring."""
-    
-    start_time = datetime.now()
-    logger.info(f"Starting scraping workflow at {start_time}")
-    
-    try:
-        result = run_scraping_workflow()
-        
-        # Log success metrics
-        duration = datetime.now() - start_time
-        logger.info(f"Workflow completed in {duration.total_seconds():.2f} seconds")
-        
-        # Check for anomalies
-        if result['new_count'] > 100:
-            logger.warning(f"Unusually high number of new documents: {result['new_count']}")
-        
-        if result['removed_count'] > 50:
-            logger.warning(f"Unusually high number of removed documents: {result['removed_count']}")
-        
-        # Send success notification
-        send_notification("Scraping workflow completed successfully", result)
-        
-        return result
-        
-    except Exception as e:
-        duration = datetime.now() - start_time
-        logger.error(f"Workflow failed after {duration.total_seconds():.2f} seconds: {e}")
-        
-        # Send failure notification
-        send_alert("Scraping workflow failed", str(e))
-        raise
-
-def send_notification(message: str, data: dict):
-    """Send success notification (implement based on your notification system)."""
-    pass
-
-def send_alert(message: str, error: str):
-    """Send failure alert (implement based on your alerting system)."""
-    pass
-```
-
-#### Batch Processing with Rate Limiting
-```python
-import time
-from typing import List
-from group4py.src.scrape import ScrapingConfig, run_scraping_workflow
-
-def batch_scraping_workflow(
-    configs: List[ScrapingConfig],
-    rate_limit_delay: int = 300  # 5 minutes between batches
-) -> List[Dict[str, Any]]:
-    """Execute multiple scraping workflows with rate limiting."""
-    
-    results = []
-    
-    for i, config in enumerate(configs):
-        logger.info(f"Executing batch {i + 1}/{len(configs)}")
-        
-        try:
-            result = run_scraping_workflow(config)
-            results.append(result)
-            
-            # Rate limiting between batches
-            if i < len(configs) - 1:
-                logger.info(f"Waiting {rate_limit_delay} seconds before next batch")
-                time.sleep(rate_limit_delay)
-                
-        except Exception as e:
-            logger.error(f"Batch {i + 1} failed: {e}")
-            results.append({'success': False, 'error': str(e)})
-    
-    return results
-```
-
-#### Integration with Scheduling Systems
-```python
-import schedule
-import time
-from group4py.src.scrape import run_scraping_workflow, ScrapingConfig
-
-def scheduled_scraping():
-    """Scheduled scraping function for cron jobs or task schedulers."""
-    
-    config = ScrapingConfig(
-        headless=True,
-        timeout=45,
-        max_retries=3,
-        process_removed_docs=True
+try:
+    path = download_pdf(
+        url="https://unfccc.int/sites/default/files/NDC/2022-06/Rwanda%20NDC_2020.pdf",
+        output_dir="./data/documents"
     )
-    
-    try:
-        result = run_scraping_workflow(config)
-        logger.info(f"Scheduled scraping completed: {result}")
-        return result
-    except Exception as e:
-        logger.error(f"Scheduled scraping failed: {e}")
-        raise
-
-# Schedule daily scraping at 2 AM
-schedule.every().day.at("02:00").do(scheduled_scraping)
-
-# Schedule hourly scraping during business hours
-schedule.every().hour.at(":00").do(scheduled_scraping).tag('business_hours')
-
-def run_scheduler():
-    """Run the scheduler loop."""
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
+    print(f"Downloaded to {path}")
+except Exception as e:
+    print(f"Download failed: {e}")
 ```
+
+## Performance Considerations
+
+### Memory Usage
+
+- Document metadata is stored in lean data structures
+- PDF content is streamed during download to minimize memory usage
+- Browser sessions are properly closed after use
+
+### Concurrency
+
+- Downloads are currently processed sequentially
+- Future versions may implement concurrent downloads with rate limiting
+- Consider using process pools for parallel processing of large document sets
+
+### Network Efficiency
+
+- Retry logic handles transient network errors
+- Session reuse reduces connection overhead
+- Browser automation respects website rate limits
+
+## Troubleshooting
+
+### Common Issues
+
+#### Download Failures
+
+If document downloads are failing:
+
+1. Check URL validity - only PDF, DOC, DOCX formats are supported
+2. Verify network connectivity to the document server
+3. Increase the timeout value in the configuration
+4. Check if the website is implementing anti-scraping measures
+
+#### Browser Automation Issues
+
+If Selenium scraping fails:
+
+1. Ensure Chrome/Chromium and the ChromeDriver are properly installed
+2. Try disabling headless mode for debugging
+3. Check for browser compatibility issues with the website
+4. Increase the timeout value for slow websites
+
+## Contributing
+
+### Adding New Features
+
+When adding new features to the scrape module:
+
+1. Follow the existing architecture patterns
+2. Add appropriate exception handling
+3. Include comprehensive unit tests
+4. Update documentation
+
+### Code Style
+
+Follow these guidelines:
+
+1. Use type hints consistently
+2. Document all public functions with docstrings
+3. Follow PEP 8 style guidelines
+4. Keep functions focused on a single responsibility
 
 ## Testing
 

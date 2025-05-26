@@ -7,21 +7,29 @@ NDC documents from the UNFCCC registry.
 
 from .workflow import run_scraping_workflow
 from .config import ScrapingConfig, DEFAULT_CONFIG
+from .download import download_pdf
 from .exceptions import (
     ScrapeError,
     DatabaseConnectionError,
     DocumentScrapingError,
     DocumentValidationError,
-    WorkflowError
+    WorkflowError,
+    DocumentDownloadError,
+    UnsupportedFormatError,
+    FileValidationError
 )
 
 __all__ = [
     'run_scraping_workflow',
     'ScrapingConfig',
     'DEFAULT_CONFIG',
+    'download_pdf',
     'ScrapeError',
     'DatabaseConnectionError',
     'DocumentScrapingError',
     'DocumentValidationError',
-    'WorkflowError'
+    'WorkflowError',
+    'DocumentDownloadError',
+    'UnsupportedFormatError',
+    'FileValidationError'
 ] 

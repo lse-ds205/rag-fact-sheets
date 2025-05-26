@@ -3,6 +3,9 @@ NDC Document Scraping Entrypoint
 
 Lightweight orchestrator for the NDC document scraping workflow.
 All business logic is delegated to the scrape module.
+
+This script now includes document download functionality, which
+automatically downloads any new documents found during scraping.
 """
 
 import sys
