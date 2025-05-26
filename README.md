@@ -11,3 +11,4 @@ Created a new table for embeddings.
 1. Go to create_table.sql
 2. Select the Postgres Server (it's at the bottom for mac, probably the same for windows)
 3. Highlight the code and right click to run query
+
