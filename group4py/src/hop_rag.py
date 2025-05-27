@@ -11,7 +11,7 @@ import re
 import logging
 import networkx as nx
 import traceback
-from typing import List, Dict, Tuple, Optional, Set, Union
+from typing import List, Dict, Optional, Union
 from datetime import datetime
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor
@@ -20,8 +20,12 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import NearestNeighbors
 from sqlalchemy import text
 import uuid
-from .database import Connection, NDCDocumentORM as Document, DocChunkORM, LogicalRelationshipORM
-from .schema import DatabaseConfig, LogicalRelationship
+
+import group4py
+# from database import Connection, NDCDocumentORM, LogicalRelationshipORM
+from databases.auth import PostgresConnection
+from databases.models import LogicalRelationshipORM
+from databases.operations import upload
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -238,9 +242,8 @@ class OptimizedRelationshipDetector:
 class HopRAGGraphProcessor:
     """Optimized graph processor with consistent UUID handling"""
     
-    def __init__(self, db_config: DatabaseConfig, embedding_model: str = "all-MiniLM-L6-v2"):
-        self.db_config = db_config
-        self.db_connection = Connection(config=db_config)
+    def __init__(self, embedding_model: str = "all-MiniLM-L6-v2"):
+        self.db_connection = PostgresConnection()
         self.embedder = MemoryOptimizedEmbedder(embedding_model)
         self.relationship_detector = OptimizedRelationshipDetector()
         self.executor = ThreadPoolExecutor(max_workers=4)
@@ -329,7 +332,7 @@ class HopRAGGraphProcessor:
         return result or 0
 
     async def build_relationships_sparse(self, max_neighbors: int = 50, min_confidence: float = 0.6, 
-                                       doc_id: str = None, force_commit: bool = False):
+                                       doc_id: str = None, force_commit: bool = False, session: Optional[None] = None):
         """Build relationships with optimized UUID handling and memory management"""
         
         engine = self.db_connection.get_engine()
@@ -452,7 +455,7 @@ class HopRAGGraphProcessor:
         
         # Insert relationships with optimized handling
         if all_relationships:
-            await self._insert_relationships_optimized(all_relationships)
+            await self._insert_relationships_optimized(all_relationships, session=session)
         else:
             logger.warning("No relationships detected to insert")
         
@@ -460,7 +463,7 @@ class HopRAGGraphProcessor:
         del embeddings, all_relationships, chunk_objects
         gc.collect()
 
-    async def _insert_relationships_optimized(self, relationships: List[RelationshipScore]):
+    async def _insert_relationships_optimized(self, relationships: List[RelationshipScore], session=Optional[None]):
         """Insert relationships with optimized UUID handling"""
         logger.info(f"Inserting {len(relationships)} relationships into database")
         
@@ -493,7 +496,7 @@ class HopRAGGraphProcessor:
             for i in range(0, len(relationship_orms), batch_size):
                 batch = relationship_orms[i:i+batch_size]
                 
-                success = self.db_connection.upload(batch, table='logical_relationships')
+                success = upload(session, batch, table='logical_relationships')
                 
                 if not success:
                     logger.error(f"Failed to upload relationship batch {i//batch_size + 1}")
@@ -1050,13 +1053,11 @@ class HopRAGClassifier:
         for i, node in enumerate(results['overall_ranking'][:5]):
             print(f"{i+1}. Chunk {node['chunk_id']} ({node['classification']}) - Score: {node['combined_score']}")
 
-async def main():
+async def main(session):
     """Main processing function"""
     try:
         # Initialize
-        config = DatabaseConfig.from_env()
-        processor = HopRAGGraphProcessor(config)
-        await processor.initialize()
+        processor = HopRAGGraphProcessor()
         
         # Step 1: Generate embeddings
         logger.info("Step 1: Generating embeddings...")
@@ -1064,7 +1065,7 @@ async def main():
         
         # Step 2: Build relationships
         logger.info("Step 2: Building relationships...")
-        await processor.build_relationships_sparse(max_neighbors=30, min_confidence=0.6)
+        await processor.build_relationships_sparse(max_neighbors=30, min_confidence=0.6, session=session)
         
         # Step 3: Test query processing
         test_query = "Singapore NDC 2030 emission targets"
@@ -1097,4 +1098,6 @@ async def main():
         raise
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    db = PostgresConnection()
+    with db.get_session() as session:
+        asyncio.run(main())

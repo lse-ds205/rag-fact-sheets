@@ -8,7 +8,6 @@ from typing import List, Dict, Any, Optional, Union, Tuple
 from dotenv import load_dotenv
 from sqlalchemy import text
 from tqdm import tqdm
-import numpy as np
 
 # Load environment variables from .env file
 load_dotenv()
@@ -16,15 +15,16 @@ load_dotenv()
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
-from group4py.src.embedding import CombinedEmbedding
-from group4py.src.helpers import Logger, Test, TaskInfo
-from group4py.src.database import Connection, NDCDocumentORM as Document, DocChunkORM
-from group4py.src.schema import DatabaseConfig
-from group4py.src.hop_rag import HopRAGGraphProcessor
+from embedding import CombinedEmbedding
+from helpers import Logger
+# from database import Connection
+from databases.auth import PostgresConnection
+from databases.models import DocChunkORM
+from hop_rag import HopRAGGraphProcessor
 
 logger = logging.getLogger(__name__)
 
-def collect_all_chunk_texts():
+def collect_all_chunk_texts(session):
     """
     Collect all chunk texts from the database for global Word2Vec training.
     
@@ -32,11 +32,6 @@ def collect_all_chunk_texts():
         List of chunk texts
     """
     logger.info("[3.5_EMBED] Collecting all chunks from database for global Word2Vec training...")
-    
-    config = DatabaseConfig.from_env()
-    connection = Connection(config)
-    connection.connect()
-    session = connection.get_session()
     
     try:
         # Get all chunks with their content
@@ -53,17 +48,18 @@ def collect_all_chunk_texts():
         session.close()
 
 
-async def embed_all_chunks(force_reembed: bool = False):
+async def embed_all_chunks(force_reembed: bool = False, db = Optional[PostgresConnection], session = Optional[None]):
     """
     Generate embeddings for all chunks in the database.
     
     Args:
         force_reembed: If True, regenerate embeddings even if they already exist
     """
+    
     logger.info("[3.5_EMBED] Starting embedding generation process...")
     
     # Step 1: Collect all chunk texts and train global Word2Vec
-    chunk_texts = collect_all_chunk_texts()
+    chunk_texts = collect_all_chunk_texts(session)
     
     if not chunk_texts:
         logger.error("[3.5_EMBED] No chunks found in database")
@@ -95,10 +91,6 @@ async def embed_all_chunks(force_reembed: bool = False):
         return
 
     # Step 3: Get all chunks from database
-    config = DatabaseConfig.from_env()
-    connection = Connection(config)
-    connection.connect()
-    session = connection.get_session()
     
     try:
         # Query chunks that need embeddings (or all if force_reembed)
@@ -162,21 +154,17 @@ async def embed_all_chunks(force_reembed: bool = False):
         # Step 5: Run HopRAG processing after embeddings are complete
         try:
             logger.info("[3.5_EMBED] Starting HopRAG processing...")
-            config = DatabaseConfig.from_env()
-            processor = HopRAGGraphProcessor(config)
-            await processor.initialize()
+            processor = HopRAGGraphProcessor()
             
             # Generate embeddings if needed (HopRAG uses its own embedding format)
             logger.info("[3.5_EMBED] Processing HopRAG embeddings in batch...")
             await processor.process_embeddings_batch(batch_size=100)
-            
-            # Build relationships for all chunks with enhanced logging
+              # Build relationships for all chunks with enhanced logging
             logger.info("[3.5_EMBED] Building logical relationships...")
-            
             # Get the current relationship count before building
             rel_count_before = 0
             try:
-                with processor.db_connection.get_engine().connect() as conn:
+                with db.connect() as conn:
                     result = conn.execute(text("SELECT COUNT(*) FROM logical_relationships"))
                     rel_count_before = result.scalar() or 0
                     logger.info(f"[3.5_EMBED] Current relationship count: {rel_count_before}")
@@ -188,12 +176,13 @@ async def embed_all_chunks(force_reembed: bool = False):
             await processor.build_relationships_sparse(
                 max_neighbors=30, 
                 min_confidence=0.55,
-                force_commit=True  # Ensure relationships are committed to database
-            )
+                force_commit=True,  # Ensure relationships are committed to database
+                session=session
+            )           
             
             # Check how many relationships were added
             try:
-                with processor.db_connection.get_engine().connect() as conn:
+                with db.connect() as conn:
                     # Get total relationships
                     result = conn.execute(text("SELECT COUNT(*) FROM logical_relationships"))
                     rel_count_after = result.scalar() or 0
@@ -233,13 +222,16 @@ async def run_script(force_reembed: bool = False):
     Args:
         force_reembed: If True, regenerate embeddings even if they already exist
     """
+    db = PostgresConnection()
+    
     try:
-        logger.warning(f"\n\n[3.5_EMBED] Running embedding script with force_reembed={force_reembed}...")
-        
-        # Generate embeddings for all chunks
-        await embed_all_chunks(force_reembed=force_reembed)
-        
-        logger.warning("[3.5_EMBED] Embedding and relationship processing completed successfully. All chunks now have embeddings and logical relationships.")
+        with db.get_session() as session:
+            logger.warning(f"\n\n[3.5_EMBED] Running embedding script with force_reembed={force_reembed}...")
+            
+            # Generate embeddings for all chunks
+            await embed_all_chunks(force_reembed=force_reembed, db=db, session=session)
+            
+            logger.warning("[3.5_EMBED] Embedding and relationship processing completed successfully. All chunks now have embeddings and logical relationships.")
         
     except Exception as e:
         logger.critical(f"\n\n\n\n[PIPELINE BROKE!] - Error in 3.5_embed.py: {e}")
