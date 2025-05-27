@@ -31,6 +31,9 @@ class Logger:
             }
         )
 
+        if not log_file.parent.exists():
+            log_file.parent.mkdir(parents=True, exist_ok=True)
+
         console_handler = colorlog.StreamHandler()
         console_handler.setFormatter(color_formatter)
 
