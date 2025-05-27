@@ -43,8 +43,16 @@ class PostgresConnection:
         return self.engine
 
     @contextmanager
-    def session_scope(self):
-        """Provide a transactional scope around a series of operations"""
+    def get_session(self):
+        """Context-managed session with automatic commit/rollback/close.
+
+        Usage:
+            with db.get_session() as session:
+                session.add(...)
+        """
+        if not self.Session:
+            raise ValueError("Database connection not established. Call connect() first.")
+
         session = self.Session()
         try:
             yield session

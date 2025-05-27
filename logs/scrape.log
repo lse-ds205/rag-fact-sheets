@@ -300,3 +300,44 @@ scrape.exceptions.DatabaseConnectionError: Database connection failed: 'NDCDocum
 2025-05-27 16:50:31,587 - group4py.src.scrape.workflow - INFO -   Documents removed (not processed): 0
 2025-05-27 16:50:31,587 - group4py.src.scrape.workflow - INFO - ============================================================
 2025-05-27 16:50:31,587 - group4py.src.scrape.workflow - INFO - NDC document scraping workflow completed successfully!
+2025-05-27 17:05:39,701 - group4py.src.scrape.workflow - INFO - Starting NDC document scraping workflow
+2025-05-27 17:05:39,702 - group4py.src.scrape.workflow - INFO - Step 1: Retrieving existing documents from database...
+2025-05-27 17:05:39,702 - scrape.db_operations - INFO - Retrieving existing documents from database
+2025-05-27 17:05:39,702 - databases.auth - ERROR - Database session error: '_GeneratorContextManager' object has no attribute 'query'
+2025-05-27 17:05:39,702 - scrape.db_operations - ERROR - Database connection error: '_GeneratorContextManager' object has no attribute 'query'
+2025-05-27 17:05:39,702 - group4py.src.scrape.workflow - ERROR - Unexpected error during scraping workflow: Database connection failed: '_GeneratorContextManager' object has no attribute 'query'
+2025-05-27 17:05:39,702 - group4py.src.scrape.workflow - ERROR - Traceback: Traceback (most recent call last):
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/db_operations.py", line 37, in retrieve_existing_documents
+    db_documents = session.query(NDCDocumentORM).all()
+AttributeError: '_GeneratorContextManager' object has no attribute 'query'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/workflow.py", line 52, in run_scraping_workflow
+    existing_docs = retrieve_existing_documents()
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/db_operations.py", line 43, in retrieve_existing_documents
+    raise DatabaseConnectionError(f"Database connection failed: {str(e)}") from e
+scrape.exceptions.DatabaseConnectionError: Database connection failed: '_GeneratorContextManager' object has no attribute 'query'
+
+2025-05-27 17:08:26,773 - group4py.src.scrape.workflow - INFO - Starting NDC document scraping workflow
+2025-05-27 17:08:26,773 - group4py.src.scrape.workflow - INFO - Step 1: Retrieving existing documents from database...
+2025-05-27 17:08:26,773 - scrape.db_operations - INFO - Retrieving existing documents from database
+2025-05-27 17:08:27,366 - scrape.db_operations - INFO - Retrieved 208 existing documents from database
+2025-05-27 17:08:27,386 - group4py.src.scrape.workflow - INFO - Found 208 existing documents in database
+2025-05-27 17:08:27,386 - group4py.src.scrape.workflow - INFO - Step 2: Scraping fresh documents from website...
+2025-05-27 17:08:27,386 - WDM - INFO - ====== WebDriver manager ======
+2025-05-27 17:08:27,590 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-27 17:08:27,805 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-27 17:08:27,845 - WDM - INFO - Driver [/Users/ruka/.wdm/drivers/chromedriver/mac64/136.0.7103.113/chromedriver-mac-arm64/chromedriver] found in cache
+2025-05-27 17:08:28,977 - scrape.selenium - INFO - Chrome WebDriver initialized successfully
+2025-05-27 17:08:28,977 - scrape.selenium - INFO - Extracting all containers from https://unfccc.int/NDCREG
+2025-05-27 17:08:28,977 - scrape.selenium - INFO - Loading page https://unfccc.int/NDCREG (attempt 1/3)
+2025-05-27 17:08:30,149 - scrape.selenium - INFO - Added 6 cookies to driver
+2025-05-27 17:08:30,606 - scrape.selenium - INFO - Page loaded successfully
+2025-05-27 17:08:32,627 - scrape.selenium - INFO - Successfully extracted 217 containers
+2025-05-27 17:08:32,627 - scrape.selenium - INFO - Extracting metadata from containers
+2025-05-27 17:08:33,373 - urllib3.connectionpool - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10cb622c0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/6c2f0540f02eda9525e0b76c808d0e33
+2025-05-27 17:08:33,374 - urllib3.connectionpool - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10cb629e0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/6c2f0540f02eda9525e0b76c808d0e33
+2025-05-27 17:08:33,374 - urllib3.connectionpool - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10cb62b30>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/6c2f0540f02eda9525e0b76c808d0e33
+2025-05-27 17:08:33,375 - scrape.selenium - INFO - WebDriver closed successfully

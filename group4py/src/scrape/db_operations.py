@@ -12,12 +12,11 @@ sys.path.insert(0, str(project_root))
 import group4py
 from databases.auth import PostgresConnection
 from databases.models import NDCDocumentORM
-from schema import NDCDocumentModel, DatabaseConfig
+from schema import NDCDocumentModel
 from scrape.exceptions import DatabaseConnectionError, DocumentValidationError
 
 logger = logging.getLogger(__name__)
-
-config = DatabaseConfig.from_env()
+db = PostgresConnection()
 
 def retrieve_existing_documents() -> List[NDCDocumentModel]:
     """
@@ -32,9 +31,7 @@ def retrieve_existing_documents() -> List[NDCDocumentModel]:
     logger.info("Retrieving existing documents from database")
     
     try:
-        db = PostgresConnection()
-        
-        with db.session_scope() as session:
+        with db.get_session() as session:
             db_documents = session.query(NDCDocumentORM).all()
             existing_docs = [_convert_db_to_model(db_doc) for db_doc in db_documents]
             logger.info(f"Retrieved {len(existing_docs)} existing documents from database")
@@ -65,9 +62,7 @@ def insert_new_documents(new_docs: List[NDCDocumentModel]) -> int:
     logger.info(f"Inserting {len(new_docs)} new documents into database")
     
     try:
-        db = PostgresConnection()
-        
-        with db.session_scope() as session:
+        with db.get_session() as session:
             db_documents = []
             for doc in new_docs:
                 try:
@@ -112,9 +107,7 @@ def update_existing_documents(updated_docs: List[NDCDocumentModel]) -> int:
     logger.info(f"Updating {len(updated_docs)} existing documents in database")
     
     try:
-        db = PostgresConnection()
-        
-        with db.session_scope() as session:
+        with db.get_session() as session:
             updated_count = 0
             
             for doc in updated_docs:
