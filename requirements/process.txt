@@ -1,3 +1,0 @@
-# required packages
-
--c requirements.txt

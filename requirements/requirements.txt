@@ -4,7 +4,7 @@ colorama==0.4.6
 coloredlogs==15.0.1
 colorlog==6.9.0
 python-dateutil==2.9.0.post0
-python-dotenv==1.1.1
+python-dotenv==1.1.0
 python-iso639==2025.2.18
 python-magic==0.4.27
 python-multipart==0.0.20
@@ -91,7 +91,7 @@ PySocks==1.7.1
 
 # File processing and formats
 defusedxml==0.7.1
-docx==0.2.4
+python-docx==1.1.2
 filetype==1.2.0
 olefile==0.47
 pdf2image==1.17.0
@@ -163,7 +163,6 @@ prompt_toolkit==3.0.51
 pure_eval==0.2.3
 Pygments==2.19.1
 pyreadline3==3.5.4
-pywin32==310
 pyzmq==26.4.0
 stack-data==0.6.3
 tornado==6.4.2
@@ -236,6 +235,3 @@ w3lib==2.3.1
 webencodings==0.5.1
 wrapt==1.17.2
 yarl==1.20.0
-
-# Package managers
-pip==23.0.1
