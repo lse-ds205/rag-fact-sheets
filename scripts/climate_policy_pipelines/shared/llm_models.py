@@ -31,7 +31,7 @@ standard_model = ChatOpenAI(
     temperature=0
 )
 
-larger_context_model = ChatOpenAI(
+large_context_llm = ChatOpenAI(
     base_url="https://api.studio.nebius.com/v1/",
     api_key=os.environ.get("NEBIUS_API_KEY"),
     model="meta-llama/Meta-Llama-3.1-70B-Instruct",

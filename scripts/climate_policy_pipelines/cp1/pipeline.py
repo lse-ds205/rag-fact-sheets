@@ -159,23 +159,29 @@ def run_cp1a_assessment(retrieved_chunks, detailed=True):
         Assessment result (detailed dict or simple YES/NO string)
     """
     if detailed:
-        return cp1a_complete_assessment_chain_detailed.invoke(retrieved_chunks)
+        result = cp1a_complete_assessment_chain_detailed.invoke(retrieved_chunks)
+        print("Detailed Assessment:")
+        print(result.content)
+        return result
     else:
-        return cp1a_complete_assessment_chain_simple.invoke(retrieved_chunks)
+        result = cp1a_complete_assessment_chain_simple.invoke(retrieved_chunks)
+        print("Simple Assessment:", result)
+        return result
 
 
 
 # CPIa Large Context Assessment
 
-def run_cp1a_assessment_large_context(context_documents):
+def run_cp1a_assessment_large_context(context_documents, print_results=True):
     """
     Run comprehensive CP1a framework climate law assessment using large context model
     
     Args:
         context_documents: List of document chunks or context data
+        print_results: If True, prints formatted results to console
         
     Returns:
-        str: Formatted markdown assessment result
+        LangChain result object with .content property containing formatted markdown assessment
     """
     # Create the single-model chain
     single_model_assessment_chain = comprehensive_assessment_prompt | large_context_llm
@@ -183,7 +189,11 @@ def run_cp1a_assessment_large_context(context_documents):
     # Run the assessment
     result = single_model_assessment_chain.invoke({"context": context_documents})
     
-    return result.content
+    if print_results:
+        print("Large Context Assessment:")
+        print(result.content)
+    
+    return result
 
 # CP1b assessment
 
@@ -252,18 +262,26 @@ cp1b_complete_assessment_chain_simple = (
     | RunnableLambda(extract_yes_no_result)
 )
 
-def run_cp1b_assessment(retrieved_chunks, detailed=True):
+def run_cp1b_assessment(retrieved_chunks, detailed=True, print_results=True):
     """
     Main function to run CP1b assessment with a single call
     
     Args:
         retrieved_chunks: List of 3 elements [cp1b_1_content, cp1b_2_content, cp1b_3_content]
         detailed: If True, returns full details; if False, returns only YES/NO
+        print_results: If True, prints formatted results to console
     
     Returns:
         Assessment result (detailed dict or simple YES/NO string)
     """
     if detailed:
-        return cp1b_complete_assessment_chain_detailed.invoke(retrieved_chunks)
+        result = cp1b_complete_assessment_chain_detailed.invoke(retrieved_chunks)
+        if print_results:
+            print("Detailed Assessment:")
+            print(result.content)
+        return result
     else:
-        return cp1b_complete_assessment_chain_simple.invoke(retrieved_chunks)
+        result = cp1b_complete_assessment_chain_simple.invoke(retrieved_chunks)
+        if print_results:
+            print("Simple Assessment:", result)
+        return result
