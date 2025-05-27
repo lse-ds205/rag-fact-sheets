@@ -224,3 +224,79 @@ WHERE %(param_1)s::UUID = doc_chunks.doc_id]
 [parameters: {'param_1': UUID('bd8dd183-54b5-5e82-a2bf-59f476c119d6')}]
 (Background on this error at: https://sqlalche.me/e/20/f405)
 
+2025-05-27 16:49:26,501 - group4py.src.scrape.workflow - INFO - Starting NDC document scraping workflow
+2025-05-27 16:49:26,501 - group4py.src.scrape.workflow - INFO - Step 1: Retrieving existing documents from database...
+2025-05-27 16:49:26,501 - scrape.db_operations - INFO - Retrieving existing documents from database
+2025-05-27 16:49:27,771 - databases.auth - ERROR - Database session error: 'NDCDocumentORM' object has no attribute 'chunks'
+2025-05-27 16:49:27,772 - scrape.db_operations - ERROR - Database connection error: 'NDCDocumentORM' object has no attribute 'chunks'
+2025-05-27 16:49:27,772 - group4py.src.scrape.workflow - ERROR - Unexpected error during scraping workflow: Database connection failed: 'NDCDocumentORM' object has no attribute 'chunks'
+2025-05-27 16:49:27,773 - group4py.src.scrape.workflow - ERROR - Traceback: Traceback (most recent call last):
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/db_operations.py", line 39, in retrieve_existing_documents
+    existing_docs = [_convert_db_to_model(db_doc) for db_doc in db_documents]
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/db_operations.py", line 39, in <listcomp>
+    existing_docs = [_convert_db_to_model(db_doc) for db_doc in db_documents]
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/db_operations.py", line 160, in _convert_db_to_model
+    chunks=db_doc.chunks,
+AttributeError: 'NDCDocumentORM' object has no attribute 'chunks'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/workflow.py", line 52, in run_scraping_workflow
+    existing_docs = retrieve_existing_documents()
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/db_operations.py", line 44, in retrieve_existing_documents
+    raise DatabaseConnectionError(f"Database connection failed: {str(e)}") from e
+scrape.exceptions.DatabaseConnectionError: Database connection failed: 'NDCDocumentORM' object has no attribute 'chunks'
+
+2025-05-27 16:50:14,497 - group4py.src.scrape.workflow - INFO - Starting NDC document scraping workflow
+2025-05-27 16:50:14,497 - group4py.src.scrape.workflow - INFO - Step 1: Retrieving existing documents from database...
+2025-05-27 16:50:14,497 - scrape.db_operations - INFO - Retrieving existing documents from database
+2025-05-27 16:50:15,179 - scrape.db_operations - INFO - Retrieved 207 existing documents from database
+2025-05-27 16:50:15,221 - group4py.src.scrape.workflow - INFO - Found 207 existing documents in database
+2025-05-27 16:50:15,221 - group4py.src.scrape.workflow - INFO - Step 2: Scraping fresh documents from website...
+2025-05-27 16:50:15,221 - WDM - INFO - ====== WebDriver manager ======
+2025-05-27 16:50:15,762 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-27 16:50:16,023 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-27 16:50:16,071 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-27 16:50:16,224 - WDM - INFO - WebDriver version 136.0.7103.113 selected
+2025-05-27 16:50:16,226 - WDM - INFO - Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/136.0.7103.113/mac-arm64/chromedriver-mac-arm64.zip
+2025-05-27 16:50:16,226 - WDM - INFO - About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/136.0.7103.113/mac-arm64/chromedriver-mac-arm64.zip
+2025-05-27 16:50:16,287 - WDM - INFO - Driver downloading response is 200
+2025-05-27 16:50:19,264 - WDM - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-27 16:50:19,426 - WDM - INFO - Driver has been saved in cache [/Users/ruka/.wdm/drivers/chromedriver/mac64/136.0.7103.113]
+2025-05-27 16:50:20,633 - scrape.selenium - INFO - Chrome WebDriver initialized successfully
+2025-05-27 16:50:20,634 - scrape.selenium - INFO - Extracting all containers from https://unfccc.int/NDCREG
+2025-05-27 16:50:20,634 - scrape.selenium - INFO - Loading page https://unfccc.int/NDCREG (attempt 1/3)
+2025-05-27 16:50:22,105 - scrape.selenium - INFO - Added 6 cookies to driver
+2025-05-27 16:50:22,518 - scrape.selenium - INFO - Page loaded successfully
+2025-05-27 16:50:24,550 - scrape.selenium - INFO - Successfully extracted 217 containers
+2025-05-27 16:50:24,551 - scrape.selenium - INFO - Extracting metadata from containers
+2025-05-27 16:50:29,871 - scrape.selenium - INFO - Extracted metadata for 235 documents
+2025-05-27 16:50:29,949 - scrape.selenium - INFO - WebDriver closed successfully
+2025-05-27 16:50:29,950 - group4py.src.scrape.workflow - INFO - Scraped 235 documents from website
+2025-05-27 16:50:29,950 - group4py.src.scrape.workflow - INFO - Step 3: Comparing documents to identify changes...
+2025-05-27 16:50:29,950 - scrape.comparator - INFO - Comparing 207 existing docs with 235 new docs
+2025-05-27 16:50:29,950 - scrape.comparator - INFO - Comparison results: 1 new, 0 updated, 0 removed
+2025-05-27 16:50:29,950 - group4py.src.scrape.workflow - INFO - Step 4: Processing 1 new documents...
+2025-05-27 16:50:29,950 - scrape.db_operations - INFO - Inserting 1 new documents into database
+2025-05-27 16:50:30,960 - scrape.db_operations - INFO - Successfully inserted 1 new documents
+2025-05-27 16:50:30,961 - group4py.src.scrape.workflow - INFO - Successfully inserted 1/1 new documents
+2025-05-27 16:50:30,961 - group4py.src.scrape.workflow - INFO - Step 4.1: Downloading 1 new documents...
+2025-05-27 16:50:30,961 - group4py.src.scrape.workflow - INFO - Downloading document: Liberia - Liberia First NDC (Updated submission) from https://unfccc.int/sites/default/files/NDC/2022-06/Liberia%27s%20Updated%20NDC_RL_FINAL%20%28002%29.pdf
+2025-05-27 16:50:30,962 - scrape.download - INFO - Using output directory: /Users/ruka/Desktop/rag-fact-sheets-4/data/pdfs
+2025-05-27 16:50:30,962 - scrape.download - INFO - Downloading document from https://unfccc.int/sites/default/files/NDC/2022-06/Liberia%27s%20Updated%20NDC_RL_FINAL%20%28002%29.pdf
+2025-05-27 16:50:31,583 - scrape.download - INFO - Document successfully downloaded to /Users/ruka/Desktop/rag-fact-sheets-4/data/pdfs/Liberia's Updated NDC_RL_FINAL (002).pdf
+2025-05-27 16:50:31,585 - group4py.src.scrape.workflow - INFO - Successfully downloaded document to /Users/ruka/Desktop/rag-fact-sheets-4/data/pdfs/Liberia's Updated NDC_RL_FINAL (002).pdf
+2025-05-27 16:50:31,585 - group4py.src.scrape.workflow - INFO - Successfully downloaded 1/1 new documents
+2025-05-27 16:50:31,585 - group4py.src.scrape.workflow - INFO - Step 5: No documents to update
+2025-05-27 16:50:31,585 - group4py.src.scrape.workflow - INFO - Step 6: No removed documents found
+2025-05-27 16:50:31,585 - group4py.src.scrape.workflow - INFO - ============================================================
+2025-05-27 16:50:31,585 - group4py.src.scrape.workflow - INFO - WORKFLOW SUMMARY:
+2025-05-27 16:50:31,586 - group4py.src.scrape.workflow - INFO -   Documents in database: 207
+2025-05-27 16:50:31,586 - group4py.src.scrape.workflow - INFO -   Documents on website: 235
+2025-05-27 16:50:31,586 - group4py.src.scrape.workflow - INFO -   New documents inserted: 1
+2025-05-27 16:50:31,586 - group4py.src.scrape.workflow - INFO -   New documents downloaded: 1
+2025-05-27 16:50:31,587 - group4py.src.scrape.workflow - INFO -   Documents updated: 0
+2025-05-27 16:50:31,587 - group4py.src.scrape.workflow - INFO -   Documents removed (not processed): 0
+2025-05-27 16:50:31,587 - group4py.src.scrape.workflow - INFO - ============================================================
+2025-05-27 16:50:31,587 - group4py.src.scrape.workflow - INFO - NDC document scraping workflow completed successfully!

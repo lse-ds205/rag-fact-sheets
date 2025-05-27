@@ -2,8 +2,13 @@
 
 import logging
 from typing import Dict, List, Union
+from pathlib import Path
+import sys
 
-from ..schema import NDCDocumentModel
+project_root = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(project_root))
+import group4py
+from schema import NDCDocumentModel
 
 logger = logging.getLogger(__name__)
 

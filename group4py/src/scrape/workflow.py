@@ -5,19 +5,24 @@ import traceback
 from typing import Dict, Any, Optional
 import os
 from pathlib import Path
+import sys
 
-from .selenium import scrape_ndc_documents
-from .db_operations import retrieve_existing_documents, insert_new_documents, update_existing_documents
-from .comparator import compare_documents
-from .config import ScrapingConfig, DEFAULT_CONFIG
-from .exceptions import (
+project_root = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(project_root))
+import group4py
+
+from scrape.selenium import scrape_ndc_documents
+from scrape.db_operations import retrieve_existing_documents, insert_new_documents, update_existing_documents
+from scrape.comparator import compare_documents
+from scrape.config import ScrapingConfig, DEFAULT_CONFIG
+from scrape.exceptions import (
     WorkflowError, 
     DocumentScrapingError, 
     DocumentDownloadError, 
     UnsupportedFormatError, 
     FileValidationError
 )
-from .download import download_pdf
+from scrape.download import download_pdf
 
 logger = logging.getLogger(__name__)
 

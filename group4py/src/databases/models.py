@@ -4,6 +4,7 @@ This module contains the SQLAlchemy ORM models for the database.
 
 import uuid
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from sqlalchemy import (
     Column, 
@@ -84,3 +85,15 @@ class LogicalRelationshipORM(Base):
         CheckConstraint('confidence >= 0.0 AND confidence <= 1.0', name='valid_confidence_range'),
         CheckConstraint('source_chunk_id != target_chunk_id', name='no_self_relationships')
     )
+
+
+def establish_relationships():
+    DocChunkORM.source_relationships = relationship("LogicalRelationshipORM", 
+                                                foreign_keys=[LogicalRelationshipORM.source_chunk_id],
+                                                backref="source_chunk", 
+                                                cascade="all, delete-orphan")
+
+    DocChunkORM.target_relationships = relationship("LogicalRelationshipORM", 
+                                                foreign_keys=[LogicalRelationshipORM.target_chunk_id],
+                                                backref="target_chunk", 
+                                                cascade="all, delete-orphan")
