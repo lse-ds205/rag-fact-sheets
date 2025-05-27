@@ -2,4 +2,4 @@ EMBEDDING_MODEL=climatebert/distilroberta-base-climate-f
 EMBEDDING_MODEL_LOCAL_DIR=local_model/climatebert/distilroberta-base-climate-f
 EMBEDDING_DIMENSION=768
 
-DB_URL=postgres://postgres:password@localhost/postgres
+DB_URL=postgresql://postgres:password@localhost/postgres
