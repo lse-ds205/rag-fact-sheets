@@ -155,6 +155,7 @@ class Connection:
         Returns:
             Tuple of (is_processed, document) where is_processed is True if document exists
         """
+        self.connect()
         session = self.get_session()
         try:
             # Convert string doc_id to UUID using deterministic UUID5 - SAME AS PROCESSING CODE

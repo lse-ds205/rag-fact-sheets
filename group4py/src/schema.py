@@ -6,10 +6,6 @@ from typing import List, Dict, Any, Optional, Union, Tuple
 from uuid import UUID
 from pydantic import BaseModel, Field, validator
 
-class Vector(BaseModel):
-    """Pydantic model for vector embeddings."""
-    values: List[float] = Field(..., description="Vector embedding values")
-    dimension: int = Field(..., description="Dimension of the vector")
 
 class DatabaseConfig(BaseModel):
     """Pydantic model for database configuration."""

@@ -4,9 +4,7 @@ from pathlib import Path
 import traceback
 import logging
 import asyncio
-from typing import List, Dict, Any, Optional, Union, Tuple
 from dotenv import load_dotenv
-from sqlalchemy import create_engine, text
 from datetime import datetime, date
 import uuid
 from tqdm import tqdm
@@ -19,8 +17,8 @@ sys.path.insert(0, str(project_root))
 import group4py
 from group4py.src.extract_document import extract_text_from_pdf
 from group4py.src.chunking import DocChunker
-from group4py.src.helpers import Logger, Test, TaskInfo
-from group4py.src.database import Connection, NDCDocumentORM as Document, DocChunkORM
+from group4py.src.helpers import Logger
+from group4py.src.database import Connection, NDCDocumentORM as Document, DocChunkORM, DatabaseConfig
 from group4py.src.constants.settings import FILE_PROCESSING_CONCURRENCY
 
 logger = logging.getLogger(__name__)
@@ -53,19 +51,19 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
         # Extract file name to be used as document ID
         file_name = Path(file_path).stem
         logger.info(f"[3_CHUNK] Processing file {file_path}")
-        
+
+        config = DatabaseConfig.from_env()
+        connection = Connection(config=config)
+
         # Check if document has already been processed
-        connection = Connection()
         doc_id = file_name
-        
-        # Use the existing check_document_processed function
         is_processed, document = connection.check_document_processed(doc_id)
         
         if is_processed and not force_reprocess:
             logger.info(f"[3_CHUNK] Document {doc_id} has already been processed. Skipping.")
             return None
             
-        # If force_reprocess is True and document exists, we need to delete existing chunks and relationships
+        # If force_reprocess is True and document exists, delete existing chunks and relationships
         if force_reprocess and document:
             logger.info(f"[3_CHUNK] Force reprocessing document {doc_id}")
             session = connection.get_session()
@@ -359,7 +357,7 @@ async def run_script(force_reprocess: bool = False):
         else:
             total_chunks = sum(len(chunks) for chunks in valid_chunks)
             logger.warning(f"[3_CHUNK] All files processed successfully. {total_chunks} chunks created")
-            logger.warning(f"[3_CHUNK] Chunking script completed successfully. Ready for embedding step.")
+            logger.warning(f"[3_CHUNK] Chunking script completed successfully. Ready for embedding.")
             
     except Exception as e:
         logger.critical(f"\n\n\n\n[PIPELINE BROKE!] - Error in 3_chunk.py: {e}\n\n")
