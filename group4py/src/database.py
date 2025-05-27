@@ -56,6 +56,7 @@ class DocChunkORM(Base):
     doc_id = Column(UUID(as_uuid=True), ForeignKey("documents.doc_id", ondelete="CASCADE"), nullable=False, index=True)
     content = Column(Text, nullable=False)
     chunk_index = Column(Integer, nullable=False)
+    page = Column(Integer)
     paragraph = Column(Integer)
     language = Column(String)
     

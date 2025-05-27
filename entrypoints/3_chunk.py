@@ -8,20 +8,25 @@ from dotenv import load_dotenv
 from datetime import datetime, date
 import uuid
 from tqdm import tqdm
+from sqlalchemy import select
 
 # Load environment variables from .env file
 load_dotenv()
 
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
+
 import group4py
-from group4py.src.extract_document import extract_text_from_pdf
-from group4py.src.chunking import DocChunker
-from group4py.src.helpers import Logger
-from group4py.src.database import Connection, NDCDocumentORM as Document, DocChunkORM, DatabaseConfig
+from extract_document import extract_text_from_pdf
+from chunking import DocChunker
+from helpers import Logger
 from group4py.src.constants.settings import FILE_PROCESSING_CONCURRENCY
+from databases.auth import PostgresConnection
+from databases.models import NDCDocumentORM, DocChunkORM, LogicalRelationshipORM
+from databases.operations import check_document_processed, update_processed, upload
 
 logger = logging.getLogger(__name__)
+db = PostgresConnection()
 
 def get_file_paths():
     """
@@ -48,253 +53,248 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
         force_reprocess: If True, reprocess the file even if it has been processed before
     """
     try:
-        # Extract file name to be used as document ID
-        file_name = Path(file_path).stem
-        logger.info(f"[3_CHUNK] Processing file {file_path}")
+        # Initialize database connection
+        with db.get_session() as session:
+            # Extract file name to be used as document ID
+            file_name = Path(file_path).stem
+            logger.info(f"[3_CHUNK] Processing file {file_path}")
 
-        config = DatabaseConfig.from_env()
-        connection = Connection(config=config)
 
-        # Check if document has already been processed
-        doc_id = file_name
-        is_processed, document = connection.check_document_processed(doc_id)
-        
-        if is_processed and not force_reprocess:
-            logger.info(f"[3_CHUNK] Document {doc_id} has already been processed. Skipping.")
-            return None
+            # Check if document has already been processed
+            doc_id = file_name
+            is_processed, document = check_document_processed(session, doc_id)
             
-        # If force_reprocess is True and document exists, delete existing chunks and relationships
-        if force_reprocess and document:
-            logger.info(f"[3_CHUNK] Force reprocessing document {doc_id}")
-            session = connection.get_session()
+            if is_processed and not force_reprocess:
+                logger.info(f"[3_CHUNK] Document {doc_id} has already been processed. Skipping.")
+                return None
+                
+            # If force_reprocess is True and document exists, delete existing chunks and relationships
+            if force_reprocess and document:
+                logger.info(f"[3_CHUNK] Force reprocessing document {doc_id}")
 
-            try:
-                # Convert string doc_id to UUID using deterministic UUID5
-                doc_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, doc_id)
-                
-                # First, delete any logical relationships that reference this document's chunks
-                from group4py.src.database import LogicalRelationshipORM
-                from sqlalchemy import select
-                
-                # Get all chunk IDs for this document using explicit select
-                chunk_ids_query = select(DocChunkORM.id).filter(DocChunkORM.doc_id == doc_uuid)
-                
-                # Delete relationships where either source or target chunk belongs to this document
-                deleted_relationships = session.query(LogicalRelationshipORM).filter(
-                    (LogicalRelationshipORM.source_chunk_id.in_(chunk_ids_query)) |
-                    (LogicalRelationshipORM.target_chunk_id.in_(chunk_ids_query))
-                ).delete(synchronize_session=False)
-                
-                if deleted_relationships > 0:
-                    logger.info(f"[3_CHUNK] Deleted {deleted_relationships} relationships for document {doc_id}")
-                
-                # Now delete the chunks
-                deleted_chunks = session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_uuid).delete()
-                logger.info(f"[3_CHUNK] Removed {deleted_chunks} existing chunks for document {doc_id}")
-                
-                session.commit()
-            except Exception as e:
-                logger.error(f"[3_CHUNK] Error removing existing chunks and relationships: {e}")
-                logger.error(f"[3_CHUNK] Traceback: {traceback.format_exc()}")
-                session.rollback()
-            finally:
-                session.close()
-        
-        # If document doesn't exist, create it first before proceeding with chunk processing
-        if not document:
-            logger.info(f"[3_CHUNK] Document {doc_id} not found in database. Creating record...")
-
-            session = connection.get_session()
-            
-            try:
-                # Extract document metadata from filename
-                parts = doc_id.split('_')
-                country = parts[0].replace('_', ' ').title() if len(parts) > 0 else ''
-                language = parts[1] if len(parts) > 1 else ''
-                
-                # Try to parse date if available (format: YYYYMMDD)
-                submission_date = None
-                if len(parts) > 2 and len(parts[2]) >= 8:
-                    date_str = parts[2][:8]  # Extract YYYYMMDD portion
-                    try:
-                        year = int(date_str[:4])
-                        month = int(date_str[4:6])
-                        day = int(date_str[6:8])
-                        submission_date = date(year, month, day)
-                    except (ValueError, IndexError):
-                        logger.warning(f"[3_CHUNK] Could not parse date from filename: {parts[2]}")
-                
-                # Create document record
-                new_document = Document(
-                    doc_id=uuid.uuid5(uuid.NAMESPACE_DNS, doc_id),
-                    country=country,
-                    title=f"{country} NDC",
-                    url="",  # Empty URL since we're processing local files
-                    language=language,
-                    submission_date=submission_date,
-                    file_path=file_path,
-                    file_size=Path(file_path).stat().st_size / (1024 * 1024)  # Size in MB
-                )
-                
-                session.add(new_document)
-                session.commit()
-                logger.info(f"[3_CHUNK] Created document record for {doc_id}")
-                document = new_document
-            except Exception as e:
-                logger.error(f"[3_CHUNK] Error creating document record: {e}")
-                session.rollback()
-            finally:
-                session.close()
-        
-        # 1. Extract text from PDF with multiple strategies
-        extracted_elements = None
-        extraction_strategies = ['fast', 'auto', 'ocr_only']
-        
-        for strategy in extraction_strategies:
-            try:
-                logger.info(f"[3_CHUNK] Attempting text extraction with strategy: {strategy}")
-                raw_extracted_elements = extract_text_from_pdf(file_path, strategy=strategy)
-                
-                # Check if we got meaningful content from the extraction function
-                if raw_extracted_elements and len(raw_extracted_elements) > 0:
-                    logger.info(f"[3_CHUNK] Strategy {strategy} extracted {len(raw_extracted_elements)} elements")
+                try:
+                    # Convert string doc_id to UUID using deterministic UUID5
+                    doc_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, doc_id)
                     
-                    # Handle different element structures - some may be dicts, others may be objects
-                    text_content = []
-                    for elem in raw_extracted_elements:
+                    
+                    # First, delete any logical relationships that reference this document's chunks
+                    # Get all chunk IDs for this document using explicit select
+                    chunk_ids_query = select(DocChunkORM.id).filter(DocChunkORM.doc_id == doc_uuid)
+                    
+                    # Delete relationships where either source or target chunk belongs to this document
+                    deleted_relationships = session.query(LogicalRelationshipORM).filter(
+                        (LogicalRelationshipORM.source_chunk_id.in_(chunk_ids_query)) |
+                        (LogicalRelationshipORM.target_chunk_id.in_(chunk_ids_query))
+                    ).delete(synchronize_session=False)
+                    
+                    if deleted_relationships > 0:
+                        logger.info(f"[3_CHUNK] Deleted {deleted_relationships} relationships for document {doc_id}")
+                    
+                    # Now delete the chunks
+                    deleted_chunks = session.query(DocChunkORM).filter(DocChunkORM.doc_id == doc_uuid).delete()
+                    logger.info(f"[3_CHUNK] Removed {deleted_chunks} existing chunks for document {doc_id}")
+                    
+                    session.commit()
+                except Exception as e:
+                    logger.error(f"[3_CHUNK] Error removing existing chunks and relationships: {e}")
+                    logger.error(f"[3_CHUNK] Traceback: {traceback.format_exc()}")
+                    session.rollback()
+                finally:
+                    session.close()
+            
+            # If document doesn't exist, create it first before proceeding with chunk processing
+            if not document:
+                logger.info(f"[3_CHUNK] Document {doc_id} not found in database. Creating record...")
+
+                try:
+                    # Extract document metadata from filename
+                    parts = doc_id.split('_')
+                    country = parts[0].replace('_', ' ').title() if len(parts) > 0 else ''
+                    language = parts[1] if len(parts) > 1 else ''
+                    
+                    # Try to parse date if available (format: YYYYMMDD)
+                    submission_date = None
+                    if len(parts) > 2 and len(parts[2]) >= 8:
+                        date_str = parts[2][:8]  # Extract YYYYMMDD portion
                         try:
-                            # Try dict-like access first
-                            if hasattr(elem, 'get'):
-                                text = elem.get('text', '').strip()
-                                metadata = elem.get('metadata', {})
-                            # Try object attribute access
-                            elif hasattr(elem, 'text'):
-                                text = getattr(elem, 'text', '').strip()
-                                metadata = getattr(elem, 'metadata', {})
-                            # Try direct string conversion
-                            elif isinstance(elem, str):
-                                text = elem.strip()
-                                metadata = {}
-                            # Try converting object to dict
-                            elif hasattr(elem, '__dict__'):
-                                elem_dict = elem.__dict__
-                                text = elem_dict.get('text', '').strip()
-                                metadata = elem_dict.get('metadata', {})
-                            else:
-                                text = str(elem).strip()
-                                metadata = {}
-                            
-                            if text:
-                                # Create standardized element structure
-                                standardized_elem = {
-                                    'text': text,
-                                    'metadata': metadata if isinstance(metadata, dict) else {}
-                                }
-                                text_content.append(standardized_elem)
-                        except Exception as elem_error:
-                            logger.warning(f"[3_CHUNK] Error processing element with strategy {strategy}: {elem_error}")
-                            continue
+                            year = int(date_str[:4])
+                            month = int(date_str[4:6])
+                            day = int(date_str[6:8])
+                            submission_date = date(year, month, day)
+                        except (ValueError, IndexError):
+                            logger.warning(f"[3_CHUNK] Could not parse date from filename: {parts[2]}")
                     
-                    if text_content:
-                        logger.info(f"[3_CHUNK] Successfully extracted {len(text_content)} text elements using {strategy} strategy")
-                        extracted_elements = text_content
-                        break  # Success! Stop trying other strategies
-                    else:
-                        logger.warning(f"[3_CHUNK] Strategy {strategy} returned elements but no actual text content")
-                else:
-                    logger.warning(f"[3_CHUNK] Strategy {strategy} returned no elements")
+                    # Create document record
+                    new_document = NDCDocumentORM(
+                        doc_id=uuid.uuid5(uuid.NAMESPACE_DNS, doc_id),
+                        country=country,
+                        title=f"{country} NDC",
+                        url="",  # Empty URL since we're processing local files
+                        language=language,
+                        submission_date=submission_date,
+                        file_path=file_path,
+                        file_size=Path(file_path).stat().st_size / (1024 * 1024)  # Size in MB
+                    )
                     
-            except Exception as e:
-                logger.warning(f"[3_CHUNK] Strategy {strategy} failed: {e}")
-                extracted_elements = None
-                continue
-        
-        # If all extraction strategies failed, create a minimal fallback
-        if not extracted_elements:
-            logger.error(f"[3_CHUNK] All text extraction strategies failed for {file_path}")
+                    session.add(new_document)
+                    session.commit()
+                    logger.info(f"[3_CHUNK] Created document record for {doc_id}")
+                    document = new_document
+                except Exception as e:
+                    logger.error(f"[3_CHUNK] Error creating document record: {e}")
+                    session.rollback()
+                finally:
+                    session.close()
             
-            # Create a minimal fallback chunk with filename information
-            fallback_text = f"Document: {Path(file_path).name}\nNote: Text extraction failed - document may be image-based or corrupted."
+            # 1. Extract text from PDF with multiple strategies, stopping once one succeeds
+            extracted_elements = None
+            extraction_strategies = ['fast', 'auto', 'ocr_only']
             
-            extracted_elements = [{
-                'text': fallback_text,
-                'metadata': {
-                    'page_number': 1,
-                    'paragraph_number': 1,
-                    'extraction_method': 'fallback',
-                    'extraction_status': 'failed'
-                }
-            }]
-            
-            logger.warning(f"[3_CHUNK] Using fallback content for {file_path}")
-        
-        logger.info(f"[3_CHUNK] Final extracted elements count: {len(extracted_elements)}")
-        
-        # 2. Create chunks from the extracted text
-        doc_chunker = DocChunker()
-        chunks = doc_chunker.chunk_document_by_sentences(extracted_elements)
-        logger.info(f"[3_CHUNK] Created {len(chunks)} chunks from {file_path}")
-        
-        # 3. Clean chunks
-        try:
-            cleaned_chunks = doc_chunker.cleaning_function(chunks)
-            logger.info(f"[3_CHUNK] Finished cleaning chunks from {file_path}, got {len(cleaned_chunks)} cleaned chunks")
-        except Exception as e:
-            logger.error(f"[3_CHUNK] Error during chunk cleaning: {e}")
-            # Fall back to using the original chunks if cleaning fails
-            logger.info(f"[3_CHUNK] Falling back to original chunks")
-            cleaned_chunks = chunks
-        
-        # Validate cleaned chunks before proceeding
-        if not cleaned_chunks or len(cleaned_chunks) == 0:
-            logger.error(f"[3_CHUNK] No valid chunks after cleaning for {file_path}")
-            return None
-        
-        # 4. Create DocChunk objects for database storage (without embeddings)
-        db_chunks = []
-        doc_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, file_name)
-        
-        for i, chunk in enumerate(cleaned_chunks):
-            # Skip empty chunks
-            if not chunk.get('text', '').strip():
-                logger.warning(f"[3_CHUNK] Skipping empty chunk {i} from {file_path}")
-                continue
-                
-            # Create a DocChunkORM object without embeddings
-            chunk_model = DocChunkORM(
-                id=uuid.uuid4(),
-                doc_id=doc_uuid,
-                content=chunk.get('text', ''),
-                chunk_index=i,
-                paragraph=chunk.get('metadata', {}).get('paragraph_number'),
-                language=chunk.get('metadata', {}).get('language'),
-                chunk_data=chunk.get('metadata', {}),
-                # Note: transformer_embedding and word2vec_embedding are left as None
-                # They will be filled in by 3.5_embed.py
-            )
-            
-            db_chunks.append(chunk_model)
-        
-        # Verify we have chunks to upload
-        if not db_chunks:
-            logger.error(f"[3_CHUNK] No valid chunks to upload for {file_path}")
-            return None
-            
-        # 5. Upload chunks to the database (without embeddings)
-        logger.info(f"[3_CHUNK] Attempting to upload {len(db_chunks)} chunks to database for {file_path}")
-        upload_success = connection.upload(db_chunks, table='doc_chunks')
-        if not upload_success:
-            logger.error(f"[3_CHUNK] Failed to upload chunks to database for {file_path}")
-            return None
-            
-        logger.info(f"[3_CHUNK] Uploaded {len(db_chunks)} chunks to doc_chunks table")
+            for strategy in extraction_strategies:
+                try:
+                    logger.info(f"[3_CHUNK] Attempting text extraction with strategy: {strategy}")
+                    raw_extracted_elements = extract_text_from_pdf(file_path, strategy=strategy)
 
-        # 6. Update documents table that the document has been processed (chunked)
-        connection.update_processed(Document, doc_id, chunks=cleaned_chunks, table='documents')
-        logger.info(f"[3_CHUNK] Updated processed status in documents table for {doc_id}")
-        
-        logger.info(f"[3_CHUNK] File {file_path} chunked successfully")
-        return db_chunks
+                    # Check if we got meaningful content from the extraction function
+                    if raw_extracted_elements and len(raw_extracted_elements) > 0:
+                        logger.info(f"[3_CHUNK] Strategy {strategy} extracted {len(raw_extracted_elements)} elements")
+                        
+                        # Handle different element structures - some may be dicts, others may be objects
+                        text_content = []
+                        for elem in raw_extracted_elements:
+                            try:
+                                # Try dict-like access first
+                                if hasattr(elem, 'get'):
+                                    text = elem.get('text', '').strip()
+                                    metadata = elem.get('metadata', {})
+                                # Try object attribute access
+                                elif hasattr(elem, 'text'):
+                                    text = getattr(elem, 'text', '').strip()
+                                    metadata = getattr(elem, 'metadata', {})
+                                # Try direct string conversion
+                                elif isinstance(elem, str):
+                                    text = elem.strip()
+                                    metadata = {}
+                                # Try converting object to dict
+                                elif hasattr(elem, '__dict__'):
+                                    elem_dict = elem.__dict__
+                                    text = elem_dict.get('text', '').strip()
+                                    metadata = elem_dict.get('metadata', {})
+                                else:
+                                    text = str(elem).strip()
+                                    metadata = {}
+                                
+                                if text:
+                                    # Create standardized element structure
+                                    standardized_elem = {
+                                        'text': text,
+                                        'metadata': metadata if isinstance(metadata, dict) else {}
+                                    }
+                                    text_content.append(standardized_elem)
+                            except Exception as elem_error:
+                                logger.warning(f"[3_CHUNK] Error processing element with strategy {strategy}: {elem_error}")
+                                continue
+                        
+                        if text_content:
+                            logger.info(f"[3_CHUNK] Successfully extracted {len(text_content)} text elements using {strategy} strategy")
+                            extracted_elements = text_content
+                            break  # Success! Stop trying other strategies
+                        else:
+                            logger.warning(f"[3_CHUNK] Strategy {strategy} returned elements but no actual text content")
+                    else:
+                        logger.warning(f"[3_CHUNK] Strategy {strategy} returned no elements")
+                        
+                except Exception as e:
+                    logger.warning(f"[3_CHUNK] Strategy {strategy} failed: {e}")
+                    extracted_elements = None
+                    continue
+            
+            # If all extraction strategies failed, create a minimal fallback
+            if not extracted_elements:
+                logger.error(f"[3_CHUNK] All text extraction strategies failed for {file_path}")
+                
+                # Create a minimal fallback chunk with filename information
+                fallback_text = f"Document: {Path(file_path).name}\nNote: Text extraction failed - document may be image-based or corrupted."
+                
+                extracted_elements = [{
+                    'text': fallback_text,
+                    'metadata': {
+                        'page_number': 1,
+                        'paragraph_number': 1,
+                        'extraction_method': 'fallback',
+                        'extraction_status': 'failed'
+                    }
+                }]
+                
+                logger.warning(f"[3_CHUNK] Using fallback content for {file_path}")
+            
+            logger.info(f"[3_CHUNK] Final extracted elements count: {len(extracted_elements)}")
+            
+            # 2. Create chunks from the extracted text
+            doc_chunker = DocChunker()
+            chunks = doc_chunker.chunk_document_by_sentences(extracted_elements)
+            logger.info(f"[3_CHUNK] Created {len(chunks)} chunks from {file_path}")
+            
+            # 3. Clean chunks
+            try:
+                cleaned_chunks = doc_chunker.cleaning_function(chunks)
+                logger.info(f"[3_CHUNK] Finished cleaning chunks from {file_path}, got {len(cleaned_chunks)} cleaned chunks")
+            except Exception as e:
+                logger.error(f"[3_CHUNK] Error during chunk cleaning: {e}")
+                # Fall back to using the original chunks if cleaning fails
+                logger.info(f"[3_CHUNK] Falling back to original chunks")
+                cleaned_chunks = chunks
+                
+            # Validate cleaned chunks before proceeding
+            if not cleaned_chunks or len(cleaned_chunks) == 0:
+                logger.error(f"[3_CHUNK] No valid chunks after cleaning for {file_path}")
+                return None
+            
+            # 4. Create DocChunk objects for database storage (without embeddings)
+            db_chunks = []
+            doc_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, file_name)
+            for i, chunk in enumerate(cleaned_chunks):
+                # Skip empty chunks
+                if not chunk.get('text', '').strip():
+                    logger.warning(f"[3_CHUNK] Skipping empty chunk {i} from {file_path}")
+                    continue
+                    
+                # Create a DocChunkORM object without embeddings
+                chunk_model = DocChunkORM(
+                    id=uuid.uuid4(),
+                    doc_id=doc_uuid,
+                    content=chunk.get('text', ''),
+                    chunk_index=i,
+                    page=chunk.get('metadata', {}).get('page_number', 0),
+                    paragraph=chunk.get('metadata', {}).get('paragraph_numbers', 0)[0],
+                    language=chunk.get('metadata', {}).get('language'),
+                    chunk_data=chunk.get('metadata', {}),
+                    # Note: transformer_embedding and word2vec_embedding are left as None
+                    # They will be filled in by 3.5_embed.py
+                )
+
+                db_chunks.append(chunk_model)
+            
+            # Verify we have chunks to upload
+            if not db_chunks:
+                logger.error(f"[3_CHUNK] No valid chunks to upload for {file_path}")
+                return None
+                
+            # 5. Upload chunks to the database (without embeddings)
+            logger.info(f"[3_CHUNK] Attempting to upload {len(db_chunks)} chunks to database for {file_path}")
+            upload_success = upload(session, db_chunks, table='doc_chunks')
+            if not upload_success:
+                logger.error(f"[3_CHUNK] Failed to upload chunks to database for {file_path}")
+                return None
+                
+            logger.info(f"[3_CHUNK] Uploaded {len(db_chunks)} chunks to doc_chunks table")
+
+            # 6. Update documents table that the document has been processed (chunked)
+            update_processed(session, NDCDocumentORM, doc_id, chunks=cleaned_chunks, table='documents')
+            logger.info(f"[3_CHUNK] Updated processed status in documents table for {doc_id}")
+            
+            logger.info(f"[3_CHUNK] File {file_path} chunked successfully")
+            return db_chunks
     
     except Exception as e:
         logger.error(f"[3_CHUNK] Error processing file {file_path}: {e}\n\n")

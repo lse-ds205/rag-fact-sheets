@@ -116,16 +116,16 @@ class DocChunker:
                 current_element_types = {element_type}
                 if element_metadata.get('paragraph_number') is not None:
                     current_paragraph_numbers = {element_metadata.get('paragraph_number')}
-            else:
-                # Track element types and paragraph numbers
+            else:                # Track element types and paragraph numbers
                 current_element_types.add(element_type)
                 if element_metadata.get('paragraph_number') is not None:
                     current_paragraph_numbers.add(element_metadata.get('paragraph_number'))
-                    current_chunk_metadata['paragraph_numbers'].append(element_metadata.get('paragraph_number'))
+                    if element_metadata.get('paragraph_number') not in current_chunk_metadata['paragraph_numbers']:
+                        current_chunk_metadata['paragraph_numbers'].append(element_metadata.get('paragraph_number'))
                 
                 if element_metadata.get('paragraph_id') is not None and element_metadata.get('paragraph_id') not in current_chunk_metadata['paragraph_ids']:
                     current_chunk_metadata['paragraph_ids'].append(element_metadata.get('paragraph_id'))
-                    
+                
                 if element_metadata.get('global_paragraph_number') is not None and element_metadata.get('global_paragraph_number') not in current_chunk_metadata['global_paragraph_numbers']:
                     current_chunk_metadata['global_paragraph_numbers'].append(element_metadata.get('global_paragraph_number'))
                     
@@ -168,12 +168,24 @@ class DocChunker:
                         "sentences": current_chunk_sentences,
                         "metadata": current_chunk_metadata
                     })
-                    chunk_id += 1
-                    
-                    # Start new chunk with overlap
+                    chunk_id += 1                    # Start new chunk with overlap
                     current_chunk_sentences = current_chunk_sentences[-overlap:] if overlap > 0 else []
                     current_chunk_text = " ".join(current_chunk_sentences)
-                    # Keep the same metadata since we're still in the same element
+                    # Reset metadata for the new chunk but keep document-level info
+                    current_chunk_metadata = {
+                        "element_types": [element_type],  # Start fresh with current element type
+                        "page_number": element_metadata.get('page_number', current_chunk_metadata.get('page_number', 0)),
+                        "paragraph_numbers": [element_metadata.get('paragraph_number')] if element_metadata.get('paragraph_number') is not None else [],  # Start fresh
+                        "paragraph_ids": [element_metadata.get('paragraph_id')] if element_metadata.get('paragraph_id') is not None else [],  # Start fresh
+                        "global_paragraph_numbers": [element_metadata.get('global_paragraph_number')] if element_metadata.get('global_paragraph_number') is not None else [],  # Start fresh
+                        "filename": current_chunk_metadata.get('filename', ''),  # Keep document info
+                        "country": current_chunk_metadata.get('country', ''),  # Keep document info
+                        "document_title": current_chunk_metadata.get('document_title', ''),  # Keep document info
+                        "submission_date": current_chunk_metadata.get('submission_date', '')  # Keep document info
+                    }
+                    # Reset tracking sets
+                    current_element_types = {element_type}
+                    current_paragraph_numbers = {element_metadata.get('paragraph_number')} if element_metadata.get('paragraph_number') is not None else set()
         
         # Add the last chunk if it has content
         if current_chunk_sentences:

@@ -170,10 +170,13 @@ def extract_text_from_pdf(
         )
         
         logger.info(f"Extracted {len(elements)} elements from PDF")
-        
-        # Process and filter elements
+          # Process and filter elements
         processed_elements = []
         has_corruption = False
+        
+        # Track page-relative paragraph numbering
+        current_page = 0
+        page_paragraph_count = 0
         
         for i, element in enumerate(elements):
             # Get text content
@@ -184,8 +187,7 @@ def extract_text_from_pdf(
                 has_corruption = True
                 logger.debug(f"Detected character corruption in element {i}: {text[:100]}...")
                 continue  # Skip corrupted elements
-            
-            # Skip very short or empty text
+              # Skip very short or empty text
             if len(text) < 10:
                 continue
             
@@ -204,7 +206,7 @@ def extract_text_from_pdf(
             metadata = {
                 'element_index': i,
                 'element_type': type(element).__name__,
-                'page_number': 1,  # Default value, will be updated below if available
+                'page_number': 0,  # Default value, will be updated below if available
                 'paragraph_number': None,
                 'extraction_strategy': strategy,
                 'filename': filename,
@@ -216,50 +218,52 @@ def extract_text_from_pdf(
             try:
                 if hasattr(element, 'metadata') and element.metadata:
                     element_metadata = element.metadata
-                    
                     # Handle different metadata types
                     if hasattr(element_metadata, 'page_number'):
                         metadata['page_number'] = element_metadata.page_number
-                    elif hasattr(element_metadata, '__dict__'):
+                    elif hasattr(element_metadata, 'to_dict'):
                         # Convert object to dict and extract page_number
-                        meta_dict = element_metadata.__dict__
-                        metadata['page_number'] = meta_dict.get('page_number', 1)
-                    
-                    # Extract coordinates if available
+                        meta_dict = element_metadata.to_dict()
+                        metadata['page_number'] = meta_dict.get('page_number', 0)
+                      # Extract coordinates if available
                     if hasattr(element_metadata, 'coordinates'):
                         metadata['coordinates'] = str(element_metadata.coordinates)
-                    elif hasattr(element_metadata, '__dict__'):
-                        meta_dict = element_metadata.__dict__
+                    elif hasattr(element_metadata, 'to_dict'):
+                        meta_dict = element_metadata.to_dict()
                         if 'coordinates' in meta_dict:
                             metadata['coordinates'] = str(meta_dict['coordinates'])
-                    
-                    # Extract filename if available
+                      # Extract filename if available
                     if hasattr(element_metadata, 'filename'):
                         metadata['source_file'] = element_metadata.filename
-                    elif hasattr(element_metadata, '__dict__'):
-                        meta_dict = element_metadata.__dict__
+                    elif hasattr(element_metadata, 'to_dict'):
+                        meta_dict = element_metadata.to_dict()
                         if 'filename' in meta_dict:
                             metadata['source_file'] = meta_dict['filename']
-                    
-                    # Try to extract paragraph number from coordinates or other metadata
-                    if hasattr(element_metadata, '__dict__'):
-                        meta_dict = element_metadata.__dict__
+                      # Try to extract paragraph number from coordinates or other metadata
+                    if hasattr(element_metadata, 'to_dict'):
+                        meta_dict = element_metadata.to_dict()
                         # Look for any field that might indicate paragraph/element order
                         for key in ['paragraph', 'para', 'element_id', 'order']:
                             if key in meta_dict and isinstance(meta_dict[key], (int, str)):
                                 try:
                                     metadata['paragraph_number'] = int(meta_dict[key])
                                     break
-                                except (ValueError, TypeError):
-                                    continue
+                                except (ValueError, TypeError):                                    continue
                                     
             except Exception as meta_error:
                 logger.warning(f"Error extracting metadata from element {i}: {meta_error}")
                 # Keep default metadata values
             
-            # If no paragraph number found, use element index
+            # Check if we moved to a new page and reset paragraph counter
+            if metadata['page_number'] != current_page:
+                current_page = metadata['page_number']
+                page_paragraph_count = 1
+            else:
+                page_paragraph_count += 1
+            
+            # If no paragraph number found, use page-relative numbering
             if metadata['paragraph_number'] is None:
-                metadata['paragraph_number'] = i + 1
+                metadata['paragraph_number'] = page_paragraph_count
             
             processed_elements.append({
                 'text': text,
@@ -336,10 +340,13 @@ def _retry_with_ocr(pdf_path: str, languages_list: list) -> List[Dict[str, Any]]
             strategy="ocr_only",
             extract_images_in_pdf=False,
             infer_table_structure=True,
-            languages=languages_list
-        )
+            languages=languages_list        )
         
         processed_elements = []
+        
+        # Track page-relative paragraph numbering for OCR
+        current_page = 0
+        page_paragraph_count = 0
         
         for i, element in enumerate(elements):
             text = str(element).strip() if element else ""
@@ -351,13 +358,13 @@ def _retry_with_ocr(pdf_path: str, languages_list: list) -> List[Dict[str, Any]]
             
             if len(text) < 10:
                 continue
-
+                
             # Extract metadata
             metadata = {
                 'element_index': i,
                 'element_type': type(element).__name__,
-                'page_number': 1,
-                'paragraph_number': i + 1,
+                'page_number': 0,
+                'paragraph_number': None,
                 'extraction_strategy': 'ocr_fallback',
                 'filename': filename,
                 'country': country,
@@ -371,9 +378,9 @@ def _retry_with_ocr(pdf_path: str, languages_list: list) -> List[Dict[str, Any]]
                     
                     if hasattr(element_metadata, 'page_number'):
                         metadata['page_number'] = element_metadata.page_number
-                    elif hasattr(element_metadata, '__dict__'):
-                        meta_dict = element_metadata.__dict__
-                        metadata['page_number'] = meta_dict.get('page_number', 1)
+                    elif hasattr(element_metadata, 'to_dict'):
+                        meta_dict = element_metadata.to_dict()
+                        metadata['page_number'] = meta_dict.get('page_number', 0)
                         
                         # Try to extract paragraph number
                         for key in ['paragraph', 'para', 'element_id', 'order']:
@@ -386,6 +393,17 @@ def _retry_with_ocr(pdf_path: str, languages_list: list) -> List[Dict[str, Any]]
                         
             except Exception as meta_error:
                 logger.warning(f"Error extracting OCR metadata from element {i}: {meta_error}")
+            
+            # Check if we moved to a new page and reset paragraph counter
+            if metadata['page_number'] != current_page:
+                current_page = metadata['page_number']
+                page_paragraph_count = 1
+            else:
+                page_paragraph_count += 1
+            
+            # If no paragraph number found, use page-relative numbering
+            if metadata['paragraph_number'] is None:
+                metadata['paragraph_number'] = page_paragraph_count
             
             processed_elements.append({
                 'text': text,
@@ -426,7 +444,7 @@ def extract_text_from_docx(docx_path: str) -> List[Dict[str, Any]]:
     filename = os.path.basename(docx_path)
     country = _extract_country_from_filename(docx_path)
     elements = []
-    page_number = 1  # DOCX doesn't have a concept of pages, so we simulate it
+    page_number = 0  # DOCX doesn't have a concept of pages, so we simulate it
     paragraph_count = 0
     
     for i, paragraph in enumerate(doc.paragraphs):
