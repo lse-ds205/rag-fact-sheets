@@ -10,14 +10,13 @@ import pandas as pd
 import numpy as np
 
 from tqdm.notebook import tqdm, trange
-from tqdm import tqdm
 
 from transformers import AutoTokenizer, AutoModel
 
 from dotenv import load_dotenv
 load_dotenv()
 
-from sqlalchemy import text
+from sqlalchemy import create_engine, text
 
 from gensim.models import Word2Vec
 from gensim.utils import simple_preprocess
@@ -233,3 +232,26 @@ def embed_and_store_all_embeddings(df, engine):
         session.commit()
 
     print("\n✅ All ClimateBERT and Word2Vec embeddings uploaded directly.")
+
+
+def store_database_batched(flat_ds, batch_size=10000):
+    """
+    Store the flattened dataset into a PostgreSQL database using SQLAlchemy in chunks with progress bar.
+    
+    Args:
+        flat_ds (list): Flattened dataset to be stored.
+        chunk_size (int): Number of rows per chunk for batch insertion.
+    """
+    load_dotenv()
+    from tqdm.notebook import tqdm as notebook_tqdm
+
+    df = pd.DataFrame(flat_ds)
+    engine = create_engine(os.getenv("DB_URL"))
+
+    # Initialize table with first chunk
+    df.iloc[:0].to_sql('climate_policy_radar', engine, if_exists='replace', index=False)
+
+    # Iterate through chunks with progress bar
+    for i in notebook_tqdm(range(0, len(df), batch_size), desc="Inserting chunks to DB"):
+        chunk = df.iloc[i:i+batch_size]
+        chunk.to_sql('climate_policy_radar', engine, if_exists='append', index=False)
