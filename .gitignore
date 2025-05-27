@@ -136,8 +136,6 @@ ENV/
 env.bak/
 venv.bak/
 group_rag.venv
-group_rag.venv
-C:\Users\User\GitHub\group-6-final-project\group_rag.venv
 
 # Spyder project settings
 .spyderproject
