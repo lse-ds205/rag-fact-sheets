@@ -290,7 +290,7 @@ class Connection:
     def count_relationships(self, by_type: bool = False) -> int:
         """
         Count logical relationships in the database.
-        
+            
         Args:
             by_type: If True, return counts by relationship type
             

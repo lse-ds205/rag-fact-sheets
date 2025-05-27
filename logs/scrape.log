@@ -105,3 +105,122 @@
 2025-05-26 12:01:22,425 - group4py.src.scrape.workflow - INFO -   Documents removed (not processed): 0
 2025-05-26 12:01:22,425 - group4py.src.scrape.workflow - INFO - ============================================================
 2025-05-26 12:01:22,425 - group4py.src.scrape.workflow - INFO - NDC document scraping workflow completed successfully!
+2025-05-27 14:12:12,494 - group4py.src.scrape.workflow - INFO - Starting NDC document scraping workflow
+2025-05-27 14:12:12,494 - group4py.src.scrape.workflow - INFO - Step 1: Retrieving existing documents from database...
+2025-05-27 14:12:12,494 - group4py.src.scrape.db_operations - INFO - Retrieving existing documents from database
+2025-05-27 14:12:12,494 - group4py.src.scrape.db_operations - ERROR - Database connection error: Connection.__init__() missing 1 required positional argument: 'config'
+2025-05-27 14:12:12,494 - group4py.src.scrape.workflow - ERROR - Unexpected error during scraping workflow: Database connection failed: Connection.__init__() missing 1 required positional argument: 'config'
+2025-05-27 14:12:12,494 - group4py.src.scrape.workflow - ERROR - Traceback: Traceback (most recent call last):
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/db_operations.py", line 28, in retrieve_existing_documents
+    db = Connection()
+TypeError: Connection.__init__() missing 1 required positional argument: 'config'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/workflow.py", line 47, in run_scraping_workflow
+    existing_docs = retrieve_existing_documents()
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/db_operations.py", line 47, in retrieve_existing_documents
+    raise DatabaseConnectionError(f"Database connection failed: {str(e)}") from e
+group4py.src.scrape.exceptions.DatabaseConnectionError: Database connection failed: Connection.__init__() missing 1 required positional argument: 'config'
+
+2025-05-27 14:16:02,967 - group4py.src.scrape.workflow - INFO - Starting NDC document scraping workflow
+2025-05-27 14:16:02,967 - group4py.src.scrape.workflow - INFO - Step 1: Retrieving existing documents from database...
+2025-05-27 14:16:02,967 - group4py.src.scrape.db_operations - INFO - Retrieving existing documents from database
+2025-05-27 14:16:03,955 - group4py.src.database - INFO - Successfully connected to database
+2025-05-27 14:16:04,081 - group4py.src.scrape.db_operations - ERROR - Error querying database: (psycopg2.errors.UndefinedColumn) column doc_chunks.content_hash does not exist
+LINE 1: ...d2vec_embedding AS doc_chunks_word2vec_embedding, doc_chunks...
+                                                             ^
+
+[SQL: SELECT doc_chunks.id AS doc_chunks_id, doc_chunks.doc_id AS doc_chunks_doc_id, doc_chunks.content AS doc_chunks_content, doc_chunks.chunk_index AS doc_chunks_chunk_index, doc_chunks.paragraph AS doc_chunks_paragraph, doc_chunks.language AS doc_chunks_language, doc_chunks.transformer_embedding AS doc_chunks_transformer_embedding, doc_chunks.word2vec_embedding AS doc_chunks_word2vec_embedding, doc_chunks.content_hash AS doc_chunks_content_hash, doc_chunks.chunk_data AS doc_chunks_chunk_data, doc_chunks.created_at AS doc_chunks_created_at, doc_chunks.updated_at AS doc_chunks_updated_at 
+FROM doc_chunks 
+WHERE %(param_1)s::UUID = doc_chunks.doc_id]
+[parameters: {'param_1': UUID('bd8dd183-54b5-5e82-a2bf-59f476c119d6')}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-05-27 14:16:04,091 - group4py.src.scrape.workflow - ERROR - Unexpected error during scraping workflow: Database query failed: (psycopg2.errors.UndefinedColumn) column doc_chunks.content_hash does not exist
+LINE 1: ...d2vec_embedding AS doc_chunks_word2vec_embedding, doc_chunks...
+                                                             ^
+
+[SQL: SELECT doc_chunks.id AS doc_chunks_id, doc_chunks.doc_id AS doc_chunks_doc_id, doc_chunks.content AS doc_chunks_content, doc_chunks.chunk_index AS doc_chunks_chunk_index, doc_chunks.paragraph AS doc_chunks_paragraph, doc_chunks.language AS doc_chunks_language, doc_chunks.transformer_embedding AS doc_chunks_transformer_embedding, doc_chunks.word2vec_embedding AS doc_chunks_word2vec_embedding, doc_chunks.content_hash AS doc_chunks_content_hash, doc_chunks.chunk_data AS doc_chunks_chunk_data, doc_chunks.created_at AS doc_chunks_created_at, doc_chunks.updated_at AS doc_chunks_updated_at 
+FROM doc_chunks 
+WHERE %(param_1)s::UUID = doc_chunks.doc_id]
+[parameters: {'param_1': UUID('bd8dd183-54b5-5e82-a2bf-59f476c119d6')}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-05-27 14:16:04,100 - group4py.src.scrape.workflow - ERROR - Traceback: Traceback (most recent call last):
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1963, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 943, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column doc_chunks.content_hash does not exist
+LINE 1: ...d2vec_embedding AS doc_chunks_word2vec_embedding, doc_chunks...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/db_operations.py", line 36, in retrieve_existing_documents
+    existing_docs = [_convert_db_to_model(db_doc) for db_doc in db_documents]
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/db_operations.py", line 36, in <listcomp>
+    existing_docs = [_convert_db_to_model(db_doc) for db_doc in db_documents]
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/db_operations.py", line 179, in _convert_db_to_model
+    chunks=db_doc.chunks,
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/orm/attributes.py", line 566, in __get__
+    return self.impl.get(state, dict_)  # type: ignore[no-any-return]
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/orm/attributes.py", line 1086, in get
+    value = self._fire_loader_callables(state, key, passive)
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/orm/attributes.py", line 1121, in _fire_loader_callables
+    return self.callable_(state, passive)
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/orm/strategies.py", line 978, in _load_for_state
+    return self._emit_lazyload(
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/orm/strategies.py", line 1141, in _emit_lazyload
+    result = session.execute(
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2365, in execute
+    return self._execute_internal(
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2251, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1415, in execute
+    return meth(
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 523, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1637, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1842, in _execute_context
+    return self._exec_single_context(
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1982, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2351, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1963, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 943, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column doc_chunks.content_hash does not exist
+LINE 1: ...d2vec_embedding AS doc_chunks_word2vec_embedding, doc_chunks...
+                                                             ^
+
+[SQL: SELECT doc_chunks.id AS doc_chunks_id, doc_chunks.doc_id AS doc_chunks_doc_id, doc_chunks.content AS doc_chunks_content, doc_chunks.chunk_index AS doc_chunks_chunk_index, doc_chunks.paragraph AS doc_chunks_paragraph, doc_chunks.language AS doc_chunks_language, doc_chunks.transformer_embedding AS doc_chunks_transformer_embedding, doc_chunks.word2vec_embedding AS doc_chunks_word2vec_embedding, doc_chunks.content_hash AS doc_chunks_content_hash, doc_chunks.chunk_data AS doc_chunks_chunk_data, doc_chunks.created_at AS doc_chunks_created_at, doc_chunks.updated_at AS doc_chunks_updated_at 
+FROM doc_chunks 
+WHERE %(param_1)s::UUID = doc_chunks.doc_id]
+[parameters: {'param_1': UUID('bd8dd183-54b5-5e82-a2bf-59f476c119d6')}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/workflow.py", line 47, in run_scraping_workflow
+    existing_docs = retrieve_existing_documents()
+  File "/Users/ruka/Desktop/rag-fact-sheets-4/group4py/src/scrape/db_operations.py", line 41, in retrieve_existing_documents
+    raise DatabaseConnectionError(f"Database query failed: {str(e)}") from e
+group4py.src.scrape.exceptions.DatabaseConnectionError: Database query failed: (psycopg2.errors.UndefinedColumn) column doc_chunks.content_hash does not exist
+LINE 1: ...d2vec_embedding AS doc_chunks_word2vec_embedding, doc_chunks...
+                                                             ^
+
+[SQL: SELECT doc_chunks.id AS doc_chunks_id, doc_chunks.doc_id AS doc_chunks_doc_id, doc_chunks.content AS doc_chunks_content, doc_chunks.chunk_index AS doc_chunks_chunk_index, doc_chunks.paragraph AS doc_chunks_paragraph, doc_chunks.language AS doc_chunks_language, doc_chunks.transformer_embedding AS doc_chunks_transformer_embedding, doc_chunks.word2vec_embedding AS doc_chunks_word2vec_embedding, doc_chunks.content_hash AS doc_chunks_content_hash, doc_chunks.chunk_data AS doc_chunks_chunk_data, doc_chunks.created_at AS doc_chunks_created_at, doc_chunks.updated_at AS doc_chunks_updated_at 
+FROM doc_chunks 
+WHERE %(param_1)s::UUID = doc_chunks.doc_id]
+[parameters: {'param_1': UUID('bd8dd183-54b5-5e82-a2bf-59f476c119d6')}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+

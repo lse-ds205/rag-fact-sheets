@@ -5,12 +5,13 @@ from datetime import datetime
 from typing import List
 import uuid
 
-from ..database import Connection, Document
+from ..database import Connection, NDCDocumentORM, DatabaseConfig
 from ..schema import NDCDocumentModel
 from .exceptions import DatabaseConnectionError, DocumentValidationError
 
 logger = logging.getLogger(__name__)
 
+config = DatabaseConfig.from_env()
 
 def retrieve_existing_documents() -> List[NDCDocumentModel]:
     """
@@ -25,13 +26,13 @@ def retrieve_existing_documents() -> List[NDCDocumentModel]:
     logger.info("Retrieving existing documents from database")
     
     try:
-        db = Connection()
+        db = Connection(config)
         if not db.connect():
             raise DatabaseConnectionError("Failed to establish database connection")
         
         session = db.get_session()
         try:
-            db_documents = session.query(Document).all()
+            db_documents = session.query(NDCDocumentORM).all()
             existing_docs = [_convert_db_to_model(db_doc) for db_doc in db_documents]
             logger.info(f"Retrieved {len(existing_docs)} existing documents from database")
             return existing_docs
@@ -68,7 +69,7 @@ def insert_new_documents(new_docs: List[NDCDocumentModel]) -> int:
     logger.info(f"Inserting {len(new_docs)} new documents into database")
     
     try:
-        db = Connection()
+        db = Connection(config)
         if not db.connect():
             raise DatabaseConnectionError("Failed to establish database connection")
         
@@ -119,7 +120,7 @@ def update_existing_documents(updated_docs: List[NDCDocumentModel]) -> int:
     logger.info(f"Updating {len(updated_docs)} existing documents in database")
     
     try:
-        db = Connection()
+        db = Connection(config)
         if not db.connect():
             raise DatabaseConnectionError("Failed to establish database connection")
         
@@ -129,7 +130,7 @@ def update_existing_documents(updated_docs: List[NDCDocumentModel]) -> int:
         try:
             for doc in updated_docs:
                 try:
-                    existing_doc = session.query(Document).filter(Document.url == doc.url).first()
+                    existing_doc = session.query(NDCDocumentORM).filter(NDCDocumentORM.url == doc.url).first()
                     
                     if existing_doc:
                         _update_document_metadata(existing_doc, doc)
@@ -157,8 +158,8 @@ def update_existing_documents(updated_docs: List[NDCDocumentModel]) -> int:
         raise DatabaseConnectionError(f"Database connection failed during updates: {str(e)}") from e
 
 
-def _convert_db_to_model(db_doc: Document) -> NDCDocumentModel:
-    """Convert SQLAlchemy Document to NDCDocumentModel."""
+def _convert_db_to_model(db_doc: NDCDocumentORM) -> NDCDocumentModel:
+    """Convert SQLAlchemy NDCDocumentORM to NDCDocumentModel."""
     return NDCDocumentModel(
         doc_id=db_doc.doc_id,
         country=db_doc.country,
@@ -181,10 +182,10 @@ def _convert_db_to_model(db_doc: Document) -> NDCDocumentModel:
     )
 
 
-def _convert_base_to_db(doc: NDCDocumentModel) -> Document:
-    """Convert NDCDocumentModel to SQLAlchemy Document."""
+def _convert_base_to_db(doc: NDCDocumentModel) -> NDCDocumentORM:
+    """Convert NDCDocumentModel to SQLAlchemy NDCDocumentORM."""
     doc_id = uuid.uuid5(uuid.NAMESPACE_URL, doc.url)
-    return Document(
+    return NDCDocumentORM(
         doc_id=doc_id,
         country=doc.country,
         title=doc.title,
@@ -195,7 +196,7 @@ def _convert_base_to_db(doc: NDCDocumentModel) -> Document:
     )
 
 
-def _update_document_metadata(existing_doc: Document, new_doc: NDCDocumentModel) -> None:
+def _update_document_metadata(existing_doc: NDCDocumentORM, new_doc: NDCDocumentModel) -> None:
     """Update existing document with new metadata."""
     existing_doc.title = new_doc.title
     existing_doc.language = new_doc.language
