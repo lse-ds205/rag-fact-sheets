@@ -190,12 +190,9 @@ def run_cp1a_assessment(country=None, detailed=True):
 
     if detailed:
         result = cp1a_complete_assessment_chain_detailed.invoke(retrieved_chunks)
-        print("Detailed Assessment:")
-        print(result.content)
         return result
     else:
         result = cp1a_complete_assessment_chain_simple.invoke(retrieved_chunks)
-        print("Simple Assessment:", result)
         return result
 
 

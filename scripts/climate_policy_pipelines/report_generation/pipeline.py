@@ -14,6 +14,8 @@ from langchain.schema.runnable import RunnablePassthrough, RunnableLambda
 from langchain.schema import BaseOutputParser
 import re
 
+load_dotenv()
+
 from scripts.climate_policy_pipelines.shared.llm_models import (
     super_basic_model,
     standard_model,

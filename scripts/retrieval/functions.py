@@ -20,6 +20,13 @@ from sqlalchemy import create_engine, text
 
 from gensim.models import Word2Vec
 from gensim.utils import simple_preprocess
+from sqlalchemy.orm import sessionmaker
+from functions import generate_embeddings_for_text  # Assuming this is defined elsewhere
+import os
+import re
+from gensim.models import Word2Vec
+from tqdm.notebook import tqdm as tqdm
+
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -78,9 +85,6 @@ def train_custom_word2vec_from_texts(
     Returns:
         model (Word2Vec): Trained Word2Vec model.
     """
-    import os
-    import re
-    from gensim.models import Word2Vec
 
     def basic_tokenize(text):
         text = re.sub(r'[^a-zA-Z]', ' ', text.lower())
@@ -137,8 +141,7 @@ def generate_word2vec_embedding_for_text(text, model):
 
 
 def embed_and_store_all_embeddings(df, engine):
-    from sqlalchemy.orm import sessionmaker
-    from functions import generate_embeddings_for_text  # Assuming this is defined elsewhere
+
 
     # Load models
     tokenizer, climatebert_model = load_climatebert_model()
@@ -240,8 +243,6 @@ def store_database_batched(flat_ds, num_chunks, batch_size=100000):
 
     """
     load_dotenv()
-    from tqdm.notebook import tqdm as tqdm
-
     engine = create_engine(os.getenv("DB_URL"))
     df = pd.DataFrame(flat_ds[:1])
 

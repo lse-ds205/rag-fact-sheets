@@ -11,7 +11,6 @@ from sqlalchemy import create_engine, text
 from rank_bm25 import BM25Okapi
 
 
-
 def boolean_search(keywords, df, k=None):
     """
     Perform a boolean search on the DataFrame based on the prompt.
