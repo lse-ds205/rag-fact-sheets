@@ -290,5 +290,5 @@ def store_database_batched(flat_ds, num_chunks, batch_size=100000):
     df.to_sql('climate_policy_radar', engine, if_exists='replace', index=False)
 
     for i in tqdm(range(1, num_chunks, batch_size), desc="Inserting chunks into database"):
-        chunk = pd.DataFrame(flat_ds[i:i+batch_size])
+        chunk = pd.DataFrame(flat_ds[i:min(len(flat_ds), i+batch_size)])
         chunk.to_sql('climate_policy_radar', engine, if_exists='append', index=False)

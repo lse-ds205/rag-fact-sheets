@@ -10,12 +10,6 @@ from gensim.utils import simple_preprocess
 from sqlalchemy import create_engine, text
 from rank_bm25 import BM25Okapi
 
-# Suppress transformers warnings
-import warnings
-import logging
-logging.getLogger("transformers").setLevel(logging.ERROR)
-warnings.filterwarnings("ignore", message="Some weights of.*were not initialized.*")
-
         
 def boolean_search(keywords, df, k=None):
     """
