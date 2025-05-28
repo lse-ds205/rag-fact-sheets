@@ -1,11 +1,10 @@
 import sys
-import os 
 from pathlib import Path
 import traceback
 import logging
 import asyncio
 from dotenv import load_dotenv
-from datetime import datetime, date
+from datetime import date
 import uuid
 from tqdm import tqdm
 from sqlalchemy import select
@@ -13,10 +12,10 @@ from sqlalchemy import select
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
-from extract_document import extract_text_from_pdf
-from chunking import DocChunker
-from helpers.internal import Logger
+from chunk.extractor import extract_text_from_pdf
+from chunk.chunker import DocChunker
 from constants.settings import FILE_PROCESSING_CONCURRENCY
+from helpers.internal import Logger
 from databases.auth import PostgresConnection
 from databases.models import NDCDocumentORM, DocChunkORM, LogicalRelationshipORM
 from databases.operations import check_document_processed, update_processed, upload

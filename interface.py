@@ -90,7 +90,7 @@ def run(option1, option2):
     if changes:
         # Step 1: Chunking
         print("[INTERFACE] Changes detected, starting chunking process...")
-        module_name_chunk = 'entrypoints.3_chunk'
+        module_name_chunk = 'entrypoints.2_chunk'
         run_script_chunk = importlib.import_module(module_name_chunk).run_script
         asyncio.run(run_script_chunk())
         print("[INTERFACE] Chunking completed successfully.")
@@ -113,7 +113,7 @@ def chunk(force):
     Run only the chunking step.
     """
     print("[INTERFACE] Running chunking process...")
-    module_name_chunk = 'entrypoints.3_chunk'
+    module_name_chunk = 'entrypoints.2_chunk'
     run_script_chunk = importlib.import_module(module_name_chunk).run_script
     asyncio.run(run_script_chunk(force_reprocess=force))
     print("[INTERFACE] Chunking completed successfully.")

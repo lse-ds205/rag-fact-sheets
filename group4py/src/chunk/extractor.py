@@ -1,113 +1,20 @@
-from pathlib import Path
-import sys
 import os
-import nltk
-import traceback
-import logging
+import sys
+from pathlib import Path
 import re
+import logging
+import traceback
 from typing import List, Dict, Any
 from unstructured.partition.pdf import partition_pdf
 
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt', quiet=True)
-
-project_root = Path(__file__).resolve().parents[2]
+project_root = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(project_root))
-from helpers.internal import Logger
+import group4py
+from chunk.cleaner import extract_country_from_filename, has_character_corruption, retry_with_ocr
 
 logger = logging.getLogger(__name__)
 
 
-def _extract_country_from_filename(pdf_path: str) -> str:
-    """
-    Extract country name from PDF filename.
-    
-    Args:
-        pdf_path: Path to the PDF file
-        
-    Returns:
-        Country name or 'Unknown'
-    """
-    filename = os.path.basename(pdf_path)
-    filename_lower = filename.lower()
-    
-    # Common country name patterns in filenames
-    country_patterns = {
-        'afghanistan': 'Afghanistan',
-        'albania': 'Albania',
-        'algeria': 'Algeria',
-        'argentina': 'Argentina',
-        'australia': 'Australia',
-        'austria': 'Austria',
-        'bangladesh': 'Bangladesh',
-        'belgium': 'Belgium',
-        'brazil': 'Brazil',
-        'canada': 'Canada',
-        'chile': 'Chile',
-        'china': 'China',
-        'colombia': 'Colombia',
-        'costa_rica': 'Costa Rica',
-        'egypt': 'Egypt',
-        'ethiopia': 'Ethiopia',
-        'france': 'France',
-        'germany': 'Germany',
-        'ghana': 'Ghana',
-        'india': 'India',
-        'indonesia': 'Indonesia',
-        'iran': 'Iran',
-        'iraq': 'Iraq',
-        'italy': 'Italy',
-        'japan': 'Japan',
-        'kenya': 'Kenya',
-        'madagascar': 'Madagascar',
-        'malaysia': 'Malaysia',
-        'mexico': 'Mexico',
-        'morocco': 'Morocco',
-        'nigeria': 'Nigeria',
-        'pakistan': 'Pakistan',
-        'peru': 'Peru',
-        'philippines': 'Philippines',
-        'poland': 'Poland',
-        'russia': 'Russia',
-        'saudi_arabia': 'Saudi Arabia',
-        'singapore': 'Singapore',
-        'south_africa': 'South Africa',
-        'south_korea': 'South Korea',
-        'spain': 'Spain',
-        'thailand': 'Thailand',
-        'turkey': 'Turkey',
-        'ukraine': 'Ukraine',
-        'united_kingdom': 'United Kingdom',
-        'uk': 'United Kingdom',
-        'united_states': 'United States',
-        'usa': 'United States',
-        'vietnam': 'Vietnam',
-    }
-    
-    # Try to find country in filename
-    for pattern, country_name in country_patterns.items():
-        if pattern in filename_lower:
-            return country_name
-    
-    # If no pattern found, try to extract from first part of filename
-    # Many files are named like "country_language_date.pdf"
-    filename_parts = filename.replace('.pdf', '').split('_')
-    if filename_parts:
-        first_part = filename_parts[0].lower()
-        # Try exact match first
-        for pattern, country_name in country_patterns.items():
-            if first_part == pattern:
-                return country_name
-        
-        # If still no match, capitalize the first part as a fallback
-        if len(first_part) > 2:
-            return first_part.replace('_', ' ').title()
-
-    return 'Unknown'
-
-@Logger.debug_log()
 def extract_text_from_pdf(
     pdf_path: str, 
     strategy: str = "fast", 
@@ -146,7 +53,7 @@ def extract_text_from_pdf(
 
     try:
         filename = os.path.basename(pdf_path)
-        country = _extract_country_from_filename(pdf_path)
+        country = extract_country_from_filename(pdf_path)
         logger.info(f"Extracting text from PDF: {pdf_path} using strategy: {strategy}")
         logger.info(f"Detected country: {country}")
         
@@ -178,7 +85,7 @@ def extract_text_from_pdf(
             text = str(element).strip() if element else ""
             
             # Check for PDF corruption/encoding issues
-            if _has_character_corruption(text):
+            if has_character_corruption(text):
                 has_corruption = True
                 logger.debug(f"Detected character corruption in element {i}: {text[:100]}...")
                 continue  # Skip corrupted elements
@@ -243,7 +150,8 @@ def extract_text_from_pdf(
                                 try:
                                     metadata['paragraph_number'] = int(meta_dict[key])
                                     break
-                                except (ValueError, TypeError):                                    continue
+                                except (ValueError, TypeError):                                    
+                                    continue
                                     
             except Exception as meta_error:
                 logger.warning(f"Error extracting metadata from element {i}: {meta_error}")
@@ -268,14 +176,14 @@ def extract_text_from_pdf(
         # If we detected corruption and got poor results, try OCR
         if has_corruption and len(processed_elements) < 5:
             logger.warning(f"Detected significant character corruption, attempting OCR extraction")
-            return _retry_with_ocr(pdf_path, languages_list)
+            return retry_with_ocr(pdf_path, languages_list)
         
         logger.info(f"Successfully processed {len(processed_elements)} non-empty elements")
         
         # If we got no valid elements, try to extract any text we can find
         if not processed_elements:
             logger.warning(f"No valid elements found with strategy {strategy}, attempting OCR fallback")
-            return _retry_with_ocr(pdf_path, languages_list)
+            return retry_with_ocr(pdf_path, languages_list)
 
         return processed_elements
         
@@ -285,134 +193,10 @@ def extract_text_from_pdf(
         # Try OCR as last resort
         try:
             logger.info("Attempting OCR as last resort for failed extraction")
-            return _retry_with_ocr(pdf_path, ['eng'])
+            return retry_with_ocr(pdf_path, ['eng'])
         except:
             return []
-
-def _has_character_corruption(text: str) -> bool:
-    """
-    Detect if text contains character encoding corruption typical of PDF extraction issues.
-    Improved to reduce false positives with legitimate formatted text.
-    
-    Args:
-        text: Text to check for corruption
         
-    Returns:
-        True if corruption is detected
-    """
-    if not text:
-        return False
-    
-    # Check for CID (Character ID) corruption - this is the main indicator
-    cid_pattern = r'\(cid:\d+\)'
-    cid_matches = len(re.findall(cid_pattern, text))
-    
-    # If more than 10% of the text appears to be CID references, it's corrupted
-    if cid_matches > 0 and (cid_matches * 10) > len(text.split()):
-        return True
-    
-    return False
-
-def _retry_with_ocr(pdf_path: str, languages_list: list) -> List[Dict[str, Any]]:
-    """
-    Retry PDF extraction using OCR when standard extraction fails or produces corruption.
-    
-    Args:
-        pdf_path: Path to PDF file
-        languages_list: List of languages for OCR
-        
-    Returns:
-        List of extracted elements using OCR
-    """
-    try:
-        logger.info(f"Attempting OCR extraction for {pdf_path}")
-        filename = os.path.basename(pdf_path)
-        country = _extract_country_from_filename(pdf_path)
-        
-        # Force OCR extraction
-        elements = partition_pdf(
-            filename=pdf_path, 
-            strategy="ocr_only",
-            extract_images_in_pdf=False,
-            infer_table_structure=True,
-            languages=languages_list        )
-        
-        processed_elements = []
-        
-        # Track page-relative paragraph numbering for OCR
-        current_page = 0
-        page_paragraph_count = 0
-        
-        for i, element in enumerate(elements):
-            text = str(element).strip() if element else ""
-            
-            # Still check for corruption in OCR results
-            if _has_character_corruption(text):
-                logger.debug(f"OCR element {i} still has corruption, skipping")
-                continue
-            
-            if len(text) < 10:
-                continue
-                
-            # Extract metadata
-            metadata = {
-                'element_index': i,
-                'element_type': type(element).__name__,
-                'page_number': 0,
-                'paragraph_number': None,
-                'extraction_strategy': 'ocr_fallback',
-                'filename': filename,
-                'country': country,
-                'document_title': f"{country} NDC"
-            }
-            
-            # Handle metadata extraction from unstructured elements
-            try:
-                if hasattr(element, 'metadata') and element.metadata:
-                    element_metadata = element.metadata
-                    
-                    if hasattr(element_metadata, 'page_number'):
-                        metadata['page_number'] = element_metadata.page_number
-                    elif hasattr(element_metadata, 'to_dict'):
-                        meta_dict = element_metadata.to_dict()
-                        metadata['page_number'] = meta_dict.get('page_number', 0)
-                        
-                        # Try to extract paragraph number
-                        for key in ['paragraph', 'para', 'element_id', 'order']:
-                            if key in meta_dict and isinstance(meta_dict[key], (int, str)):
-                                try:
-                                    metadata['paragraph_number'] = int(meta_dict[key])
-                                    break
-                                except (ValueError, TypeError):
-                                    continue
-                        
-            except Exception as meta_error:
-                logger.warning(f"Error extracting OCR metadata from element {i}: {meta_error}")
-            
-            # Check if we moved to a new page and reset paragraph counter
-            if metadata['page_number'] != current_page:
-                current_page = metadata['page_number']
-                page_paragraph_count = 1
-            else:
-                page_paragraph_count += 1
-            
-            # If no paragraph number found, use page-relative numbering
-            if metadata['paragraph_number'] is None:
-                metadata['paragraph_number'] = page_paragraph_count
-            
-            processed_elements.append({
-                'text': text,
-                'metadata': metadata
-            })
-
-        logger.info(f"OCR extraction completed with {len(processed_elements)} elements")
-        return processed_elements
-        
-    except Exception as e:
-        logger.error(f"OCR extraction failed for {pdf_path}: {e}")
-        return []
-
-@Logger.debug_log()    
 def extract_text_from_docx(docx_path: str) -> List[Dict[str, Any]]:
     """
     Extract text from a DOCX file using python-docx.
@@ -437,7 +221,7 @@ def extract_text_from_docx(docx_path: str) -> List[Dict[str, Any]]:
 
     # Get the filename for metadata
     filename = os.path.basename(docx_path)
-    country = _extract_country_from_filename(docx_path)
+    country = extract_country_from_filename(docx_path)
     elements = []
     page_number = 0  # DOCX doesn't have a concept of pages, so we simulate it
     paragraph_count = 0

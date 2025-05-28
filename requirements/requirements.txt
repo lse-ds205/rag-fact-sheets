@@ -6,12 +6,10 @@ colorlog==6.9.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.0
 python-iso639==2025.2.18
-python-magic==0.4.27
 python-multipart==0.0.20
 python-oxmsg==0.0.2
 pytz==2025.2
 PyYAML==6.0.2
-six==1.17.0
 StrEnum==0.4.15
 
 # Async/IO libraries
@@ -21,7 +19,6 @@ aiohttp==3.11.18
 aiosignal==1.3.2
 anyio==4.9.0
 async-timeout==5.0.1
-asyncpg==0.30.0
 
 # Data validation and serialization
 annotated-types==0.7.0
@@ -32,7 +29,6 @@ pydantic_core==2.33.1
 
 # Database libraries
 asyncpg==0.30.0
-psycopg2==2.9.10
 psycopg2-binary==2.9.10
 SQLAlchemy==2.0.40
 
@@ -156,13 +152,11 @@ ipython==8.36.0
 jedi==0.19.2
 jupyter_client==8.6.3
 jupyter_core==5.7.2
-matplotlib-inline==0.1.7
 nest-asyncio==1.6.0
 parso==0.8.4
 prompt_toolkit==3.0.51
 pure_eval==0.2.3
 Pygments==2.19.1
-pyreadline3==3.5.4
 pyzmq==26.4.0
 stack-data==0.6.3
 tornado==6.4.2
@@ -198,7 +192,6 @@ pytesseract==0.3.13
 # Utility libraries
 attrs==25.3.0
 backoff==2.2.1
-Deprecated==1.2.18
 deprecation==2.1.0
 distro==1.9.0
 eval_type_backport==0.2.2
@@ -235,6 +228,3 @@ w3lib==2.3.1
 webencodings==0.5.1
 wrapt==1.17.2
 yarl==1.20.0
-
-# Package managers
-pip==23.0.1

@@ -36,7 +36,7 @@ class NDCDocumentModel(BaseModel):
     submission_date: Optional[date] = None
     file_path: Optional[str] = None
     file_size: Optional[float] = None
-    scraped_at: datetime
+    scraped_at: Optional[datetime] = None
     downloaded_at: Optional[datetime] = None
     processed_at: Optional[datetime] = None
     last_download_attempt: Optional[datetime] = None

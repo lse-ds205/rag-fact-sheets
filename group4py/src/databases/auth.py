@@ -26,6 +26,8 @@ logger = logging.getLogger(__name__)
 
 class PostgresConnection:
     def __init__(self):
+        logger.info("Initializing PostgresConnection...")
+        
         if not DATABASE_URL:
             raise ValueError("DATABASE_URL environment variable is not set")
         self.engine = create_engine(DATABASE_URL)
