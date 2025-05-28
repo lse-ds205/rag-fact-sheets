@@ -1,6 +1,4 @@
-"""
-PDF Processor for NB01 and NB02. Includes text extraction, chunking, embeddings generation, and database storage.
-"""
+
 import logging
 import os
 import glob
@@ -30,6 +28,13 @@ from tqdm.notebook import tqdm as tqdm
 
 # Set up logger
 logger = logging.getLogger(__name__)
+
+# Suppress transformers warnings
+import warnings
+
+logging.getLogger("transformers").setLevel(logging.ERROR)
+warnings.filterwarnings("ignore", message="Some weights of.*were not initialized.*")
+
 
 
 def generate_embeddings_for_text(texts, model, tokenizer):

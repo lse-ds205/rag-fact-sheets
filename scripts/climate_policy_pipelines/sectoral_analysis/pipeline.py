@@ -119,7 +119,7 @@ def analyze_period_1970s_1980s(inputs: Dict[str, Any]) -> PeriodAnalysis1970s:
     Context: {inputs.get('context_1970s_1980s', '')}
     """
     
-    result = super_basic_model.invoke(prompt)
+    result = standard_model.invoke(prompt)
     return PeriodAnalysis1970s(period_1970s_1980s=result.content)
 
 def analyze_period_1990s_2000s(inputs: Dict[str, Any]) -> PeriodAnalysis1990s:
@@ -203,9 +203,9 @@ def create_ascor_workflow():
             "period_2010s_present": RunnableLambda(analyze_period_2010s_present)
         }
         | RunnableLambda(lambda x: {
-            "period_1970s_1980s": x["period_1970s_1980s"].period_1970s_1980s,
-            "period_1990s_2000s": x["period_1990s_2000s"].period_1990s_2000s,
-            "period_2010s_present": x["period_2010s_present"].period_2010s_present
+            "period_1970s_1980s": x["period_1970s_1980s"]["period_1970s_1980s"],
+            "period_1990s_2000s": x["period_1990s_2000s"]["period_1990s_2000s"],
+            "period_2010s_present": x["period_2010s_present"]["period_2010s_present"]
         })
         | RunnableLambda(synthesize_legislative_timeline)
     )

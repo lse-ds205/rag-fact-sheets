@@ -7,6 +7,12 @@ import os
 from dotenv import load_dotenv
 from transformers import AutoTokenizer, AutoModel
 
+# Suppress transformers warnings
+import warnings
+import logging
+logging.getLogger("transformers").setLevel(logging.ERROR)
+warnings.filterwarnings("ignore", message="Some weights of.*were not initialized.*")
+
 from .functions import generate_embeddings_for_text, generate_word2vec_embedding_for_text
 from .retrieval_support import bm25_search, hybrid_scoring, df_with_similarity_score
 
