@@ -14,8 +14,9 @@ load_dotenv()
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
-from helpers import Logger, Test, TaskInfo
-from query import ChunkFormatter, LLMClient, ResponseProcessor
+from group4py.src.helpers import Logger, Test, TaskInfo
+from group4py.src.query import LLMClient, ResponseProcessor, ChunkFormatter, ConfidenceClassification
+from group4py.src.schema import UUIDEncoder
 
 logger = logging.getLogger(__name__)
 
@@ -229,6 +230,70 @@ def process_response(llm_response: Any, original_chunks: List[Dict[str, Any]], q
             "question": question,
             "error": True,
             "error_details": str(e)
+        }
+
+def process_country_file(file_path: Path) -> Dict[str, Any]:
+    """
+    Process a single country retrieve file and generate LLM responses.
+    
+    Args:
+        file_path: Path to the country retrieve file
+        
+    Returns:
+        Dictionary containing the processed responses
+    """
+    try:
+        # Extract country name from filename
+        country_name = file_path.stem.split('_')[0]
+        logger.info(f"Processing country: {country_name}")
+        
+        # Load the country retrieve data
+        with open(file_path, 'r', encoding='utf-8') as f:
+            retrieve_data = json.load(f)
+        
+        # Initialize LLM client and confidence classifier
+        llm_client = LLMClient()
+        confidence_classifier = ConfidenceClassification()
+        
+        # Process each question in the retrieve data
+        results = {}
+        for question_id, question_data in retrieve_data.get('questions', {}).items():
+            logger.info(f"Processing question ID {question_id}")
+            
+            # Get the question text
+            question_text = question_data.get('question')
+            
+            if not question_text:
+                logger.warning(f"Question ID {question_id} is missing the question text")
+                continue
+            
+            # Extract top k chunks for the question
+            top_k_chunks = question_data.get('top_k_chunks', [])
+            
+            # Get LLM response for the question
+            llm_response = get_llm_response(llm_client, question_text, top_k_chunks)
+            
+            # Process the LLM response
+            processed_response = process_response(llm_response, top_k_chunks, question_text)
+            
+            # Store the processed response
+            results[question_id] = processed_response
+        
+        # After processing all questions, classify responses
+        results = confidence_classifier.classify_response(results, retrieve_data)
+        
+        return results
+        
+    except Exception as e:
+        logger.error(f"Error processing {file_path}: {str(e)}")
+        logger.error(traceback.format_exc())
+        return {
+            "metadata": {
+                "country_name": file_path.stem.split('_')[0],
+                "timestamp": datetime.now().isoformat(),
+                "error": str(e)
+            },
+            "questions": {}
         }
 
 def main():

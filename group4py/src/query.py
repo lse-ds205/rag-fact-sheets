@@ -343,3 +343,132 @@ class ResponseProcessor:
             },
             "error": error_message
         }
+
+class ConfidenceClassification:
+    """
+    Classifies retrieval results into confidence bands based on various scores.
+    Used to provide quality indicators for LLM responses.
+    """
+    
+    def __init__(self):
+        """Initialize confidence thresholds for classification"""
+        # Configurable thresholds for confidence bands
+        self.thresholds = {
+            "high": {
+                "combined_score": 0.75,
+                "similarity_score": 0.8,
+                "regex_score": 0.7,
+                "fuzzy_score": 0.7
+            },
+            "average": {
+                "combined_score": 0.5,
+                "similarity_score": 0.6,
+                "regex_score": 0.4,
+                "fuzzy_score": 0.4
+            }
+            # Below average thresholds = Low confidence
+        }
+    
+    def classify_response(self, llm_response: Dict[str, Any], retrieve_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Classify an LLM response based on retrieval scores.
+        
+        Args:
+            llm_response: The response from the LLM
+            retrieve_data: The retrieval data used to generate the response
+            
+        Returns:
+            Updated response with confidence band added
+        """
+        # Deep copy to avoid modifying original
+        result = llm_response.copy()
+        
+        # Process each question in the response
+        for q_key, q_data in result.get("questions", {}).items():
+            # Get corresponding retrieval data
+            retrieve_q_data = retrieve_data.get("questions", {}).get(q_key, {})
+            
+            # Calculate confidence band based on retrieval scores
+            confidence_band = self._calculate_confidence_band(retrieve_q_data)
+            
+            # Add confidence band to response
+            q_data["confidence_band"] = confidence_band
+        
+        return result
+    
+    def _calculate_confidence_band(self, question_data: Dict[str, Any]) -> str:
+        """
+        Calculate confidence band based on retrieval scores.
+        
+        Args:
+            question_data: Question data from retrieval
+            
+        Returns:
+            Confidence band: "High", "Average", or "Low"
+        """
+        # Extract scores from both traditional and hoprag methods
+        scores = self._extract_scores(question_data)
+        
+        if not scores or not scores.get("chunks", []):
+            return "Low"  # No scores available
+        
+        # Calculate average scores across top chunks (up to 5)
+        top_chunks = scores.get("chunks", [])[:5]
+        
+        avg_scores = {
+            "combined_score": sum(c.get("combined_score", 0) for c in top_chunks) / len(top_chunks) if top_chunks else 0,
+            "similarity_score": sum(c.get("similarity_score", c.get("cos_similarity_score", 0)) for c in top_chunks) / len(top_chunks) if top_chunks else 0,
+            "regex_score": sum(c.get("regex_score", 0) for c in top_chunks) / len(top_chunks) if top_chunks else 0,
+            "fuzzy_score": sum(c.get("fuzzy_score", 0) for c in top_chunks) / len(top_chunks) if top_chunks else 0
+        }
+        
+        # Check if scores meet high confidence thresholds
+        if (avg_scores["combined_score"] >= self.thresholds["high"]["combined_score"] and 
+            (avg_scores["similarity_score"] >= self.thresholds["high"]["similarity_score"] or 
+             avg_scores["regex_score"] >= self.thresholds["high"]["regex_score"] or
+             avg_scores["fuzzy_score"] >= self.thresholds["high"]["fuzzy_score"])):
+            return "High"
+        
+        # Check if scores meet average confidence thresholds
+        if (avg_scores["combined_score"] >= self.thresholds["average"]["combined_score"] and 
+            (avg_scores["similarity_score"] >= self.thresholds["average"]["similarity_score"] or 
+             avg_scores["regex_score"] >= self.thresholds["average"]["regex_score"] or
+             avg_scores["fuzzy_score"] >= self.thresholds["average"]["fuzzy_score"])):
+            return "Average"
+        
+        # Default to low confidence
+        return "Low"
+    
+    def _extract_scores(self, question_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Extract scores from retrieval data.
+        
+        Args:
+            question_data: Question data from retrieval
+            
+        Returns:
+            Dictionary with score information
+        """
+        result = {"chunks": []}
+        
+        # Combine chunks from traditional and hoprag retrieval methods
+        for method in ["traditional", "hoprag"]:
+            method_data = question_data.get("retrieval_methods", {}).get(method, {})
+            chunks = method_data.get("results", {}).get("evaluated_chunks", [])
+            
+            for chunk in chunks:
+                # Some chunks might have different score naming conventions
+                chunk_data = {
+                    "combined_score": chunk.get("combined_score", 0),
+                    "similarity_score": chunk.get("similarity_score", chunk.get("cos_similarity_score", 0)),
+                    "regex_score": chunk.get("regex_score", 0),
+                    "fuzzy_score": chunk.get("fuzzy_score", 0)
+                }
+                
+                result["chunks"].append(chunk_data)
+        
+        # Sort by combined score
+        result["chunks"].sort(key=lambda x: x.get("combined_score", 0), reverse=True)
+        
+        return result
+
