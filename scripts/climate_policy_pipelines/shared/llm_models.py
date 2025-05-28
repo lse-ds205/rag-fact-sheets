@@ -20,7 +20,7 @@ multilingual_llm = ChatOpenAI(
 super_basic_model = ChatOpenAI(
     base_url="https://api.studio.nebius.com/v1/",
     api_key=os.environ.get("NEBIUS_API_KEY"),
-    model="meta-llama/Llama-3.2-1B-Instruct",
+    model="Qwen/Qwen2.5-Coder-7B",
     temperature=0
 )
 

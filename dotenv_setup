@@ -1,5 +1,9 @@
+NEBIUS_API_KEY=your-nebius-api-key
+
 EMBEDDING_MODEL=climatebert/distilroberta-base-climate-f
-EMBEDDING_MODEL_LOCAL_DIR=local_model/climatebert/distilroberta-base-climate-f
+EMBEDDING_MODEL_LOCAL_DIR=your-root-dir/local_model/climatebert/distilroberta-base-climate-f
+
+
 EMBEDDING_DIMENSION=768
 
 DB_URL=postgresql://postgres:password@localhost/postgres

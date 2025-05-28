@@ -7,6 +7,12 @@ import os
 from dotenv import load_dotenv
 from transformers import AutoTokenizer, AutoModel
 
+# Suppress transformers warnings
+import warnings
+import logging
+logging.getLogger("transformers").setLevel(logging.ERROR)
+warnings.filterwarnings("ignore", message="Some weights of.*were not initialized.*")
+
 from .functions import generate_embeddings_for_text, generate_word2vec_embedding_for_text
 from .retrieval_support import bm25_search, hybrid_scoring, df_with_similarity_score
 
@@ -37,7 +43,7 @@ def generate_prompt_embeddings(prompt, climatebert_model, climatebert_tokenizer,
     
     return climatebert_embeddings, word2vec_embeddings
 
-def get_expanded_keywords(prompt, word2vec_model, top_similar=5):
+def get_expanded_keywords(prompt, word2vec_model, top_similar=50):
     """
     Generate expanded keywords from prompt using Word2Vec similarity.
     Matches the keyword expansion logic from NB03.
@@ -69,7 +75,7 @@ def get_expanded_keywords(prompt, word2vec_model, top_similar=5):
     
     return all_search_terms
 
-def retrieve_relevant_chunks(prompt, country_code=None, top_k=25, alpha=0.5):
+def retrieve_relevant_chunks(prompt, country_code=None, top_k=100, alpha=0.5):
     """
     Main function to retrieve relevant document chunks using hybrid search.
     Follows the exact workflow from NB03.
@@ -87,8 +93,12 @@ def retrieve_relevant_chunks(prompt, country_code=None, top_k=25, alpha=0.5):
     EMBEDDING_MODEL_LOCAL_DIR = os.getenv('EMBEDDING_MODEL_LOCAL_DIR')
     climatebert_tokenizer = AutoTokenizer.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
     climatebert_model = AutoModel.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
-    word2vec_model = Word2Vec.load("./local_model/custom_word2vec_768.model")
-    
+
+    # Use project root path to ensure consistent file loading regardless of working directory
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+    model_path = os.path.join(project_root, "local_model", "custom_word2vec_768.model")
+    word2vec_model = Word2Vec.load(model_path)
+
     # Step 1: Generate embeddings for prompt (matches NB03)
     prompt_climatebert_embeddings = generate_embeddings_for_text(
         prompt, climatebert_model, climatebert_tokenizer
@@ -115,7 +125,7 @@ def retrieve_relevant_chunks(prompt, country_code=None, top_k=25, alpha=0.5):
         
         if df_similarity_score.empty:
             print(f"No documents found for country code: {country_code}")
-            return pd.DataFrame(columns=['text', 'page_number', 'document_title'])
+            return pd.DataFrame(columns=['text','document_title'])
     
     # Step 5: Apply BM25 search exactly like NB03
     bm25_df = bm25_search(all_search_terms, df_similarity_score, k=None)
@@ -124,19 +134,18 @@ def retrieve_relevant_chunks(prompt, country_code=None, top_k=25, alpha=0.5):
     hybrid_results = hybrid_scoring(bm25_df, alpha=alpha)
     
     # Step 7: Return only text, page number, and document name
-    result_columns = ['original_text', 'page_number', 'document_title']
+    result_columns = ['original_text', 'document_title']
     
     # Get top k results and rename columns for clarity
     top_results = hybrid_results[result_columns].head(top_k)
     top_results = top_results.rename(columns={
         'original_text': 'text',
-        'page_number': 'page_number',
         'document_title': 'document_title'
     })
     
     return top_results
 
-def do_retrieval(prompt, country=None, k=25):
+def do_retrieval(prompt, country=None, k=100):
     """
     Simplified interface for document search.
     
@@ -157,7 +166,6 @@ def do_retrieval(prompt, country=None, k=25):
         chunk = {
             'chunk_content': row['text'],
             'document': row['document_title'],
-            'page_number': row['page_number']
         }
         chunks.append(chunk)
     
