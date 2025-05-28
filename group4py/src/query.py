@@ -1,6 +1,7 @@
 from pathlib import Path
 import sys
-from typing import List, Dict, Any
+import sys
+from typing import List, Dict, Any, Optional, Union, Tuple
 import logging
 import os
 from openai import OpenAI
@@ -8,7 +9,6 @@ from openai import OpenAI
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
-from helpers.internal import Logger
 from schema import LLMResponseModel
 from constants.prompts import (
     LLM_SYSTEM_PROMPT,
@@ -26,7 +26,6 @@ class ChunkFormatter:
     """
     
     @staticmethod
-    @Logger.debug_log()
     def format_chunks_for_context(chunks: List[Dict[str, Any]]) -> str:
         """
         Format chunks into a readable context string for the LLM.
@@ -95,7 +94,6 @@ class LLMClient:
             logger.error(f"Failed to initialize LLM client: {e}")
             self.client = None
     
-    @Logger.debug_log()
     def create_llm_prompt(self, question: str, formatted_chunks: str) -> str:
         """
         Create a structured prompt for the LLM based on guided JSON support.
@@ -122,7 +120,6 @@ class LLMClient:
         
         return prompt
     
-    @Logger.debug_log()
     def call_llm(self, prompt: str) -> LLMResponseModel:
         """
         Make API call to LLM service with guided JSON response or fallback parsing.
@@ -222,7 +219,6 @@ class ResponseProcessor:
     """
     
     @staticmethod
-    @Logger.debug_log()
     def process_llm_response(llm_response: LLMResponseModel, original_chunks: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
         Process and validate the structured LLM response.
@@ -435,4 +431,3 @@ class ConfidenceClassification:
         result["chunks"].sort(key=lambda x: x.get("combined_score", 0), reverse=True)
         
         return result
-

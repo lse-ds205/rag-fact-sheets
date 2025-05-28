@@ -8,16 +8,13 @@ import json
 from dotenv import load_dotenv
 from datetime import datetime
 
-# Load environment variables from .env file
-load_dotenv()
-
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
-from helpers.internal import Logger, Test, TaskInfo
 from group4py.src.query import LLMClient, ResponseProcessor, ChunkFormatter, ConfidenceClassification
 
 logger = logging.getLogger(__name__)
+load_dotenv()
 
 def setup_llm(supports_guided_json: bool = True) -> LLMClient:
     """
@@ -149,13 +146,37 @@ def load_chunks_and_prompt_from_file(filepath: str) -> Tuple[List[Dict[str, Any]
         logger.error(f"[5_LLM_RESPONSE] Error loading chunks and prompt from file {filepath}: {e}")
         raise
 
+def extract_main_question(query_text: str) -> str:
+    """
+    Extract the main question from a detailed query that may contain bullet points.
+    
+    Args:
+        query_text: Full query text that may contain detailed instructions
+        
+    Returns:
+        Clean main question without bullet points or detailed instructions
+    """
+    # Split by common separators that indicate additional instructions
+    separators = ['\n\nPlease extract:', '\n\nPlease identify:', '\n\nPlease analyze:', '\n\nPlease determine:']
+    
+    main_question = query_text
+    for separator in separators:
+        if separator in query_text:
+            main_question = query_text.split(separator)[0].strip()
+            break
+    
+    # Clean up any remaining formatting
+    main_question = main_question.strip().rstrip('?') + '?'
+    
+    return main_question
+
 def get_llm_response(llm_client: LLMClient, question: str, chunks: List[Dict[str, Any]]) -> Any:
     """
     Get structured response from LLM using the provided chunks and question.
     
     Args:
         llm_client: Initialized LLM client
-        question: User's question/prompt
+        question: User's question/prompt (can be detailed)
         chunks: List of chunk dictionaries to use as context
         
     Returns:
@@ -169,7 +190,7 @@ def get_llm_response(llm_client: LLMClient, question: str, chunks: List[Dict[str
         chunk_formatter = ChunkFormatter()
         formatted_context = chunk_formatter.format_chunks_for_context(chunks)
         
-        # Create prompt
+        # Create prompt using the full detailed question
         full_prompt = llm_client.create_llm_prompt(question, formatted_context)
         
         # Get structured LLM response
@@ -187,17 +208,15 @@ def get_llm_response(llm_client: LLMClient, question: str, chunks: List[Dict[str
         logger.error(f"[5_LLM_RESPONSE] Error in get_llm_response: {e}\nTraceback: {traceback_string}")
         return None
 
-def process_response(llm_response: Any, original_chunks: List[Dict[str, Any]], question: str) -> Dict[str, Any]:
+def process_response(llm_response: Any, original_chunks: List[Dict[str, Any]], question: str, main_question: str = None) -> Dict[str, Any]:
     """
     Process and validate the LLM response into final JSON format.
-
-    Accepts the structured response from LLM, and original top k chunks. Looks up chunks in the response by ID, then adds chunks to citations.
-    Formats the final response with accurate citations.
 
     Args:
         llm_response: Structured response from LLM (LLMResponseModel or None)
         original_chunks: Original chunk data for validation
-        question: Original question for error context
+        question: Original detailed question for error context
+        main_question: Short version of the question for JSON storage
         
     Returns:
         Final JSON-serializable response dictionary
@@ -214,6 +233,10 @@ def process_response(llm_response: Any, original_chunks: List[Dict[str, Any]], q
             original_chunks=original_chunks
         )
         
+        # Override the question field with the short version if provided
+        if main_question and 'question' in final_response:
+            final_response['question'] = main_question
+        
         logger.info("[5_LLM_RESPONSE] Successfully processed LLM response")
         return final_response
         
@@ -221,12 +244,12 @@ def process_response(llm_response: Any, original_chunks: List[Dict[str, Any]], q
         traceback_string = traceback.format_exc()
         logger.error(f"[5_LLM_RESPONSE] Error in process_response: {e}\nTraceback: {traceback_string}")
         
-        # Return error response
+        # Return error response with main question if available
         return {
             "answer": f"Error processing response: {str(e)}",
             "citations": [],
             "confidence": 0.0,
-            "question": question,
+            "question": main_question or question,
             "error": True,
             "error_details": str(e)
         }
@@ -259,21 +282,25 @@ def process_country_file(file_path: Path) -> Dict[str, Any]:
         for question_id, question_data in retrieve_data.get('questions', {}).items():
             logger.info(f"Processing question ID {question_id}")
             
-            # Get the question text
-            question_text = question_data.get('question')
+            # Get the full query text
+            full_query_text = question_data.get('question')
             
-            if not question_text:
+            if not full_query_text:
                 logger.warning(f"Question ID {question_id} is missing the question text")
                 continue
+            
+            # Extract just the main question for JSON storage
+            main_question = extract_main_question(full_query_text)
+            logger.info(f"Main question extracted: {main_question}")
             
             # Extract top k chunks for the question
             top_k_chunks = question_data.get('top_k_chunks', [])
             
-            # Get LLM response for the question
-            llm_response = get_llm_response(llm_client, question_text, top_k_chunks)
+            # Get LLM response using the FULL detailed query (not just main question)
+            llm_response = get_llm_response(llm_client, full_query_text, top_k_chunks)
             
-            # Process the LLM response
-            processed_response = process_response(llm_response, top_k_chunks, question_text)
+            # Process the LLM response, but store the main question in the JSON
+            processed_response = process_response(llm_response, top_k_chunks, full_query_text, main_question)
             
             # Store the processed response
             results[question_id] = processed_response
@@ -301,49 +328,102 @@ def main():
     """
     try:
         # Setup logging
+        log_dir = project_root / "logs"
+        log_dir.mkdir(parents=True, exist_ok=True)
+        log_file = log_dir / "llm_response.log"
+        
+        # Configure logging to both console and file
         logging.basicConfig(
             level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler(log_file),
+                logging.StreamHandler()
+            ]
         )
         
         logger.info("[5_LLM_RESPONSE] Starting LLM response pipeline...")
         
-        # Default file path for chunks data
-        chunks_file_path = "data/evaluated_chunks.json"
+        # Set up directories
+        retrieve_dir = project_root / "data" / "retrieve"
+        llm_output_dir = project_root / "data" / "llm"
         
-        # Check if file path provided as command line argument
-        if len(sys.argv) > 1:
-            chunks_file_path = sys.argv[1]
+        # Create output directory if it doesn't exist
+        llm_output_dir.mkdir(parents=True, exist_ok=True)
         
-        # Convert to absolute path
-        file_path = Path(chunks_file_path)
-        if not file_path.is_absolute():
-            file_path = Path(project_root) / chunks_file_path
+        # Find all JSON files in the retrieve directory
+        retrieve_files = list(retrieve_dir.glob("*.json"))
         
-        logger.info(f"[5_LLM_RESPONSE] Loading chunks from: {file_path}")
-        
-        # Load chunks and prompt from file
-        chunks, prompt = load_chunks_and_prompt_from_file(str(file_path))
-        
-        # Setup LLM client
-        llm_client = setup_llm(supports_guided_json=True)
-        
-        # Get LLM response
-        llm_response = get_llm_response(llm_client, prompt, chunks)
-        
-        if llm_response is None:
-            logger.error("[5_LLM_RESPONSE] Failed to get LLM response")
+        if not retrieve_files:
+            logger.error(f"No JSON files found in {retrieve_dir}")
             return
         
-        # Process the response
-        final_response = process_response(llm_response, chunks, prompt)
+        logger.info(f"Found {len(retrieve_files)} retrieve files to process")
         
-        # Save the final response
-        output_file = project_root / "data" / "llm_response.json"
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(final_response, f, indent=2, ensure_ascii=False)
+        # Process each retrieve file
+        for retrieve_file in retrieve_files:
+            try:
+                logger.info(f"Processing file: {retrieve_file.name}")
+                
+                # Process the country file
+                llm_results = process_country_file(retrieve_file)
+                
+                # Extract country name for output filename
+                country_name = retrieve_file.stem.split('_')[0]
+                timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                output_filename = f"{country_name}_{timestamp}.json"
+                output_path = llm_output_dir / output_filename
+                
+                # Load original retrieve data to get query texts
+                with open(retrieve_file, 'r', encoding='utf-8') as f:
+                    retrieve_data = json.load(f)
+                
+                # Create the final output structure
+                final_output = {
+                    "metadata": {
+                        "country_name": country_name,
+                        "timestamp": datetime.now().isoformat(),
+                        "source_file": retrieve_file.name,
+                        "description": f"LLM-generated responses for {country_name} based on retrieved chunks",
+                        "question_count": 0
+                    },
+                    "questions": {}
+                }
+                
+                # Process each question result - llm_results keys are question IDs
+                question_count = 0
+                for question_id, question_result in llm_results.items():
+                    if question_id == "metadata":  # Skip metadata from process_country_file
+                        continue
+                    
+                    question_count += 1
+                    
+                    # Get corresponding retrieve data for this question
+                    retrieve_question_data = retrieve_data.get('questions', {}).get(question_id, {})
+                    query_text = retrieve_question_data.get('question', 'Unknown')
+                    
+                    # Build the question structure
+                    final_output["questions"][question_id] = {
+                        "question_number": int(question_id.split('_')[1]) if '_' in question_id else question_count,
+                        "query_text": query_text,
+                        "llm_response": question_result,
+                        "chunk_count": len(question_result.get('citations', []))
+                    }
+                
+                # Update question count in metadata
+                final_output["metadata"]["question_count"] = question_count
+                
+                # Save the LLM response file
+                with open(output_path, 'w', encoding='utf-8') as f:
+                    json.dump(final_output, f, indent=2, ensure_ascii=False)
+                
+                logger.info(f"Saved LLM responses to: {output_path} ({question_count} questions processed)")
+                
+            except Exception as e:
+                logger.error(f"Error processing {retrieve_file.name}: {e}")
+                logger.error(traceback.format_exc())
+                continue
         
-        logger.info(f"[5_LLM_RESPONSE] Final response saved to: {output_file}")
         logger.info("[5_LLM_RESPONSE] LLM response pipeline completed successfully")
         
     except Exception as e:
@@ -366,7 +446,6 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    output_file = Path(args.chunks_file).with_name(Path(args.chunks_file).stem + '_response.json')
     try:
         if args.chunks:
             # Legacy support: create temporary file from JSON string
@@ -399,15 +478,7 @@ if __name__ == "__main__":
                 import os
                 os.unlink(temp_filepath)
         else:
-            # Primary method: use evaluated_chunks.json automatically
-            chunks_file_path = project_root / "data" / "evaluated_chunks.json"
-            
-            if not chunks_file_path.exists():
-                logger.error(f"Evaluated chunks file not found: {chunks_file_path}")
-                print(json.dumps({"error": f"File not found: {chunks_file_path}"}, indent=2, ensure_ascii=False))
-                sys.exit(1)
-            
-            # Run main function directly
+            # Primary method: process retrieve files directly
             main()
         
     except Exception as e:
@@ -416,7 +487,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     # Usage examples:
-    # Primary method (reads from data/evaluated_chunks.json automatically):
+    # Primary method (processes all files from data/retrieve directory):
     # python 5_llm_response.py
     #
     # With prompt override:

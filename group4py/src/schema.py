@@ -5,6 +5,15 @@ from datetime import datetime, date, timezone
 from typing import List, Dict, Any, Optional, Union, Tuple
 from uuid import UUID
 from pydantic import BaseModel, Field, validator
+import json
+
+
+class UUIDEncoder(json.JSONEncoder):
+    """Custom JSON encoder that can handle UUID objects"""
+    def default(self, obj):
+        if isinstance(obj, UUID):
+            return str(obj)
+        return super().default(obj)
 
 
 class DatabaseConfig(BaseModel):

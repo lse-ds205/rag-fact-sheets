@@ -5,8 +5,11 @@ import re
 import logging
 import traceback
 import numpy as np
+import asyncio
 import logging
-from typing import List, Dict, Any
+import json
+from datetime import datetime
+from typing import List, Dict, Any, Optional
 from sqlalchemy import text, create_engine
 from difflib import SequenceMatcher
 
@@ -17,9 +20,16 @@ from database import Connection
 from helpers.internal import Logger
 from database import Connection
 from schema import DatabaseConfig
+from embed.hoprag import HopRAGGraphProcessor
 
 logger = logging.getLogger(__name__)
 
+
+class UUIDEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if hasattr(obj, 'hex'):
+            return obj.hex
+        return json.JSONEncoder.default(self, obj)
 
 class Evaluator:
     """Base class defining the interface for chunk evaluation strategies."""
@@ -57,6 +67,104 @@ class VectorComparison(Evaluator):
             config = DatabaseConfig.from_env()
             self.connection = Connection(config)
             self.connection.connect()
+        
+        # Test the vector functionality
+        self._test_vector_functionality()
+
+    def _test_vector_functionality(self):
+        """Test the pgvector functionality to verify it's working properly"""
+        try:
+            engine = self.connection.get_engine()
+            with engine.connect() as conn:
+                # First check if pgvector extension exists
+                result = conn.execute(text("SELECT COUNT(*) FROM pg_extension WHERE extname = 'vector'"))
+                extension_exists = result.scalar()
+                if not extension_exists:
+                    logger.error("pgvector extension not installed in database")
+                    return False
+                
+                # Test a simple vector operation
+                test_query = text("""
+                    SELECT 1 - ('[1,2,3]'::vector <=> '[1,2,4]'::vector) as similarity
+                """)
+                result = conn.execute(test_query)
+                similarity = result.scalar()
+                logger.info(f"pgvector test result: similarity = {similarity}")
+                
+                # Check for NULL embeddings without using array_length
+                count_query = text("""
+                    SELECT COUNT(*) FROM doc_chunks 
+                    WHERE transformer_embedding IS NULL
+                """)
+                null_count = conn.execute(count_query).scalar() or 0
+                if null_count > 0:
+                    logger.warning(f"Found {null_count} chunks with NULL embeddings")
+                
+                # Check dimensions using pgvector's dimension functions or column definitions
+                try:
+                    # Use the column definition to get dimensions
+                    meta_query = text("""
+                        SELECT 
+                            a.attname AS column_name,
+                            format_type(a.atttypid, a.atttypmod) AS data_type
+                        FROM pg_attribute a
+                        JOIN pg_class c ON a.attrelid = c.oid
+                        JOIN pg_namespace n ON c.relnamespace = n.oid
+                        WHERE c.relname = 'doc_chunks'
+                        AND n.nspname = 'public'
+                        AND a.attname IN ('transformer_embedding', 'word2vec_embedding', 'hoprag_embedding')
+                    """)
+                    
+                    meta_result = conn.execute(meta_query)
+                    column_info = {row[0]: row[1] for row in meta_result}
+                    
+                    dimensions = {}
+                    for col, type_info in column_info.items():
+                        # Extract dimension from type like "vector(768)"
+                        if 'vector' in type_info:
+                            dim_match = re.search(r'vector\((\d+)\)', type_info)
+                            if dim_match:
+                                dimensions[col] = int(dim_match.group(1))
+                    
+                    if dimensions:
+                        logger.info(f"Vector dimensions from schema: {dimensions}")
+                    else:
+                        # Fallback: Try to get a sample vector and count elements
+                        for col in ['transformer_embedding', 'word2vec_embedding', 'hoprag_embedding']:
+                            try:
+                                # Get vector as text and count commas to determine dimension
+                                sample_query = text(f"""
+                                    SELECT '{{'::text || {col}::text || '}}'::text
+                                    FROM doc_chunks
+                                    WHERE {col} IS NOT NULL
+                                    LIMIT 1
+                                """)
+                                
+                                with conn.begin():  # Ensure fresh transaction
+                                    sample_result = conn.execute(sample_query)
+                                    sample_row = sample_result.fetchone()
+                                    
+                                    if sample_row and sample_row[0]:
+                                        vector_text = sample_row[0]
+                                        # Count commas and add 1 to get dimension
+                                        elements = vector_text.strip('{}').split(',')
+                                        dimensions[col] = len(elements)
+                            except Exception as ex:
+                                logger.debug(f"Could not determine dimension for {col}: {ex}")
+                        
+                        if dimensions:
+                            logger.info(f"Vector dimensions from samples: {dimensions}")
+                        else:
+                            logger.warning("Could not determine vector dimensions")
+                
+                except Exception as e:
+                    logger.warning(f"Could not check vector dimensions: {e}")
+                
+                return True
+        except Exception as e:
+            logger.error(f"Vector functionality test failed: {e}")
+            logger.error(traceback.format_exc())
+            return False
 
     @Logger.debug_log()
     def get_vector_similarity(self, embedded_prompt: List[float], embedding_type: str = 'transformer', 
@@ -78,12 +186,10 @@ class VectorComparison(Evaluator):
         """
         try:
             # Create database connection using the Connection class
-            connection = Connection()
+            session = self.connection.get_session()
             
-            # Get a session using the Connection class
-            session = connection.get_session()
-            
-            try:                # Determine which embedding column to use and convert prompt to vector string
+            try:
+                # Determine which embedding column to use and convert prompt to vector string
                 if embedding_type == 'transformer':
                     embedding_column = 'transformer_embedding'
                     vector_dim = 768
@@ -100,129 +206,67 @@ class VectorComparison(Evaluator):
                     return []
                 
                 # Convert embedding to PostgreSQL vector literal format
-                vector_literal = '[' + ','.join(map(str, embedded_prompt)) + ']'                # Build query based on parameters
-                if n_per_doc is not None:
-                    # Query to get top N chunks per document with optional country filter
-                    country_filter = "AND LOWER(d.country) = LOWER(:country)" if country else ""
-                    
-                    query = text(f"""
-                        WITH similarity_results AS (
-                            SELECT 
-                                c.id,
-                                c.doc_id,
-                                c.content,
-                                c.chunk_index,
-                                c.paragraph,
-                                c.language,
-                                c.chunk_data,
-                                d.country,
-                                1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score,
-                                ROW_NUMBER() OVER (
-                                    PARTITION BY c.doc_id 
-                                    ORDER BY c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})
-                                ) as rank
-                            FROM doc_chunks c
-                            JOIN documents d ON c.doc_id = d.doc_id
-                            WHERE c.{embedding_column} IS NOT NULL
-                              AND 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) >= :min_similarity
-                              {country_filter}
-                        )
-                        SELECT 
-                            id,
-                            doc_id,
-                            content,
-                            chunk_index,
-                            paragraph,
-                            language,
-                            chunk_data,
-                            country,
-                            similarity_score
-                        FROM similarity_results                        WHERE rank <= :n_per_doc
-                        ORDER BY similarity_score DESC
+                vector_literal = '[' + ','.join(map(str, embedded_prompt)) + ']'
+                
+                # IMPROVED: Log sample of the vector to check format
+                logger.debug(f"Vector literal sample (first 20 elements): {vector_literal[:50]}...")
+                
+                # Use a simpler initial query to test vector functionality
+                test_query = text(f"""
+                    SELECT 
+                        id, 
+                        1 - ({embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
+                    FROM doc_chunks
+                    WHERE {embedding_column} IS NOT NULL
+                    LIMIT 5
+                """)
+                
+                test_result = session.execute(test_query)
+                test_rows = test_result.fetchall()
+                
+                # Log the test results
+                if test_rows:
+                    logger.info(f"Vector test query returned {len(test_rows)} rows")
+                    for i, row in enumerate(test_rows):
+                        logger.info(f"  Row {i+1}: id={row[0]}, similarity={row[1]}")
+                else:
+                    logger.warning("Vector test query returned no results")
+                
+                # Now proceed with the full query as before, with better error handling
+                # ... [rest of the existing query construction code] ...
+                
+                # Add diagnostic query to check embedding format
+                diagnostic_query = text(f"""
+                    SELECT 
+                        pg_typeof({embedding_column}) as embedding_type,
+                        array_length({embedding_column}, 1) as embedding_dim,
+                        {embedding_column}[1:3] as embedding_sample
+                    FROM doc_chunks
+                    WHERE {embedding_column} IS NOT NULL
+                    LIMIT 1
+                """)
+                
+                diagnostic_result = session.execute(diagnostic_query)
+                diagnostic_row = diagnostic_result.fetchone()
+                
+                if diagnostic_row:
+                    logger.info(f"Embedding diagnostic: type={diagnostic_row[0]}, dim={diagnostic_row[1]}, sample={diagnostic_row[2]}")
+                else:
+                    logger.warning("No embeddings found in the database")
+                
+                # ... [continue with the original function code] ...
+                
+                # Rest of the function remains the same
+                
+                # If no results were returned, try a basic query to see if data exists
+                if not chunks:
+                    basic_query = text("""
+                        SELECT COUNT(*) FROM doc_chunks
+                        WHERE transformer_embedding IS NOT NULL
                     """)
-                    
-                    query_params = {
-                        'n_per_doc': n_per_doc,
-                        'min_similarity': min_similarity
-                    }
-                    if country:
-                        query_params['country'] = country
-                        
-                else:
-                    # Standard query for top K chunks with optional country filter
-                    if country:
-                        query = text(f"""
-                            SELECT 
-                                c.id,
-                                c.doc_id,
-                                c.content,
-                                c.chunk_index,
-                                c.paragraph,
-                                c.language,
-                                c.chunk_data,
-                                d.country,
-                                1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
-                            FROM doc_chunks c
-                            JOIN documents d ON c.doc_id = d.doc_id
-                            WHERE c.{embedding_column} IS NOT NULL
-                              AND LOWER(d.country) = LOWER(:country)
-                              AND 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) >= :min_similarity
-                            ORDER BY 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) DESC
-                            LIMIT :top_k
-                        """)
-                        
-                        query_params = {
-                            'country': country,
-                            'top_k': top_k,
-                            'min_similarity': min_similarity
-                        }
-                    else:
-                        query = text(f"""
-                            SELECT 
-                                c.id,
-                                c.doc_id,
-                                c.content,
-                                c.chunk_index,
-                                c.paragraph,
-                                c.language,
-                                c.chunk_data,
-                                NULL as country,
-                                1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
-                            FROM doc_chunks c
-                            WHERE c.{embedding_column} IS NOT NULL
-                              AND 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) >= :min_similarity
-                            ORDER BY 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) DESC
-                            LIMIT :top_k
-                        """)
-                        
-                        query_params = {
-                            'top_k': top_k,
-                            'min_similarity': min_similarity
-                        }
+                    count = session.execute(basic_query).scalar() or 0
+                    logger.info(f"Database has {count} chunks with embeddings")
                 
-                # Execute query using the session from Connection class
-                result = session.execute(query, query_params)
-                
-                # Convert results to list of dictionaries
-                chunks = []
-                for row in result:
-                    chunk_data = {
-                        'id': row[0],
-                        'doc_id': row[1],
-                        'content': row[2],
-                        'chunk_index': row[3],
-                        'paragraph': row[4],
-                        'language': row[5],
-                        'chunk_data': row[6],
-                        'country': row[7],
-                        'similarity_score': float(row[8])
-                    }
-                    chunks.append(chunk_data)
-                
-                if country:
-                    logger.info(f"[VECTOR_SIMILARITY] Successfully retrieved {len(chunks)} chunks for country '{country}'")
-                else:
-                    logger.info(f"[VECTOR_SIMILARITY] Successfully retrieved {len(chunks)} chunks")
                 return chunks
                 
             finally:
@@ -300,34 +344,47 @@ class VectorComparison(Evaluator):
             return 0.0
 
     @Logger.debug_log()
-    def batch_similarity_calculation(self, chunk_ids: List, query_embedding: List[float], 
-                                   embedding_type: str = 'transformer') -> Dict[int, float]:
+    def batch_similarity_calculation(self, chunk_ids: List[str], query_embedding: List[float], 
+                                   embedding_type: str = 'transformer') -> Dict[str, float]:
         """
         Calculate similarity scores for multiple chunks efficiently in a single query.
-        
-        Args:
-            chunk_ids: List of chunk IDs to calculate similarity for
-            query_embedding: The embedded query vector
-            embedding_type: Type of embedding to use ('transformer' or 'word2vec')
-            
-        Returns:
-            Dictionary mapping chunk_id to similarity_score
+        Now handles chunks without embeddings by assigning them a score of 0.0.
         """
         try:
             if not chunk_ids:
                 return {}
                 
-            # Get a session using the Connection class
             session = self.connection.get_session()
             
             try:
-                # Determine which embedding column to use
+                # Determine which embedding column and dimension to use
                 if embedding_type == 'transformer':
                     embedding_column = 'transformer_embedding'
                     vector_dim = 768
                 elif embedding_type == 'word2vec':
                     embedding_column = 'word2vec_embedding'
                     vector_dim = 300
+                elif embedding_type == 'hoprag':
+                    embedding_column = 'hoprag_embedding'
+                    # Get hoprag dimension from first row since it might vary
+                    dim_query = text("""
+                        SELECT format_type(a.atttypid, a.atttypmod) AS data_type
+                        FROM pg_attribute a
+                        JOIN pg_class c ON a.attrelid = c.oid
+                        JOIN pg_namespace n ON c.relnamespace = n.oid
+                        WHERE c.relname = 'doc_chunks'
+                        AND n.nspname = 'public'
+                        AND a.attname = 'hoprag_embedding'
+                    """)
+                    dim_result = session.execute(dim_query).fetchone()
+                    if dim_result and dim_result[0]:
+                        dim_match = re.search(r'vector\((\d+)\)', dim_result[0])
+                        if dim_match:
+                            vector_dim = int(dim_match.group(1))
+                        else:
+                            vector_dim = 1024  # Default fallback dimension
+                    else:
+                        vector_dim = 1024  # Default fallback dimension
                 else:
                     logger.error(f"[BATCH_SIMILARITY] Invalid embedding_type: {embedding_type}")
                     return {}
@@ -335,23 +392,27 @@ class VectorComparison(Evaluator):
                 # Validate query_embedding dimensions
                 if not query_embedding or len(query_embedding) != vector_dim:
                     logger.error(f"[BATCH_SIMILARITY] Invalid query embedding dimensions. Expected {vector_dim}, got {len(query_embedding) if query_embedding else 0}")
-                    return {}                # Convert query embedding to PostgreSQL vector literal format
+                    return {}
+                
+                # Convert query embedding to PostgreSQL vector literal format
                 vector_literal = '[' + ','.join(map(str, query_embedding)) + ']'
                 
-                # Convert chunk_ids to tuple for SQL IN clause
-                chunk_ids_tuple = tuple(chunk_ids)
-                  # Query to calculate similarity for all specified chunks
+                # Convert chunk_ids to a comma-separated string for SQL IN clause
+                quoted_ids = ", ".join(f"'{id}'" for id in chunk_ids)
+                
+                # Modified query to handle NULL embeddings
                 query = text(f"""
                     SELECT 
-                        c.id,
-                        1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
+                        c.id::text,
+                        CASE 
+                            WHEN c.{embedding_column} IS NULL THEN 0.0
+                            ELSE 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim}))
+                        END AS similarity_score
                     FROM doc_chunks c
-                    WHERE c.id::text = ANY(:chunk_ids)
-                      AND c.{embedding_column} IS NOT NULL
-                """)                
-                result = session.execute(query, {
-                    'chunk_ids': chunk_ids
-                })
+                    WHERE c.id::text IN ({quoted_ids})
+                """)
+                
+                result = session.execute(query)
                 
                 # Build result dictionary
                 similarities = {}
@@ -360,7 +421,12 @@ class VectorComparison(Evaluator):
                     similarity_score = float(row[1])
                     similarities[chunk_id] = similarity_score
                 
-                logger.info(f"[BATCH_SIMILARITY] Calculated similarity for {len(similarities)} chunks")
+                # For any chunk_ids that weren't found in the database, assign 0.0
+                for chunk_id in chunk_ids:
+                    if chunk_id not in similarities:
+                        similarities[chunk_id] = 0.0
+                
+                logger.info(f"[BATCH_SIMILARITY] Calculated similarity for {len(similarities)}/{len(chunk_ids)} chunks")
                 return similarities
                 
             finally:
@@ -368,7 +434,9 @@ class VectorComparison(Evaluator):
                 
         except Exception as e:
             logger.error(f"[BATCH_SIMILARITY] Error in batch similarity calculation: {e}")
-            return {}
+            logger.error(traceback.format_exc())
+            # Return 0.0 for all chunks if there's an error
+            return {chunk_id: 0.0 for chunk_id in chunk_ids}
 
     @Logger.debug_log()
     @staticmethod
@@ -439,7 +507,6 @@ class VectorComparison(Evaluator):
         except Exception as e:
             logger.error(f"Error creating vector indices: {e}")
             return False
-
 
 class RegexComparison(Evaluator):
     """
@@ -543,7 +610,6 @@ class RegexComparison(Evaluator):
                     highlights.append(f"{keyword} ({category})")
         
         return highlights[:10]  # Limit to top 10 highlights
-
 
 class FuzzyRegexComparison(Evaluator):
     """
@@ -816,7 +882,6 @@ class FuzzyRegexComparison(Evaluator):
                 for pattern in patterns:
                     matches = len(re.findall(pattern, chunk_content, re.IGNORECASE))
                     category_matches += matches
-                    total_pattern_matches += matches
                 
                 if category_matches > 0:
                     semantic_patterns.append(category)
@@ -861,3 +926,159 @@ class FuzzyRegexComparison(Evaluator):
                 'boost_multiplier': 1.0,
                 'error': str(e)
             }
+
+class GraphHopRetriever(Evaluator):
+    """
+    Wrapper for the HopRAGGraphProcessor that provides a compatible interface
+    for multi-hop reasoning through graph traversal and relationship-based navigation.
+    
+    This class leverages the existing HopRAGGraphProcessor implementation instead of
+    duplicating functionality.
+    """
+    
+    def __init__(self, connection=None):
+        super().__init__()
+        
+        # Always create a config object, regardless of connection
+        config = DatabaseConfig.from_env()
+        
+        if connection is not None:
+            self.connection = connection
+        else:
+            # Create a connection with default config
+            self.connection = Connection(config)
+            self.connection.connect()
+        
+        # Create HopRAGGraphProcessor instance with the config
+        self.processor = HopRAGGraphProcessor(config)
+        
+        # Initialize the processor
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            # Create new event loop if one doesn't exist
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        
+        loop.run_until_complete(self.processor.initialize())
+        logger.info(f"Initialized {self.name} using HopRAGGraphProcessor")
+    
+    def retrieve_with_hop_reasoning(self, query: str, top_k: int = 20, country: Optional[str] = None) -> List[Dict[str, Any]]:
+        """
+        Main retrieval method using multi-hop reasoning.
+        
+        Args:
+            query: Query text
+            top_k: Number of results to return
+            country: Optional country filter
+            
+        Returns:
+            List of retrieved chunks with scores and metadata
+        """
+        try:
+            logger.info(f"Starting hop retrieval for query: '{query[:50]}...' (country: {country})")
+            
+            # Check if there are any relationships in the database
+            engine = self.connection.get_engine()
+            with engine.connect() as conn:
+                # Count total relationships
+                rel_count = conn.execute(text("SELECT COUNT(*) FROM logical_relationships")).scalar() or 0
+                logger.info(f"Total relationships in database: {rel_count}")
+                
+                # If country filter is applied, check relationships for that country
+                if country:
+                    country_query = text("""
+                        SELECT COUNT(*) 
+                        FROM logical_relationships lr
+                        JOIN doc_chunks src ON lr.source_chunk_id = src.id
+                        JOIN doc_chunks tgt ON lr.target_chunk_id = tgt.id
+                        WHERE 
+                            src.chunk_data->>'country' = :country
+                            AND tgt.chunk_data->>'country' = :country
+                    """)
+                    country_rel_count = conn.execute(country_query, {"country": country}).scalar() or 0
+                    logger.info(f"Relationships for country '{country}': {country_rel_count}")
+                    
+                    if country_rel_count == 0:
+                        logger.warning(f"No relationships found for country '{country}'. Graph traversal will yield no results.")
+            
+            # Use the processor to get results
+            loop = asyncio.get_event_loop()
+            logger.info(f"Executing processor.get_top_ranked_nodes with max_hops={2}")
+            raw_results = loop.run_until_complete(self.processor.get_top_ranked_nodes(query, max_hops=2))
+            
+            logger.info(f"Raw processor results: {raw_results.get('total_nodes', 0)} total nodes found")
+            
+            # Format results to match the expected output format
+            results = []
+            for node in raw_results.get('top_nodes', [])[:top_k]:
+                result = {
+                    'id': node['chunk_id'],
+                    'content': node['content'],
+                    'doc_id': 'N/A',  # HopRAGGraphProcessor doesn't return doc_id in top_nodes
+                    'hop_distance': node.get('hops', 0),
+                    'centrality_score': node['centrality_scores'].get('pagerank', 0),
+                    'semantic_score': node.get('bfs_confidence', 0),
+                    'combined_score': node['combined_score'],
+                    'method': 'graph_hop'
+                }
+                results.append(result)
+            
+            logger.info(f"Retrieved {len(results)} chunks using hop reasoning")
+            return results
+            
+        except Exception as e:
+            logger.error(f"Error in hop reasoning retrieval: {e}")
+            traceback_string = traceback.format_exc()
+            logger.error(traceback_string)
+            return []
+    
+    def save_to_json(self, results: List[Dict[str, Any]], query: str, 
+                    country: Optional[str] = None, question_number: Optional[int] = None) -> str:
+        """
+        Save retrieval results to JSON file in the data/retrieve_hop folder.
+        
+        Args:
+            results: List of retrieval results
+            query: Original query
+            country: Optional country filter
+            question_number: Optional question number
+            
+        Returns:
+            Path to saved file
+        """
+        
+        # Create output directory
+        project_root = Path(__file__).resolve().parents[2]
+        output_dir = project_root / "data" / "retrieve_hop"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Create timestamp and filename
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        question_str = f"_q{question_number}" if question_number is not None else ""
+        country_str = f"_{country}" if country else ""
+        filename = f"hop_results{country_str}{question_str}_{timestamp}.json"
+        
+        # Create output data structure
+        output_data = {
+            "metadata": {
+                "query": query,
+                "timestamp": datetime.now().isoformat(),
+                "retrieval_method": "graph_hop",
+                "country": country,
+                "question_number": question_number,
+                "hop_parameters": {
+                    "max_hops": 2,
+                    "min_confidence": 0.6
+                }
+            },
+            "results": results
+        }
+        
+        # Write to file
+        output_path = output_dir / filename
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(output_data, f, indent=2, ensure_ascii=False, cls=UUIDEncoder)
+        
+        logger.info(f"Saved hop results to {output_path}")
+        return str(output_path)

@@ -173,3 +173,97 @@ Please identify:
 - Mentions of just transition for workers in high-emission industries
 - Discussion of equitable burden-sharing among countries
 """
+
+
+# ------------------------------------------------------------------------------------------------
+
+
+"""
+HopRAG Keywords for enhanced retrieval
+Keyword mapping for HopRAG retrieval to improve initial text matching.
+Each prompt is mapped to specific keywords that are likely to appear in NDC documents.
+"""
+
+# Map question prompts to relevant keywords for better hop retrieval
+HOP_KEYWORDS = {
+    # Question 1: Emissions reduction targets
+    1: [
+        "reduction target", "emissions target", "reduce emissions", "GHG emissions", "carbon emissions",
+        "target of", "reduction of", "reduce by", "decrease by", "lowering emissions",
+        "% reduction", "percent reduction", "percentage reduction", "reduction by",
+        "unconditional target", "conditional target", "economy-wide target", "sectoral target",
+        "absolute reduction", "relative reduction", "mitigation target", "climate target",
+        "CO2 reduction", "carbon dioxide reduction", "greenhouse gas reduction"
+    ],
+    
+    # Question 2: Baseline year
+    2: [
+        "baseline year", "reference year", "base year", "compared to", "relative to",
+        "with reference to", "business as usual", "BAU scenario", "BAU emissions",
+        "reference scenario", "emissions in", "level in", "from the year", "since",
+        "GHG inventory", "national inventory", "emissions inventory", "emissions level",
+        "tonnes CO2", "tons CO2", "CO2 equivalent", "CO2eq", "MtCO2e", "GtCO2e"
+    ],
+    
+    # Question 3: NDC changes
+    3: [
+        "previous NDC", "initial NDC", "first NDC", "earlier submission", "prior submission",
+        "updated NDC", "enhanced NDC", "revised NDC", "new NDC", "current NDC",
+        "increased ambition", "enhanced ambition", "strengthened targets", "more ambitious",
+        "compared to previous", "in contrast to", "differs from", "change from", "revision of",
+        "additional measures", "further commitments", "new commitments", "additional sectors"
+    ],
+    
+    # Question 4: Policies and strategies
+    4: [
+        "implementation", "policy measures", "mitigation actions", "mitigation measures", "policy instruments",
+        "action plan", "strategy", "strategic plan", "roadmap", "framework", "program", "programme",
+        "renewable energy", "energy efficiency", "clean energy", "sustainable transport", "electric vehicles",
+        "carbon pricing", "carbon tax", "emissions trading", "cap and trade", "market mechanisms",
+        "reforestation", "afforestation", "REDD+", "land use", "agriculture", "waste management",
+        "national development plan", "sectoral plan", "action", "measure", "initiative"
+    ],
+    
+    # Question 5: Hard-to-reduce sectors
+    5: [
+        "challenging sectors", "difficult sectors", "hard to abate", "hard-to-abate", "limitations",
+        "barriers", "constraints", "challenges", "difficult to", "heavy industry", "cement",
+        "steel", "chemicals", "industrial processes", "freight transport", "aviation", "shipping",
+        "international support", "technology transfer", "capacity building", "technical assistance",
+        "highest emitting", "major emitters", "projected growth", "emissions growth", "growing emissions"
+    ],
+    
+    # Question 6: Adaptation measures
+    6: [
+        "adaptation", "adapt to", "climate resilience", "climate-resilient", "resilient development",
+        "vulnerability", "vulnerable sectors", "vulnerable communities", "climate risk", "climate impacts",
+        "water resources", "water management", "agriculture", "food security", "coastal protection",
+        "disaster risk", "disaster management", "health impacts", "biodiversity", "ecosystem services",
+        "climate-proofing", "adaptive capacity", "national adaptation", "NAP", "NAPA"
+    ],
+    
+    # Question 7: Climate finance
+    7: [
+        "climate finance", "financial resources", "financial support", "funding", "investment needs",
+        "billion USD", "million USD", "cost estimate", "estimated cost", "financing gap",
+        "international support", "domestic resources", "private sector", "public finance", "climate fund",
+        "green climate fund", "GCF", "adaptation fund", "financial mechanism", "innovative financing",
+        "conditional upon", "subject to", "dependent on", "requires support", "financial requirement"
+    ],
+    
+    # Question 8: Climate justice and equity
+    8: [
+        "equity", "equitable", "fair share", "climate justice", "just transition", "social justice",
+        "common but differentiated responsibilities", "CBDR", "historical responsibility", "historical emissions",
+        "vulnerable groups", "indigenous", "gender", "women", "youth", "marginalized communities",
+        "distributional impacts", "poverty reduction", "human rights", "intergenerational equity",
+        "burden sharing", "responsibility", "capability", "sustainable development goals", "SDGs"
+    ]
+}
+
+# Keywords that work well across multiple question types
+GENERAL_NDC_KEYWORDS = [
+    "nationally determined contribution", "NDC", "Paris Agreement", "climate change", 
+    "mitigation", "adaptation", "greenhouse gas", "GHG", "emissions", 
+    "climate policy", "climate action", "UNFCCC", "carbon", "climate goals"
+]

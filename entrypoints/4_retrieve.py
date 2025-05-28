@@ -5,6 +5,7 @@ import traceback
 import argparse
 from typing import List, Dict, Any, Optional, Union, Tuple
 from dotenv import load_dotenv
+from sqlalchemy import text
 import json
 from datetime import datetime
 
@@ -13,14 +14,15 @@ sys.path.insert(0, str(project_root))
 import group4py
 from database import Connection
 from helpers.internal import Logger
-from evaluator import VectorComparison, RegexComparison, FuzzyRegexComparison
+from evaluator import VectorComparison, RegexComparison, FuzzyRegexComparison, GraphHopRetriever
 from embedding import TransformerEmbedding
 from constants.prompts import (
     QUESTION_PROMPT_1, QUESTION_PROMPT_2, QUESTION_PROMPT_3, QUESTION_PROMPT_4,
-    QUESTION_PROMPT_5, QUESTION_PROMPT_6, QUESTION_PROMPT_7, QUESTION_PROMPT_8
+    QUESTION_PROMPT_5, QUESTION_PROMPT_6, QUESTION_PROMPT_7, QUESTION_PROMPT_8,
+    HOP_KEYWORDS, GENERAL_NDC_KEYWORDS
 )
 from database import Connection
-from schema import DatabaseConfig
+from schema import DatabaseConfig, UUIDEncoder
 
 logger = logging.getLogger(__name__)
 load_dotenv()
@@ -47,39 +49,35 @@ def embed_prompt(prompt):
     Returns:
         list: Vector embedding of the prompt (list of floats)
     """
-    try:  
+    try:
         embedding_model = TransformerEmbedding()
         embedding_model.load_models()
         embedded_prompt = embedding_model.embed_transformer(prompt)
+        
         return embedded_prompt
     
     except Exception as e:
         traceback_string = traceback.format_exc()
-        logger.error(f"Error embedding prompt: {traceback_string}")
-        raise e
+        logger.error(f"[4_RETRIEVE] Error embedding prompt: {e}")
+        logger.error(f"[4_RETRIEVE] Traceback: {traceback_string}")
+        return None
 
 def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: List[float] = None) -> List[Dict[str, Any]]:
     """
     Evaluate chunks using multiple comparison methods: vector similarity, regex patterns, and fuzzy matching.
-    
-    Args:
-        prompt: The original user query
-        chunks: List of chunk dictionaries to evaluate
-        embedded_prompt: Optional embedded prompt vector for additional similarity calculations
-        
-    Returns:
-        List of chunks with evaluation scores and metadata added
+    Now handles chunks without embeddings gracefully.
     """
     if not chunks:
         return []
 
     try:
-        # Step 1: Calculate vector similarities for all chunks
-        
         # Create database config and connection for VectorComparison
         config = DatabaseConfig.from_env()
         db_connection = Connection(config)
-        if not db_connection.connect():
+        
+        chunks_with_similarity = []
+        
+        if not db_connection.connect() or embedded_prompt is None:
             # Fall back to chunks without similarity scores
             for chunk in chunks:
                 chunk['similarity_score'] = 0.0
@@ -91,7 +89,7 @@ def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: 
             # Get chunk IDs for batch similarity calculation
             chunk_ids = [chunk['id'] for chunk in chunks]
             
-            # Calculate similarities in batch
+            # Calculate similarities in batch (now handles NULL embeddings)
             similarities = vector_comp.batch_similarity_calculation(
                 chunk_ids=chunk_ids,
                 query_embedding=embedded_prompt,
@@ -99,12 +97,9 @@ def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: 
             )
             
             # Add similarity scores to chunks
-            chunks_with_similarity = []
             for chunk in chunks:
                 chunk_id = chunk['id']
                 similarity_score = similarities.get(chunk_id, 0.0)
-                
-                # Add similarity score to chunk
                 chunk['similarity_score'] = similarity_score
                 chunks_with_similarity.append(chunk)
         
@@ -158,9 +153,9 @@ def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: 
             fuzzy_score = evaluated_chunk.get('fuzzy_score', 0.0)
             
             # Configurable weights for different scoring methods
-            vector_weight = 0.55  # Vector similarity has highest weight
-            regex_weight = 0.25   # Direct keyword matches
-            fuzzy_weight = 0.20   # Fuzzy contextual matching
+            vector_weight = 0.40  # Vector similarity has highest weight
+            regex_weight = 0.35   # Direct keyword matches
+            fuzzy_weight = 0.25   # Fuzzy contextual matching
             
             # Combine scores
             combined_score = (
@@ -188,10 +183,13 @@ def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: 
         
     except Exception as e:
         traceback_string = traceback.format_exc()
-        # Return original chunks if evaluation fails
+        # Return original chunks with 0.0 similarity scores if evaluation fails
+        for chunk in chunks:
+            if 'similarity_score' not in chunk:
+                chunk['similarity_score'] = 0.0
         return chunks
 
-def retrieve_chunks(embedded_prompt, prompt, embedding_type='transformer', top_k=20, 
+def retrieve_chunks(embedded_prompt, prompt, top_k=20, 
                    ensure_indices=True, country=None, n_per_doc=None, min_similarity=0.0):
     """
     Retrieve and evaluate the most similar chunks from the database using comprehensive evaluation.
@@ -223,12 +221,75 @@ def retrieve_chunks(embedded_prompt, prompt, embedding_type='transformer', top_k
         if not db_connection.connect():
             return []
         
-        # Get all chunks for the specified country or all chunks
-        all_chunks = db_connection.get_all_chunks_for_evaluation(country=country)
-        
-        if not all_chunks:
+        # Get all chunks from database (without filtering by country in SQL)
+        session = db_connection.get_session()
+        try:
+            # Get all chunks without country filtering in SQL
+            query = text("SELECT * FROM doc_chunks")
+            result = session.execute(query)
+            all_chunks = []
+            
+            for row in result:
+                # Ensure all potential UUID values are converted to strings
+                chunk = {
+                    'id': str(row.id),
+                    'content': row.content,
+                    'doc_id': str(row.doc_id),  # Convert doc_id to string in case it's a UUID
+                    'chunk_data': row.chunk_data
+                }
+                
+                # Filter by country in memory using the chunk_data JSON
+                if country is not None:
+                    chunk_country = chunk.get('chunk_data', {}).get('country', '')
+                    if chunk_country.lower() != country.lower():
+                        continue
+                
+                all_chunks.append(chunk)
+            
+            session.close()
+        except Exception as e:
+            print(f"[4_RETRIEVE] Error retrieving chunks: {e}")
+            if session:
+                session.close()
             return []
         
+        # Add debugging to see what countries we actually retrieved
+        if all_chunks:
+            # Extract country from chunk_data JSON
+            countries_found = set()
+            for chunk in all_chunks:
+                chunk_country = chunk.get('chunk_data', {}).get('country', 'Unknown')
+                countries_found.add(chunk_country)
+            
+            print(f"[4_RETRIEVE] DEBUG: Found chunks from {len(countries_found)} countries: {sorted(countries_found)}")
+            
+            # Show count per country
+            country_counts = {}
+            for chunk in all_chunks:
+                chunk_country = chunk.get('chunk_data', {}).get('country', 'Unknown')
+                country_counts[chunk_country] = country_counts.get(chunk_country, 0) + 1
+            
+            for country_name, count in sorted(country_counts.items()):
+                print(f"[4_RETRIEVE] DEBUG: {country_name}: {count} chunks")
+        else:
+            print("[4_RETRIEVE] DEBUG: No chunks retrieved from database")
+            
+            # Check if there are any chunks in the database at all
+            try:
+                session = db_connection.get_session()
+                total_count = session.execute(text("SELECT COUNT(*) FROM doc_chunks")).scalar()
+                print(f"[4_RETRIEVE] DEBUG: Database has {total_count} total chunks")
+                
+                # Get list of all countries in database using JSON extraction
+                countries_in_db = session.execute(text(
+                    "SELECT DISTINCT chunk_data->>'country' FROM doc_chunks WHERE chunk_data->>'country' IS NOT NULL ORDER BY chunk_data->>'country'"
+                )).fetchall()
+                countries_list = [row[0] for row in countries_in_db if row[0]]
+                print(f"[4_RETRIEVE] DEBUG: Countries in database: {countries_list}")
+                session.close()
+            except Exception as e:
+                print(f"[4_RETRIEVE] DEBUG: Error checking database: {e}")
+
         # Step 2: Run comprehensive evaluation on ALL chunks (includes vector similarity calculation)
         evaluated_chunks = evaluate_chunks(
             prompt=prompt, 
@@ -272,87 +333,292 @@ def retrieve_chunks(embedded_prompt, prompt, embedding_type='transformer', top_k
             
     except Exception as e:
         traceback_string = traceback.format_exc()
-        logger.error(f"Error retrieving chunks: {traceback_string}")
         return []
 
 
-@Logger.log(log_file=project_root / "logs/retrieve.log", log_level="DEBUG")
-def run_script(question_number: int = None, country: Optional[str] = None) -> List[Dict[str, Any]]:
+def retrieve_chunks_with_hop(prompt: str, top_k: int = 20, country: Optional[str] = None, 
+                           question_number: Optional[int] = None) -> List[Dict[str, Any]]:
+    """
+    Retrieve chunks using graph-based multi-hop reasoning through relationship-based navigation.
+    
+    Args:
+        prompt: Query text to search for
+        top_k: Number of top chunks to retrieve (default: 20)
+        country: Optional country filter
+        question_number: Optional question number for keyword enhancement
+        
+    Returns:
+        List of dictionaries containing chunks with scores and metadata
+    """
+    try:
+        print(f"[HOP_RETRIEVE] Starting hop retrieval for query: '{prompt[:50]}...'")
+        
+        # Enhance query with relevant keywords from HOP_KEYWORDS
+        enhanced_query = prompt
+        
+        if question_number is not None and question_number in HOP_KEYWORDS:
+            # Get keywords for this specific question number
+            keywords = HOP_KEYWORDS[question_number]
+            # Take a subset of keywords to avoid overly long queries
+            selected_keywords = " ".join(keywords[:8])
+            enhanced_query = f"{selected_keywords}"
+            print(f"[HOP_RETRIEVE] Enhanced query with keywords for question {question_number}")
+            print(f"[HOP_RETRIEVE] Using keywords: {selected_keywords}")
+        else:
+            # Use general NDC keywords if no specific question number
+            selected_keywords = " ".join(GENERAL_NDC_KEYWORDS[:5])
+            enhanced_query = f"{selected_keywords}"
+            print(f"[HOP_RETRIEVE] Using general keywords: {selected_keywords}")
+        
+        # Create database connection
+        config = DatabaseConfig.from_env()
+        db_connection = Connection(config)
+        if not db_connection.connect():
+            print("[HOP_RETRIEVE] Failed to connect to database")
+            return []
+        
+        # Check if logical_relationships table has data
+        engine = db_connection.get_engine()
+        with engine.connect() as conn:
+            # Check total relationship count
+            rel_count = conn.execute(text("SELECT COUNT(*) FROM logical_relationships")).scalar() or 0
+            print(f"[HOP_RETRIEVE] Found {rel_count} total relationships in database")
+            
+            # Check chunk count for the specified country
+            if country:
+                country_chunks = conn.execute(
+                    text("SELECT COUNT(*) FROM doc_chunks WHERE chunk_data->>'country' = :country"),
+                    {"country": country}
+                ).scalar() or 0
+                print(f"[HOP_RETRIEVE] Found {country_chunks} chunks for country '{country}'")
+        
+        # Initialize the GraphHopRetriever
+        hop_retriever = GraphHopRetriever(connection=db_connection)
+        
+        # Retrieve chunks using graph-based hop reasoning with enhanced query
+        print(f"[HOP_RETRIEVE] Executing hop reasoning retrieval with enhanced query")
+        results = hop_retriever.retrieve_with_hop_reasoning(
+            query=enhanced_query,
+            top_k=top_k,
+            country=country
+        )
+        
+        if not results:
+            print("[HOP_RETRIEVE] No results returned from hop reasoning")
+        else:
+            print(f"[HOP_RETRIEVE] Retrieved {len(results)} chunks using hop reasoning")
+        
+        # Don't save individual files - we'll save one consolidated file per country
+        return results
+        
+    except Exception as e:
+        print(f"[HOP_RETRIEVE] Error in graph hop retrieval: {e}")
+        traceback_string = traceback.format_exc()
+        print(f"[HOP_RETRIEVE] Traceback: {traceback_string}")
+        return []
+
+@Logger.log(log_file=project_root / "logs/retrieve.log", log_level="INFO")
+def run_script(question_number: int = None, country: Optional[str] = None, 
+              use_hop_retrieval: bool = False) -> List[Dict[str, Any]]:
     """
     Main function to run the retrieval script.
     Args:
-        question_number (int): The question number (1-8) to use from predefined prompts.
+        question_number (int): The question number (1-8) to use from predefined prompts. If None, runs all questions.
         country (Optional[str]): Optional country name to filter documents by.
+        use_hop_retrieval (bool): Whether to use graph-based hop retrieval in addition to vector retrieval.
     
     Returns:
         List[Dict[str, Any]]: List of retrieved chunks with metadata.
     
     """
     try:
-        # Select the question prompt based on the question number
-        if question_number is None or question_number not in QUESTION_PROMPTS:
-            question_number = 1  # Default to question 1 if invalid or not provided
+        # Create retrieve directories if they don't exist
+        retrieve_dir = project_root / "data" / "retrieve"
+        retrieve_dir.mkdir(parents=True, exist_ok=True)
         
-        # Get the prompt text from the corresponding QUESTION_PROMPT
-        prompt = QUESTION_PROMPTS[question_number]
+        retrieve_hop_dir = project_root / "data" / "retrieve_hop"
+        retrieve_hop_dir.mkdir(parents=True, exist_ok=True)
         
-        # Define an example country for use, only if country is specified
-        if country is None:
-            # Don't default to a specific country - retrieve from all countries
-            country = None
-
-        # Step 1: Embed the prompt
-        embedded_prompt = embed_prompt(prompt)
+        all_evaluated_chunks = []
         
-        # Step 2: Retrieve and evaluate chunks in a single function call
-        evaluated_chunks = retrieve_chunks(
-            embedded_prompt=embedded_prompt,
-            prompt=prompt,
-            embedding_type='transformer',  # Better semantic understanding
-            top_k=20,                      # Retrieve top 20 chunks
-            ensure_indices=True,           # Ensure indices are created
-            n_per_doc=None,                # Get diversity across documents
-            country=country,               # Filter by country (None = all countries)
-            min_similarity=0.3             # Lower threshold to see more results
-        )
-        
-        if evaluated_chunks:
-            # Create a metadata object to include with the evaluated chunks
-            metadata = {
-                "question_number": question_number,
-                "query_text": prompt,
-                "country": country,
-                "timestamp": datetime.now().isoformat(),
-                "chunk_count": len(evaluated_chunks)
-            }
-            
-            # Create final output with query information and evaluated chunks
-            final_output = {
-                "metadata": metadata,
-                "evaluated_chunks": evaluated_chunks
-            }
-            
-            # Save only the evaluated chunks with score breakdowns
-            evaluated_output_path = project_root / "data/evaluated_chunks.json"
-            with open(evaluated_output_path, "w", encoding="utf-8") as f:
-                json.dump(final_output, f, ensure_ascii=False, indent=2)
-            
-            return evaluated_chunks
+        # Determine which questions to run
+        if question_number is not None and question_number in QUESTION_PROMPTS:
+            questions_to_run = [question_number]
         else:
-            return []
+            questions_to_run = list(range(1, 9))  # Run all questions 1-8
+        
+        print(f"[4_RETRIEVE] Running questions: {questions_to_run}")
+        
+        # If no specific country is provided, get all countries from database
+        if country is None:
+            config = DatabaseConfig.from_env()
+            db_connection = Connection(config)
+            if db_connection.connect():
+                session = db_connection.get_session()
+                try:
+                    # Extract countries from chunk_data JSON
+                    countries_result = session.execute(text(
+                        "SELECT DISTINCT chunk_data->>'country' FROM doc_chunks WHERE chunk_data->>'country' IS NOT NULL ORDER BY chunk_data->>'country'"
+                    )).fetchall()
+                    countries_to_process = [row[0] for row in countries_result if row[0]]
+                    session.close()
+                except Exception as e:
+                    print(f"[4_RETRIEVE] Error getting countries: {e}")
+                    countries_to_process = []
+                    if session:
+                        session.close()
+            else:
+                countries_to_process = []
+        else:
+            countries_to_process = [country]
+        
+        print(f"[4_RETRIEVE] Processing countries: {countries_to_process}")
+        
+        # Process each country
+        for country_name in countries_to_process:
+            print(f"[4_RETRIEVE] Processing country: {country_name}")
+            
+            # Initialize country data structures (separate for standard and hop)
+            standard_country_data = {
+                "metadata": {
+                    "country": country_name,
+                    "timestamp": datetime.now().isoformat(),
+                    "total_questions": len(questions_to_run),
+                    "retrieval_method": "vector_similarity"
+                },
+                "questions": {}
+            }
+            
+            # Only create hop data if hop retrieval is requested
+            hop_country_data = None
+            if use_hop_retrieval:
+                hop_country_data = {
+                    "metadata": {
+                        "country": country_name,
+                        "timestamp": datetime.now().isoformat(),
+                        "total_questions": len(questions_to_run),
+                        "retrieval_method": "graph_hop"
+                    },
+                    "questions": {}
+                }
+            
+            # Process each question for this country
+            for q_num in questions_to_run:
+                print(f"[4_RETRIEVE] Processing question {q_num} for {country_name}")
+                
+                # Get the prompt text from the corresponding QUESTION_PROMPT
+                prompt = QUESTION_PROMPTS[q_num]
+                
+                # Always do standard vector-based retrieval for all questions
+                # Step 1: Embed the prompt
+                embedded_prompt = embed_prompt(prompt)
+                
+                # Step 2: Retrieve and evaluate chunks for this specific country and question
+                standard_chunks = retrieve_chunks(
+                    embedded_prompt=embedded_prompt,
+                    prompt=prompt,
+                    top_k=20,
+                    ensure_indices=True,
+                    n_per_doc=None,
+                    country=country_name,
+                    min_similarity=0.2
+                )
+                
+                # Store standard retrieval data
+                standard_question_data = {
+                    "question_number": q_num,
+                    "question": prompt,
+                    "timestamp": datetime.now().isoformat(),
+                    "chunk_count": len(standard_chunks),
+                    "top_k_chunks": standard_chunks
+                }
+                
+                standard_country_data["questions"][f"question_{q_num}"] = standard_question_data
+                
+                # Add to overall collection
+                all_evaluated_chunks.extend(standard_chunks)
+                
+                print(f"[4_RETRIEVE] Question {q_num} for {country_name}: {len(standard_chunks)} chunks retrieved (vector)")
+                
+                # If hop retrieval is requested, also perform hop retrieval
+                if use_hop_retrieval:
+                    print(f"[4_RETRIEVE] Using graph hop retrieval for question {q_num}")
+                    hop_chunks = retrieve_chunks_with_hop(
+                        prompt=prompt,
+                        top_k=20,
+                        country=country_name,
+                        question_number=q_num  # Pass question number to hop retrieval
+                    )
+                    
+                    # Store hop retrieval data
+                    hop_question_data = {
+                        "question_number": q_num,
+                        "question": prompt,
+                        "timestamp": datetime.now().isoformat(),
+                        "chunk_count": len(hop_chunks),
+                        "top_k_chunks": hop_chunks
+                    }
+                    
+                    hop_country_data["questions"][f"question_{q_num}"] = hop_question_data
+                    
+                    # Add hop chunks to overall collection as well
+                    all_evaluated_chunks.extend(hop_chunks)
+                    
+                    print(f"[4_RETRIEVE] Question {q_num} for {country_name}: {len(hop_chunks)} chunks retrieved (hop)")
+            
+            # Save country file with all questions
+            # Clean country name for filename
+            clean_country_name = "".join(c for c in country_name if c.isalnum() or c in (' ', '-', '_')).strip()
+            clean_country_name = clean_country_name.replace(' ', '_')
+            
+            # Create the filenames
+            retrieve_filename = f"{clean_country_name}.json"
+            
+            # Always save standard vector results
+            standard_output_path = retrieve_dir / retrieve_filename
+            print(f"[4_RETRIEVE] Saving vector retrieval results to: {standard_output_path}")
+            
+            with open(standard_output_path, "w", encoding="utf-8") as f:
+                # Use the custom encoder to handle UUID objects
+                json.dump(standard_country_data, f, ensure_ascii=False, indent=2, cls=UUIDEncoder)
+            
+            standard_total_chunks = sum(len(q_data["top_k_chunks"]) for q_data in standard_country_data["questions"].values())
+            print(f"[4_RETRIEVE] Saved {len(questions_to_run)} questions with {standard_total_chunks} total chunks for {country_name} (vector)")
+            
+            # If hop retrieval was used, also save hop results
+            if use_hop_retrieval and hop_country_data:
+                hop_output_path = retrieve_hop_dir / retrieve_filename
+                print(f"[4_RETRIEVE] Saving hop retrieval results to: {hop_output_path}")
+                
+                with open(hop_output_path, "w", encoding="utf-8") as f:
+                    # Use the custom encoder to handle UUID objects
+                    json.dump(hop_country_data, f, ensure_ascii=False, indent=2, cls=UUIDEncoder)
+                
+                hop_total_chunks = sum(len(q_data["top_k_chunks"]) for q_data in hop_country_data["questions"].values())
+                print(f"[4_RETRIEVE] Saved {len(questions_to_run)} questions with {hop_total_chunks} total chunks for {country_name} (hop)")
+        
+        print(f"[4_RETRIEVE] Completed processing {len(countries_to_process)} countries with {len(questions_to_run)} questions each")
+        return all_evaluated_chunks
 
     except Exception as e:
         traceback_string = traceback.format_exc()
-        raise e
+        logger.error(f"[4_RETRIEVE] Error in run_script: {e}")
+        logger.error(f"[4_RETRIEVE] Traceback: {traceback_string}")
+        return []
 
 if __name__ == "__main__":
+    """
+    Usage examples:
+    python 4_retrieve.py --question 1 --country "Japan"         > Creates only standard vector retrieval JSONs
+    python 4_retrieve.py --question 4                           > Creates standard JSONs for all countries
+    python 4_retrieve.py --question 1 --country "Japan" --hop   > Creates both vector and hop retrieval JSONs
+    """
+
     parser = argparse.ArgumentParser(description='Run the retrieval script with a specified question number.')
     parser.add_argument('--question', type=int, choices=range(1, 9), 
                         help='Question number (1-8) to select a predefined prompt.')
     parser.add_argument('--country', type=str, help='Country to filter documents by (optional).')
+    parser.add_argument('--hop', action='store_true', 
+                       help='Use graph-based hop retrieval in addition to vector retrieval.')
     args = parser.parse_args()
-    run_script(question_number=args.question, country=args.country)
-
-    # Usage examples:
-    # python 4_retrieve.py --question 1 --country "Japan"
-    # python 4_retrieve.py --question 4  # Uses default country (Afghanistan)
+    run_script(question_number=args.question, country=args.country, use_hop_retrieval=args.hop)

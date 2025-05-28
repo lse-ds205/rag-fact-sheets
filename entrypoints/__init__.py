@@ -10,7 +10,7 @@ import importlib
 # Import modules (required for numeric prefixes)
 scrape_module = importlib.import_module('entrypoints.2_scrape')
 chunk_module = importlib.import_module('entrypoints.2_chunk')
-embed_module = importlib.import_module('entrypoints.3.5_embed')
+embed_module = importlib.import_module('entrypoints.3_embed')
 retrieve_module = importlib.import_module('entrypoints.4_retrieve')
 llm_module = importlib.import_module('entrypoints.5_llm_response')
 download_module = importlib.import_module('entrypoints.1_download')

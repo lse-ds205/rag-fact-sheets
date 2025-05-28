@@ -40,6 +40,7 @@ logs/
 
 # Local models folder
 local_models/
+outputs/
 
 # Python cache files - ignore all pycache directories anywhere in the project
 __pycache__/
