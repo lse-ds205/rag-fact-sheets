@@ -55,7 +55,6 @@ This RAG system uses a postgres database operated through docker, which should b
 
 1. docker run -p 5432:5432 --name pgai -e POSTGRES_PASSWORD=password timescale/timescaledb-ha:pg17
 2. docker exec -it pgai psql -c "CREATE EXTENSION ai CASCADE;"
-3. docker exec -it pgai psql
 
 Now create a new table for embeddings. 
 
@@ -66,7 +65,8 @@ Now create a new table for embeddings.
 ### 6. Dotenv setup:
 
 1. Create a .env file in the root directory
-2. Copy and paste the contents of ./dotenv_setup to the .env file.
+2. Copy and paste the contents of .env.sample to the .env file.
+3. Replace "your-api-key" with your Nebius API key and "your-home-dir" with your home directory.
 
 ### 7. Generate Embeddings
 
