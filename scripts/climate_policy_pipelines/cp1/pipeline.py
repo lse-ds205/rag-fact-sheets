@@ -12,7 +12,7 @@ from langdetect import detect
 
 load_dotenv()
 
-from scripts.retrieval.retrieval_utils import do_retrieval
+from scripts.retrieval.functions import do_retrieval
 
 from scripts.climate_policy_pipelines.shared.llm_models import (
     llm,

@@ -37,7 +37,7 @@ from scripts.climate_policy_pipelines.sectoral_analysis.classes import (
     SimpleASCORReport
 )
 
-from scripts.retrieval.retrieval_utils import do_retrieval
+from scripts.retrieval.functions import do_retrieval
 
 def _format_context(chunks):
     """Format retrieved chunks into readable context string"""

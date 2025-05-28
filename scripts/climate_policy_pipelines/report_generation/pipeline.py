@@ -30,7 +30,7 @@ from scripts.climate_policy_pipelines.report_generation.prompts import (
     rewrite_subsection_prompt
 )
 
-from scripts.retrieval.retrieval_utils import do_retrieval
+from scripts.retrieval.functions import do_retrieval
 
 
 class ReportWorkflow:

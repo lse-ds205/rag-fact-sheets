@@ -2,7 +2,7 @@
 from .retrieval_pipeline import InformationRetriever
 
 # Import convenience functions
-from .retrieval_utils import (
+from .functions import (
     get_retriever,
     do_retrieval,
     compare_retrieval_methods,

@@ -1,110 +1,211 @@
-import os
 import pandas as pd
 import numpy as np
-from sqlalchemy import create_engine
+from gensim.models import Word2Vec
 from gensim.utils import simple_preprocess
-from retrieval_support import bm25_search, vector_search, df_with_similarity_score, hybrid_scoring
+from sqlalchemy import create_engine
+import os
+from dotenv import load_dotenv
 
-class CountryFilteredRetrieval:
-    def __init__(self):
-        self.engine = create_engine(os.getenv("DB_URL"))
+from functions import generate_embeddings_for_text, generate_word2vec_embedding_for_text
+from scripts.retrival.retrieval_support import bm25_search, hybrid_scoring, df_with_similarity_score
+
+load_dotenv()
+
+def generate_prompt_embeddings(prompt, climatebert_model, climatebert_tokenizer, word2vec_model):
+    """
+    Generate embeddings for the input prompt using both models.
     
-    def load_data_by_country(self, country_codes=None):
-        """Load document embeddings filtered by country"""
-        if country_codes is None:
-            # Load all data if no country filter specified
-            query = "SELECT * FROM document_embeddings"
-        else:
-            # Filter by specific countries
-            if isinstance(country_codes, str):
-                country_codes = [country_codes]
-            
-            placeholders = ','.join(['%s'] * len(country_codes))
-            query = f"SELECT * FROM document_embeddings WHERE country_code IN ({placeholders})"
-        
-        df = pd.read_sql(query, self.engine, params=country_codes if country_codes else None)
-        return df
+    Args:
+        prompt (str): Input query text
+        climatebert_model: Pre-loaded ClimateBERT model
+        climatebert_tokenizer: Pre-loaded ClimateBERT tokenizer
+        word2vec_model: Pre-loaded Word2Vec model
     
-    def expand_keywords(self, prompt, custom_w2v):
-        """Generate similar words using word2vec model"""
-        keywords = simple_preprocess(prompt)
-        similar_words = []
-        
-        for keyword in keywords:
-            try:
-                if keyword in custom_w2v.wv:
-                    similar = custom_w2v.wv.most_similar(keyword, topn=5)
-                    similar_words.extend([word for word, score in similar])
-            except KeyError:
-                continue
-        
-        all_search_terms = list(set(keywords + similar_words))
-        return all_search_terms, keywords
+    Returns:
+        tuple: (climatebert_embeddings, word2vec_embeddings)
+    """
+    # Generate ClimateBERT embeddings
+    climatebert_embeddings = generate_embeddings_for_text(
+        prompt, climatebert_model, climatebert_tokenizer
+    )
     
-    def retrieve_chunks(self, prompt_embeddings, all_search_terms, country_codes=None, top_k=25):
-        """Retrieve chunks with country filtering"""
-        # Load data filtered by country
-        df = self.load_data_by_country(country_codes)
-        
-        if df.empty:
-            print(f"No data found for countries: {country_codes}")
-            return pd.DataFrame()
-        
-        print(f"Loaded {len(df)} documents for countries: {country_codes}")
-        
-        # Get similarity scores for both embedding types
-        df_similarity_score = self.get_similarity_scores_filtered(
-            df, prompt_embeddings, country_codes
-        )
-        
-        # Perform BM25 search on filtered data
-        bm25_df = bm25_search(all_search_terms, df_similarity_score, k=None)
-        
-        # Apply hybrid scoring
-        hybrid_results = hybrid_scoring(bm25_df, alpha=0.5)
-        
-        return hybrid_results.head(top_k)
+    # Generate Word2Vec embeddings
+    word2vec_embeddings = generate_word2vec_embedding_for_text(
+        prompt, word2vec_model
+    )
     
-    def get_similarity_scores_filtered(self, df, prompt_embeddings, country_codes):
-        """Get similarity scores with country filtering using raw DataFrame"""
-        # Since we already have filtered DataFrame, work with it directly
-        w2v_embeddings = prompt_embeddings['w2v_embeddings']
-        climatebert_embeddings = prompt_embeddings['climatebert_embeddings']
-        
-        # Calculate similarity scores manually for the filtered DataFrame
-        w2v_scores = []
-        climatebert_scores = []
-        
-        for _, row in df.iterrows():
-            # Calculate cosine similarity for each embedding type
-            if 'word2vec_embedding' in df.columns and row['word2vec_embedding'] is not None:
-                w2v_sim = np.dot(w2v_embeddings, row['word2vec_embedding']) / (
-                    np.linalg.norm(w2v_embeddings) * np.linalg.norm(row['word2vec_embedding'])
-                )
-                w2v_scores.append(w2v_sim)
-            else:
-                w2v_scores.append(0)
-            
-            if 'climatebert_embedding' in df.columns and row['climatebert_embedding'] is not None:
-                cb_sim = np.dot(climatebert_embeddings, row['climatebert_embedding']) / (
-                    np.linalg.norm(climatebert_embeddings) * np.linalg.norm(row['climatebert_embedding'])
-                )
-                climatebert_scores.append(cb_sim)
-            else:
-                climatebert_scores.append(0)
-        
-        # Add scores to DataFrame
-        df = df.copy()
-        df['w2v_score'] = w2v_scores
-        df['climatebert_score'] = climatebert_scores
-        
-        return df
+    return climatebert_embeddings, word2vec_embeddings
+
+def get_expanded_keywords(prompt, word2vec_model, top_similar=5):
+    """
+    Generate expanded keywords from prompt using Word2Vec similarity.
+    Matches the keyword expansion logic from NB03.
     
-    def run_workflow(self, prompt_embeddings, all_search_terms, country_codes=None, top_k=25):
-        """Main workflow for country-filtered chunk retrieval"""
-        print(f"Starting retrieval for countries: {country_codes}")
-        results = self.retrieve_chunks(
-            prompt_embeddings, all_search_terms, country_codes, top_k
-        )
-        print(f"Retrieved {len(results)} relevant chunks.")
-        return results
+    Args:
+        prompt (str): Input query text
+        word2vec_model: Pre-loaded Word2Vec model
+        top_similar (int): Number of similar words to include per keyword
+    
+    Returns:
+        list: Combined original and similar keywords (all_search_terms)
+    """
+    keywords = simple_preprocess(prompt)
+    similar_words = []
+    
+    # For each keyword, try to find similar words
+    for keyword in keywords:
+        try:
+            # Only get similar words if keyword exists in vocabulary
+            if keyword in word2vec_model.wv:
+                similar = word2vec_model.wv.most_similar(keyword, topn=top_similar)
+                similar_words.extend([word for word, score in similar])
+        except KeyError:
+            # Skip words not in vocabulary
+            continue
+    
+    # Combine original keywords with similar words
+    all_search_terms = list(set(keywords + similar_words))
+    
+    return all_search_terms
+
+def retrieve_relevant_chunks(prompt, country_code=None, top_k=25, alpha=0.5):
+    """
+    Main function to retrieve relevant document chunks using hybrid search.
+    Follows the exact workflow from NB03.
+    
+    Args:
+        prompt (str): Input query text
+        country_code (str, optional): 3-letter country code to filter by
+        top_k (int): Number of top results to return
+        alpha (float): Weight for BM25 vs semantic similarity (0-1)
+    
+    Returns:
+        pd.DataFrame: Top relevant chunks with text, page number, and document name only
+    """
+    # Load models    
+    EMBEDDING_MODEL_LOCAL_DIR = os.getenv('EMBEDDING_MODEL_LOCAL_DIR')
+    climatebert_tokenizer = AutoTokenizer.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
+    climatebert_model = AutoModel.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
+    word2vec_model = Word2Vec.load("./local_model/custom_word2vec_768.model")
+    
+    # Step 1: Generate embeddings for prompt (matches NB03)
+    prompt_climatebert_embeddings = generate_embeddings_for_text(
+        prompt, climatebert_model, climatebert_tokenizer
+    )
+    prompt_w2v_embeddings = generate_word2vec_embedding_for_text(
+        prompt, word2vec_model
+    )
+    
+    # Step 2: Get expanded keywords (matches NB03 all_search_terms logic)
+    all_search_terms = get_expanded_keywords(prompt, word2vec_model)
+    
+    # Step 3: Use df_with_similarity_score exactly like NB03
+    df_similarity_score = df_with_similarity_score(
+        prompt_embeddings_w2v=np.array(prompt_w2v_embeddings),
+        prompt_embeddings_climatebert=np.array(prompt_climatebert_embeddings),
+        top_k=None  # Get all results initially
+    )
+    
+    # Step 4: Filter by country if specified
+    if country_code:
+        df_similarity_score = df_similarity_score[
+            df_similarity_score['country_code'] == country_code
+        ]
+        
+        if df_similarity_score.empty:
+            print(f"No documents found for country code: {country_code}")
+            return pd.DataFrame(columns=['text', 'page_number', 'document_title'])
+    
+    # Step 5: Apply BM25 search exactly like NB03
+    bm25_df = bm25_search(all_search_terms, df_similarity_score, k=None)
+    
+    # Step 6: Calculate hybrid scores exactly like NB03
+    hybrid_results = hybrid_scoring(bm25_df, alpha=alpha)
+    
+    # Step 7: Return only text, page number, and document name
+    result_columns = ['original_text', 'page_number', 'document_title']
+    
+    # Get top k results and rename columns for clarity
+    top_results = hybrid_results[result_columns].head(top_k)
+    top_results = top_results.rename(columns={
+        'original_text': 'text',
+        'page_number': 'page_number',
+        'document_title': 'document_title'
+    })
+    
+    return top_results
+
+def do_retrieval(prompt, country=None):
+    """
+    Simplified interface for document search.
+    
+    Args:
+        prompt (str): Search query
+        country_code (str, optional): 3-letter country code
+        top_k (int): Number of results to return
+        alpha (float): Hybrid search weight
+        verbose (bool): Print search summary
+    
+    Returns:
+        pd.DataFrame: Search results
+    """
+    results = retrieve_relevant_chunks(prompt, country_code=country)
+
+    return results
+
+def get_search_details(prompt, country_code=None, alpha=0.5):
+    """
+    Get detailed breakdown of the search process for analysis.
+    
+    Args:
+        prompt (str): Search query
+        country_code (str, optional): 3-letter country code
+        alpha (float): Hybrid search weight
+    
+    Returns:
+        dict: Contains expanded keywords, similarity scores, and final results
+    """
+    from transformers import AutoTokenizer, AutoModel
+    
+    EMBEDDING_MODEL_LOCAL_DIR = os.getenv('EMBEDDING_MODEL_LOCAL_DIR')
+    climatebert_tokenizer = AutoTokenizer.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
+    climatebert_model = AutoModel.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
+    word2vec_model = Word2Vec.load("./local_model/custom_word2vec_768.model")
+    
+    # Get expanded keywords
+    all_search_terms = get_expanded_keywords(prompt, word2vec_model)
+    original_keywords = simple_preprocess(prompt)
+    
+    # Get embeddings
+    prompt_climatebert_embeddings = generate_embeddings_for_text(
+        prompt, climatebert_model, climatebert_tokenizer
+    )
+    prompt_w2v_embeddings = generate_word2vec_embedding_for_text(
+        prompt, word2vec_model
+    )
+    
+    # Get similarity scores
+    df_similarity_score = df_with_similarity_score(
+        prompt_embeddings_w2v=np.array(prompt_w2v_embeddings),
+        prompt_embeddings_climatebert=np.array(prompt_climatebert_embeddings),
+        top_k=None
+    )
+    
+    if country_code:
+        df_similarity_score = df_similarity_score[
+            df_similarity_score['country_code'] == country_code
+        ]
+    
+    # Get BM25 scores
+    bm25_df = bm25_search(all_search_terms, df_similarity_score, k=None)
+    
+    # Get final hybrid results
+    hybrid_results = hybrid_scoring(bm25_df, alpha=alpha)
+    
+    return {
+        'original_keywords': original_keywords,
+        'expanded_keywords': all_search_terms,
+        'similarity_scores_df': df_similarity_score.head(10),
+        'bm25_scores_df': bm25_df.head(10),
+        'hybrid_results': hybrid_results.head(10)
+    }
