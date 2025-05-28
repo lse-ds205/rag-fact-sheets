@@ -282,24 +282,6 @@ def main():
         logger.info(f"[5_LLM_RESPONSE] Final response saved to: {output_file}")
         logger.info("[5_LLM_RESPONSE] LLM response pipeline completed successfully")
         
-        # Print summary - fix the answer display logic
-        print(f"\n=== LLM Response Summary ===")
-        print(f"Question: {prompt[:100]}...")
-        
-        # Handle both string and dictionary answer formats
-        answer = final_response.get('answer', 'No answer')
-        if isinstance(answer, dict):
-            # If answer is a dictionary, try to get summary or detailed_response
-            answer_text = answer.get('summary', answer.get('detailed_response', str(answer)))
-        else:
-            # If answer is a string, use it directly
-            answer_text = str(answer)
-        
-        print(f"Answer: {answer_text[:200]}...")
-        print(f"Citations: {len(final_response.get('citations', []))}")
-        print(f"Confidence: {final_response.get('confidence', 0.0)}")
-        print(f"Output saved to: {output_file}")
-        
     except Exception as e:
         traceback_string = traceback.format_exc()
         logger.error(f"[5_LLM_RESPONSE] Error in main: {e}\nTraceback: {traceback_string}")
