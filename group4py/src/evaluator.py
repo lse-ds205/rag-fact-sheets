@@ -6,11 +6,8 @@ import logging
 import traceback
 import numpy as np
 import logging
-from typing import List, Dict, Any, Optional, Union, Tuple
-
-from sklearn.metrics.pairwise import cosine_similarity
-from sqlalchemy import text, func, create_engine
-import uuid
+from typing import List, Dict, Any
+from sqlalchemy import text, create_engine
 from difflib import SequenceMatcher
 
 project_root = Path(__file__).resolve().parents[2]
@@ -25,41 +22,20 @@ logger = logging.getLogger(__name__)
 
 
 class Evaluator:
-    """
-    Base class for all evaluation methods.
-    Provides common functionality for different evaluation strategies.
-    """
+    """Base class defining the interface for chunk evaluation strategies."""
     
     def __init__(self):
         self.name = self.__class__.__name__
         logger.debug(f"Initialized {self.name} evaluator")
     
     def evaluate(self, chunks: List[Dict[str, Any]], query: str) -> List[Dict[str, Any]]:
-        """
-        Base evaluation method to be overridden by subclasses.
-        
-        Args:
-            chunks: List of chunks to evaluate
-            query: Query string to evaluate against
-            
-        Returns:
-            List of evaluated chunks with scores
-        """
+        """Evaluates chunks against a query. Must be implemented by subclasses."""
         raise NotImplementedError("Subclasses must implement evaluate method")
     
     def normalize_score(self, score: float, min_val: float = 0.0, max_val: float = 1.0) -> float:
-        """
-        Normalize a score to be within the specified range.
-        
-        Args:
-            score: Score to normalize
-            min_val: Minimum value of normalized range
-            max_val: Maximum value of normalized range
-            
-        Returns:
-            Normalized score
-        """
+        """Normalizes a score to be within the specified range."""
         return max(min_val, min(max_val, score))
+
 
 class VectorComparison(Evaluator):
     """
@@ -324,7 +300,7 @@ class VectorComparison(Evaluator):
             return 0.0
 
     @Logger.debug_log()
-    def batch_similarity_calculation(self, chunk_ids: List[int], query_embedding: List[float], 
+    def batch_similarity_calculation(self, chunk_ids: List, query_embedding: List[float], 
                                    embedding_type: str = 'transformer') -> Dict[int, float]:
         """
         Calculate similarity scores for multiple chunks efficiently in a single query.
@@ -370,7 +346,7 @@ class VectorComparison(Evaluator):
                         c.id,
                         1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
                     FROM doc_chunks c
-                    WHERE c.id = ANY(:chunk_ids)
+                    WHERE c.id::text = ANY(:chunk_ids)
                       AND c.{embedding_column} IS NOT NULL
                 """)                
                 result = session.execute(query, {
@@ -463,6 +439,7 @@ class VectorComparison(Evaluator):
         except Exception as e:
             logger.error(f"Error creating vector indices: {e}")
             return False
+
 
 class RegexComparison(Evaluator):
     """
@@ -566,6 +543,7 @@ class RegexComparison(Evaluator):
                     highlights.append(f"{keyword} ({category})")
         
         return highlights[:10]  # Limit to top 10 highlights
+
 
 class FuzzyRegexComparison(Evaluator):
     """

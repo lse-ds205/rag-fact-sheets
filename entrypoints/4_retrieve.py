@@ -1,23 +1,19 @@
 import sys
-import os
 from pathlib import Path
 import logging
 import traceback
+import argparse
 from typing import List, Dict, Any, Optional, Union, Tuple
 from dotenv import load_dotenv
-from sqlalchemy import text, func
 import json
 from datetime import datetime
-
-# Load environment variables from .env file
-load_dotenv()
 
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
 from database import Connection
-from helpers.internal import Logger, Test, TaskInfo
-from evaluator import Evaluator, VectorComparison, RegexComparison, FuzzyRegexComparison
+from helpers.internal import Logger
+from evaluator import VectorComparison, RegexComparison, FuzzyRegexComparison
 from embedding import TransformerEmbedding
 from constants.prompts import (
     QUESTION_PROMPT_1, QUESTION_PROMPT_2, QUESTION_PROMPT_3, QUESTION_PROMPT_4,
@@ -26,9 +22,9 @@ from constants.prompts import (
 from database import Connection
 from schema import DatabaseConfig
 
+logger = logging.getLogger(__name__)
+load_dotenv()
 
-
-# Dictionary mapping question numbers to their respective prompts
 QUESTION_PROMPTS = {
     1: QUESTION_PROMPT_1,
     2: QUESTION_PROMPT_2,
@@ -51,20 +47,16 @@ def embed_prompt(prompt):
     Returns:
         list: Vector embedding of the prompt (list of floats)
     """
-    try:
-        # Initialize the embedding model, load models
-        embedding_model = Embedding()
+    try:  
+        embedding_model = TransformerEmbedding()
         embedding_model.load_models()
-
-        # Embed the prompt using transformer model
         embedded_prompt = embedding_model.embed_transformer(prompt)
-        
         return embedded_prompt
     
     except Exception as e:
         traceback_string = traceback.format_exc()
+        logger.error(f"Error embedding prompt: {traceback_string}")
         raise e
-    
 
 def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: List[float] = None) -> List[Dict[str, Any]]:
     """
@@ -280,6 +272,7 @@ def retrieve_chunks(embedded_prompt, prompt, embedding_type='transformer', top_k
             
     except Exception as e:
         traceback_string = traceback.format_exc()
+        logger.error(f"Error retrieving chunks: {traceback_string}")
         return []
 
 
@@ -353,7 +346,6 @@ def run_script(question_number: int = None, country: Optional[str] = None) -> Li
         raise e
 
 if __name__ == "__main__":
-    import argparse
     parser = argparse.ArgumentParser(description='Run the retrieval script with a specified question number.')
     parser.add_argument('--question', type=int, choices=range(1, 9), 
                         help='Question number (1-8) to select a predefined prompt.')
