@@ -1,0 +1,20 @@
+CREATE TABLE documents (
+    doc_id UUID PRIMARY KEY,
+    scraped_at TIMESTAMPTZ,
+    downloaded_at TIMESTAMPTZ,
+    processed_at TIMESTAMPTZ,
+    last_download_attempt TIMESTAMPTZ,
+    download_error TEXT,
+    download_attempts INTEGER,
+    country TEXT REFERENCES countries(id),
+    title TEXT,
+    url TEXT,
+    language TEXT,
+    submission_date DATE,
+    file_path TEXT,
+    file_size DOUBLE PRECISION,
+    extracted_text TEXT,
+    chunks JSONB,
+    created_at TIMESTAMPTZ,
+    updated_at TIMESTAMPTZ
+);
