@@ -20,6 +20,9 @@ from sqlalchemy import create_engine, text
 
 from gensim.models import Word2Vec
 from gensim.utils import simple_preprocess
+from gensim.downloader import load
+
+
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -50,6 +53,59 @@ def generate_embeddings_for_text(texts, model, tokenizer):
     sentence_embeddings = model_output.last_hidden_state[:, 0, :]
     
     return sentence_embeddings.numpy().flatten().tolist()
+
+
+def download_climatebert_model():
+    """
+    Download the ClimateBERT model and tokenizer from Hugging Face Hub
+    and save them to local directory specified by EMBEDDING_MODEL_LOCAL_DIR env var.
+    """
+    local_dir = os.getenv("EMBEDDING_MODEL_LOCAL_DIR")
+    model_name = os.getenv("EMBEDDING_MODEL")
+
+    if not model_name:
+        raise ValueError("Environment variable 'EMBEDDING_MODEL' is not set.")
+    if not local_dir:
+        raise ValueError("Environment variable 'EMBEDDING_MODEL_LOCAL_DIR' is not set.")
+
+    tokenizer = AutoTokenizer.from_pretrained(model_name, use_auth_token=False)
+    model = AutoModel.from_pretrained(model_name, use_auth_token=False)
+
+    tokenizer.save_pretrained(local_dir)
+    model.save_pretrained(local_dir)
+
+    print(f"ClimateBERT model and tokenizer downloaded and saved to {local_dir}")
+
+
+def load_climatebert_model():
+    """
+    Load the ClimateBERT model and tokenizer from HuggingFace.
+    
+    Returns:
+        model: The pre-trained ClimateBERT model.
+        tokenizer: The tokenizer for the model.
+    """
+    EMBEDDING_MODEL_LOCAL_DIR = os.getenv("EMBEDDING_MODEL_LOCAL_DIR")
+    tokenizer = AutoTokenizer.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
+    model = AutoModel.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
+    return tokenizer, model
+
+
+def download_word2vec_model(model_name="word2vec-google-news-300"):
+    """
+    Download and load a pretrained Word2Vec model from gensim-data.
+    
+    Args:
+        model_name (str): The name of the pretrained Word2Vec model to load.
+                          Default is 'word2vec-google-news-300'.
+                          
+    Returns:
+        model: Loaded gensim Word2Vec model.
+    """
+    print(f"🔄 Loading pretrained Word2Vec model: {model_name}")
+    model = load(model_name)
+    print("✅ Model loaded!")
+    return model
 
 
 def train_custom_word2vec_from_texts(
@@ -106,21 +162,6 @@ def train_custom_word2vec_from_texts(
 
     model.save(save_path)
     return model
-
-
-
-def load_climatebert_model():
-    """
-    Load the ClimateBERT model and tokenizer from HuggingFace.
-    
-    Returns:
-        model: The pre-trained ClimateBERT model.
-        tokenizer: The tokenizer for the model.
-    """
-    EMBEDDING_MODEL_LOCAL_DIR = os.getenv("EMBEDDING_MODEL_LOCAL_DIR")
-    tokenizer = AutoTokenizer.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
-    model = AutoModel.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
-    return tokenizer, model
 
 
 
