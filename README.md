@@ -63,7 +63,12 @@ Now create a new table for embeddings.
 2. Select the Postgres Server (it's at the bottom for mac, probably the same for windows)
 3. Highlight the code and right click to run query
 
-### 6. Generate Embeddings
+### 6. Dotenv setup:
+
+1. Create a .env file in the root directory
+2. Copy and paste the contents of ./dotenv_setup to the .env file.
+
+### 7. Generate Embeddings
 
 # Features Guide
 
