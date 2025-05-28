@@ -1,9 +1,9 @@
 # Database setup:
-In terminal:
+In terminal, run the following commands:
 
-docker run -p 5432:5432 --name pgai -e POSTGRES_PASSWORD=postgres timescale/timescaledb-ha:pg17
-docker exec -it pgai psql -c "CREATE EXTENSION ai CASCADE;"
-docker exec -it pgai psql
+1. docker run -p 5432:5432 --name pgai -e POSTGRES_PASSWORD=password timescale/timescaledb-ha:pg17
+2. docker exec -it pgai psql -c "CREATE EXTENSION ai CASCADE;"
+3. docker exec -it pgai psql
 
 # Create a new table in the database
 Created a new table for embeddings. 
