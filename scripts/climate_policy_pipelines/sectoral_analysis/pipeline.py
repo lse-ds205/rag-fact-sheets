@@ -37,7 +37,7 @@ from scripts.climate_policy_pipelines.sectoral_analysis.classes import (
     SimpleASCORReport
 )
 
-from scripts.retrieval.functions import do_retrieval
+from scripts.retrieval.retrieval_pipeline import do_retrieval
 
 def _format_context(chunks):
     """Format retrieved chunks into readable context string"""
@@ -56,7 +56,7 @@ def _format_context(chunks):
 def generate_net_zero_context(inputs: Dict[str, Any]) -> Dict[str, Any]:
     """Generate context specifically for net zero analysis"""
     search_query = f"net zero targets {inputs['country']} {inputs['sector']} commitments legal binding"
-    retrieved_chunks = do_retrieval(search_query, method='hybrid', k=10)
+    retrieved_chunks = do_retrieval(search_query, k=10)
     context = _format_context(retrieved_chunks)
     
     return {
@@ -74,17 +74,17 @@ def generate_period_contexts(inputs: Dict[str, Any]) -> Dict[str, Any]:
     
     # 1970s-1980s context
     search_1970s = f"{country} {sector} legislation 1970s 1980s policy frameworks regulations"
-    chunks_1970s = do_retrieval(search_1970s, method='hybrid', k=8)
+    chunks_1970s = do_retrieval(search_1970s, k=8)
     contexts["context_1970s_1980s"] = _format_context(chunks_1970s)
     
     # 1990s-2000s context
     search_1990s = f"{country} {sector} legislation 1990s 2000s policy frameworks regulations"
-    chunks_1990s = do_retrieval(search_1990s, method='hybrid', k=8)
+    chunks_1990s = do_retrieval(search_1990s, k=8)
     contexts["context_1990s_2000s"] = _format_context(chunks_1990s)
     
     # 2010s-present context
     search_2010s = f"{country} {sector} legislation 2010s 2020s policy frameworks regulations recent"
-    chunks_2010s = do_retrieval(search_2010s, method='hybrid', k=8)
+    chunks_2010s = do_retrieval(search_2010s, k=8)
     contexts["context_2010s_present"] = _format_context(chunks_2010s)
     
     return {

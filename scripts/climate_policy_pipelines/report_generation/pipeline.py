@@ -30,7 +30,7 @@ from scripts.climate_policy_pipelines.report_generation.prompts import (
     rewrite_subsection_prompt
 )
 
-from scripts.retrieval.functions import do_retrieval
+from scripts.retrieval.retrieval_pipeline import do_retrieval
 
 
 class ReportWorkflow:
@@ -57,7 +57,7 @@ class ReportWorkflow:
         
         try:
             # Use your custom retrieval function
-            chunks = do_retrieval(hypothetical_response, method='hybrid', k=k)
+            chunks = do_retrieval(hypothetical_response, k=k)
             
             # Format the chunks into a readable context string
             context_parts = []

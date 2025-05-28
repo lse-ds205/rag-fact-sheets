@@ -5,9 +5,10 @@ from gensim.utils import simple_preprocess
 from sqlalchemy import create_engine
 import os
 from dotenv import load_dotenv
+from transformers import AutoTokenizer, AutoModel
 
-from functions import generate_embeddings_for_text, generate_word2vec_embedding_for_text
-from scripts.retrival.retrieval_support import bm25_search, hybrid_scoring, df_with_similarity_score
+from .functions import generate_embeddings_for_text, generate_word2vec_embedding_for_text
+from .retrieval_support import bm25_search, hybrid_scoring, df_with_similarity_score
 
 load_dotenv()
 
@@ -135,77 +136,29 @@ def retrieve_relevant_chunks(prompt, country_code=None, top_k=25, alpha=0.5):
     
     return top_results
 
-def do_retrieval(prompt, country=None):
+def do_retrieval(prompt, country=None, k=25):
     """
     Simplified interface for document search.
     
     Args:
         prompt (str): Search query
-        country_code (str, optional): 3-letter country code
-        top_k (int): Number of results to return
-        alpha (float): Hybrid search weight
-        verbose (bool): Print search summary
+        country (str, optional): 3-letter country code
+        k (int): Number of results to return
     
     Returns:
-        pd.DataFrame: Search results
+        list: List of chunk dictionaries in expected format
     """
-    results = retrieve_relevant_chunks(prompt, country_code=country)
-
-    return results
-
-def get_search_details(prompt, country_code=None, alpha=0.5):
-    """
-    Get detailed breakdown of the search process for analysis.
+    # Get DataFrame results
+    df_results = retrieve_relevant_chunks(prompt, country_code=country, top_k=k)
     
-    Args:
-        prompt (str): Search query
-        country_code (str, optional): 3-letter country code
-        alpha (float): Hybrid search weight
+    # Convert to expected list format
+    chunks = []
+    for _, row in df_results.iterrows():
+        chunk = {
+            'chunk_content': row['text'],
+            'document': row['document_title'],
+            'page_number': row['page_number']
+        }
+        chunks.append(chunk)
     
-    Returns:
-        dict: Contains expanded keywords, similarity scores, and final results
-    """
-    from transformers import AutoTokenizer, AutoModel
-    
-    EMBEDDING_MODEL_LOCAL_DIR = os.getenv('EMBEDDING_MODEL_LOCAL_DIR')
-    climatebert_tokenizer = AutoTokenizer.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
-    climatebert_model = AutoModel.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
-    word2vec_model = Word2Vec.load("./local_model/custom_word2vec_768.model")
-    
-    # Get expanded keywords
-    all_search_terms = get_expanded_keywords(prompt, word2vec_model)
-    original_keywords = simple_preprocess(prompt)
-    
-    # Get embeddings
-    prompt_climatebert_embeddings = generate_embeddings_for_text(
-        prompt, climatebert_model, climatebert_tokenizer
-    )
-    prompt_w2v_embeddings = generate_word2vec_embedding_for_text(
-        prompt, word2vec_model
-    )
-    
-    # Get similarity scores
-    df_similarity_score = df_with_similarity_score(
-        prompt_embeddings_w2v=np.array(prompt_w2v_embeddings),
-        prompt_embeddings_climatebert=np.array(prompt_climatebert_embeddings),
-        top_k=None
-    )
-    
-    if country_code:
-        df_similarity_score = df_similarity_score[
-            df_similarity_score['country_code'] == country_code
-        ]
-    
-    # Get BM25 scores
-    bm25_df = bm25_search(all_search_terms, df_similarity_score, k=None)
-    
-    # Get final hybrid results
-    hybrid_results = hybrid_scoring(bm25_df, alpha=alpha)
-    
-    return {
-        'original_keywords': original_keywords,
-        'expanded_keywords': all_search_terms,
-        'similarity_scores_df': df_similarity_score.head(10),
-        'bm25_scores_df': bm25_df.head(10),
-        'hybrid_results': hybrid_results.head(10)
-    }
+    return chunks

@@ -8,6 +8,7 @@ import numpy as np
 from gensim.models import KeyedVectors, Word2Vec
 from gensim.utils import simple_preprocess
 from sqlalchemy import create_engine, text
+from rank_bm25 import BM25Okapi
 
 
 
@@ -34,8 +35,6 @@ def boolean_search(keywords, df, k=None):
     top_k = df.nlargest(k, 'boolean_score')
 
     return top_k
-
-from rank_bm25 import BM25Okapi
 
 def bm25_search(keywords_list, df, k=None):
     """

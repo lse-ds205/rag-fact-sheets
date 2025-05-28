@@ -12,7 +12,7 @@ from langdetect import detect
 
 load_dotenv()
 
-from scripts.retrieval.functions import do_retrieval
+from scripts.retrieval.retrieval_pipeline import do_retrieval
 
 from scripts.climate_policy_pipelines.shared.llm_models import (
     llm,
@@ -54,7 +54,7 @@ from scripts.climate_policy_pipelines.cp1.chains import (
 
 # CP1a assessment
 
-def get_chunks_for_cp1a(k=20):
+def get_chunks_for_cp1a(country=None, k=20):
     """
     Get chunks specifically for CP1a assessment using predefined prompts
     
@@ -75,7 +75,7 @@ def get_chunks_for_cp1a(k=20):
     # Get chunks for each criterion
     retrieved_chunks = []
     for prompt in cp1a_prompts:
-        chunks = do_retrieval(prompt, k=k)
+        chunks = do_retrieval(prompt, country=country, k=k)
         retrieved_chunks.append(chunks)
     
     return retrieved_chunks
@@ -175,7 +175,7 @@ cp1a_complete_assessment_chain_simple = (
 )
 
 
-def run_cp1a_assessment(detailed=True):
+def run_cp1a_assessment(country=None, detailed=True):
     """
     Main function to run CP1a assessment with a single call
     
@@ -186,7 +186,7 @@ def run_cp1a_assessment(detailed=True):
     Returns:
         Assessment result (detailed dict or simple YES/NO string)
     """
-    retrieved_chunks = get_chunks_for_cp1a()
+    retrieved_chunks = get_chunks_for_cp1a(country)
 
     if detailed:
         result = cp1a_complete_assessment_chain_detailed.invoke(retrieved_chunks)
@@ -202,7 +202,7 @@ def run_cp1a_assessment(detailed=True):
 
 # CPIa Large Context Assessment
 
-def run_cp1a_assessment_large_context(print_results=True):
+def run_cp1a_assessment_large_context(country=None, print_results=True):
     """
     Run comprehensive CP1a framework climate law assessment using large context model
     
@@ -213,7 +213,7 @@ def run_cp1a_assessment_large_context(print_results=True):
     Returns:
         LangChain result object with .content property containing formatted markdown assessment
     """
-    context_documents = get_chunks_for_cp1a()
+    context_documents = get_chunks_for_cp1a(country=country)
 
     # Create the single-model chain
     single_model_assessment_chain = comprehensive_assessment_prompt | large_context_llm
@@ -229,11 +229,12 @@ def run_cp1a_assessment_large_context(print_results=True):
 
 # CP1b assessment
 
-def get_chunks_for_cp1b(k=25):
+def get_chunks_for_cp1b(country=None, k=25):
     """
     Get chunks specifically for CP1b assessment using predefined prompts
     
     Args:
+        country (str, optional): 3-letter country code
         k (int): Number of chunks to retrieve for each criterion
     
     Returns:
@@ -246,10 +247,10 @@ def get_chunks_for_cp1b(k=25):
         "non-compliance consequences parliamentary intervention judicial orders financial penalties"
     ]
     
-    # Get chunks for each criterion
+    # Get chunks for each criterion - FIXED: now passes country parameter
     retrieved_chunks = []
     for prompt in cp1b_prompts:
-        chunks = do_retrieval(prompt, k=k)
+        chunks = do_retrieval(prompt, country=country, k=k)  # Added country parameter
         retrieved_chunks.append(chunks)
     
     return retrieved_chunks
@@ -319,7 +320,7 @@ cp1b_complete_assessment_chain_simple = (
     | RunnableLambda(extract_yes_no_result)
 )
 
-def run_cp1b_assessment(detailed=True, print_results=True):
+def run_cp1b_assessment(country=None, detailed=True, print_results=True):
     """
     Main function to run CP1b assessment with a single call
     
@@ -330,7 +331,7 @@ def run_cp1b_assessment(detailed=True, print_results=True):
     Returns:
         Assessment result (detailed dict or simple YES/NO string)
     """
-    retrieved_chunks = get_chunks_for_cp1b()
+    retrieved_chunks = get_chunks_for_cp1b(country)
 
     if detailed:
         result = cp1b_complete_assessment_chain_detailed.invoke(retrieved_chunks)
