@@ -1,3 +1,4 @@
+
 """
 This module contains the authentication and connection logic for the database.
 """
@@ -21,6 +22,7 @@ SUPABASE_URL = os.getenv('SUPABASE_URL')
 SUPABASE_SERVICE_KEY = os.getenv('SUPABASE_SERVICE_KEY')
 
 logger = logging.getLogger(__name__)
+
 
 class PostgresConnection:
     def __init__(self):

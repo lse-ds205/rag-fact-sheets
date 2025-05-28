@@ -10,23 +10,21 @@ import uuid
 from tqdm import tqdm
 from sqlalchemy import select
 
-# Load environment variables from .env file
-load_dotenv()
-
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
-
 import group4py
 from extract_document import extract_text_from_pdf
 from chunking import DocChunker
 from helpers.internal import Logger
-from group4py.src.constants.settings import FILE_PROCESSING_CONCURRENCY
+from constants.settings import FILE_PROCESSING_CONCURRENCY
 from databases.auth import PostgresConnection
 from databases.models import NDCDocumentORM, DocChunkORM, LogicalRelationshipORM
 from databases.operations import check_document_processed, update_processed, upload
 
 logger = logging.getLogger(__name__)
 db = PostgresConnection()
+load_dotenv()
+
 
 def get_file_paths():
     """
