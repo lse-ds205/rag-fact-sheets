@@ -65,7 +65,7 @@ Now create a new table for embeddings.
 ### 6. Dotenv setup:
 
 1. Create a .env file in the root directory
-2. Copy and paste the contents of ./.env.sample to the .env file.
+2. Copy and paste the contents of .env.sample to the .env file.
 3. Replace "your-api-key" with your Nebius API key and "your-home-dir" with your home directory.
 
 ### 7. Generate Embeddings
