@@ -15,12 +15,12 @@ load_dotenv()
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
-from group4py.src.database import Connection
-from group4py.src.helpers import Logger, Test, TaskInfo
-from group4py.src.evaluator import Evaluator, VectorComparison, RegexComparison, FuzzyRegexComparison
-from group4py.src.embedding import TransformerEmbedding, CombinedEmbedding
-from group4py.src.query import Booster
-from group4py.src.constants.prompts import (
+from database import Connection
+from helpers import Logger, Test, TaskInfo
+from evaluator import Evaluator, VectorComparison, RegexComparison, FuzzyRegexComparison
+from embedding import TransformerEmbedding, CombinedEmbedding
+from query import Booster
+from constants.prompts import (
     QUESTION_PROMPT_1, QUESTION_PROMPT_2, QUESTION_PROMPT_3, QUESTION_PROMPT_4,
     QUESTION_PROMPT_5, QUESTION_PROMPT_6, QUESTION_PROMPT_7, QUESTION_PROMPT_8
 )

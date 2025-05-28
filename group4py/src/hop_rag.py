@@ -2,7 +2,8 @@
 Optimized HopRAG Graph Processor with consistent UUID handling and improved efficiency
 Implements embeddings, relationship detection, and graph analysis
 """
-
+import sys
+from pathlib import Path
 import asyncio
 import numpy as np
 import json
@@ -20,6 +21,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import NearestNeighbors
 from sqlalchemy import text
 import uuid
+from helpers import Logger
+
+project_root = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(project_root))
 
 import group4py
 # from database import Connection, NDCDocumentORM, LogicalRelationshipORM
@@ -28,7 +33,6 @@ from databases.models import LogicalRelationshipORM
 from databases.operations import upload
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Type alias for consistency
@@ -275,10 +279,9 @@ class HopRAGGraphProcessor:
 
     async def process_embeddings_batch(self, batch_size: int = 500):
         """Generate embeddings with optimized UUID handling"""
-        engine = self.db_connection.get_engine()
-        
+
         # Get chunks without embeddings
-        with engine.connect() as conn:
+        with self.db_connection.connect() as conn:
             chunks_data = conn.execute(text("""
                 SELECT id, content 
                 FROM doc_chunks 
@@ -302,7 +305,7 @@ class HopRAGGraphProcessor:
             embeddings = self.embedder.encode_batch(texts)
             
             # Update database - direct UUID usage, no conversions
-            with engine.connect() as conn:
+            with self.db_connection.connect() as conn:
                 for j, row in enumerate(batch):
                     conn.execute(text(
                         "UPDATE doc_chunks SET hoprag_embedding = :embedding WHERE id = :chunk_id"
@@ -321,9 +324,8 @@ class HopRAGGraphProcessor:
     async def get_doc_chunk_count(self, doc_id: str) -> int:
         """Get the number of chunks for a specific document"""
         doc_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, doc_id)
-        engine = self.db_connection.get_engine()
-        
-        with engine.connect() as conn:
+
+        with self.db_connection.connect() as conn:
             result = conn.execute(text("""
                 SELECT COUNT(*) FROM doc_chunks 
                 WHERE doc_id = :doc_id
@@ -335,10 +337,8 @@ class HopRAGGraphProcessor:
                                        doc_id: str = None, force_commit: bool = False, session: Optional[None] = None):
         """Build relationships with optimized UUID handling and memory management"""
         
-        engine = self.db_connection.get_engine()
-        
         # Get chunks with embeddings - maintain UUID objects from start
-        with engine.connect() as conn:            
+        with self.db_connection.connect() as conn:            
             if doc_id:
                 logger.info(f"Building relationships for document: {doc_id}")
                 doc_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, doc_id)
@@ -515,9 +515,7 @@ class HopRAGGraphProcessor:
                                    top_k: int = 20) -> List[Dict]:
         """Optimized BFS multi-hop retrieval"""
         
-        engine = self.db_connection.get_engine()
-        
-        with engine.connect() as conn:
+        with self.db_connection.connect() as conn:
             # Fixed BFS query with correct CTE syntax            
             result = conn.execute(text("""
                 WITH RECURSIVE hop_expansion AS (
@@ -595,11 +593,9 @@ class HopRAGGraphProcessor:
         
         if not chunk_ids:
             return []
-        
-        engine = self.db_connection.get_engine()
-        
+
         # Get subgraph data with correct table names
-        with engine.connect() as conn:
+        with self.db_connection.connect() as conn:
             # Get nodes - convert chunk_ids to list for PostgreSQL array compatibility
             nodes_data = conn.execute(text("""
                 SELECT id as chunk_id, content 
@@ -1053,6 +1049,7 @@ class HopRAGClassifier:
         for i, node in enumerate(results['overall_ranking'][:5]):
             print(f"{i+1}. Chunk {node['chunk_id']} ({node['classification']}) - Score: {node['combined_score']}")
 
+@Logger.log(log_file = project_root / "logs/hoprag.log", log_level="INFO")
 async def main(session):
     """Main processing function"""
     try:
@@ -1100,4 +1097,4 @@ async def main(session):
 if __name__ == "__main__":
     db = PostgresConnection()
     with db.get_session() as session:
-        asyncio.run(main())
+        asyncio.run(main(session))
