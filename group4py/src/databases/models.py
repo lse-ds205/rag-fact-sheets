@@ -32,7 +32,7 @@ class NDCDocumentORM(Base):
     __tablename__ = "documents"
     
     doc_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    country = Column(String, nullable=False, index=True)
+    country = Column(String, ForeignKey("countries.id", ondelete="CASCADE"), nullable=False, index=True)
     title = Column(String)
     url = Column(String, nullable=True)
     language = Column(String)
