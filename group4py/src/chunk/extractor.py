@@ -10,7 +10,7 @@ from unstructured.partition.pdf import partition_pdf
 project_root = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(project_root))
 import group4py
-from chunk.cleaner import extract_country_from_filename, has_character_corruption, retry_with_ocr
+from group4py.src.chunk.cleaner import extract_country_from_filename, has_character_corruption, retry_with_ocr
 
 logger = logging.getLogger(__name__)
 

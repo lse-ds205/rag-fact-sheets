@@ -9,60 +9,60 @@ logger = logging.getLogger(__name__)
 
 
 def merge_short_chunks(elements: List[Dict[str, Any]], min_length: int = 20) -> List[Dict[str, Any]]:
-            """
-            Merge chunks that are shorter than the minimum length threshold.
+    """
+    Merge chunks that are shorter than the minimum length threshold.
+    
+    Args:
+        elements: List of document elements
+        min_length: Minimum length threshold for a chunk
+        
+    Returns:
+        List of merged chunks
+    """
+    if not elements:
+        return elements
+    
+    merged_elements = []
+    current_chunk = None
+    
+    for element in elements:
+        text = element.get('text', '')
+        
+        if current_chunk is None:
+            current_chunk = element
+        elif len(current_chunk.get('text', '')) < min_length:
+            # Merge with current chunk
+            current_chunk['text'] = current_chunk.get('text', '') + ' ' + text
             
-            Args:
-                elements: List of document elements
-                min_length: Minimum length threshold for a chunk
+            # Merge metadata where appropriate
+            if 'metadata' in element and 'metadata' in current_chunk:
+                # Merge element types
+                if 'element_types' in element['metadata'] and 'element_types' in current_chunk['metadata']:
+                    for et in element['metadata']['element_types']:
+                        if et not in current_chunk['metadata']['element_types']:
+                            current_chunk['metadata']['element_types'].append(et)
                 
-            Returns:
-                List of merged chunks
-            """
-            if not elements:
-                return elements
-            
-            merged_elements = []
-            current_chunk = None
-            
-            for element in elements:
-                text = element.get('text', '')
+                # Merge paragraph numbers if they exist
+                if 'paragraph_numbers' in element['metadata'] and 'paragraph_numbers' in current_chunk['metadata']:
+                    for pn in element['metadata']['paragraph_numbers']:
+                        if pn not in current_chunk['metadata']['paragraph_numbers']:
+                            current_chunk['metadata']['paragraph_numbers'].append(pn)
                 
-                if current_chunk is None:
-                    current_chunk = element
-                elif len(current_chunk.get('text', '')) < min_length:
-                    # Merge with current chunk
-                    current_chunk['text'] = current_chunk.get('text', '') + ' ' + text
-                    
-                    # Merge metadata where appropriate
-                    if 'metadata' in element and 'metadata' in current_chunk:
-                        # Merge element types
-                        if 'element_types' in element['metadata'] and 'element_types' in current_chunk['metadata']:
-                            for et in element['metadata']['element_types']:
-                                if et not in current_chunk['metadata']['element_types']:
-                                    current_chunk['metadata']['element_types'].append(et)
-                        
-                        # Merge paragraph numbers if they exist
-                        if 'paragraph_numbers' in element['metadata'] and 'paragraph_numbers' in current_chunk['metadata']:
-                            for pn in element['metadata']['paragraph_numbers']:
-                                if pn not in current_chunk['metadata']['paragraph_numbers']:
-                                    current_chunk['metadata']['paragraph_numbers'].append(pn)
-                        
-                        # Merge paragraph IDs if they exist
-                        if 'paragraph_ids' in element['metadata'] and 'paragraph_ids' in current_chunk['metadata']:
-                            for pid in element['metadata']['paragraph_ids']:
-                                if pid not in current_chunk['metadata']['paragraph_ids']:
-                                    current_chunk['metadata']['paragraph_ids'].append(pid)
-                else:
-                    # Current chunk is long enough, add to results
-                    merged_elements.append(current_chunk)
-                    current_chunk = element
-            
-            # Don't forget the last chunk
-            if current_chunk is not None:
-                merged_elements.append(current_chunk)
-            
-            return merged_elements
+                # Merge paragraph IDs if they exist
+                if 'paragraph_ids' in element['metadata'] and 'paragraph_ids' in current_chunk['metadata']:
+                    for pid in element['metadata']['paragraph_ids']:
+                        if pid not in current_chunk['metadata']['paragraph_ids']:
+                            current_chunk['metadata']['paragraph_ids'].append(pid)
+        else:
+            # Current chunk is long enough, add to results
+            merged_elements.append(current_chunk)
+            current_chunk = element
+    
+    # Don't forget the last chunk
+    if current_chunk is not None:
+        merged_elements.append(current_chunk)
+    
+    return merged_elements
             
 def split_long_chunks(elements: List[Dict[str, Any]], max_length: int = 1000) -> List[Dict[str, Any]]:
     """

@@ -11,8 +11,7 @@ from datetime import datetime
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
-from chunk.cleaner import merge_short_chunks, split_long_chunks, remove_gibberish
-from helpers.internal import Logger
+from group4py.src.chunk.cleaner import merge_short_chunks, split_long_chunks, remove_gibberish
 
 logger = logging.getLogger(__name__)
 
@@ -23,11 +22,9 @@ class DocChunker:
         Input: Some form of documents (PDFs, etc.)
         Output: A list of chunks
     """
-    def __init__(self):
-        pass
-
-    @Logger.debug_log()     
-    def chunk_document_by_sentences(self, elements: list, max_chunk_size: int = 512, overlap: int = 2) -> list:
+    
+    @staticmethod
+    def chunk_document_by_sentences(elements: list, max_chunk_size: int = 512, overlap: int = 2) -> list:
         """
         Chunk a document into sentences with context for better semantic meaning.
         
@@ -198,8 +195,8 @@ class DocChunker:
         
         return chunks
 
-    @Logger.debug_log()
-    def cleaning_function(self, elements: List[Dict[str, Any]], min_length: int = 20, max_length: int = 1000) -> List[Dict[str, Any]]:
+    @staticmethod
+    def cleaning_function(elements: List[Dict[str, Any]], min_length: int = 20, max_length: int = 1000) -> List[Dict[str, Any]]:
         """
         Clean and process document chunks from extract_document.py output.
         
@@ -224,8 +221,8 @@ class DocChunker:
         logger.info(f"Cleaning complete. Produced {len(cleaned_elements)} chunks")
         return cleaned_elements
 
-    @Logger.debug_log()
-    def chunk_json(self, chunks: List[Dict[str, Any]], output_path: str = None) -> str:
+    @staticmethod
+    def chunk_json(chunks: List[Dict[str, Any]], output_path: str = None) -> str:
         """
         Generate a JSON file from document chunks to be saved in the data/processed folder.
         

@@ -12,9 +12,9 @@ from sqlalchemy import select
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
-from chunk.extractor import extract_text_from_pdf
-from chunk.chunker import DocChunker
-from constants.settings import FILE_PROCESSING_CONCURRENCY
+from group4py.src.chunk.extractor import extract_text_from_pdf
+from group4py.src.chunk.chunker import DocChunker
+from group4py.src.constants.settings import FILE_PROCESSING_CONCURRENCY
 from helpers.internal import Logger
 from databases.auth import PostgresConnection
 from databases.models import NDCDocumentORM, DocChunkORM, LogicalRelationshipORM
@@ -228,13 +228,12 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
             logger.info(f"[3_CHUNK] Final extracted elements count: {len(extracted_elements)}")
             
             # 2. Create chunks from the extracted text
-            doc_chunker = DocChunker()
-            chunks = doc_chunker.chunk_document_by_sentences(extracted_elements)
+            chunks = DocChunker.chunk_document_by_sentences(extracted_elements)
             logger.info(f"[3_CHUNK] Created {len(chunks)} chunks from {file_path}")
             
             # 3. Clean chunks
             try:
-                cleaned_chunks = doc_chunker.cleaning_function(chunks)
+                cleaned_chunks = DocChunker.cleaning_function(chunks)
                 logger.info(f"[3_CHUNK] Finished cleaning chunks from {file_path}, got {len(cleaned_chunks)} cleaned chunks")
             except Exception as e:
                 logger.error(f"[3_CHUNK] Error during chunk cleaning: {e}")
