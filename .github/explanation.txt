@@ -1,7 +1,0 @@
-detect.yaml is scheduled to run every T and T+1
-
-update.yaml however, is dormant by default, conditional on two things:
-- (1) detect.yaml detects a change
-- (2) there's concensus between group and client that it's okay to push all pdfs/database/models onto 
-      Github/some other third-party cloud provider because otherwise,
-      this has to be done locally, and there's no way to trigger an update

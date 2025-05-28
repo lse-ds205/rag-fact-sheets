@@ -16,7 +16,6 @@ sys.path.insert(0, str(project_root))
 import group4py
 from group4py.src.helpers import Logger, Test, TaskInfo
 from group4py.src.query import LLMClient, ResponseProcessor, ChunkFormatter, ConfidenceClassification
-from group4py.src.schema import UUIDEncoder
 
 logger = logging.getLogger(__name__)
 
