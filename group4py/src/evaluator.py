@@ -17,7 +17,6 @@ project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
 from database import Connection
-from embedding import TransformerEmbedding, CombinedEmbedding
 from helpers.internal import Logger
 from database import Connection
 from schema import DatabaseConfig

@@ -9,20 +9,18 @@ from dotenv import load_dotenv
 from sqlalchemy import text
 from tqdm import tqdm
 
-# Load environment variables from .env file
-load_dotenv()
-
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
-from embedding import CombinedEmbedding
+from embed.combined import CombinedEmbedding
+from embed.hoprag import HopRAGGraphProcessor
 from helpers.internal import Logger
-# from database import Connection
 from databases.auth import PostgresConnection
 from databases.models import DocChunkORM
-from hop_rag import HopRAGGraphProcessor
 
 logger = logging.getLogger(__name__)
+load_dotenv()
+
 
 def collect_all_chunk_texts(session):
     """
@@ -34,7 +32,6 @@ def collect_all_chunk_texts(session):
     logger.info("[3.5_EMBED] Collecting all chunks from database for global Word2Vec training...")
     
     try:
-        # Get all chunks with their content
         chunks = session.query(DocChunkORM.content).filter(DocChunkORM.content.isnot(None)).all()
         texts = [chunk.content for chunk in chunks if chunk.content and chunk.content.strip()]
         
@@ -156,6 +153,11 @@ async def embed_all_chunks(force_reembed: bool = False, db = Optional[PostgresCo
             logger.info("[3.5_EMBED] Starting HopRAG processing...")
             processor = HopRAGGraphProcessor()
             
+            # Check if the HopRAG embedding model is ready
+            if not processor.is_model_ready():
+                logger.error("[3.5_EMBED] HopRAG embedding model failed to initialize properly. Skipping HopRAG processing.")
+                return
+                
             # Generate embeddings if needed (HopRAG uses its own embedding format)
             logger.info("[3.5_EMBED] Processing HopRAG embeddings in batch...")
             await processor.process_embeddings_batch(batch_size=100)
@@ -241,13 +243,7 @@ async def run_script(force_reembed: bool = False):
 
 if __name__ == "__main__":
     import argparse
-    
-    # Create argument parser
     parser = argparse.ArgumentParser(description="Generate embeddings for document chunks using global Word2Vec and transformers")
     parser.add_argument("--force", "-f", action="store_true", help="Force regeneration of embeddings, even if they already exist")
-    
-    # Parse arguments
     args = parser.parse_args()
-    
-    # Run the script with force_reembed parameter
     asyncio.run(run_script(force_reembed=args.force))

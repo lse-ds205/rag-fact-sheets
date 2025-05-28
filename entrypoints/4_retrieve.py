@@ -18,8 +18,7 @@ import group4py
 from database import Connection
 from helpers.internal import Logger, Test, TaskInfo
 from evaluator import Evaluator, VectorComparison, RegexComparison, FuzzyRegexComparison
-from embedding import TransformerEmbedding, CombinedEmbedding
-from query import Booster
+from embedding import TransformerEmbedding
 from constants.prompts import (
     QUESTION_PROMPT_1, QUESTION_PROMPT_2, QUESTION_PROMPT_3, QUESTION_PROMPT_4,
     QUESTION_PROMPT_5, QUESTION_PROMPT_6, QUESTION_PROMPT_7, QUESTION_PROMPT_8

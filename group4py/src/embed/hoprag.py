@@ -6,7 +6,6 @@ Implements embeddings, relationship detection, and graph analysis
 import sys
 from pathlib import Path
 import numpy as np
-import json
 import gc
 import re
 import logging
@@ -14,7 +13,6 @@ import networkx as nx
 import traceback
 from typing import List, Dict, Optional, Union
 from datetime import datetime
-from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -29,47 +27,11 @@ import group4py
 from databases.auth import PostgresConnection
 from databases.models import LogicalRelationshipORM
 from databases.operations import upload
+from schemas.hopragdata import ChunkData, RelationshipScore, GraphAnalysisResult
+from constants.regex import HOPRAG_PATTERNS
 
 logger = logging.getLogger(__name__)
-ChunkID = Union[str, uuid.UUID]
 
-@dataclass
-class ChunkData:
-    """Memory-efficient chunk representation with consistent UUID handling"""
-    chunk_id: uuid.UUID  # Always use UUID objects consistently
-    content: str
-    embedding: Optional[np.ndarray] = None
-    chunk_index: Optional[int] = None
-
-@dataclass
-class RelationshipScore:
-    """Relationship detection result with consistent UUID types"""
-    source_id: uuid.UUID
-    target_id: uuid.UUID
-    relationship_type: str
-    confidence: float
-    evidence: str
-    method: str = "hybrid"
-
-@dataclass
-class GraphAnalysisResult:
-    """Graph analysis result with consistent UUID handling"""
-    chunk_id: uuid.UUID
-    content: str
-    centrality_scores: Dict[str, float]
-    community_id: int
-    final_score: float
-
-@dataclass
-class NodeClassification:
-    """Classification result for a single node with UUID consistency"""
-    chunk_id: uuid.UUID
-    content: str
-    centrality_scores: Dict[str, float]
-    combined_score: float
-    classification: str
-    rank_within_class: int
-    confidence_level: str
 
 class MemoryOptimizedEmbedder:
     """Memory-efficient embedding generator"""
@@ -128,40 +90,7 @@ class OptimizedRelationshipDetector:
     """Optimized relationship detection with consistent UUID handling"""
     
     def __init__(self):
-        self.climate_patterns = {
-            'SUPPORTS': [
-                (r'\d+(\.\d+)?\s*(MtCO2e|%|GW|MW|billion|million)', r'target|goal|commitment|reduce|achieve'),
-                (r'invest.*\$?\d+.*billion', r'achieve|implement|deploy|fund'),
-                (r'solar|wind|renewable.*\d+', r'emission.*\reduction|target|goal'),
-                (r'carbon tax.*\d+', r'revenue|fund|support|finance'),
-                (r'efficiency.*\d+.*%', r'reduction|saving|target')
-            ],
-            'EXPLAINS': [
-                (r'NDC.*Nationally Determined Contribution', r'NDC(?!\w)'),
-                (r'GHG.*greenhouse gas', r'GHG(?!\w)'),
-                (r'carbon tax.*mechanism.*price', r'carbon tax'),
-                (r'renewable energy.*includes.*solar.*wind', r'renewable'),
-                (r'adaptation.*refers to|means', r'adaptation'),
-                (r'mitigation.*refers to|means', r'mitigation')
-            ],
-            'CONTRADICTS': [
-                (r'target.*\d+.*MtCO2e', r'target.*\d+.*MtCO2e'),
-                (r'by \d{4}', r'by \d{4}'),
-                (r'increase.*emissions', r'reduce.*emissions'),
-                (r'not.*feasible|impossible', r'will.*implement|committed')
-            ],
-            'FOLLOWS': [
-                (r'phase 1|first phase', r'phase 2|second phase|next phase'),
-                (r'by 2030', r'after 2030|post-2030|2035|2040|2050'),
-                (r'short.?term', r'medium.?term|long.?term'),
-                (r'pilot|trial', r'scale.*up|full.*deployment')
-            ],
-            'CAUSES': [
-                (r'due to|because of|result of', r'therefore|thus|consequently'),
-                (r'leads to|results in|causes', r'impact|effect|consequence'),
-                (r'if.*then', r'will.*result|outcome')
-            ]
-        }
+        self.climate_patterns = HOPRAG_PATTERNS
     
     def detect_relationships_batch(self, source_chunks: List[ChunkData], 
                                  target_chunks: List[ChunkData]) -> List[RelationshipScore]:
@@ -195,8 +124,8 @@ class OptimizedRelationshipDetector:
                     if confidence > best_confidence:
                         best_confidence = confidence
                         best_relationship = RelationshipScore(
-                            source_id=source.chunk_id,  # Already UUID
-                            target_id=target.chunk_id,  # Already UUID
+                            source_id=source.chunk_id,
+                            target_id=target.chunk_id,
                             relationship_type=rel_type,
                             confidence=confidence,
                             evidence=f"Pattern: {source_pattern} -> {target_pattern}",
@@ -821,266 +750,3 @@ class HopRAGGraphProcessor:
         """Cleanup resources"""
         self.executor.shutdown(wait=True)
         logger.info("Optimized graph processor closed")
-
-class HopRAGClassifier:
-    """
-    Classifier that categorizes nodes based on centrality score thresholds
-    and ranks top 20 nodes into different importance categories
-    """
-    
-    def __init__(self):
-        # Hard-coded thresholds for centrality scores
-        self.thresholds = {
-            'degree': {
-                'high': 0.7,    # High connectivity nodes
-                'medium': 0.4,  # Medium connectivity nodes
-                'low': 0.0      # Low connectivity nodes (everything else)
-            },
-            'pagerank': {
-                'high': 0.15,   # High influence nodes
-                'medium': 0.05, # Medium influence nodes
-                'low': 0.0      # Low influence nodes (everything else)
-            },
-            'betweenness': {
-                'high': 0.3,    # High bridging nodes
-                'medium': 0.1,  # Medium bridging nodes
-                'low': 0.0      # Low bridging nodes (everything else)
-            }
-        }
-        
-        # Classification categories
-        self.categories = {
-            'CORE_HUB': 'High centrality in all measures - critical knowledge nodes',
-            'AUTHORITY': 'High PageRank - influential reference nodes',
-            'CONNECTOR': 'High betweenness - bridge nodes between topics',
-            'PERIPHERAL': 'Lower centrality - supporting information nodes'
-        }
-    
-    def classify_nodes(self, processor_results: Dict) -> Dict:
-        """
-        Classify nodes from processor results into categories based on centrality thresholds
-        
-        Args:
-            processor_results: Results from processor.get_top_ranked_nodes()
-        
-        Returns:
-            Dict: Structured classification results with rankings
-        """
-        if not processor_results.get('top_nodes'):
-            return self._empty_classification_result(processor_results)
-        
-        top_nodes = processor_results['top_nodes'][:20]  # Ensure we only take top 20
-        
-        # Classify each node
-        classified_nodes = []
-        for node in top_nodes:
-            classification = self._classify_single_node(node)
-            classified_nodes.append(classification)
-        
-        # Group by classification and rank within each group
-        classification_groups = self._group_and_rank_nodes(classified_nodes)
-        
-        # Generate final structured output
-        result = self._generate_classification_output(
-            processor_results, 
-            classification_groups, 
-            classified_nodes
-        )
-        
-        return result
-    
-    def _classify_single_node(self, node: Dict) -> NodeClassification:
-        """Classify a single node based on its centrality scores"""
-        centrality = node['centrality_scores']
-        
-        # Extract centrality values
-        degree = centrality.get('degree', 0.0)
-        pagerank = centrality.get('pagerank', 0.0)
-        betweenness = centrality.get('betweenness', 0.0)
-        
-        # Determine classification category
-        classification = self._determine_category(degree, pagerank, betweenness)
-        
-        # Determine confidence level based on score distribution
-        confidence_level = self._determine_confidence_level(degree, pagerank, betweenness)
-        
-        return NodeClassification(
-            chunk_id=node['chunk_id'],
-            content=node['content'],
-            centrality_scores=centrality,
-            combined_score=node['combined_score'],
-            classification=classification,
-            rank_within_class=0,  # Will be set during grouping
-            confidence_level=confidence_level
-        )
-    
-    def _determine_category(self, degree: float, pagerank: float, betweenness: float) -> str:
-        """Determine the category based on centrality thresholds"""
-        
-        # Count how many measures are "high"
-        high_counts = sum([
-            degree >= self.thresholds['degree']['high'],
-            pagerank >= self.thresholds['pagerank']['high'],
-            betweenness >= self.thresholds['betweenness']['high']
-        ])
-        
-        # Specific classification logic
-        if high_counts >= 2:
-            return 'CORE_HUB'
-        elif pagerank >= self.thresholds['pagerank']['high']:
-            return 'AUTHORITY'
-        elif betweenness >= self.thresholds['betweenness']['high']:
-            return 'CONNECTOR'
-        else:
-            return 'PERIPHERAL'
-    
-    def _determine_confidence_level(self, degree: float, pagerank: float, betweenness: float) -> str:
-        """Determine confidence level based on score magnitude"""
-        avg_score = (degree + pagerank + betweenness) / 3
-        
-        if avg_score >= 0.6:
-            return 'HIGH'
-        elif avg_score >= 0.3:
-            return 'MEDIUM'
-        else:
-            return 'LOW'
-    
-    def _group_and_rank_nodes(self, classified_nodes: List[NodeClassification]) -> Dict[str, List[NodeClassification]]:
-        """Group nodes by classification and rank within each group"""
-        groups = {category: [] for category in self.categories.keys()}
-        
-        # Group nodes
-        for node in classified_nodes:
-            groups[node.classification].append(node)
-        
-        # Sort and rank within each group
-        for category, nodes in groups.items():
-            # Sort by combined score descending
-            nodes.sort(key=lambda x: x.combined_score, reverse=True)
-            
-            # Assign ranks within the group
-            for i, node in enumerate(nodes):
-                node.rank_within_class = i + 1
-        
-        return groups
-    
-    def _generate_classification_output(self, processor_results: Dict, 
-                                      classification_groups: Dict[str, List[NodeClassification]], 
-                                      all_classified_nodes: List[NodeClassification]) -> Dict:
-        """Generate the final structured JSON output"""
-        
-        # Summary statistics
-        total_nodes = len(all_classified_nodes)
-        category_counts = {cat: len(nodes) for cat, nodes in classification_groups.items()}
-        
-        # Detailed results for each category
-        category_details = {}
-        for category, nodes in classification_groups.items():
-            category_details[category] = {
-                'description': self.categories[category],
-                'count': len(nodes),
-                'nodes': [
-                    {
-                        'chunk_id': node.chunk_id,
-                        'content': node.content[:200] + "..." if len(node.content) > 200 else node.content,
-                        'centrality_scores': node.centrality_scores,
-                        'combined_score': round(node.combined_score, 4),
-                        'rank_within_category': node.rank_within_class,
-                        'confidence_level': node.confidence_level
-                    }
-                    for node in nodes
-                ]
-            }
-        
-        # Overall ranking (all nodes sorted by combined score)
-        all_classified_nodes.sort(key=lambda x: x.combined_score, reverse=True)
-        overall_ranking = [
-            {
-                'overall_rank': i + 1,
-                'chunk_id': node.chunk_id,
-                'classification': node.classification,
-                'combined_score': round(node.combined_score, 4),
-                'confidence_level': node.confidence_level
-            }
-            for i, node in enumerate(all_classified_nodes)
-        ]
-        
-        # Threshold information
-        threshold_info = {
-            'thresholds_used': self.thresholds,
-            'classification_criteria': {
-                'CORE_HUB': 'High centrality in 2+ measures',
-                'AUTHORITY': 'High PageRank score',
-                'CONNECTOR': 'High betweenness centrality',
-                'PERIPHERAL': 'Lower centrality scores'
-            }
-        }
-        
-        return {
-            'metadata': {
-                'query': processor_results.get('query', ''),
-                'processing_method': processor_results.get('method', 'unknown'),
-                'total_nodes_processed': processor_results.get('total_nodes', 0),
-                'top_nodes_classified': total_nodes,
-                'execution_time_ms': processor_results.get('execution_time_ms', 0),
-                'classification_timestamp': datetime.utcnow().isoformat(),
-                'graph_stats': processor_results.get('graph_stats', {})
-            },
-            'classification_summary': {
-                'total_classified': total_nodes,
-                'category_distribution': category_counts,
-                'confidence_distribution': {
-                    'HIGH': len([n for n in all_classified_nodes if n.confidence_level == 'HIGH']),
-                    'MEDIUM': len([n for n in all_classified_nodes if n.confidence_level == 'MEDIUM']),
-                    'LOW': len([n for n in all_classified_nodes if n.confidence_level == 'LOW'])
-                }
-            },
-            'category_details': category_details,
-            'overall_ranking': overall_ranking,
-            'classification_config': threshold_info
-        }
-    
-    def _empty_classification_result(self, processor_results: Dict) -> Dict:
-        """Return empty result structure when no nodes to classify"""
-        return {
-            'metadata': {
-                'query': processor_results.get('query', ''),
-                'processing_method': processor_results.get('method', 'unknown'),
-                'total_nodes_processed': 0,
-                'top_nodes_classified': 0,
-                'execution_time_ms': processor_results.get('execution_time_ms', 0),
-                'classification_timestamp': datetime.utcnow().isoformat(),
-                'graph_stats': {}
-            },
-            'classification_summary': {
-                'total_classified': 0,
-                'category_distribution': {cat: 0 for cat in self.categories.keys()},
-                'confidence_distribution': {'HIGH': 0, 'MEDIUM': 0, 'LOW': 0}
-            },
-            'category_details': {
-                cat: {'description': desc, 'count': 0, 'nodes': []}
-                for cat, desc in self.categories.items()
-            },
-            'overall_ranking': [],
-            'classification_config': {
-                'thresholds_used': self.thresholds,
-                'classification_criteria': {
-                    'CORE_HUB': 'High centrality in 2+ measures',
-                    'AUTHORITY': 'High PageRank score',
-                    'CONNECTOR': 'High betweenness centrality',
-                    'PERIPHERAL': 'Lower centrality scores'
-                }
-            }
-        }
-    
-    def save_classification_results(self, results: Dict, filename: Optional[str] = None) -> str:
-        """Save classification results to JSON file"""
-        if filename is None:
-            timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
-            filename = f"hoprag_classification_{timestamp}.json"
-        
-        with open(filename, 'w', encoding='utf-8') as f:
-            json.dump(results, f, indent=2, default=str, ensure_ascii=False)
-        
-        logger.info(f"Classification results saved to: {filename}")
-        return filename

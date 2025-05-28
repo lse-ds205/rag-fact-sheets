@@ -26,6 +26,7 @@ class DatabaseConfig(BaseModel):
             url=os.getenv('DATABASE_URL', ''),
         )
 
+
 class NDCDocumentModel(BaseModel):
     """Pydantic model for NDC documents with all fields."""
     doc_id: UUID
@@ -50,46 +51,6 @@ class NDCDocumentModel(BaseModel):
     class Config:
         from_attributes = True
 
-class DocChunk(BaseModel):
-    """Unified Pydantic model for document chunks - matches doc_chunks table structure"""
-    # Primary key
-    id: Optional[UUID] = None
-    # Core chunk data
-    doc_id: UUID = Field(..., description="Foreign key to documents table")
-    content: str = Field(..., min_length=10)
-    chunk_index: int = Field(..., ge=0)
-    paragraph: Optional[int] = None
-    language: Optional[str] = None    # Embeddings (original columns)
-    transformer_embedding: Optional[List[float]] = None
-    word2vec_embedding: Optional[List[float]] = None
-    
-    # Metadata field (renamed to chunk_data in the database to avoid SQLAlchemy reserved word conflict)
-    chunk_data: Optional[Dict[str, Any]] = Field(default_factory=dict)  # JSONB metadata stored in chunk_data column
-      # HopRAG-specific columns (added by setup script)
-    hoprag_embedding: Optional[List[float]] = None  # Vector embedding for HopRAG (VECTOR type)
-    content_hash: Optional[str] = None
-    
-    # Timestamps
-    created_at: Optional[datetime] = Field(default_factory=datetime.now(timezone.utc))
-    updated_at: Optional[datetime] = Field(default_factory=datetime.now(timezone.utc))
-    
-    class Config:
-        from_attributes = True
-
-class DocChunkUpdate(BaseModel):
-    """Pydantic model for updating document chunks."""
-    transformer_embedding: Optional[List[float]] = None
-    word2vec_embedding: Optional[List[float]] = None
-    hoprag_embedding: Optional[List[float]] = None
-    content_hash: Optional[str] = None
-    chunk_data: Optional[Dict[str, Any]] = None
-
-class QueryResult(BaseModel):
-    """Pydantic model for query results."""
-    chunks: List[DocChunk]
-    similarity_scores: Optional[List[float]] = None
-    total_results: int
-    query_time_ms: float
 
 class LogicalRelationship(BaseModel):
     """Logical relationship between chunks for HopRAG"""
@@ -113,10 +74,12 @@ class LogicalRelationship(BaseModel):
 # LLM Response Models
 # ------------------------------------------------------------------------------------------------
 
+
 class LLMAnswerModel(BaseModel):
     """Pydantic model for LLM answer structure. Included in LLMResponseModel."""
     summary: str = Field(..., description="Brief 2-3 sentence summary of the main answer")
     detailed_response: str = Field(..., description="Comprehensive answer to the question with full context and analysis")
+
 
 class LLMCitationModel(BaseModel):
     """Pydantic model for LLM citation structure. Included in LLMResponseModel."""
@@ -131,10 +94,12 @@ class LLMCitationModel(BaseModel):
     cos_similarity_score: float = Field(..., description="Cosine similarity score between query and chunk")
     how_used: str = Field(..., description="Explanation of how this chunk contributed to the answer")
 
+
 class LLMMetadataModel(BaseModel):
     """Pydantic model for LLM response metadata. Included in LLMResponseModel."""
     chunks_cited: int = Field(..., description="Number of chunks cited in the response")
     primary_countries: List[str] = Field(..., description="Main countries discussed in the response")
+
 
 class LLMResponseModel(BaseModel):
     """Complete Pydantic model for LLM response structure. Contains LLM answer, citations, and metadata."""

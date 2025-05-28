@@ -4,6 +4,7 @@ This module contains the SQLAlchemy ORM models for the database.
 
 import uuid
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.dialects.postgresql import ARRAY, DOUBLE_PRECISION
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from sqlalchemy import (
@@ -62,6 +63,7 @@ class DocChunkORM(Base):
     language = Column(String)
     transformer_embedding = Column(ARRAY(Float))
     word2vec_embedding = Column(ARRAY(Float))
+    hoprag_embedding = Column(ARRAY(Integer))
     content_hash = Column(String(64))
     chunk_data = Column(JSONB, default={})
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -88,7 +90,7 @@ class LogicalRelationshipORM(Base):
     )
 
 
-def establish_relationships():
+def establish_python_level_relationships():
     DocChunkORM.source_relationships = relationship("LogicalRelationshipORM", 
                                                 foreign_keys=[LogicalRelationshipORM.source_chunk_id],
                                                 backref="source_chunk", 

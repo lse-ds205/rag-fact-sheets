@@ -4,6 +4,42 @@ from typing import Dict, List, Set, Tuple, Optional, Any
 from dataclasses import dataclass
 from enum import Enum
 
+
+HOPRAG_PATTERNS = {
+            'SUPPORTS': [
+                (r'\d+(\.\d+)?\s*(MtCO2e|%|GW|MW|billion|million)', r'target|goal|commitment|reduce|achieve'),
+                (r'invest.*\$?\d+.*billion', r'achieve|implement|deploy|fund'),
+                (r'solar|wind|renewable.*\d+', r'emission.*\reduction|target|goal'),
+                (r'carbon tax.*\d+', r'revenue|fund|support|finance'),
+                (r'efficiency.*\d+.*%', r'reduction|saving|target')
+            ],
+            'EXPLAINS': [
+                (r'NDC.*Nationally Determined Contribution', r'NDC(?!\w)'),
+                (r'GHG.*greenhouse gas', r'GHG(?!\w)'),
+                (r'carbon tax.*mechanism.*price', r'carbon tax'),
+                (r'renewable energy.*includes.*solar.*wind', r'renewable'),
+                (r'adaptation.*refers to|means', r'adaptation'),
+                (r'mitigation.*refers to|means', r'mitigation')
+            ],
+            'CONTRADICTS': [
+                (r'target.*\d+.*MtCO2e', r'target.*\d+.*MtCO2e'),
+                (r'by \d{4}', r'by \d{4}'),
+                (r'increase.*emissions', r'reduce.*emissions'),
+                (r'not.*feasible|impossible', r'will.*implement|committed')
+            ],
+            'FOLLOWS': [
+                (r'phase 1|first phase', r'phase 2|second phase|next phase'),
+                (r'by 2030', r'after 2030|post-2030|2035|2040|2050'),
+                (r'short.?term', r'medium.?term|long.?term'),
+                (r'pilot|trial', r'scale.*up|full.*deployment')
+            ],
+            'CAUSES': [
+                (r'due to|because of|result of', r'therefore|thus|consequently'),
+                (r'leads to|results in|causes', r'impact|effect|consequence'),
+                (r'if.*then', r'will.*result|outcome')
+            ]
+        }
+
 class QueryType(Enum):
     """Enumeration of different query types for NDC documents"""
     NDC_TARGETS = "ndc_targets"

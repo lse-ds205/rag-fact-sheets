@@ -1,5 +1,7 @@
 DOCS_URL = 'https://unfccc.int/NDCREG'
 
+FILE_PROCESSING_CONCURRENCY = 5
+
 HEADERS = {
     "Host": "unfccc.int",
     "Cache-Control": "max-age=0",
@@ -28,4 +30,31 @@ COOKIES = {
     "incap_ses_872_662566": "Rs1IZJjWIlN4fpSEm/cZDLLqHWgAAAAA40LxuLmRGhLQJXPTcYN5XQ=="
 }
 
-FILE_PROCESSING_CONCURRENCY = 5
+COUNTRY_LANG_MAP = {
+    'france': 'fr',
+    'french': 'fr',
+    'germany': 'de',
+    'german': 'de',
+    'spain': 'es',
+    'spanish': 'es',
+    'italy': 'it',
+    'italian': 'it',
+    'china': 'zh',
+    'chinese': 'zh',
+    'japan': 'ja',
+    'japanese': 'ja',
+    'russia': 'ru',
+    'russian': 'ru',
+    'brazil': 'pt',
+    'portuguese': 'pt',
+    'india': 'en',  # India often uses English for official documents
+    'usa': 'en',
+    'uk': 'en',
+    'english': 'en',
+    'mexico': 'es',
+    'argentina': 'es',
+    'colombia': 'es',
+    'peru': 'es',
+    'chile': 'es',
+    'venezuela': 'es',
+}
