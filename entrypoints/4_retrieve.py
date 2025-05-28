@@ -16,7 +16,7 @@ project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
 from database import Connection
-from helpers import Logger, Test, TaskInfo
+from helpers.internal import Logger, Test, TaskInfo
 from evaluator import Evaluator, VectorComparison, RegexComparison, FuzzyRegexComparison
 from embedding import TransformerEmbedding, CombinedEmbedding
 from query import Booster

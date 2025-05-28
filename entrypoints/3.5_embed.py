@@ -16,7 +16,7 @@ project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
 from embedding import CombinedEmbedding
-from helpers import Logger
+from helpers.internal import Logger
 # from database import Connection
 from databases.auth import PostgresConnection
 from databases.models import DocChunkORM

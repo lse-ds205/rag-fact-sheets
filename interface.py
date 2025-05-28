@@ -7,7 +7,7 @@ import json
 project_root = Path(__file__).resolve().parent
 sys.path.insert(0, str(project_root))
 import group4py
-from helpers import Logger, Test
+from helpers.internal import Logger, Test
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text

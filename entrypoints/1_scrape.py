@@ -19,7 +19,7 @@ sys.path.insert(0, str(project_root))
 
 import group4py
 from group4py.src.scrape import run_scraping_workflow
-from helpers import Logger
+from helpers.internal import Logger
 
 
 @Logger.log(log_file=project_root / "logs/scrape.log", log_level="INFO")

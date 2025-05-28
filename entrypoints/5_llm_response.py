@@ -14,7 +14,7 @@ load_dotenv()
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
-from group4py.src.helpers import Logger, Test, TaskInfo
+from helpers.internal import Logger, Test, TaskInfo
 from group4py.src.query import LLMClient, ResponseProcessor, ChunkFormatter, ConfidenceClassification
 
 logger = logging.getLogger(__name__)

@@ -21,7 +21,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import NearestNeighbors
 from sqlalchemy import text
 import uuid
-from helpers import Logger
+from helpers.internal import Logger
 
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))

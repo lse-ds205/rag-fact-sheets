@@ -21,7 +21,7 @@ sys.path.insert(0, str(project_root))
 import group4py
 from constants.settings import DOCS_URL, HEADERS, COOKIES
 from schema import NDCDocumentModel
-from helpers import Logger, Test, TaskInfo
+from helpers.internal import Logger, Test, TaskInfo
 
 logger = logging.getLogger(__name__)
 

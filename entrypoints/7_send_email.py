@@ -14,12 +14,14 @@ from supabase import create_client, Client
 import base64
 from pathlib import Path
 
-# Load environment variables from .env file
-load_dotenv()
 
-# Get project root and add to path
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
+import group4py
+from helpers.formatter import HTMLFormatter, CSVFormatter
+from constants.questions import DEFAULT_QUESTIONS
+
+load_dotenv()
 
 
 class SupabaseEmailSender:
@@ -276,10 +278,6 @@ class SupabaseEmailSender:
             Dict[str, Any]: Response from email sending
         """
         try:
-            # Import formatters
-            sys.path.append(str(Path(__file__).parent.parent))
-            from group4py.src.helpers import HTMLFormatter, CSVFormatter
-            
             # Load LLM response data if provided
             llm_data = None
             if llm_response_file and Path(llm_response_file).exists():
@@ -999,10 +997,7 @@ def main():
                 except Exception as e:
                     raise ValueError(f"Error loading Q&A file: {e}")
             else:
-                # Use default questions from CSVFormatter
-                sys.path.append(str(Path(__file__).parent.parent))
-                from group4py.src.helpers import CSVFormatter
-                questions_answers = CSVFormatter.DEFAULT_QUESTIONS
+                questions_answers = DEFAULT_QUESTIONS
             
             # Load HopRAG results if provided
             hoprag_results = None

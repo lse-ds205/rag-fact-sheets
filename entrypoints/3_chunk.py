@@ -19,7 +19,7 @@ sys.path.insert(0, str(project_root))
 import group4py
 from extract_document import extract_text_from_pdf
 from chunking import DocChunker
-from helpers import Logger
+from helpers.internal import Logger
 from group4py.src.constants.settings import FILE_PROCESSING_CONCURRENCY
 from databases.auth import PostgresConnection
 from databases.models import NDCDocumentORM, DocChunkORM, LogicalRelationshipORM
