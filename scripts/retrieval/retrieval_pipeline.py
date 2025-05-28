@@ -1,129 +1,110 @@
 import os
 import pandas as pd
 import numpy as np
-from dotenv import load_dotenv
-from transformers import AutoTokenizer, AutoModel
-from gensim.models import Word2Vec
-from gensim.utils import simple_preprocess
 from sqlalchemy import create_engine
+from gensim.utils import simple_preprocess
+from retrieval_support import bm25_search, vector_search, df_with_similarity_score, hybrid_scoring
 
-from retrieval import boolean_search, bm25_search, fuzzy_search, vector_search, df_with_similarity_score, hybrid_scoring
-from functions import generate_word2vec_embedding_for_text, generate_embeddings_for_text
-
-load_dotenv()
-
-class InformationRetriever:
+class CountryFilteredRetrieval:
     def __init__(self):
-        """Initialize models and database connection"""
         self.engine = create_engine(os.getenv("DB_URL"))
-        self.df = None
-        self.climatebert_model = None
-        self.climatebert_tokenizer = None
-        self.custom_w2v = None
+    
+    def load_data_by_country(self, country_codes=None):
+        """Load document embeddings filtered by country"""
+        if country_codes is None:
+            # Load all data if no country filter specified
+            query = "SELECT * FROM document_embeddings"
+        else:
+            # Filter by specific countries
+            if isinstance(country_codes, str):
+                country_codes = [country_codes]
+            
+            placeholders = ','.join(['%s'] * len(country_codes))
+            query = f"SELECT * FROM document_embeddings WHERE country_code IN ({placeholders})"
         
-        self._load_models()
-        self._load_data()
+        df = pd.read_sql(query, self.engine, params=country_codes if country_codes else None)
+        return df
     
-    def _load_models(self):
-        """Load ClimateBERT and Word2Vec models"""
-        # Load ClimateBERT
-        embedding_model_dir = os.getenv('EMBEDDING_MODEL_LOCAL_DIR')
-        self.climatebert_tokenizer = AutoTokenizer.from_pretrained(embedding_model_dir)
-        self.climatebert_model = AutoModel.from_pretrained(embedding_model_dir)
-        
-        # Load Word2Vec
-        self.custom_w2v = Word2Vec.load("./local_model/custom_word2vec_768.model")
-    
-    def _load_data(self):
-        """Load document embeddings from database"""
-        self.df = pd.read_sql("SELECT * FROM document_embeddings", self.engine)
-    
-    def expand_keywords(self, prompt, topn=5):
-        """Generate similar words using Word2Vec model"""
+    def expand_keywords(self, prompt, custom_w2v):
+        """Generate similar words using word2vec model"""
         keywords = simple_preprocess(prompt)
         similar_words = []
         
         for keyword in keywords:
             try:
-                if keyword in self.custom_w2v.wv:
-                    similar = self.custom_w2v.wv.most_similar(keyword, topn=topn)
+                if keyword in custom_w2v.wv:
+                    similar = custom_w2v.wv.most_similar(keyword, topn=5)
                     similar_words.extend([word for word, score in similar])
             except KeyError:
                 continue
         
         all_search_terms = list(set(keywords + similar_words))
-        return keywords, all_search_terms
+        return all_search_terms, keywords
     
-    def generate_embeddings(self, prompt):
-        """Generate embeddings for prompt using both models"""
-        prompt_w2v_embeddings = generate_word2vec_embedding_for_text(prompt, self.custom_w2v)
-        prompt_climatebert_embeddings = generate_embeddings_for_text(
-            prompt, self.climatebert_model, self.climatebert_tokenizer
-        )
-        return prompt_w2v_embeddings, prompt_climatebert_embeddings
-    
-    def keyword_retrieval(self, prompt, k=25, method='bm25'):
-        """Perform keyword-based retrieval"""
-        _, expanded_keywords = self.expand_keywords(prompt)
+    def retrieve_chunks(self, prompt_embeddings, all_search_terms, country_codes=None, top_k=25):
+        """Retrieve chunks with country filtering"""
+        # Load data filtered by country
+        df = self.load_data_by_country(country_codes)
         
-        if method == 'boolean':
-            return boolean_search(expanded_keywords, self.df, k=k)
-        elif method == 'bm25':
-            return bm25_search(expanded_keywords, self.df, k=k)
-        elif method == 'fuzzy':
-            return fuzzy_search(prompt, self.df, k=k)
-        else:
-            raise ValueError("Method must be 'boolean', 'bm25', or 'fuzzy'")
-    
-    def semantic_retrieval(self, prompt, k=25, embedding_type='climatebert'):
-        """Perform semantic retrieval using embeddings"""
-        prompt_w2v_embeddings, prompt_climatebert_embeddings = self.generate_embeddings(prompt)
+        if df.empty:
+            print(f"No data found for countries: {country_codes}")
+            return pd.DataFrame()
         
-        if embedding_type == 'climatebert':
-            return vector_search(
-                prompt_embeddings=np.array(prompt_climatebert_embeddings),
-                embedding_type='climatebert',
-                top_k=k
-            )
-        elif embedding_type == 'word2vec':
-            return vector_search(
-                prompt_embeddings=np.array(prompt_w2v_embeddings),
-                embedding_type='word2vec',
-                top_k=k
-            )
-        else:
-            raise ValueError("embedding_type must be 'climatebert' or 'word2vec'")
-    
-    def hybrid_retrieval(self, prompt, k=25, alpha=0.5):
-        """Perform hybrid retrieval combining keyword and semantic search"""
-        # Get expanded keywords
-        _, expanded_keywords = self.expand_keywords(prompt)
+        print(f"Loaded {len(df)} documents for countries: {country_codes}")
         
-        # Generate embeddings
-        prompt_w2v_embeddings, prompt_climatebert_embeddings = self.generate_embeddings(prompt)
-        
-        # Get similarity scores for all documents
-        df_similarity = df_with_similarity_score(
-            prompt_embeddings_w2v=np.array(prompt_w2v_embeddings),
-            prompt_embeddings_climatebert=np.array(prompt_climatebert_embeddings),
-            top_k=None
+        # Get similarity scores for both embedding types
+        df_similarity_score = self.get_similarity_scores_filtered(
+            df, prompt_embeddings, country_codes
         )
         
-        # Add BM25 scores
-        bm25_df = bm25_search(expanded_keywords, df_similarity, k=None)
+        # Perform BM25 search on filtered data
+        bm25_df = bm25_search(all_search_terms, df_similarity_score, k=None)
         
-        # Calculate hybrid scores
-        hybrid_results = hybrid_scoring(bm25_df, alpha=alpha)
+        # Apply hybrid scoring
+        hybrid_results = hybrid_scoring(bm25_df, alpha=0.5)
         
-        return hybrid_results.head(k)
+        return hybrid_results.head(top_k)
     
-    def retrieve(self, prompt, method='hybrid', k=25, **kwargs):
-        """Main retrieval function that can use different methods"""
-        if method == 'keyword':
-            return self.keyword_retrieval(prompt, k=k, **kwargs)
-        elif method == 'semantic':
-            return self.semantic_retrieval(prompt, k=k, **kwargs)
-        elif method == 'hybrid':
-            return self.hybrid_retrieval(prompt, k=k, **kwargs)
-        else:
-            raise ValueError("Method must be 'keyword', 'semantic', or 'hybrid'")
+    def get_similarity_scores_filtered(self, df, prompt_embeddings, country_codes):
+        """Get similarity scores with country filtering using raw DataFrame"""
+        # Since we already have filtered DataFrame, work with it directly
+        w2v_embeddings = prompt_embeddings['w2v_embeddings']
+        climatebert_embeddings = prompt_embeddings['climatebert_embeddings']
+        
+        # Calculate similarity scores manually for the filtered DataFrame
+        w2v_scores = []
+        climatebert_scores = []
+        
+        for _, row in df.iterrows():
+            # Calculate cosine similarity for each embedding type
+            if 'word2vec_embedding' in df.columns and row['word2vec_embedding'] is not None:
+                w2v_sim = np.dot(w2v_embeddings, row['word2vec_embedding']) / (
+                    np.linalg.norm(w2v_embeddings) * np.linalg.norm(row['word2vec_embedding'])
+                )
+                w2v_scores.append(w2v_sim)
+            else:
+                w2v_scores.append(0)
+            
+            if 'climatebert_embedding' in df.columns and row['climatebert_embedding'] is not None:
+                cb_sim = np.dot(climatebert_embeddings, row['climatebert_embedding']) / (
+                    np.linalg.norm(climatebert_embeddings) * np.linalg.norm(row['climatebert_embedding'])
+                )
+                climatebert_scores.append(cb_sim)
+            else:
+                climatebert_scores.append(0)
+        
+        # Add scores to DataFrame
+        df = df.copy()
+        df['w2v_score'] = w2v_scores
+        df['climatebert_score'] = climatebert_scores
+        
+        return df
+    
+    def run_workflow(self, prompt_embeddings, all_search_terms, country_codes=None, top_k=25):
+        """Main workflow for country-filtered chunk retrieval"""
+        print(f"Starting retrieval for countries: {country_codes}")
+        results = self.retrieve_chunks(
+            prompt_embeddings, all_search_terms, country_codes, top_k
+        )
+        print(f"Retrieved {len(results)} relevant chunks.")
+        return results
