@@ -24,8 +24,8 @@ from constants.prompts import (
     QUESTION_PROMPT_1, QUESTION_PROMPT_2, QUESTION_PROMPT_3, QUESTION_PROMPT_4,
     QUESTION_PROMPT_5, QUESTION_PROMPT_6, QUESTION_PROMPT_7, QUESTION_PROMPT_8
 )
-from group4py.src.database import Connection
-from group4py.src.schema import DatabaseConfig
+from database import Connection
+from schema import DatabaseConfig
 
 
 

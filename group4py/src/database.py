@@ -12,7 +12,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.sql import func, text
 
-from .schema import DatabaseConfig
+from schema import DatabaseConfig
 
 # Set up logging
 logger = logging.getLogger(__name__)
