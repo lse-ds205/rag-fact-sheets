@@ -138,10 +138,97 @@ class GraphProcessingError(EmbeddingError):
 
 """Retrieval module"""
 
+class RetrievalError(Exception):
+    """Base exception for retrieval operations."""
+    pass
+
+
+class VectorSearchError(RetrievalError):
+    """Raised when vector search operations fail."""
+    pass
+
+
+class IndexError(RetrievalError):
+    """Raised when vector index operations fail."""
+    pass
+
+
+class QueryProcessingError(RetrievalError):
+    """Raised when query processing fails."""
+    pass
+
+
+class ResultRankingError(RetrievalError):
+    """Raised when result ranking or filtering fails."""
+    pass
+
+
+class SimilaritySearchError(RetrievalError):
+    """Raised when similarity search operations fail."""
+    pass
+
+
+class RetrievalDatabaseError(RetrievalError):
+    """Raised when database operations during retrieval fail."""
+    pass
+
+
+class NoResultsFoundError(RetrievalError):
+    """Raised when no relevant results are found for a query."""
+    pass
 
 
 
 """LLM module"""
+
+class LLMError(Exception):
+    """Base exception for LLM operations."""
+    pass
+
+
+class LLMModelLoadError(LLMError):
+    """Raised when an LLM model fails to load."""
+    pass
+
+
+class LLMGenerationError(LLMError):
+    """Raised when text generation fails."""
+    pass
+
+
+class LLMAPIError(LLMError):
+    """Raised when LLM API calls fail."""
+    pass
+
+
+class TokenLimitExceededError(LLMError):
+    """Raised when input exceeds model's token limit."""
+    pass
+
+
+class LLMResponseValidationError(LLMError):
+    """Raised when LLM response validation fails."""
+    pass
+
+
+class LLMConfigurationError(LLMError):
+    """Raised when LLM configuration is invalid."""
+    pass
+
+
+class PromptTemplateError(LLMError):
+    """Raised when prompt template processing fails."""
+    pass
+
+
+class LLMTimeoutError(LLMError):
+    """Raised when LLM operations timeout."""
+    pass
+
+
+class InsufficientContextError(LLMError):
+    """Raised when there's insufficient context for generation."""
+    pass
 
 
 

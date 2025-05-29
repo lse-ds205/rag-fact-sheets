@@ -1,0 +1,83 @@
+name: Run Project Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.11'
+          cache: 'pip'
+
+      - name: Install package dependencies
+        run: |
+          pip install -r requirements/requirements.txt
+
+      - name: Download models
+        run: |
+          python manual/download_models.py
+
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget gnupg
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Placebo Test - Remove a document
+        run: |
+          python manual/delete_one_document.py
+
+      - name: Run 1_scrape.py
+        run: python "entrypoints/1_scrape.py"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Run 2_chunk.py
+        run: python "entrypoints/2_chunk.py"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Run 3_embed.py
+        run: python "entrypoints/3_embed.py"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Run 4_retrieve.py
+        run: python "entrypoints/4_retrieve.py" --hop
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          LLM_MAX_TOKENS: ${{ secrets.LLM_MAX_TOKENS }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          LLM_TEMPERATURE: ${{ secrets.LLM_TEMPERATURE }}
+
+      - name: Run 5_llm_response.py
+        run: python "entrypoints/5_llm_response.py"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_BASE_URL: ${{ secrets.AI_BASE_URL }}
+
+      - name: Run 6_output.py
+        run: python "entrypoints/6_output.py"
+
+      - name: Run 7_upload.py
+        run: python "entrypoints/7_upload.py"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          EDGE_FUNCTION_NAME: ${{ secrets.EDGE_FUNCTION_NAME }}
+          DEFAULT_EMAIL_SENDER: ${{ secrets.DEFAULT_EMAIL_SENDER }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}

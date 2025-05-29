@@ -2,14 +2,17 @@ from datetime import datetime
 import sys
 import uuid
 from pathlib import Path
+from sqlalchemy import text
 import logging
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 import traceback
+import json
 
 project_root = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(project_root))
 import group4py
 from databases.models import NDCDocumentORM
+from databases.auth import PostgresConnection
 
 logger = logging.getLogger(__name__)
 
@@ -135,3 +138,388 @@ def update_processed(session, model_class, doc_id: str, chunks=None, table: str 
             logger.error(f"Error updating processed status for {doc_id}: {e}")
         finally:
             session.close()
+
+
+
+class LLMResponseUploader:
+    """Handles uploading LLM responses to PostgreSQL database using SQLAlchemy."""
+    
+    def __init__(self):
+        """Initialize database connection using auth module."""
+        self.db = PostgresConnection()
+        logger.info("Database connection initialized via auth module")
+    
+    def is_valid_uuid(self, uuid_string: str) -> bool:
+        """
+        Validate if a string is a proper UUID format.
+        
+        Args:
+            uuid_string: String to validate
+            
+        Returns:
+            True if valid UUID format, False otherwise
+        """
+        try:
+            # Try to create a UUID object from the string
+            uuid.UUID(str(uuid_string))
+            return True
+        except (ValueError, TypeError):
+            return False
+    
+    def validate_prerequisites(self, session, country_name: str, question_numbers: List[int]) -> Dict[str, Any]:
+        """
+        Validate that required countries and questions exist in database.
+        
+        Args:
+            session: SQLAlchemy session
+            country_name: Country name to validate
+            question_numbers: List of question numbers to validate
+            
+        Returns:
+            Dict with validation results
+        """
+        validation_results = {
+            'country_exists': False,
+            'questions_exist': [],
+            'missing_questions': []
+        }
+        
+        # Check if country exists
+        result = session.execute(text("SELECT id FROM countries WHERE id = :country"), 
+                               {"country": country_name})
+        validation_results['country_exists'] = result.fetchone() is not None
+        
+        # Check which questions exist
+        for q_num in question_numbers:
+            result = session.execute(text("SELECT id FROM questions WHERE id = :question_id"), 
+                                   {"question_id": q_num})
+            if result.fetchone():
+                validation_results['questions_exist'].append(q_num)
+            else:
+                validation_results['missing_questions'].append(q_num)
+        
+        return validation_results
+    
+    def validate_chunk_exists(self, session, chunk_uuid: str) -> bool:
+        """
+        Validate that a chunk UUID exists in doc_chunks table.
+        
+        Args:
+            session: SQLAlchemy session
+            chunk_uuid: UUID string to validate
+            
+        Returns:
+            True if chunk exists, False otherwise
+        """
+        # First validate UUID format to prevent transaction aborts
+        if not self.is_valid_uuid(chunk_uuid):
+            logger.warning(f"Invalid UUID format: {chunk_uuid}")
+            return False
+            
+        try:
+            result = session.execute(text("SELECT id FROM doc_chunks WHERE id = :chunk_id"), 
+                                   {"chunk_id": chunk_uuid})
+            return result.fetchone() is not None
+        except Exception as e:
+            logger.warning(f"Error validating chunk {chunk_uuid}: {e}")
+            return False
+    
+    def extract_chunk_uuid_from_citation(self, citation: Dict[str, Any]) -> Optional[str]:
+        """
+        Extract the actual chunk UUID from citation data.
+        
+        The UUID is located in chunk_metadata.id, not the top-level id field.
+        
+        Args:
+            citation: Citation dictionary from LLM response
+            
+        Returns:
+            UUID string or None if not found
+        """
+        # Primary location: chunk_metadata.id
+        chunk_metadata = citation.get('chunk_metadata', {})
+        if isinstance(chunk_metadata, dict) and 'id' in chunk_metadata:
+            chunk_uuid = str(chunk_metadata['id'])
+            logger.debug(f"Found chunk UUID in metadata: {chunk_uuid}")
+            return chunk_uuid
+        
+        # Log the structure for debugging if UUID not found
+        logger.warning(f"No chunk UUID found in chunk_metadata.id. Citation structure: {json.dumps(citation, indent=2)}")
+        return None
+    
+    def check_for_duplicates(self, session, country_name: str, question_number: int) -> bool:
+        """
+        Check if a question-answer already exists for this country-question combination.
+        
+        Args:
+            session: SQLAlchemy session
+            country_name: Country name
+            question_number: Question number
+            
+        Returns:
+            True if duplicate exists, False otherwise
+        """
+        result = session.execute(text("""
+            SELECT id FROM questions_answers 
+            WHERE country = :country AND question = :question
+        """), {"country": country_name, "question": question_number})
+        
+        return result.fetchone() is not None
+    
+    def upload_single_question(
+        self, 
+        session,
+        country_name: str, 
+        question_data: Dict[str, Any], 
+        file_metadata: Dict[str, Any]
+    ) -> Dict[str, int]:
+        """
+        Upload a single question's LLM response to database.
+        
+        Args:
+            session: SQLAlchemy session
+            country_name: Name of the country
+            question_data: Question data from JSON
+            file_metadata: Metadata from the JSON file
+            
+        Returns:
+            Statistics for this question upload
+        """
+        question_number = question_data.get('question_number')
+        llm_response = question_data.get('llm_response', {})
+        
+        if not question_number or not llm_response:
+            raise ValueError(f"Invalid question data structure")
+        
+        # Check for duplicates first
+        if self.check_for_duplicates(session, country_name, question_number):
+            logger.warning(f"Duplicate found for {country_name} question {question_number}, skipping...")
+            return {
+                'qa_inserted': 0,
+                'citations_inserted': 0,
+                'citations_invalid': 0
+            }
+        
+        # Generate UUID for questions_answers record
+        qa_uuid = str(uuid.uuid4())
+        
+        # Extract answer components
+        answer = llm_response.get('answer', {})
+        summary = answer.get('summary', '')
+        detailed_response = answer.get('detailed_response', '')
+        citations_data = llm_response.get('citations', [])
+        
+        # Create timestamp
+        timestamp = datetime.now()
+        if 'timestamp' in file_metadata:
+            try:
+                timestamp = datetime.fromisoformat(file_metadata['timestamp'].replace('Z', '+00:00'))
+            except:
+                pass  # Use current timestamp as fallback
+        
+        # INSERT QUESTIONS_ANSWERS RECORD FIRST
+        session.execute(text("""
+            INSERT INTO questions_answers 
+            (id, country, timestamp, question, summary, detailed_response)
+            VALUES (:id, :country, :timestamp, :question, :summary, :detailed_response)
+        """), {
+            "id": qa_uuid,
+            "country": country_name,
+            "timestamp": timestamp,
+            "question": question_number,
+            "summary": summary,
+            "detailed_response": detailed_response
+        })
+        
+        # NOW PROCESS CITATIONS THAT REFERENCE THE EXISTING QUESTIONS_ANSWERS RECORD
+        citation_uuids = []
+        citations_inserted = 0
+        citations_invalid = 0
+        
+        for citation in citations_data:
+            try:
+                # Extract chunk UUID from citation
+                chunk_uuid = self.extract_chunk_uuid_from_citation(citation)
+                
+                if not chunk_uuid:
+                    logger.warning("No chunk UUID found in citation")
+                    citations_invalid += 1
+                    continue
+                
+                # Validate chunk exists in database
+                if not self.validate_chunk_exists(session, chunk_uuid):
+                    logger.warning(f"Chunk UUID {chunk_uuid} not found in database")
+                    citations_invalid += 1
+                    continue
+                
+                # Create citation record (now that questions_answers exists)
+                citation_uuid = str(uuid.uuid4())
+                
+                session.execute(text("""
+                    INSERT INTO citations (id, cited_chunk_id, cited_in_answer_id)
+                    VALUES (:id, :cited_chunk_id, :cited_in_answer_id)
+                """), {
+                    "id": citation_uuid,
+                    "cited_chunk_id": chunk_uuid,
+                    "cited_in_answer_id": qa_uuid
+                })
+                
+                citation_uuids.append(citation_uuid)
+                citations_inserted += 1
+                
+            except Exception as e:
+                logger.error(f"Error processing citation: {e}")
+                citations_invalid += 1
+                continue
+        
+        logger.info(f"Uploaded question {question_number} for {country_name} with {citations_inserted} citations")
+        
+        return {
+            'qa_inserted': 1,
+            'citations_inserted': citations_inserted,
+            'citations_invalid': citations_invalid
+        }
+    
+    def upload_llm_response_file(self, json_file_path: Path) -> Dict[str, Any]:
+        """
+        Upload a single LLM response JSON file to database.
+        
+        Args:
+            json_file_path: Path to the JSON file
+            
+        Returns:
+            Upload statistics and results
+        """
+        try:
+            logger.info(f"Processing file: {json_file_path}")
+            
+            # Load JSON data
+            with open(json_file_path, 'r', encoding='utf-8') as f:
+                llm_data = json.load(f)
+            
+            # Extract metadata
+            metadata = llm_data.get('metadata', {})
+            country_name = metadata.get('country_name')
+            
+            if not country_name:
+                raise ValueError("No country_name found in metadata")
+            
+            # Extract questions data
+            questions_data = llm_data.get('questions', {})
+            if not questions_data:
+                raise ValueError("No questions data found")
+            
+            # Process with database session
+            with self.db.get_session() as session:
+                # Get question numbers for validation
+                question_numbers = []
+                for q_key, q_data in questions_data.items():
+                    q_num = q_data.get('question_number')
+                    if q_num:
+                        question_numbers.append(q_num)
+                
+                # Validate prerequisites
+                validation = self.validate_prerequisites(session, country_name, question_numbers)
+                
+                if not validation['country_exists']:
+                    logger.error(f"Country '{country_name}' does not exist in database")
+                    return {'success': False, 'error': f"Country '{country_name}' not found"}
+                
+                if validation['missing_questions']:
+                    logger.warning(f"Missing questions in database: {validation['missing_questions']}")
+                
+                # Process each question
+                upload_stats = {
+                    'questions_answers_inserted': 0,
+                    'citations_inserted': 0,
+                    'citations_invalid': 0,
+                    'questions_processed': 0
+                }
+                
+                for question_key, question_data in questions_data.items():
+                    try:
+                        result = self.upload_single_question(
+                            session, country_name, question_data, metadata
+                        )
+                        
+                        upload_stats['questions_answers_inserted'] += result['qa_inserted']
+                        upload_stats['citations_inserted'] += result['citations_inserted']
+                        upload_stats['citations_invalid'] += result['citations_invalid']
+                        upload_stats['questions_processed'] += 1
+                        
+                    except Exception as e:
+                        logger.error(f"Error processing question {question_key}: {e}")
+                        # Continue with other questions
+                        continue
+            
+            logger.info(f"Successfully uploaded {json_file_path}")
+            return {
+                'success': True,
+                'file': str(json_file_path),
+                **upload_stats
+            }
+            
+        except Exception as e:
+            logger.error(f"Failed to upload {json_file_path}: {e}")
+            return {
+                'success': False,
+                'file': str(json_file_path),
+                'error': str(e)
+            }
+
+
+class LLMUploadManager:
+    """Manager class for batch processing LLM response files."""
+    
+    def __init__(self):
+        """Initialize the upload manager."""
+        self.uploader = LLMResponseUploader()
+    
+    def process_single_file(self, file_path: Path) -> Dict[str, Any]:
+        """Process a single JSON file."""
+        return self.uploader.upload_llm_response_file(file_path)
+    
+    def process_all_files(self, llm_dir: Path) -> List[Dict[str, Any]]:
+        """Process all JSON files in the LLM directory."""
+        json_files = list(llm_dir.glob("*.json"))
+        
+        if not json_files:
+            logger.error(f"No JSON files found in {llm_dir}")
+            return []
+        
+        logger.info(f"Found {len(json_files)} JSON files to process")
+        
+        results = []
+        for file_path in json_files:
+            result = self.process_single_file(file_path)
+            results.append(result)
+        
+        return results
+    
+    def print_summary(self, results: List[Dict[str, Any]]):
+        """Print upload summary statistics."""
+        successful = [r for r in results if r.get('success', False)]
+        failed = [r for r in results if not r.get('success', False)]
+        
+        total_qa = sum(r.get('questions_answers_inserted', 0) for r in successful)
+        total_citations = sum(r.get('citations_inserted', 0) for r in successful)
+        total_invalid = sum(r.get('citations_invalid', 0) for r in successful)
+        total_questions = sum(r.get('questions_processed', 0) for r in successful)
+        
+        print("\n" + "="*60)
+        print("UPLOAD SUMMARY")
+        print("="*60)
+        print(f"Files processed: {len(results)}")
+        print(f"Successful: {len(successful)}")
+        print(f"Failed: {len(failed)}")
+        print(f"Questions processed: {total_questions}")
+        print(f"Questions/Answers inserted: {total_qa}")
+        print(f"Citations inserted: {total_citations}")
+        print(f"Invalid citations skipped: {total_invalid}")
+        
+        if failed:
+            print(f"\nFAILED FILES:")
+            for failure in failed:
+                print(f"  {failure.get('file', 'Unknown')}: {failure.get('error', 'Unknown error')}")
+        
+        print("="*60)

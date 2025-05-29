@@ -7,6 +7,5 @@ CREATE TABLE questions_answers (
     question INTEGER NOT NULL REFERENCES questions(id) ON DELETE CASCADE,
 
     summary TEXT,
-    detailed_response TEXT,
-    citations UUID[]
+    detailed_response TEXT
 );

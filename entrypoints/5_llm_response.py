@@ -1,4 +1,3 @@
-
 """
 Script for generating LLM responses using retrieved chunks.
 """
@@ -7,7 +6,7 @@ import sys
 from pathlib import Path
 import logging
 import traceback
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Tuple, Optional
 import argparse
 import json
 from datetime import datetime
@@ -16,6 +15,7 @@ project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
 from helpers.internal import Logger
+from databases.operations import LLMUploadManager
 from query import (
     LLMClient,
     ResponseProcessor,
@@ -506,6 +506,39 @@ def merge_chunks_from_directories(
         return [], f"Error loading question {question_id}"
 
 
+def upload_llm_json_responses_to_database(file_path: Optional[str] = None) -> None:
+    """
+    Thin wrapper function to upload LLM responses to database.
+    
+    Args:
+        file_path: Optional specific file path. If None, processes all files in data/llm/
+    """
+    manager = LLMUploadManager()
+    
+    if file_path:
+        # Process single file
+        file_path_obj = Path(file_path)
+        if not file_path_obj.exists():
+            logger.error(f"File not found: {file_path_obj}")
+            sys.exit(1)
+        
+        logger.info(f"Processing single file: {file_path_obj}")
+        result = manager.process_single_file(file_path_obj)
+        manager.print_summary([result])
+    else:
+        # Process all files in data/llm directory
+        script_dir = Path(__file__).parent
+        llm_dir = script_dir.parent / "data" / "llm"
+        
+        if not llm_dir.exists():
+            logger.error(f"LLM directory not found: {llm_dir}")
+            sys.exit(1)
+        
+        logger.info(f"Processing all files in: {llm_dir}")
+        results = manager.process_all_files(llm_dir)
+        manager.print_summary(results)
+
+
 @Logger.log(log_file=project_root / "logs/llm_response.log", log_level="INFO")
 def main():
     """
@@ -626,6 +659,9 @@ def main():
                 logger.error(f"Error processing {country_name}: {e}")
                 logger.error(traceback.format_exc())
                 continue
+        
+        # Finally, upload the LLM responses to the database
+        upload_llm_json_responses_to_database()
         
         logger.info("[5_LLM_RESPONSE] LLM response pipeline completed successfully")
         
