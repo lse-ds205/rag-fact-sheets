@@ -35,7 +35,21 @@ This report details the main design choices made when building these tools.
 
 To avoid overwhelming our PostgreSQL database with the abundance of original dataset details, many of which are unnecessary for retrieval, we created a dedicated table to store only the embeddings alongside essential metadata such as **page numbers, source url and document names etc**. This strategy ensures efficient retrieval and reduces data redundancy.
 
-# Retrival
+# Information Retreival
+
+To determine the optimal retrieval strategy for climate policy documents, we systematically evaluated multiple approaches using a representative ASCOR CP1.a query: "Does the country have a decarbonisation strategy to meet Paris Agreement that they are implementing or in the national legislation?"
+
+**Methods Tested**:
+Boolean Search: Exact keyword matching with Word2Vec-expanded search terms
+BM25 Ranking: TF-IDF extension accounting for document length and corpus statistics
+Fuzzy String Matching: Pattern-based similarity detection tolerating variations and typos
+Vector Search: Semantic similarity using both ClimateBERT and Word2Vec embeddings
+Hybrid Search: Combined BM25 and vector similarity scores with weighted parameter α=0.5
+
+**Key Findings**: Contrary to expectations, fuzzy string matching produced the most relevant results for policy-oriented queries, successfully retrieving comprehensive legislative content including specific frameworks (INDCs), strategic documents, and concrete targets. Word2Vec embeddings significantly outperformed ClimateBERT, delivering more substantive policy content despite 60% of embeddings being zero-valued. Hybrid search achieved optimal performance by combining keyword precision with semantic understanding.
+
+**Implementation Strategy**: Based on these results, the retrieval pipeline prioritizes hybrid search for comprehensive coverage, with fuzzy matching as a fallback for keyword-rich queries and Word2Vec for semantic similarity over the specialized ClimateBERT model.
+
 
 # Tools
 
