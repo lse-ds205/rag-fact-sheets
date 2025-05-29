@@ -8,6 +8,7 @@ import uuid
 import torch
 import pandas as pd
 import numpy as np
+import sys
 import re
 
 from tqdm.notebook import tqdm, trange
@@ -28,6 +29,15 @@ from gensim.downloader import load
 # Set up logger
 logger = logging.getLogger(__name__)
 
+# Get the absolute path to the project root directory
+notebook_dir = os.path.dirname(os.path.abspath('__file__'))
+project_root = os.path.abspath(os.path.join(notebook_dir, '../..'))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+    print(f"Added {project_root} to sys.path")
+
+# Load environment variables first
+word2vec_path = os.path.join(project_root, 'local_model', 'custom_word2vec_768.model')
 
 def generate_embeddings_for_text(texts, model, tokenizer):
     """
@@ -116,7 +126,7 @@ def train_custom_word2vec_from_texts(
     min_count=1,
     workers=4,
     epochs=10,
-    save_path="./local_model/custom_word2vec_768.model",
+    save_path=word2vec_path,
     force_include_words=None
 ):
     """
@@ -135,6 +145,9 @@ def train_custom_word2vec_from_texts(
     Returns:
         model (Word2Vec): Trained Word2Vec model.
     """
+    import os
+    import re
+    from gensim.models import Word2Vec
 
 
     def basic_tokenize(text):
@@ -180,7 +193,7 @@ def embed_and_store_all_embeddings(df, engine):
 
     # Load models
     tokenizer, climatebert_model = load_climatebert_model()
-    word2vec_model = Word2Vec.load("./local_model/custom_word2vec_768.model")
+    word2vec_model = Word2Vec.load(word2vec_path)
 
     # Ensure geographies are strings
     df["document_metadata.geographies"] = df["document_metadata.geographies"].astype(str)

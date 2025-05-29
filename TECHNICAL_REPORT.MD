@@ -31,6 +31,9 @@ Given ASCOR analysts must perform reproducable assessments, a temperature of 0 w
 **General Model Choice**
 Models are run using Nebius rather than locally for speed and ease of use. However, all models used are **open source** and cheap to run (building these tools used 3 cents of compute). If desired, the models used can easily be changed by changing the `model` parameter in `scripts\climate_policy_pipelines\shared\llm_models`.
 
+**Use of Postgres Database**
+The Huggingface Climate Policy Radar dataset is uploaded to a Postgres Database table to speed up country filtering during testing. 
+
 **Markdown Output**
 Tool output is in formatted as markdown to make assessments clearer and more readable for analysts. This is enforced using classes for some tools (Sectoral Analysis) or just in prompts (Pillar Pipeline).
 
