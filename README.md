@@ -14,7 +14,7 @@ The RAG-Fact-Sheet system is an **automated data pipeline** that periodically mo
 ### Technical Innovations
 
 * **⚖️ Confidence-Based Workflow**: Dual validation enables analysts to focus on **low/medium confidence responses**
-* **🔍 Hybrid Similarity Search**: `BM25+` combined with `HNSW indexing` optimizes both lexical and semantic retrieval
+* **🔍 Hybrid Similarity Search**: `Similarity` combined with `Fuzzy Regex` and `Regex` optimizes both lexical and semantic retrieval
 * **🧠 Domain-Aware Prompting**: Keyword mapping leverages climate policy expertise for enhanced response quality
 * **🕸️ hopRAG Architecture**: Novel multi-hop reasoning framework that efficiently connects related document chunks
 
