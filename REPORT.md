@@ -323,7 +323,6 @@ flowchart TD
   L --> M["Client&nbsp;Clicks&nbsp;Link"]:::process
   M --> N["API&nbsp;Gateway<br>FastAPI"]:::process
   N --> O["Web&nbsp;Interface<br>React&nbsp;/&nbsp;Next.js"]:::alt
-
 ```
 
 ---
