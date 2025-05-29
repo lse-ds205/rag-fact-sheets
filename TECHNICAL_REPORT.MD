@@ -1,6 +1,29 @@
+# Technical Report on key Design Choices made
+
+This report details the main design choices made when building these tools.
+
+## Table of Contents
+
+- [Embeddings](#embeddings)
+- [Retrival](#retrival)
+- [Tools](#tools)
+  - [General Design Choices](#general-design-choices)
+  - [Pillar Tool (CP 1.a & CP 1.b)](#pillar-tool-cp-1a--cp-1b)
+    - [Design Choices](#design-choices)
+    - [Pillar Tool Evaluation](#pillar-tool-evaluation)
+  - [Custom Report Generation Tool](#custom-report-generation-tool)
+    - [Design Choices](#design-choices-1)
+  - [Sectoral Analysis Tool](#sectoral-analysis-tool)
+    - [Design Choices](#design-choices-2)
+    - [Sector Report Tool Evaluation](#sector-report-tool-evaluation)
+
+# Embeddings
+
+# Retrival
+
 # Tools
 
-#### General Design Choices
+### General Design Choices
 
 **Model Temperature**
 Given ASCOR analysts must perform reproducable assessments, a temperature of 0 was used for all models, ensuring given the same context, they will always produce the same assessment.
@@ -14,7 +37,7 @@ Tool output is in formatted as markdown to make assessments clearer and more rea
 **Multilingual**
 To ensure that our tools perform well even when climate documents are in non-english languages, for the Pillar Tools, we detect chunk languages, and if they are non-english, a powerful, multilingual LLM is used.
 
-### Pillar Tool (CP 1.a & CP 1.b)
+## Pillar Tool (CP 1.a & CP 1.b)
 
 This tool assesses climate legislation of different countires based on documents in the Climate Policy Radar Database, using the ASCOR methodology. 
 
@@ -24,7 +47,7 @@ The pipeline can asses two indicators:
 
 It provides standardized Yes/No assessments with reasoning and mandatory citations for all claims (page number, document name). To make automated assessing many countries, it can be set to only output Yes/No with no justification.
 
-#### Design Choices
+### Design Choices
 
 **Chain of Thought Interpretation of ASCOR Methodology** 
 Based on (ASCOR Methodology)[https://www.transitionpathwayinitiative.org/publications/2024-ascor-framework-methodology-note-version-1-1], each pillar's criteria is broken into 3-4 specific criteria. Each criteria is evaluated separately by a different LLM to ensure it is evaluted rigourously. There is a final evalutor LLM which compares all evaluations together with the ASCOR methodology to determine the final evaluation.
@@ -36,10 +59,10 @@ Based on (ASCOR Methodology)[https://www.transitionpathwayinitiative.org/publica
 **Alternative Large-context Strategy**
 A second large context window approach was also employed instead of the chain of thought apporach. A single comprehensive prompt using one copy of Llama-3.3-70B (a much larger but more expensive model) was used.
 
-#### Pillar Tool Evaluation
+### Pillar Tool Evaluation
 
 
-### Custom Report Generation Tool
+## Custom Report Generation Tool
 
 This tool creates structured reports on any climate legislation topic using documents from the Climate Policy Radar Database.
 
@@ -56,7 +79,7 @@ High-power LLM evaluates report on three metrics: completeness, template adheren
 7. Having a human check the report
 8. Rewriting parts of the report if the user doesn't like it
 
-#### Design Choices
+### Design Choices
 
 **Human-in-the-Loop Workflow**
 - Human approval checkpoints are built in at 1. template approval and  2. final report review
@@ -78,7 +101,7 @@ High-power LLM evaluates report on three metrics: completeness, template adheren
 - A model automaticaly rewrites subsections that it does not approve of using a hgiher powered LLM model
 
 
-### Sectoral Analysis Tool
+## Sectoral Analysis Tool
 
 This tool creates a stuctured report on the climate legislation relevant to a sector in a country based on documents in the Climate Policy Radar Database. This was a feature requested by the ASCOR client. This was integrated with the challenge question in the brief (how has legislation changed over 50 years).
 
@@ -88,7 +111,7 @@ The sector report covers two questions:
 
 It also provides confidence (`"High", "Medium", "Low"`) for each of these subcomponents of the report and citations for all claims (page number, document name). 
 
-#### Design Choices
+### Design Choices
 
 **Structured Output Enforcement**
 
@@ -106,8 +129,7 @@ It also provides confidence (`"High", "Medium", "Low"`) for each of these subcom
 - Tasks are split between different LLMs to ensure output is focused and follows the schema and then compiled together by another LLM. 
 - Also allows for effiecny gains by giving simpler tasks to less powerful LLMs (eg. synthesising document)
 
-**Confidence**
+**Confidence Rating**
 - To make LLMs more honest about the credibility of their analysis, they must give a confidence of `"High", "Medium", "Low"` for each section
 - This makes analysis more transparent
 
-#### Sector Report Tool Evaluation
