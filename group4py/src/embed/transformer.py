@@ -9,6 +9,7 @@ from transformers import AutoTokenizer, AutoModel
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
+from exceptions import ModelLoadError, InvalidInputError
 from constants.settings import COUNTRY_LANG_MAP
 
 logger = logging.getLogger(__name__)
@@ -36,6 +37,7 @@ class TransformerEmbedding:
                 logger.info("Successfully loaded transformer embedding models")
             except Exception as e:
                 logger.error(f"Failed to load transformer embedding models: {e}")
+                raise ModelLoadError(f"Failed to load transformer embedding models: {e}")
   
     def embed_many(self, chunks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
@@ -47,6 +49,8 @@ class TransformerEmbedding:
         Returns:
             List of chunks with embeddings added
         """
+        if not chunks:
+            raise InvalidInputError("No chunks provided for embedding")
 
         if not self.models_loaded:
             self.load_models()
@@ -228,7 +232,7 @@ class TransformerEmbedding:
             return tokenizer, model
         except Exception as e:
             logger.error(f"Could not load or download English model: {e}")
-            raise
+            raise ModelLoadError(f"Could not load or download English model: {e}")
 
     @staticmethod
     def _load_multilingual_model():
@@ -249,7 +253,7 @@ class TransformerEmbedding:
                     # Attempt to load directly from the local path
                     tokenizer = AutoTokenizer.from_pretrained("xlm-roberta-base")
                     model = AutoModel.from_pretrained("xlm-roberta-base")
-                    logger.info("Successfully loaded multilingual model from HuggingFace")
+                    logger.info("Successfully loaded multilingual model from local path")
                     return tokenizer, model
                 except Exception as local_e:
                     logger.warning(f"Failed to load from local path: {local_e}")
@@ -264,4 +268,4 @@ class TransformerEmbedding:
             return tokenizer, model
         except Exception as e:
             logger.error(f"Could not load or download multilingual model: {e}")
-            raise
+            raise ModelLoadError(f"Could not load or download multilingual model: {e}")

@@ -12,6 +12,7 @@ from sqlalchemy import select
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
+from exceptions import ChunkingError, TextExtractionError, PDFExtractionError, ChunkProcessingError, ChunkCleaningError, ChunkStorageError, DocumentProcessingError
 from group4py.src.chunk.extractor import extract_text_from_pdf
 from group4py.src.chunk.chunker import DocChunker
 from group4py.src.constants.settings import FILE_PROCESSING_CONCURRENCY
@@ -48,6 +49,12 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
     Args:
         file_path: Path to the PDF file
         force_reprocess: If True, reprocess the file even if it has been processed before
+        
+    Raises:
+        DocumentProcessingError: If there is an error processing the document
+        PDFExtractionError: If there is an error extracting text from the PDF
+        ChunkProcessingError: If there is an error processing document chunks
+        ChunkStorageError: If there is an error storing chunks to the database
     """
     try:
         # Initialize database connection
@@ -96,6 +103,7 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
                     logger.error(f"[3_CHUNK] Error removing existing chunks and relationships: {e}")
                     logger.error(f"[3_CHUNK] Traceback: {traceback.format_exc()}")
                     session.rollback()
+                    raise DocumentProcessingError(f"Failed to remove existing chunks for document {doc_id}: {str(e)}") from e
             
             # If document doesn't exist, create it first before proceeding with chunk processing
             if not document:
@@ -138,11 +146,13 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
                 except Exception as e:
                     logger.error(f"[3_CHUNK] Error creating document record: {e}")
                     session.rollback()
+                    raise DocumentProcessingError(f"Failed to create document record for {doc_id}: {str(e)}") from e
             
             # 1. Extract text from PDF with multiple strategies, stopping once one succeeds
             extracted_elements = None
             extraction_strategies = ['fast', 'auto', 'ocr_only']
             
+            extraction_error = None
             for strategy in extraction_strategies:
                 try:
                     logger.info(f"[3_CHUNK] Attempting text extraction with strategy: {strategy}")
@@ -197,14 +207,23 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
                     else:
                         logger.warning(f"[3_CHUNK] Strategy {strategy} returned no elements")
                         
+                except TextExtractionError as e:
+                    logger.warning(f"[3_CHUNK] Strategy {strategy} failed with TextExtractionError: {e}")
+                    extraction_error = e
+                    extracted_elements = None
+                    continue
                 except Exception as e:
-                    logger.warning(f"[3_CHUNK] Strategy {strategy} failed: {e}")
+                    logger.warning(f"[3_CHUNK] Strategy {strategy} failed with unexpected error: {e}")
+                    extraction_error = e
                     extracted_elements = None
                     continue
             
             # If all extraction strategies failed, create a minimal fallback
             if not extracted_elements:
                 logger.error(f"[3_CHUNK] All text extraction strategies failed for {file_path}")
+                
+                if extraction_error:
+                    logger.error(f"[3_CHUNK] Last extraction error: {extraction_error}")
                 
                 # Create a minimal fallback chunk with filename information
                 fallback_text = f"Document: {Path(file_path).name}\nNote: Text extraction failed - document may be image-based or corrupted."
@@ -224,15 +243,24 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
             logger.info(f"[3_CHUNK] Final extracted elements count: {len(extracted_elements)}")
             
             # 2. Create chunks from the extracted text
-            chunks = DocChunker.chunk_document_by_sentences(extracted_elements)
-            logger.info(f"[3_CHUNK] Created {len(chunks)} chunks from {file_path}")
+            try:
+                chunks = DocChunker.chunk_document_by_sentences(extracted_elements)
+                logger.info(f"[3_CHUNK] Created {len(chunks)} chunks from {file_path}")
+            except ChunkProcessingError as e:
+                logger.error(f"[3_CHUNK] Error during chunk creation: {e}")
+                raise
             
             # 3. Clean chunks
             try:
                 cleaned_chunks = DocChunker.cleaning_function(chunks)
                 logger.info(f"[3_CHUNK] Finished cleaning chunks from {file_path}, got {len(cleaned_chunks)} cleaned chunks")
-            except Exception as e:
+            except ChunkCleaningError as e:
                 logger.error(f"[3_CHUNK] Error during chunk cleaning: {e}")
+                # Fall back to using the original chunks if cleaning fails
+                logger.info(f"[3_CHUNK] Falling back to original chunks")
+                cleaned_chunks = chunks
+            except Exception as e:
+                logger.error(f"[3_CHUNK] Unexpected error during chunk cleaning: {e}")
                 # Fall back to using the original chunks if cleaning fails
                 logger.info(f"[3_CHUNK] Falling back to original chunks")
                 cleaned_chunks = chunks
@@ -240,7 +268,7 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
             # Validate cleaned chunks before proceeding
             if not cleaned_chunks or len(cleaned_chunks) == 0:
                 logger.error(f"[3_CHUNK] No valid chunks after cleaning for {file_path}")
-                return None
+                raise ChunkProcessingError(f"No valid chunks after cleaning for {file_path}")
             
             # 4. Create DocChunk objects for database storage (without embeddings)
             db_chunks = []
@@ -270,28 +298,41 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
             # Verify we have chunks to upload
             if not db_chunks:
                 logger.error(f"[3_CHUNK] No valid chunks to upload for {file_path}")
-                return None
+                raise ChunkStorageError(f"No valid chunks to upload for {file_path}")
                 
             # 5. Upload chunks to the database (without embeddings)
-            logger.info(f"[3_CHUNK] Attempting to upload {len(db_chunks)} chunks to database for {file_path}")
-            upload_success = upload(session, db_chunks, table='doc_chunks')
-            if not upload_success:
-                logger.error(f"[3_CHUNK] Failed to upload chunks to database for {file_path}")
-                return None
-                
-            logger.info(f"[3_CHUNK] Uploaded {len(db_chunks)} chunks to doc_chunks table")
+            try:
+                logger.info(f"[3_CHUNK] Attempting to upload {len(db_chunks)} chunks to database for {file_path}")
+                upload_success = upload(session, db_chunks, table='doc_chunks')
+                if not upload_success:
+                    logger.error(f"[3_CHUNK] Failed to upload chunks to database for {file_path}")
+                    raise ChunkStorageError(f"Failed to upload chunks to database for {file_path}")
+                    
+                logger.info(f"[3_CHUNK] Uploaded {len(db_chunks)} chunks to doc_chunks table")
+            except Exception as e:
+                logger.error(f"[3_CHUNK] Error uploading chunks to database: {e}")
+                raise ChunkStorageError(f"Failed to upload chunks to database: {str(e)}") from e
 
             # 6. Update documents table that the document has been processed (chunked)
-            update_processed(session, NDCDocumentORM, doc_id, chunks=cleaned_chunks, table='documents')
-            logger.info(f"[3_CHUNK] Updated processed status in documents table for {doc_id}")
+            try:
+                update_processed(session, NDCDocumentORM, doc_id, chunks=cleaned_chunks, table='documents')
+                logger.info(f"[3_CHUNK] Updated processed status in documents table for {doc_id}")
+            except Exception as e:
+                logger.error(f"[3_CHUNK] Error updating document processed status: {e}")
+                raise DocumentProcessingError(f"Failed to update document processed status: {str(e)}") from e
             
             logger.info(f"[3_CHUNK] File {file_path} chunked successfully")
             return db_chunks
     
+    except ChunkingError as e:
+        # Handle specific chunking errors without re-wrapping them
+        logger.error(f"[3_CHUNK] Chunking error processing file {file_path}: {e}")
+        logger.error(f"[3_CHUNK] Traceback: {traceback.format_exc()}")
+        raise
     except Exception as e:
         logger.error(f"[3_CHUNK] Error processing file {file_path}: {e}\n\n")
         logger.error(f"[3_CHUNK] Traceback: {traceback.format_exc()}")
-        return None
+        raise DocumentProcessingError(f"Failed to process document {file_path}: {str(e)}") from e
 
 
 async def chunk_file_many(file_path): 
@@ -329,6 +370,13 @@ async def run_script(force_reprocess: bool = False):
                     # Add the filename to the progress bar description when it completes
                     pbar.set_postfix_str(f"Last: {Path(file_path).name}")
                     return result
+                except ChunkingError as e:
+                    # Still update progress even on error
+                    pbar.update(1)
+                    # Show error in progress bar
+                    pbar.set_postfix_str(f"Chunking error with {Path(file_path).name}")
+                    logger.error(f"[3_CHUNK] Chunking error in process_with_progress: {e}")
+                    return None
                 except Exception as e:
                     # Still update progress even on error
                     pbar.update(1)

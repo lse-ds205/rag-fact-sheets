@@ -6,6 +6,8 @@ from typing import List, Dict, Optional, Any
 from gensim.models import Word2Vec
 from nltk.tokenize import word_tokenize
 
+from exceptions import ModelLoadError, ModelNotLoadedError, EmbeddingGenerationError, InvalidInputError
+
 logger = logging.getLogger(__name__)
 
 
@@ -39,7 +41,7 @@ class Word2VecEmbedding:
         """
         if not texts:
             logger.error("No texts provided for Word2Vec training")
-            return None
+            raise InvalidInputError("No texts provided for Word2Vec training")
             
         logger.info(f"Training global Word2Vec model on {len(texts)} texts...")
         
@@ -48,7 +50,7 @@ class Word2VecEmbedding:
         
         if not processed_sentences:
             logger.error("No valid sentences after preprocessing")
-            return None
+            raise InvalidInputError("No valid sentences after preprocessing texts")
         
         try:
             # Train the model
@@ -79,7 +81,7 @@ class Word2VecEmbedding:
             
         except Exception as e:
             logger.error(f"Error training Word2Vec model: {e}")
-            return None
+            raise ModelLoadError(f"Error training Word2Vec model: {e}")
 
     def load_global_model(self, model_path: str) -> bool:
         """
@@ -93,7 +95,7 @@ class Word2VecEmbedding:
         """
         if not Path(model_path).exists():
             logger.warning(f"Word2Vec model not found at {model_path}")
-            return False
+            raise ModelLoadError(f"Word2Vec model not found at {model_path}")
         
         try:
             self.global_model = Word2Vec.load(model_path)
@@ -102,7 +104,7 @@ class Word2VecEmbedding:
             return True
         except Exception as e:
             logger.error(f"Error loading Word2Vec model: {e}")
-            return False
+            raise ModelLoadError(f"Error loading Word2Vec model from {model_path}: {e}")
 
     def embed_text(self, text: str) -> np.ndarray:
         """
@@ -116,8 +118,11 @@ class Word2VecEmbedding:
         """
         if not self.model_loaded or not self.global_model:
             logger.error("Global Word2Vec model not loaded")
-            return np.zeros(300)  # Default vector size
+            raise ModelNotLoadedError("Global Word2Vec model not loaded")
         
+        if not text or not isinstance(text, str):
+            raise InvalidInputError("Invalid text input for embedding")
+            
         return self._create_document_embedding(text, self.global_model)
 
     def embed_many(self, chunks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -132,17 +137,24 @@ class Word2VecEmbedding:
         """
         if not self.model_loaded or not self.global_model:
             logger.error("Global Word2Vec model not loaded")
-            return chunks
+            raise ModelNotLoadedError("Global Word2Vec model not loaded")
+            
+        if not chunks:
+            raise InvalidInputError("No chunks provided for embedding")
             
         logger.info(f"Generating Word2Vec embeddings for {len(chunks)} chunks using global model")
         
         # Generate embeddings for each chunk
         for chunk in chunks:
             text = chunk.get('text', '')
-            embedding = self._create_document_embedding(text, self.global_model)
-            
-            # Add to chunk
-            chunk['w2v_embedding'] = embedding.tolist() if isinstance(embedding, np.ndarray) else embedding
+            try:
+                embedding = self._create_document_embedding(text, self.global_model)
+                
+                # Add to chunk
+                chunk['w2v_embedding'] = embedding.tolist() if isinstance(embedding, np.ndarray) else embedding
+            except Exception as e:
+                logger.error(f"Error generating Word2Vec embedding for chunk: {e}")
+                raise EmbeddingGenerationError(f"Error generating Word2Vec embedding: {e}")
             
         logger.info(f"Successfully generated Word2Vec embeddings for {len(chunks)} chunks")
         return chunks

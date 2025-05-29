@@ -6,6 +6,7 @@ import logging
 project_root = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(project_root))
 import group4py
+from exceptions import ModelNotLoadedError, InvalidInputError
 from embed.transformer import TransformerEmbedding
 from embed.word2vec import Word2VecEmbedding
 
@@ -45,6 +46,9 @@ class CombinedEmbedding:
         Returns:
             True if successful, False otherwise
         """
+        if not texts:
+            raise InvalidInputError("No texts provided for Word2Vec training")
+            
         model = self.word2vec_embedder.train_global_model(texts, model_path)
         return model is not None
 
@@ -58,6 +62,9 @@ class CombinedEmbedding:
         Returns:
             List of chunks with both types of embeddings
         """
+        if not chunks:
+            raise InvalidInputError("No chunks provided for embedding")
+            
         logger.info(f"Generating combined embeddings for {len(chunks)} chunks")
         
         # Generate transformer embeddings
@@ -79,4 +86,6 @@ class CombinedEmbedding:
     @property
     def models_ready(self) -> bool:
         """Check if at least one embedding model is ready."""
+        if not (self.transformer_embedder.models_loaded or self.word2vec_embedder.model_loaded):
+            logger.warning("No embedding models are loaded")
         return self.transformer_embedder.models_loaded or self.word2vec_embedder.model_loaded

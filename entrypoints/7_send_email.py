@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 """
 Email sending script using Supabase Edge Functions.
 This script invokes a Supabase Edge Function that handles email sending via
@@ -14,13 +14,15 @@ from dotenv import load_dotenv
 from supabase import create_client, Client
 import base64
 from pathlib import Path
+import logging
 
-# Set up project root and path
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
+import group4py
+from helpers.internal import Logger
 
-# Load environment variables
 load_dotenv()
+logger = logging.getLogger(__name__)
 
 # Define a strict tag sanitization pattern
 TAG_PATTERN = re.compile(r'[^a-zA-Z0-9_-]')
@@ -59,7 +61,7 @@ class SupabaseEmailSender:
         # Initialize Supabase client
         try:
             self.supabase: Client = create_client(self.supabase_url, self.supabase_key)
-            print("✅ Supabase client initialized successfully")
+            logger.info("✅ Supabase client initialized successfully")
         except Exception as e:
             raise ConnectionError(f"Failed to initialize Supabase client: {str(e)}")
 
@@ -80,11 +82,11 @@ class SupabaseEmailSender:
         try:
             # Try primary path first
             outputs_dir = project_root / "outputs" / "factsheets"
-            print(f"Looking for PDFs in: {outputs_dir}")
+            logger.info(f"Looking for PDFs in: {outputs_dir}")
 
             # If primary path doesn't exist, check alternatives
             if not outputs_dir.exists():
-                print("⚠️ Primary outputs directory not found: {outputs_dir}")
+                logger.warning(f"⚠️ Primary outputs directory not found: {outputs_dir}")
 
                 # Try alternative paths
                 alt_paths = [
@@ -95,17 +97,17 @@ class SupabaseEmailSender:
 
                 for alt_path in alt_paths:
                     if alt_path.exists():
-                        print(f"Trying alternative path: {alt_path}")
+                        logger.info(f"Trying alternative path: {alt_path}")
                         # Check if this path has PDFs
                         test_pdfs = list(alt_path.glob("**/*.pdf"))
                         if test_pdfs:
                             outputs_dir = alt_path
-                            print(f"✅ Found alternative path with PDFs: {outputs_dir}")
+                            logger.info(f"✅ Found alternative path with PDFs: {outputs_dir}")
                             break
 
                 # If still no valid directory found
                 if not outputs_dir.exists():
-                    print("❌ No valid directory with PDFs found after checking alternatives")
+                    logger.error("❌ No valid directory with PDFs found after checking alternatives")
                     return None
 
             # Try direct pattern first
@@ -113,41 +115,41 @@ class SupabaseEmailSender:
 
             # If no PDFs found directly, search recursively
             if not pdf_files:
-                print("No PDFs found directly in {outputs_dir}, searching subdirectories...")
+                logger.info(f"No PDFs found directly in {outputs_dir}, searching subdirectories...")
                 pdf_files = list(outputs_dir.glob("**/*.pdf"))
 
             if not pdf_files:
-                print(f"❌ No PDF files found in or under: {outputs_dir}")
+                logger.error(f"❌ No PDF files found in or under: {outputs_dir}")
                 return None
 
             # Sort by modification time (most recent first)
             pdf_files.sort(key=lambda x: x.stat().st_mtime, reverse=True)
             latest_pdf = pdf_files[0]
 
-            print(
+            logger.info(
                 f"📄 Found latest PDF factsheet: {latest_pdf.name} "
                 f"(Modified: {latest_pdf.stat().st_mtime})"
             )
-            print(f"  - Full path: {latest_pdf}")
+            logger.info(f"  - Full path: {latest_pdf}")
 
             # Verify file exists and is readable
             if not latest_pdf.exists() or not os.access(str(latest_pdf), os.R_OK):
-                print(f"❌ PDF file exists but is not readable: {latest_pdf}")
+                logger.error(f"❌ PDF file exists but is not readable: {latest_pdf}")
                 return None
 
             # Verify file is not empty
             if latest_pdf.stat().st_size == 0:
-                print(f"❌ PDF file exists but is empty (0 bytes): {latest_pdf}")
+                logger.error(f"❌ PDF file exists but is empty (0 bytes): {latest_pdf}")
                 return None
 
-            print(
+            logger.info(
                 f"✅ PDF validation passed: {latest_pdf.name} "
                 f"({latest_pdf.stat().st_size} bytes)"
             )
             return str(latest_pdf)
 
         except Exception as e:
-            print(f"❌ Error finding PDF factsheet: {str(e)}")
+            logger.error(f"❌ Error finding PDF factsheet: {str(e)}")
             import traceback
             traceback.print_exc()
             return None
@@ -201,7 +203,7 @@ class SupabaseEmailSender:
             # Limit to 50 recipients as per Resend API limit
             if len(recipients) > 50:
                 recipients = recipients[:50]
-                print("⚠️ Warning: Limited to first 50 recipients due to API constraints")
+                logger.warning("⚠️ Warning: Limited to first 50 recipients due to API constraints")
 
             # Filter to only include PDF attachments
             pdf_attachments = [
@@ -209,7 +211,7 @@ class SupabaseEmailSender:
                 if att.get('filename', '').lower().endswith('.pdf')
             ]
             if not pdf_attachments:
-                print(
+                logger.warning(
                     "⚠️ Warning: No PDF attachments found, "
                     "checking outputs/factsheets folder..."
                 )
@@ -224,9 +226,9 @@ class SupabaseEmailSender:
                             "filename": pdf_file.name,
                             "content": pdf_content
                         }]
-                        print(f"✅ Found PDF in outputs/factsheets: {pdf_file.name}")
+                        logger.info(f"✅ Found PDF in outputs/factsheets: {pdf_file.name}")
                     except Exception as e:
-                        print(f"❌ Error loading PDF from outputs/factsheets: {str(e)}")
+                        logger.error(f"❌ Error loading PDF from outputs/factsheets: {str(e)}")
 
             if not pdf_attachments:
                 return {
@@ -238,7 +240,7 @@ class SupabaseEmailSender:
             # Process only PDF attachments
             processed_attachments = []
             for idx, attachment in enumerate(pdf_attachments):
-                print(
+                logger.info(
                     f"Processing PDF attachment {idx+1}/{len(pdf_attachments)}: "
                     f"{attachment.get('filename')}"
                 )
@@ -249,7 +251,7 @@ class SupabaseEmailSender:
                         # Convert binary content to base64
                         content_b64 = base64.b64encode(
                             attachment['content']).decode('utf-8')
-                        print(
+                        logger.info(
                             f"  - Binary content: {len(attachment['content'])} bytes "
                             f"→ base64 encoded"
                         )
@@ -257,7 +259,7 @@ class SupabaseEmailSender:
                         # Convert string content to bytes then base64
                         content_b64 = base64.b64encode(
                             attachment['content'].encode('utf-8')).decode('utf-8')
-                        print(
+                        logger.info(
                             f"  - Text content: {len(attachment['content'])} chars "
                             f"→ base64 encoded"
                         )
@@ -269,10 +271,10 @@ class SupabaseEmailSender:
                     }
 
                     processed_attachments.append(processed_attachment)
-                    print(f"  ✓ Successfully processed PDF attachment: {attachment['filename']}")
+                    logger.info(f"  ✓ Successfully processed PDF attachment: {attachment['filename']}")
 
                 except Exception as e:
-                    print(
+                    logger.error(
                         f"  ✗ Error processing PDF attachment {attachment.get('filename')}: "
                         f"{str(e)}"
                     )
@@ -301,20 +303,20 @@ class SupabaseEmailSender:
             }
 
             # Debugging - show exactly what's being sent
-            print(f"\n📋 Email payload structure:")
-            print(
+            logger.info(f"\n📋 Email payload structure:")
+            logger.info(
                 f"  - to: {type(email_payload['to']).__name__} with "
                 f"{len(recipient_value) if isinstance(recipient_value, list) else 1} "
                 f"recipient(s)"
             )
-            print(f"  - subject: {email_payload['subject'][:50]}...")
-            print(f"  - html: {len(email_payload['html'])} characters")
-            print(f"  - attachments: {len(email_payload['attachments'])} item(s)")
+            logger.info(f"  - subject: {email_payload['subject'][:50]}...")
+            logger.info(f"  - html: {len(email_payload['html'])} characters")
+            logger.info(f"  - attachments: {len(email_payload['attachments'])} item(s)")
 
             # Add optional fields if provided
             if text_content:
                 email_payload["text"] = text_content
-                print(f"  - text: {len(email_payload['text'])} characters")
+                logger.info(f"  - text: {len(email_payload['text'])} characters")
             if reply_to:
                 email_payload["reply_to"] = reply_to
             if cc:
@@ -345,17 +347,17 @@ class SupabaseEmailSender:
                 # Only add tags if we have valid ones after sanitization
                 if sanitized_tags:
                     email_payload["tags"] = sanitized_tags
-                    print(f"  - tags: {len(sanitized_tags)} sanitized tag(s)")
+                    logger.info(f"  - tags: {len(sanitized_tags)} sanitized tag(s)")
                     for tag in sanitized_tags:
-                        print(f"      - {tag['name']}: {tag['value']}")
+                        logger.info(f"      - {tag['name']}: {tag['value']}")
                 else:
-                    print("  ⚠️ No valid tags after sanitization, omitting tags")
+                    logger.info("  ⚠️ No valid tags after sanitization, omitting tags")
 
-            print(
+            logger.info(
                 f"📧 Sending email with {len(processed_attachments)} PDF attachment(s) "
                 f"to: {', '.join(recipients)}"
             )
-            print(
+            logger.info(
                 f"  - Attachments: "
                 f"{', '.join([a.get('filename', 'unnamed') for a in processed_attachments])}"
             )
@@ -375,7 +377,7 @@ class SupabaseEmailSender:
                 status_code = getattr(response, 'status', 200)
 
             if status_code == 200:
-                print("✅ Email with attachments sent successfully!")
+                logger.info("✅ Email with attachments sent successfully!")
 
                 if hasattr(response, 'json'):
                     response_data = response.json()
@@ -392,7 +394,7 @@ class SupabaseEmailSender:
                     "attachments_count": len(attachments)
                 }
             else:
-                print(f"❌ Failed to send email with attachments. Status: {status_code}")
+                logger.error(f"❌ Failed to send email with attachments. Status: {status_code}")
 
                 if hasattr(response, 'text'):
                     error_msg = response.text
@@ -408,7 +410,7 @@ class SupabaseEmailSender:
                 }
 
         except Exception as e:
-            print(f"❌ Error sending email with attachments: {str(e)}")
+            logger.error(f"❌ Error sending email with attachments: {str(e)}")
             return {
                 "success": False,
                 "error": str(e),
@@ -460,75 +462,75 @@ class SupabaseEmailSender:
                     day = date_part[6:8]
                     date_str = f"{year}-{month}-{day}"
 
-            print(f"Extracted from PDF filename - Country: {country_name}, Date: {date_str}")
+            logger.info(f"Extracted from PDF filename - Country: {country_name}, Date: {date_str}")
 
             # Create HTML email content with updated line about country updates
             html_content = f"""
-            <html>
-            <head>
-                <style>
-                    body {{ font-family: Arial, sans-serif; margin: 20px; }}
-                    .header {{ background-color: #f8f9fa; padding: 20px; border-radius: 5px; }}
-                    .content {{ margin: 20px 0; }}
-                    .footer {{ font-size: 12px; color: #6c757d; margin-top: 30px; }}
-                    .update-notice {{ background-color: #e7f3fe; border-left: 4px solid #2196F3; padding: 10px; margin: 15px 0; }}
-                </style>
-            </head>
-            <body>
-                <div class="header">
-                    <h2>📄 Climate Policy Fact Sheet</h2>
-                </div>
-                
-                <div class="update-notice">
-                    <p>There has been an update for <strong>{country_name}</strong> on <strong>{date_str}</strong>. 
-                    Please refer to the API for further clarification and details.</p>
-                </div>
-                
-                <div class="content">
-                    <p>Dear Recipient,</p>
-                    
-                    <p>Please find attached the Climate Policy Fact Sheet generated from our analysis.</p>
-                    
-                    <p>This report contains:</p>
-                    <ul>
-                        <li>Climate policy analysis</li>
-                        <li>Source citations with relevance scores</li>
-                        <li>Detailed metadata</li>
-                    </ul>
-                    
-                    <p>The attached PDF provides a comprehensive overview of the analyzed climate policies and commitments.</p>
-                </div>
-                
-                <div class="footer">
-                    <p>Best regards,<br>Climate Policy Analysis Team</p>
-                    <p><small>This report was generated automatically from our RAG-based analysis system.</small></p>
-                </div>
-            </body>
-            </html>
+                    <html>
+                    <head>
+                        <style>
+                            body {{ font-family: Arial, sans-serif; margin: 20px; }}
+                            .header {{ background-color: #f8f9fa; padding: 20px; border-radius: 5px; }}
+                            .content {{ margin: 20px 0; }}
+                            .footer {{ font-size: 12px; color: #6c757d; margin-top: 30px; }}
+                            .update-notice {{ background-color: #e7f3fe; border-left: 4px solid #2196F3; padding: 10px; margin: 15px 0; }}
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <h2>📄 Climate Policy Fact Sheet</h2>
+                        </div>
+                        
+                        <div class="update-notice">
+                            <p>There has been an update for <strong>{country_name}</strong> on <strong>{date_str}</strong>. 
+                            Please refer to the API for further clarification and details.</p>
+                        </div>
+                        
+                        <div class="content">
+                            <p>Dear Recipient,</p>
+                            
+                            <p>Please find attached the Climate Policy Fact Sheet generated from our analysis.</p>
+                            
+                            <p>This report contains:</p>
+                            <ul>
+                                <li>Climate policy analysis</li>
+                                <li>Source citations with relevance scores</li>
+                                <li>Detailed metadata</li>
+                            </ul>
+                            
+                            <p>The attached PDF provides a comprehensive overview of the analyzed climate policies and commitments.</p>
+                        </div>
+                        
+                        <div class="footer">
+                            <p>Best regards,<br>Climate Policy Analysis Team</p>
+                            <p><small>This report was generated automatically from our RAG-based analysis system.</small></p>
+                        </div>
+                    </body>
+                    </html>
             """
 
             # Create text version with update notice
             text_content = f"""
-Climate Policy Fact Sheet
+                Climate Policy Fact Sheet
 
-UPDATE: There has been an update for {country_name} on {date_str}. Please refer to the API for further clarification and details.
+                UPDATE: There has been an update for {country_name} on {date_str}. Please refer to the API for further clarification and details.
 
-Dear Recipient,
+                Dear Recipient,
 
-Please find attached the Climate Policy Fact Sheet generated from our analysis.
+                Please find attached the Climate Policy Fact Sheet generated from our analysis.
 
-This report contains:
-- Climate policy analysis
-- Source citations with relevance scores
-- Detailed metadata
+                This report contains:
+                - Climate policy analysis
+                - Source citations with relevance scores
+                - Detailed metadata
 
-The attached PDF provides a comprehensive overview of the analyzed climate policies and commitments.
+                The attached PDF provides a comprehensive overview of the analyzed climate policies and commitments.
 
-Best regards,
-Climate Policy Analysis Team
+                Best regards,
+                Climate Policy Analysis Team
 
----
-This report was generated automatically from our RAG-based analysis system.
+                ---
+                This report was generated automatically from our RAG-based analysis system.
             """
 
             # Ensure filename ends with .pdf
@@ -548,7 +550,7 @@ This report was generated automatically from our RAG-based analysis system.
             # Email subject with country name
             subject = f"Climate Policy Fact Sheet - {country_name} ({date_str})"
 
-            print(f"Attachment prepared: {pdf_filename} ({len(pdf_content)} bytes binary)")
+            logger.info(f"Attachment prepared: {pdf_filename} ({len(pdf_content)} bytes binary)")
 
             # Send email with PDF attachment - omit tags completely to avoid validation issues
             return self.send_email_with_attachments(
@@ -562,7 +564,7 @@ This report was generated automatically from our RAG-based analysis system.
             )
 
         except Exception as e:
-            print(f"❌ Error sending factsheet email: {str(e)}")
+            logger.error(f"❌ Error sending factsheet email: {str(e)}")
             return {
                 "success": False,
                 "error": str(e),
@@ -578,18 +580,18 @@ def parse_arguments():
         description="Send Climate Policy Fact Sheet emails via Supabase Edge Functions",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
-Examples:
-  # Send the latest PDF factsheet to default recipients
-  python send_email.py
+            Examples:
+            # Send the latest PDF factsheet to default recipients
+            python send_email.py
 
-  # Send to a specific recipient (in addition to default recipients)
-  python send_email.py --to user@example.com
+            # Send to a specific recipient (in addition to default recipients)
+            python send_email.py --to user@example.com
 
-  # Send a specific PDF file
-  python send_email.py --pdf-path outputs/factsheets/report.pdf
+            # Send a specific PDF file
+            python send_email.py --pdf-path outputs/factsheets/report.pdf
 
-  # Dry run (show what would be sent without sending)
-  python send_email.py --dry-run
+            # Dry run (show what would be sent without sending)
+            python send_email.py --dry-run
         """
     )
 
@@ -625,6 +627,7 @@ Examples:
     return parser.parse_args()
 
 
+@Logger.log(log_file=project_root / "logs/send_email.log", log_level="INFO")
 def main():
     try:
         # Parse command-line arguments
@@ -643,8 +646,8 @@ def main():
             pdf_path = email_sender.find_latest_pdf_factsheet()
 
         if not pdf_path:
-            print("❌ No PDF factsheet found to send")
-            print("Please generate PDF factsheets before attempting to send emails.")
+            logger.error("❌ No PDF factsheet found to send")
+            logger.error("Please generate PDF factsheets before attempting to send emails.")
             sys.exit(1)
 
         # Get recipients (default + any additional)
@@ -663,13 +666,13 @@ def main():
         recipient_str = ",".join(all_recipients)
 
         if args.dry_run:
-            print("\n=== DRY RUN - FACTSHEET EMAIL WOULD BE SENT ===")
-            print(f"To: {recipient_str}")
-            print(f"PDF: {pdf_path}")
-            print(
+            logger.info("\n=== DRY RUN - FACTSHEET EMAIL WOULD BE SENT ===")
+            logger.info(f"To: {recipient_str}")
+            logger.info(f"PDF: {pdf_path}")
+            logger.info(
                 f"From: {getattr(args, 'from', None) or email_sender.get_default_sender()}"
             )
-            print("=== DRY RUN COMPLETE - NO EMAIL SENT ===")
+            logger.info("=== DRY RUN COMPLETE - NO EMAIL SENT ===")
             return
 
         # Send factsheet email
@@ -681,15 +684,15 @@ def main():
 
         # Print result and exit with appropriate code
         if result['success']:
-            print("🎉 Email delivery initiated successfully!")
+            logger.info("🎉 Email delivery initiated successfully!")
             sys.exit(0)
         else:
-            print("💥 Email delivery failed!")
-            print(f"Error details: {result.get('error', 'Unknown error')}")
+            logger.error("💥 Email delivery failed!")
+            logger.error(f"Error details: {result.get('error', 'Unknown error')}")
             sys.exit(1)
 
     except Exception as e:
-        print(f"💥 Script execution failed: {str(e)}")
+        logger.error(f"💥 Script execution failed: {str(e)}")
         sys.exit(1)
 
 

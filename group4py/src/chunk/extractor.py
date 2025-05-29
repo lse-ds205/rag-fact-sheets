@@ -10,6 +10,7 @@ from unstructured.partition.pdf import partition_pdf
 project_root = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(project_root))
 import group4py
+from exceptions import TextExtractionError, PDFExtractionError, OCRError
 from group4py.src.chunk.cleaner import extract_country_from_filename, has_character_corruption, retry_with_ocr
 
 logger = logging.getLogger(__name__)
@@ -43,6 +44,9 @@ def extract_text_from_pdf(
         
     Returns:
         List of extracted elements with their metadata
+        
+    Raises:
+        PDFExtractionError: If there is an error extracting text from the PDF
     """
     # Validate and map strategy parameter
     valid_strategies = ["fast", "ocr_only", "auto"]
@@ -194,8 +198,12 @@ def extract_text_from_pdf(
         try:
             logger.info("Attempting OCR as last resort for failed extraction")
             return retry_with_ocr(pdf_path, ['eng'])
-        except:
-            return []
+        except OCRError as ocr_error:
+            logger.error(f"OCR extraction failed as last resort: {ocr_error}")
+            raise PDFExtractionError(f"Failed to extract text from PDF {pdf_path}: {str(e)}") from e
+        except Exception as fallback_error:
+            logger.error(f"Fallback extraction failed: {fallback_error}")
+            raise PDFExtractionError(f"All extraction methods failed for PDF {pdf_path}") from e
         
 def extract_text_from_docx(docx_path: str) -> List[Dict[str, Any]]:
     """
@@ -206,6 +214,9 @@ def extract_text_from_docx(docx_path: str) -> List[Dict[str, Any]]:
         
     Returns:
         List of extracted text elements with metadata
+        
+    Raises:
+        DocxExtractionError: If there is an error extracting text from the DOCX
     """
     try:
         # Only import docx when needed
@@ -213,11 +224,14 @@ def extract_text_from_docx(docx_path: str) -> List[Dict[str, Any]]:
         doc = Document(docx_path)
         logger.debug(f"Successfully opened DOCX document")
     except ImportError:
-        logger.error("python-docx package is not installed. Cannot extract text from DOCX file.")
-        return [{'text': f"ERROR: Could not extract text from {docx_path}. python-docx package is not installed.", 'type': 'error'}]
+        error_msg = "python-docx package is not installed. Cannot extract text from DOCX file."
+        logger.error(error_msg)
+        raise TextExtractionError(error_msg)
     except Exception as e:
-        logger.error(f"Error extracting text from DOCX {docx_path}: {str(e)}", exc_info=True)
-        return [{'text': f"ERROR: Could not extract text from {docx_path}. {str(e)}", 'type': 'error'}]
+        error_msg = f"Error extracting text from DOCX {docx_path}: {str(e)}"
+        logger.error(error_msg, exc_info=True)
+        from group4py.src.exceptions import DocxExtractionError
+        raise DocxExtractionError(error_msg) from e
 
     # Get the filename for metadata
     filename = os.path.basename(docx_path)
@@ -249,13 +263,12 @@ def extract_text_from_docx(docx_path: str) -> List[Dict[str, Any]]:
                 'metadata': {
                     'page_number': page_number,
                     'paragraph_number': paragraph_count,
+                    'element_index': i,
+                    'element_type': element_type,
                     'filename': filename,
                     'country': country,
-                    'document_title': f"{country} Document",
-                    'paragraph_id': f"p{page_number}_para{paragraph_count}",
-                    'style': paragraph.style.name
+                    'document_title': f"{country} NDC"
                 }
             })
     
-    logger.info(f"Extracted {len(elements)} elements from DOCX file")
     return elements

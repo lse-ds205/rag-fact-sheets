@@ -25,6 +25,7 @@ project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 
 import group4py
+from exceptions import ModelLoadError, EmbeddingGenerationError, GraphProcessingError, RelationshipDetectionError, DatabaseConnectionError
 from databases.auth import PostgresConnection
 from databases.models import LogicalRelationshipORM
 from databases.operations import upload
@@ -51,7 +52,7 @@ class MemoryOptimizedEmbedder:
                 self.model = SentenceTransformer(fallback_model)
             except Exception as e2:
                 logger.critical(f"Failed to load fallback model: {e2}")
-                raise RuntimeError("Could not load any embedding model") from e2
+                raise ModelLoadError(f"Could not load any embedding model: {e2}") from e2
             
         self.embedding_dim = self.model.get_sentence_embedding_dimension()
         logger.info(f"Embedding dimension: {self.embedding_dim}")
@@ -64,7 +65,7 @@ class MemoryOptimizedEmbedder:
             
         if not hasattr(self, 'model') or self.model is None:
             logger.error("No embedding model available")
-            return np.array([])
+            raise ModelLoadError("No embedding model available for encoding")
             
         embeddings = []
         
@@ -79,8 +80,7 @@ class MemoryOptimizedEmbedder:
                 embeddings.append(batch_embeddings)
             except Exception as e:
                 logger.error(f"Error encoding batch {i//self.batch_size}: {e}")
-                # Return empty batch rather than failing completely
-                continue
+                raise EmbeddingGenerationError(f"Error encoding batch {i//self.batch_size}: {e}")
             
             if i % (self.batch_size * 10) == 0:
                 gc.collect()
@@ -96,16 +96,24 @@ class OptimizedRelationshipDetector:
     def detect_relationships_batch(self, source_chunks: List[ChunkData], 
                                  target_chunks: List[ChunkData]) -> List[RelationshipScore]:
         """Detect relationships maintaining UUID consistency"""
-        relationships = []
-        
-        for source_chunk in source_chunks:
-            for target_chunk in target_chunks:
-                if source_chunk.chunk_id != target_chunk.chunk_id:
-                    relationship = self._detect_single_relationship(source_chunk, target_chunk)
-                    if relationship and relationship.confidence > 0.5:
-                        relationships.append(relationship)
-        
-        return relationships
+        if not source_chunks or not target_chunks:
+            logger.warning("Empty source or target chunks for relationship detection")
+            return []
+            
+        try:
+            relationships = []
+            
+            for source_chunk in source_chunks:
+                for target_chunk in target_chunks:
+                    if source_chunk.chunk_id != target_chunk.chunk_id:
+                        relationship = self._detect_single_relationship(source_chunk, target_chunk)
+                        if relationship and relationship.confidence > 0.5:
+                            relationships.append(relationship)
+            
+            return relationships
+        except Exception as e:
+            logger.error(f"Error in relationship detection: {e}")
+            raise RelationshipDetectionError(f"Error in relationship detection: {e}")
     
     def _detect_single_relationship(self, source: ChunkData, target: ChunkData) -> Optional[RelationshipScore]:
         """Detect relationship between two chunks"""
@@ -188,7 +196,8 @@ class HopRAGGraphProcessor:
         """Initialize database connections"""
         success = self.db_connection.connect()
         if not success:
-            raise RuntimeError("Failed to connect to database")
+            logger.error("Failed to connect to database")
+            raise DatabaseConnectionError("Failed to connect to database for HopRAG processing")
         logger.info("Optimized graph processor initialized")
 
     async def process_embeddings_batch(self, batch_size: int = 500):
