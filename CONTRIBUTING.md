@@ -178,3 +178,12 @@ cd climate-policy-extractor
 # Run the spider
 scrapy crawl ndc_spider
 ```
+
+
+## 5. Checking Cyclomatic Complexity of the database
+To analyze the cyclomatic complexity of the codebase, you can use the `cyclomatic_complexity` module. This will help you identify complex functions that may need refactoring.
+To run the cyclomatic complexity analysis, execute the following command:
+
+```bash
+python cyclomatic_complexity/analysis.py entrypoints
+```

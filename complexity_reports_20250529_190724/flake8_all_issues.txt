@@ -1,0 +1,806 @@
+entrypoints\1_scrape.py:20:1: F401 'group4py' imported but unused
+entrypoints\1_scrape.py:20:1: E402 module level import not at top of file
+entrypoints\1_scrape.py:21:1: E402 module level import not at top of file
+entrypoints\1_scrape.py:22:1: E402 module level import not at top of file
+entrypoints\1_scrape.py:37:11: W292 no newline at end of file
+entrypoints\2_chunk.py:14:1: F401 'group4py' imported but unused
+entrypoints\2_chunk.py:14:1: E402 module level import not at top of file
+entrypoints\2_chunk.py:15:1: F401 'exceptions.PDFExtractionError' imported but unused
+entrypoints\2_chunk.py:15:1: E402 module level import not at top of file
+entrypoints\2_chunk.py:15:80: E501 line too long (163 > 79 characters)
+entrypoints\2_chunk.py:16:1: E402 module level import not at top of file
+entrypoints\2_chunk.py:17:1: E402 module level import not at top of file
+entrypoints\2_chunk.py:18:1: E402 module level import not at top of file
+entrypoints\2_chunk.py:19:1: E402 module level import not at top of file
+entrypoints\2_chunk.py:20:1: E402 module level import not at top of file
+entrypoints\2_chunk.py:21:1: E402 module level import not at top of file
+entrypoints\2_chunk.py:21:80: E501 line too long (80 > 79 characters)
+entrypoints\2_chunk.py:22:1: E402 module level import not at top of file
+entrypoints\2_chunk.py:22:80: E501 line too long (83 > 79 characters)
+entrypoints\2_chunk.py:37:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:39:80: E501 line too long (81 > 79 characters)
+entrypoints\2_chunk.py:40:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:48:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:51:80: E501 line too long (89 > 79 characters)
+entrypoints\2_chunk.py:52:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:67:13: E303 too many blank lines (2)
+entrypoints\2_chunk.py:70:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:72:80: E501 line too long (97 > 79 characters)
+entrypoints\2_chunk.py:74:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:75:80: E501 line too long (102 > 79 characters)
+entrypoints\2_chunk.py:82:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:83:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:84:21: E303 too many blank lines (2)
+entrypoints\2_chunk.py:84:80: E501 line too long (99 > 79 characters)
+entrypoints\2_chunk.py:86:80: E501 line too long (99 > 79 characters)
+entrypoints\2_chunk.py:87:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:88:80: E501 line too long (103 > 79 characters)
+entrypoints\2_chunk.py:89:80: E501 line too long (89 > 79 characters)
+entrypoints\2_chunk.py:90:80: E501 line too long (87 > 79 characters)
+entrypoints\2_chunk.py:91:80: E501 line too long (85 > 79 characters)
+entrypoints\2_chunk.py:93:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:95:80: E501 line too long (117 > 79 characters)
+entrypoints\2_chunk.py:96:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:98:80: E501 line too long (111 > 79 characters)
+entrypoints\2_chunk.py:99:80: E501 line too long (108 > 79 characters)
+entrypoints\2_chunk.py:100:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:103:80: E501 line too long (100 > 79 characters)
+entrypoints\2_chunk.py:104:80: E501 line too long (82 > 79 characters)
+entrypoints\2_chunk.py:106:80: E501 line too long (125 > 79 characters)
+entrypoints\2_chunk.py:107:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:108:80: E501 line too long (96 > 79 characters)
+entrypoints\2_chunk.py:110:80: E501 line too long (101 > 79 characters)
+entrypoints\2_chunk.py:115:80: E501 line too long (90 > 79 characters)
+entrypoints\2_chunk.py:117:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:128:80: E501 line too long (103 > 79 characters)
+entrypoints\2_chunk.py:129:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:139:80: E501 line too long (94 > 79 characters)
+entrypoints\2_chunk.py:141:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:144:80: E501 line too long (82 > 79 characters)
+entrypoints\2_chunk.py:147:80: E501 line too long (82 > 79 characters)
+entrypoints\2_chunk.py:149:80: E501 line too long (116 > 79 characters)
+entrypoints\2_chunk.py:150:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:151:80: E501 line too long (91 > 79 characters)
+entrypoints\2_chunk.py:154:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:158:80: E501 line too long (98 > 79 characters)
+entrypoints\2_chunk.py:159:80: E501 line too long (96 > 79 characters)
+entrypoints\2_chunk.py:161:80: E501 line too long (85 > 79 characters)
+entrypoints\2_chunk.py:162:80: E501 line too long (82 > 79 characters)
+entrypoints\2_chunk.py:163:80: E501 line too long (118 > 79 characters)
+entrypoints\2_chunk.py:164:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:165:80: E501 line too long (104 > 79 characters)
+entrypoints\2_chunk.py:189:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:194:80: E501 line too long (98 > 79 characters)
+entrypoints\2_chunk.py:198:80: E501 line too long (124 > 79 characters)
+entrypoints\2_chunk.py:200:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:202:80: E501 line too long (136 > 79 characters)
+entrypoints\2_chunk.py:206:80: E501 line too long (121 > 79 characters)
+entrypoints\2_chunk.py:208:80: E501 line too long (93 > 79 characters)
+entrypoints\2_chunk.py:209:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:211:80: E501 line too long (105 > 79 characters)
+entrypoints\2_chunk.py:216:80: E501 line too long (102 > 79 characters)
+entrypoints\2_chunk.py:220:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:223:80: E501 line too long (96 > 79 characters)
+entrypoints\2_chunk.py:224:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:226:80: E501 line too long (88 > 79 characters)
+entrypoints\2_chunk.py:227:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:229:80: E501 line too long (141 > 79 characters)
+entrypoints\2_chunk.py:230:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:240:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:241:80: E501 line too long (83 > 79 characters)
+entrypoints\2_chunk.py:242:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:243:80: E501 line too long (95 > 79 characters)
+entrypoints\2_chunk.py:244:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:247:80: E501 line too long (83 > 79 characters)
+entrypoints\2_chunk.py:248:80: E501 line too long (87 > 79 characters)
+entrypoints\2_chunk.py:252:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:256:80: E501 line too long (125 > 79 characters)
+entrypoints\2_chunk.py:260:29: F541 f-string is missing placeholders
+entrypoints\2_chunk.py:263:80: E501 line too long (86 > 79 characters)
+entrypoints\2_chunk.py:265:29: F541 f-string is missing placeholders
+entrypoints\2_chunk.py:267:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:270:80: E501 line too long (89 > 79 characters)
+entrypoints\2_chunk.py:271:80: E501 line too long (93 > 79 characters)
+entrypoints\2_chunk.py:272:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:273:80: E501 line too long (82 > 79 characters)
+entrypoints\2_chunk.py:279:80: E501 line too long (90 > 79 characters)
+entrypoints\2_chunk.py:281:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:289:80: E501 line too long (87 > 79 characters)
+entrypoints\2_chunk.py:292:80: E501 line too long (89 > 79 characters)
+entrypoints\2_chunk.py:297:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:300:80: E501 line too long (84 > 79 characters)
+entrypoints\2_chunk.py:301:80: E501 line too long (85 > 79 characters)
+entrypoints\2_chunk.py:302:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:305:80: E501 line too long (114 > 79 characters)
+entrypoints\2_chunk.py:308:80: E501 line too long (98 > 79 characters)
+entrypoints\2_chunk.py:309:80: E501 line too long (99 > 79 characters)
+entrypoints\2_chunk.py:310:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:311:80: E501 line too long (94 > 79 characters)
+entrypoints\2_chunk.py:313:80: E501 line too long (82 > 79 characters)
+entrypoints\2_chunk.py:314:80: E501 line too long (96 > 79 characters)
+entrypoints\2_chunk.py:316:80: E501 line too long (86 > 79 characters)
+entrypoints\2_chunk.py:318:80: E501 line too long (107 > 79 characters)
+entrypoints\2_chunk.py:319:80: E501 line too long (98 > 79 characters)
+entrypoints\2_chunk.py:321:80: E501 line too long (88 > 79 characters)
+entrypoints\2_chunk.py:322:80: E501 line too long (109 > 79 characters)
+entrypoints\2_chunk.py:323:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:326:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:329:80: E501 line too long (82 > 79 characters)
+entrypoints\2_chunk.py:335:80: E501 line too long (97 > 79 characters)
+entrypoints\2_chunk.py:338:38: W291 trailing whitespace
+entrypoints\2_chunk.py:345:21: E251 unexpected spaces around keyword / parameter equals
+entrypoints\2_chunk.py:345:23: E251 unexpected spaces around keyword / parameter equals
+entrypoints\2_chunk.py:349:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:351:80: E501 line too long (83 > 79 characters)
+entrypoints\2_chunk.py:354:80: E501 line too long (106 > 79 characters)
+entrypoints\2_chunk.py:356:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:358:28: F541 f-string is missing placeholders
+entrypoints\2_chunk.py:360:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:362:80: E501 line too long (89 > 79 characters)
+entrypoints\2_chunk.py:367:80: E501 line too long (93 > 79 characters)
+entrypoints\2_chunk.py:370:80: E501 line too long (88 > 79 characters)
+entrypoints\2_chunk.py:377:80: E501 line too long (87 > 79 characters)
+entrypoints\2_chunk.py:378:80: E501 line too long (91 > 79 characters)
+entrypoints\2_chunk.py:385:80: E501 line too long (82 > 79 characters)
+entrypoints\2_chunk.py:387:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:389:80: E501 line too long (82 > 79 characters)
+entrypoints\2_chunk.py:391:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:393:80: E501 line too long (101 > 79 characters)
+entrypoints\2_chunk.py:394:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:396:28: F541 f-string is missing placeholders
+entrypoints\2_chunk.py:399:80: E501 line too long (104 > 79 characters)
+entrypoints\2_chunk.py:400:28: F541 f-string is missing placeholders
+entrypoints\2_chunk.py:400:80: E501 line too long (101 > 79 characters)
+entrypoints\2_chunk.py:401:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:403:80: E501 line too long (84 > 79 characters)
+entrypoints\2_chunk.py:410:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:412:80: E501 line too long (97 > 79 characters)
+entrypoints\2_chunk.py:413:80: E501 line too long (132 > 79 characters)
+entrypoints\2_chunk.py:414:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:417:1: W293 blank line contains whitespace
+entrypoints\2_chunk.py:419:56: W292 no newline at end of file
+entrypoints\3_embed.py:2:1: F401 'os' imported but unused
+entrypoints\3_embed.py:7:1: F401 'typing.List' imported but unused
+entrypoints\3_embed.py:7:1: F401 'typing.Dict' imported but unused
+entrypoints\3_embed.py:7:1: F401 'typing.Any' imported but unused
+entrypoints\3_embed.py:7:1: F401 'typing.Union' imported but unused
+entrypoints\3_embed.py:7:1: F401 'typing.Tuple' imported but unused
+entrypoints\3_embed.py:14:1: F401 'group4py' imported but unused
+entrypoints\3_embed.py:14:1: E402 module level import not at top of file
+entrypoints\3_embed.py:15:1: E402 module level import not at top of file
+entrypoints\3_embed.py:16:1: E402 module level import not at top of file
+entrypoints\3_embed.py:17:1: E402 module level import not at top of file
+entrypoints\3_embed.py:18:1: E402 module level import not at top of file
+entrypoints\3_embed.py:19:1: E402 module level import not at top of file
+entrypoints\3_embed.py:24:1: E302 expected 2 blank lines, found 1
+entrypoints\3_embed.py:27:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:31:80: E501 line too long (96 > 79 characters)
+entrypoints\3_embed.py:32:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:34:80: E501 line too long (97 > 79 characters)
+entrypoints\3_embed.py:35:80: E501 line too long (94 > 79 characters)
+entrypoints\3_embed.py:36:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:39:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:47:59: E251 unexpected spaces around keyword / parameter equals
+entrypoints\3_embed.py:47:61: E251 unexpected spaces around keyword / parameter equals
+entrypoints\3_embed.py:47:80: E501 line too long (117 > 79 characters)
+entrypoints\3_embed.py:47:99: E251 unexpected spaces around keyword / parameter equals
+entrypoints\3_embed.py:47:101: E251 unexpected spaces around keyword / parameter equals
+entrypoints\3_embed.py:50:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:52:80: E501 line too long (80 > 79 characters)
+entrypoints\3_embed.py:54:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:56:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:59:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:63:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:67:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:70:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:73:80: E501 line too long (83 > 79 characters)
+entrypoints\3_embed.py:77:80: E501 line too long (87 > 79 characters)
+entrypoints\3_embed.py:81:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:84:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:90:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:95:80: E501 line too long (99 > 79 characters)
+entrypoints\3_embed.py:98:64: W291 trailing whitespace
+entrypoints\3_embed.py:101:80: E501 line too long (94 > 79 characters)
+entrypoints\3_embed.py:102:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:106:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:109:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:114:80: E501 line too long (80 > 79 characters)
+entrypoints\3_embed.py:116:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:118:80: E501 line too long (109 > 79 characters)
+entrypoints\3_embed.py:119:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:121:80: E501 line too long (96 > 79 characters)
+entrypoints\3_embed.py:122:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:126:80: E501 line too long (128 > 79 characters)
+entrypoints\3_embed.py:128:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:129:80: E501 line too long (82 > 79 characters)
+entrypoints\3_embed.py:131:80: E501 line too long (131 > 79 characters)
+entrypoints\3_embed.py:133:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:135:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:136:80: E501 line too long (92 > 79 characters)
+entrypoints\3_embed.py:139:80: E501 line too long (90 > 79 characters)
+entrypoints\3_embed.py:140:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:142:80: E501 line too long (91 > 79 characters)
+entrypoints\3_embed.py:145:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:148:80: E501 line too long (96 > 79 characters)
+entrypoints\3_embed.py:149:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:154:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:157:80: E501 line too long (123 > 79 characters)
+entrypoints\3_embed.py:159:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:160:80: E501 line too long (82 > 79 characters)
+entrypoints\3_embed.py:163:15: E114 indentation is not a multiple of 4 (comment)
+entrypoints\3_embed.py:163:15: E116 unexpected indentation (comment)
+entrypoints\3_embed.py:169:80: E501 line too long (93 > 79 characters)
+entrypoints\3_embed.py:171:80: E501 line too long (92 > 79 characters)
+entrypoints\3_embed.py:173:80: E501 line too long (87 > 79 characters)
+entrypoints\3_embed.py:174:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:176:80: E501 line too long (87 > 79 characters)
+entrypoints\3_embed.py:178:34: W291 trailing whitespace
+entrypoints\3_embed.py:180:80: E501 line too long (84 > 79 characters)
+entrypoints\3_embed.py:182:14: W291 trailing whitespace
+entrypoints\3_embed.py:183:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:188:80: E501 line too long (93 > 79 characters)
+entrypoints\3_embed.py:190:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:192:80: E501 line too long (110 > 79 characters)
+entrypoints\3_embed.py:194:80: E501 line too long (95 > 79 characters)
+entrypoints\3_embed.py:195:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:199:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:200:80: E501 line too long (84 > 79 characters)
+entrypoints\3_embed.py:202:80: E501 line too long (87 > 79 characters)
+entrypoints\3_embed.py:203:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:207:80: E501 line too long (81 > 79 characters)
+entrypoints\3_embed.py:208:80: E501 line too long (88 > 79 characters)
+entrypoints\3_embed.py:209:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:218:21: E251 unexpected spaces around keyword / parameter equals
+entrypoints\3_embed.py:218:23: E251 unexpected spaces around keyword / parameter equals
+entrypoints\3_embed.py:222:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:224:80: E501 line too long (80 > 79 characters)
+entrypoints\3_embed.py:227:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:230:80: E501 line too long (107 > 79 characters)
+entrypoints\3_embed.py:231:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:233:80: E501 line too long (87 > 79 characters)
+entrypoints\3_embed.py:234:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:235:80: E501 line too long (159 > 79 characters)
+entrypoints\3_embed.py:236:1: W293 blank line contains whitespace
+entrypoints\3_embed.py:238:80: E501 line too long (80 > 79 characters)
+entrypoints\3_embed.py:239:80: E501 line too long (83 > 79 characters)
+entrypoints\3_embed.py:245:80: E501 line too long (130 > 79 characters)
+entrypoints\3_embed.py:246:80: E501 line too long (130 > 79 characters)
+entrypoints\3_embed.py:248:54: W292 no newline at end of file
+entrypoints\4_retrieve.py:17:1: F401 'group4py' imported but unused
+entrypoints\4_retrieve.py:17:1: E402 module level import not at top of file
+entrypoints\4_retrieve.py:18:1: E402 module level import not at top of file
+entrypoints\4_retrieve.py:19:1: E402 module level import not at top of file
+entrypoints\4_retrieve.py:20:1: E402 module level import not at top of file
+entrypoints\4_retrieve.py:21:1: E402 module level import not at top of file
+entrypoints\4_retrieve.py:27:1: E402 module level import not at top of file
+entrypoints\4_retrieve.py:28:1: E402 module level import not at top of file
+entrypoints\4_retrieve.py:29:1: E402 module level import not at top of file
+entrypoints\4_retrieve.py:60:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:63:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:65:80: E501 line too long (84 > 79 characters)
+entrypoints\4_retrieve.py:72:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:79:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:81:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:106:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:109:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:113:80: E501 line too long (80 > 79 characters)
+entrypoints\4_retrieve.py:118:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:127:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:131:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:138:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:145:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:147:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:151:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:153:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:159:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:162:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:170:80: E501 line too long (82 > 79 characters)
+entrypoints\4_retrieve.py:171:80: E501 line too long (82 > 79 characters)
+entrypoints\4_retrieve.py:172:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:178:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:183:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:194:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:198:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:200:80: E501 line too long (82 > 79 characters)
+entrypoints\4_retrieve.py:204:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:207:61: W291 trailing whitespace
+entrypoints\4_retrieve.py:210:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:218:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:220:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:228:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:233:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:235:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:240:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:242:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:267:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:274:80: E501 line too long (85 > 79 characters)
+entrypoints\4_retrieve.py:276:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:278:80: E501 line too long (82 > 79 characters)
+entrypoints\4_retrieve.py:283:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:288:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:296:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:305:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:308:80: E501 line too long (82 > 79 characters)
+entrypoints\4_retrieve.py:311:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:313:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:320:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:326:80: E501 line too long (85 > 79 characters)
+entrypoints\4_retrieve.py:328:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:330:80: E501 line too long (80 > 79 characters)
+entrypoints\4_retrieve.py:333:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:337:80: E501 line too long (85 > 79 characters)
+entrypoints\4_retrieve.py:341:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:343:80: E501 line too long (82 > 79 characters)
+entrypoints\4_retrieve.py:345:80: E501 line too long (80 > 79 characters)
+entrypoints\4_retrieve.py:346:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:354:80: E501 line too long (82 > 79 characters)
+entrypoints\4_retrieve.py:356:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:365:80: E501 line too long (82 > 79 characters)
+entrypoints\4_retrieve.py:369:80: E501 line too long (87 > 79 characters)
+entrypoints\4_retrieve.py:373:27: W291 trailing whitespace
+entrypoints\4_retrieve.py:381:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:385:52: W291 trailing whitespace
+entrypoints\4_retrieve.py:388:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:393:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:398:80: E501 line too long (82 > 79 characters)
+entrypoints\4_retrieve.py:399:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:403:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:405:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:409:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:411:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:424:66: W291 trailing whitespace
+entrypoints\4_retrieve.py:432:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:435:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:439:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:445:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:460:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:463:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:464:80: E501 line too long (85 > 79 characters)
+entrypoints\4_retrieve.py:470:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:471:80: E501 line too long (84 > 79 characters)
+entrypoints\4_retrieve.py:474:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:479:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:488:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:493:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:498:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:501:80: E501 line too long (84 > 79 characters)
+entrypoints\4_retrieve.py:501:85: W291 trailing whitespace
+entrypoints\4_retrieve.py:504:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:512:80: E501 line too long (81 > 79 characters)
+entrypoints\4_retrieve.py:516:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:522:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:525:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:530:80: E501 line too long (87 > 79 characters)
+entrypoints\4_retrieve.py:536:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:538:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:553:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:555:80: E501 line too long (82 > 79 characters)
+entrypoints\4_retrieve.py:560:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:568:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:571:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:573:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:579:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:581:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:592:80: E501 line too long (85 > 79 characters)
+entrypoints\4_retrieve.py:601:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:602:80: E501 line too long (81 > 79 characters)
+entrypoints\4_retrieve.py:603:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:607:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:608:80: E501 line too long (80 > 79 characters)
+entrypoints\4_retrieve.py:618:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:630:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:633:80: E501 line too long (91 > 79 characters)
+entrypoints\4_retrieve.py:634:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:637:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:640:80: E501 line too long (80 > 79 characters)
+entrypoints\4_retrieve.py:644:80: E501 line too long (81 > 79 characters)
+entrypoints\4_retrieve.py:652:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:661:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:665:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:668:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:673:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:676:80: E501 line too long (95 > 79 characters)
+entrypoints\4_retrieve.py:681:80: E501 line too long (86 > 79 characters)
+entrypoints\4_retrieve.py:683:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:692:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:693:80: E501 line too long (90 > 79 characters)
+entrypoints\4_retrieve.py:694:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:697:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:702:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:709:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:712:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:715:80: E501 line too long (99 > 79 characters)
+entrypoints\4_retrieve.py:716:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:720:80: E501 line too long (91 > 79 characters)
+entrypoints\4_retrieve.py:722:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:729:80: E501 line too long (83 > 79 characters)
+entrypoints\4_retrieve.py:731:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:736:80: E501 line too long (86 > 79 characters)
+entrypoints\4_retrieve.py:738:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:742:80: E501 line too long (90 > 79 characters)
+entrypoints\4_retrieve.py:744:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:750:80: E501 line too long (81 > 79 characters)
+entrypoints\4_retrieve.py:753:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:755:80: E501 line too long (87 > 79 characters)
+entrypoints\4_retrieve.py:769:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:773:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:777:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:779:80: E501 line too long (110 > 79 characters)
+entrypoints\4_retrieve.py:780:80: E501 line too long (88 > 79 characters)
+entrypoints\4_retrieve.py:781:80: E501 line too long (98 > 79 characters)
+entrypoints\4_retrieve.py:784:1: W293 blank line contains whitespace
+entrypoints\4_retrieve.py:786:80: E501 line too long (80 > 79 characters)
+entrypoints\4_retrieve.py:805:6: W292 no newline at end of file
+entrypoints\5_llm_response.py:17:1: F401 'group4py' imported but unused
+entrypoints\5_llm_response.py:17:1: E402 module level import not at top of file
+entrypoints\5_llm_response.py:18:1: E402 module level import not at top of file
+entrypoints\5_llm_response.py:19:1: E402 module level import not at top of file
+entrypoints\5_llm_response.py:32:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:34:80: E501 line too long (80 > 79 characters)
+entrypoints\5_llm_response.py:35:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:44:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:46:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:48:80: E501 line too long (86 > 79 characters)
+entrypoints\5_llm_response.py:49:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:52:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:62:80: E501 line too long (88 > 79 characters)
+entrypoints\5_llm_response.py:65:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:68:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:71:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:78:80: E501 line too long (88 > 79 characters)
+entrypoints\5_llm_response.py:79:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:82:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:85:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:87:80: E501 line too long (82 > 79 characters)
+entrypoints\5_llm_response.py:88:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:91:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:95:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:100:80: E501 line too long (102 > 79 characters)
+entrypoints\5_llm_response.py:101:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:104:80: E501 line too long (90 > 79 characters)
+entrypoints\5_llm_response.py:109:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:110:80: E501 line too long (85 > 79 characters)
+entrypoints\5_llm_response.py:111:80: E501 line too long (89 > 79 characters)
+entrypoints\5_llm_response.py:115:80: E501 line too long (90 > 79 characters)
+entrypoints\5_llm_response.py:120:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:121:80: E501 line too long (93 > 79 characters)
+entrypoints\5_llm_response.py:126:80: E501 line too long (81 > 79 characters)
+entrypoints\5_llm_response.py:130:80: E501 line too long (97 > 79 characters)
+entrypoints\5_llm_response.py:133:52: W291 trailing whitespace
+entrypoints\5_llm_response.py:134:51: W291 trailing whitespace
+entrypoints\5_llm_response.py:139:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:145:80: E501 line too long (80 > 79 characters)
+entrypoints\5_llm_response.py:149:80: E501 line too long (86 > 79 characters)
+entrypoints\5_llm_response.py:152:80: E501 line too long (90 > 79 characters)
+entrypoints\5_llm_response.py:157:80: E501 line too long (84 > 79 characters)
+entrypoints\5_llm_response.py:162:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:171:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:173:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:185:80: E501 line too long (89 > 79 characters)
+entrypoints\5_llm_response.py:192:80: E501 line too long (83 > 79 characters)
+entrypoints\5_llm_response.py:193:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:196:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:205:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:211:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:214:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:219:27: W291 trailing whitespace
+entrypoints\5_llm_response.py:220:19: W291 trailing whitespace
+entrypoints\5_llm_response.py:225:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:230:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:236:80: E501 line too long (86 > 79 characters)
+entrypoints\5_llm_response.py:239:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:243:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:246:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:249:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:253:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:254:80: E501 line too long (85 > 79 characters)
+entrypoints\5_llm_response.py:256:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:267:23: W291 trailing whitespace
+entrypoints\5_llm_response.py:268:43: W291 trailing whitespace
+entrypoints\5_llm_response.py:269:19: W291 trailing whitespace
+entrypoints\5_llm_response.py:280:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:286:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:289:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:295:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:299:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:302:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:309:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:322:23: W291 trailing whitespace
+entrypoints\5_llm_response.py:323:24: W291 trailing whitespace
+entrypoints\5_llm_response.py:327:80: E501 line too long (93 > 79 characters)
+entrypoints\5_llm_response.py:328:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:333:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:339:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:343:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:356:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:360:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:365:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:370:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:373:80: E501 line too long (85 > 79 characters)
+entrypoints\5_llm_response.py:376:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:381:80: E501 line too long (86 > 79 characters)
+entrypoints\5_llm_response.py:383:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:384:80: E501 line too long (85 > 79 characters)
+entrypoints\5_llm_response.py:385:80: E501 line too long (87 > 79 characters)
+entrypoints\5_llm_response.py:386:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:391:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:394:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:396:80: E501 line too long (81 > 79 characters)
+entrypoints\5_llm_response.py:397:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:398:23: W291 trailing whitespace
+entrypoints\5_llm_response.py:413:23: W291 trailing whitespace
+entrypoints\5_llm_response.py:414:22: W291 trailing whitespace
+entrypoints\5_llm_response.py:415:24: W291 trailing whitespace
+entrypoints\5_llm_response.py:421:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:427:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:435:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:439:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:445:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:446:80: E501 line too long (83 > 79 characters)
+entrypoints\5_llm_response.py:450:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:458:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:459:80: E501 line too long (82 > 79 characters)
+entrypoints\5_llm_response.py:460:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:463:80: E501 line too long (86 > 79 characters)
+entrypoints\5_llm_response.py:466:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:467:80: E501 line too long (87 > 79 characters)
+entrypoints\5_llm_response.py:472:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:475:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:485:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:487:80: E501 line too long (86 > 79 characters)
+entrypoints\5_llm_response.py:489:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:491:80: E501 line too long (88 > 79 characters)
+entrypoints\5_llm_response.py:493:80: E501 line too long (94 > 79 characters)
+entrypoints\5_llm_response.py:495:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:498:80: E501 line too long (85 > 79 characters)
+entrypoints\5_llm_response.py:500:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:502:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:504:80: E501 line too long (90 > 79 characters)
+entrypoints\5_llm_response.py:516:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:521:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:524:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:528:80: E501 line too long (80 > 79 characters)
+entrypoints\5_llm_response.py:530:80: E501 line too long (84 > 79 characters)
+entrypoints\5_llm_response.py:531:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:537:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:539:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:544:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:549:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:554:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:558:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:561:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:569:62: W291 trailing whitespace
+entrypoints\5_llm_response.py:577:80: E501 line too long (83 > 79 characters)
+entrypoints\5_llm_response.py:584:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:585:80: E501 line too long (82 > 79 characters)
+entrypoints\5_llm_response.py:590:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:592:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:597:80: E501 line too long (82 > 79 characters)
+entrypoints\5_llm_response.py:598:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:600:80: E501 line too long (81 > 79 characters)
+entrypoints\5_llm_response.py:601:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:605:59: W291 trailing whitespace
+entrypoints\5_llm_response.py:612:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:615:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:619:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:624:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:629:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:630:80: E501 line too long (84 > 79 characters)
+entrypoints\5_llm_response.py:631:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:644:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:645:80: E501 line too long (91 > 79 characters)
+entrypoints\5_llm_response.py:648:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:652:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:655:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:658:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:660:80: E501 line too long (105 > 79 characters)
+entrypoints\5_llm_response.py:664:80: E501 line too long (89 > 79 characters)
+entrypoints\5_llm_response.py:666:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:676:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:682:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:684:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:689:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:696:69: W291 trailing whitespace
+entrypoints\5_llm_response.py:701:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:708:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:709:80: E501 line too long (98 > 79 characters)
+entrypoints\5_llm_response.py:712:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:724:1: W293 blank line contains whitespace
+entrypoints\5_llm_response.py:729:57: W291 trailing whitespace
+entrypoints\5_llm_response.py:733:20: W292 no newline at end of file
+entrypoints\6_output.py:17:1: F401 'group4py' imported but unused
+entrypoints\6_output.py:17:1: E402 module level import not at top of file
+entrypoints\6_output.py:18:1: E402 module level import not at top of file
+entrypoints\6_output.py:19:1: E402 module level import not at top of file
+entrypoints\6_output.py:39:80: E501 line too long (86 > 79 characters)
+entrypoints\6_output.py:48:1: W293 blank line contains whitespace
+entrypoints\6_output.py:51:1: W293 blank line contains whitespace
+entrypoints\6_output.py:54:1: W293 blank line contains whitespace
+entrypoints\6_output.py:61:1: W293 blank line contains whitespace
+entrypoints\6_output.py:75:1: W293 blank line contains whitespace
+entrypoints\6_output.py:88:1: W293 blank line contains whitespace
+entrypoints\6_output.py:96:1: W293 blank line contains whitespace
+entrypoints\6_output.py:107:1: W293 blank line contains whitespace
+entrypoints\6_output.py:117:1: W293 blank line contains whitespace
+entrypoints\6_output.py:128:1: W293 blank line contains whitespace
+entrypoints\6_output.py:133:80: E501 line too long (89 > 79 characters)
+entrypoints\6_output.py:136:80: E501 line too long (82 > 79 characters)
+entrypoints\6_output.py:138:1: W293 blank line contains whitespace
+entrypoints\6_output.py:141:1: W293 blank line contains whitespace
+entrypoints\6_output.py:147:1: W293 blank line contains whitespace
+entrypoints\6_output.py:152:1: W293 blank line contains whitespace
+entrypoints\6_output.py:159:1: W293 blank line contains whitespace
+entrypoints\6_output.py:181:1: W293 blank line contains whitespace
+entrypoints\6_output.py:186:80: E501 line too long (80 > 79 characters)
+entrypoints\6_output.py:187:1: W293 blank line contains whitespace
+entrypoints\6_output.py:197:1: W293 blank line contains whitespace
+entrypoints\6_output.py:200:56: W291 trailing whitespace
+entrypoints\6_output.py:204:1: W293 blank line contains whitespace
+entrypoints\6_output.py:207:1: W293 blank line contains whitespace
+entrypoints\6_output.py:213:1: W293 blank line contains whitespace
+entrypoints\6_output.py:215:80: E501 line too long (80 > 79 characters)
+entrypoints\6_output.py:220:80: E501 line too long (91 > 79 characters)
+entrypoints\6_output.py:226:80: E501 line too long (81 > 79 characters)
+entrypoints\6_output.py:227:1: W293 blank line contains whitespace
+entrypoints\6_output.py:228:80: E501 line too long (82 > 79 characters)
+entrypoints\6_output.py:233:80: E501 line too long (93 > 79 characters)
+entrypoints\6_output.py:239:80: E501 line too long (83 > 79 characters)
+entrypoints\6_output.py:240:1: W293 blank line contains whitespace
+entrypoints\6_output.py:243:80: E501 line too long (87 > 79 characters)
+entrypoints\6_output.py:249:80: E501 line too long (85 > 79 characters)
+entrypoints\6_output.py:251:1: W293 blank line contains whitespace
+entrypoints\6_output.py:253:80: E501 line too long (97 > 79 characters)
+entrypoints\6_output.py:256:80: E501 line too long (80 > 79 characters)
+entrypoints\6_output.py:259:80: E501 line too long (85 > 79 characters)
+entrypoints\6_output.py:261:1: W293 blank line contains whitespace
+entrypoints\6_output.py:262:80: E501 line too long (86 > 79 characters)
+entrypoints\6_output.py:263:80: E501 line too long (91 > 79 characters)
+entrypoints\6_output.py:271:80: E501 line too long (83 > 79 characters)
+entrypoints\6_output.py:274:1: W293 blank line contains whitespace
+entrypoints\6_output.py:282:1: W293 blank line contains whitespace
+entrypoints\6_output.py:285:1: W293 blank line contains whitespace
+entrypoints\6_output.py:292:1: W293 blank line contains whitespace
+entrypoints\6_output.py:298:1: W293 blank line contains whitespace
+entrypoints\6_output.py:301:1: W293 blank line contains whitespace
+entrypoints\6_output.py:305:1: W293 blank line contains whitespace
+entrypoints\6_output.py:313:1: W293 blank line contains whitespace
+entrypoints\6_output.py:318:1: W293 blank line contains whitespace
+entrypoints\6_output.py:322:1: W293 blank line contains whitespace
+entrypoints\6_output.py:329:1: W293 blank line contains whitespace
+entrypoints\6_output.py:334:1: W293 blank line contains whitespace
+entrypoints\6_output.py:339:1: W293 blank line contains whitespace
+entrypoints\6_output.py:342:52: W291 trailing whitespace
+entrypoints\6_output.py:345:1: W293 blank line contains whitespace
+entrypoints\6_output.py:351:1: W293 blank line contains whitespace
+entrypoints\6_output.py:353:1: W293 blank line contains whitespace
+entrypoints\6_output.py:355:1: W293 blank line contains whitespace
+entrypoints\6_output.py:369:1: W293 blank line contains whitespace
+entrypoints\6_output.py:371:1: W293 blank line contains whitespace
+entrypoints\6_output.py:376:1: W293 blank line contains whitespace
+entrypoints\6_output.py:382:1: W293 blank line contains whitespace
+entrypoints\6_output.py:385:1: W293 blank line contains whitespace
+entrypoints\6_output.py:388:1: W293 blank line contains whitespace
+entrypoints\6_output.py:397:80: E501 line too long (84 > 79 characters)
+entrypoints\6_output.py:398:1: W293 blank line contains whitespace
+entrypoints\6_output.py:401:1: W293 blank line contains whitespace
+entrypoints\6_output.py:404:1: W293 blank line contains whitespace
+entrypoints\6_output.py:406:80: E501 line too long (81 > 79 characters)
+entrypoints\6_output.py:408:1: W293 blank line contains whitespace
+entrypoints\6_output.py:410:1: W293 blank line contains whitespace
+entrypoints\6_output.py:413:1: W293 blank line contains whitespace
+entrypoints\6_output.py:418:1: W293 blank line contains whitespace
+entrypoints\6_output.py:421:1: W293 blank line contains whitespace
+entrypoints\6_output.py:424:80: E501 line too long (92 > 79 characters)
+entrypoints\6_output.py:426:1: W293 blank line contains whitespace
+entrypoints\6_output.py:428:80: E501 line too long (86 > 79 characters)
+entrypoints\6_output.py:429:80: E501 line too long (85 > 79 characters)
+entrypoints\6_output.py:430:1: W293 blank line contains whitespace
+entrypoints\6_output.py:437:1: W293 blank line contains whitespace
+entrypoints\6_output.py:440:1: W293 blank line contains whitespace
+entrypoints\6_output.py:442:1: W293 blank line contains whitespace
+entrypoints\6_output.py:449:11: W292 no newline at end of file
+entrypoints\7_send_email.py:21:1: F401 'group4py' imported but unused
+entrypoints\7_send_email.py:21:1: E402 module level import not at top of file
+entrypoints\7_send_email.py:22:1: E402 module level import not at top of file
+entrypoints\7_send_email.py:32:80: E501 line too long (99 > 79 characters)
+entrypoints\7_send_email.py:46:80: E501 line too long (87 > 79 characters)
+entrypoints\7_send_email.py:63:80: E501 line too long (87 > 79 characters)
+entrypoints\7_send_email.py:66:80: E501 line too long (84 > 79 characters)
+entrypoints\7_send_email.py:81:80: E501 line too long (83 > 79 characters)
+entrypoints\7_send_email.py:89:80: E501 line too long (88 > 79 characters)
+entrypoints\7_send_email.py:105:80: E501 line too long (93 > 79 characters)
+entrypoints\7_send_email.py:110:80: E501 line too long (100 > 79 characters)
+entrypoints\7_send_email.py:118:80: E501 line too long (100 > 79 characters)
+entrypoints\7_send_email.py:122:80: E501 line too long (80 > 79 characters)
+entrypoints\7_send_email.py:136:80: E501 line too long (82 > 79 characters)
+entrypoints\7_send_email.py:137:80: E501 line too long (84 > 79 characters)
+entrypoints\7_send_email.py:142:80: E501 line too long (87 > 79 characters)
+entrypoints\7_send_email.py:177:80: E501 line too long (87 > 79 characters)
+entrypoints\7_send_email.py:194:80: E501 line too long (90 > 79 characters)
+entrypoints\7_send_email.py:206:80: E501 line too long (99 > 79 characters)
+entrypoints\7_send_email.py:210:43: W291 trailing whitespace
+entrypoints\7_send_email.py:229:80: E501 line too long (90 > 79 characters)
+entrypoints\7_send_email.py:231:80: E501 line too long (94 > 79 characters)
+entrypoints\7_send_email.py:244:80: E501 line too long (81 > 79 characters)
+entrypoints\7_send_email.py:255:80: E501 line too long (86 > 79 characters)
+entrypoints\7_send_email.py:261:80: E501 line too long (82 > 79 characters)
+entrypoints\7_send_email.py:263:80: E501 line too long (84 > 79 characters)
+entrypoints\7_send_email.py:274:80: E501 line too long (103 > 79 characters)
+entrypoints\7_send_email.py:278:80: E501 line too long (93 > 79 characters)
+entrypoints\7_send_email.py:286:80: E501 line too long (82 > 79 characters)
+entrypoints\7_send_email.py:292:80: E501 line too long (87 > 79 characters)
+entrypoints\7_send_email.py:306:25: F541 f-string is missing placeholders
+entrypoints\7_send_email.py:309:80: E501 line too long (86 > 79 characters)
+entrypoints\7_send_email.py:314:80: E501 line too long (88 > 79 characters)
+entrypoints\7_send_email.py:319:80: E501 line too long (81 > 79 characters)
+entrypoints\7_send_email.py:327:80: E501 line too long (105 > 79 characters)
+entrypoints\7_send_email.py:336:80: E501 line too long (80 > 79 characters)
+entrypoints\7_send_email.py:339:80: E501 line too long (86 > 79 characters)
+entrypoints\7_send_email.py:340:80: E501 line too long (88 > 79 characters)
+entrypoints\7_send_email.py:350:80: E501 line too long (84 > 79 characters)
+entrypoints\7_send_email.py:354:80: E501 line too long (87 > 79 characters)
+entrypoints\7_send_email.py:357:80: E501 line too long (87 > 79 characters)
+entrypoints\7_send_email.py:362:80: E501 line too long (93 > 79 characters)
+entrypoints\7_send_email.py:397:80: E501 line too long (95 > 79 characters)
+entrypoints\7_send_email.py:448:80: E501 line too long (87 > 79 characters)
+entrypoints\7_send_email.py:452:80: E501 line too long (91 > 79 characters)
+entrypoints\7_send_email.py:465:80: E501 line too long (99 > 79 characters)
+entrypoints\7_send_email.py:472:80: E501 line too long (84 > 79 characters)
+entrypoints\7_send_email.py:473:80: E501 line too long (103 > 79 characters)
+entrypoints\7_send_email.py:475:80: E501 line too long (92 > 79 characters)
+entrypoints\7_send_email.py:476:80: E501 line too long (138 > 79 characters)
+entrypoints\7_send_email.py:483:1: W293 blank line contains whitespace
+entrypoints\7_send_email.py:485:80: E501 line too long (123 > 79 characters)
+entrypoints\7_send_email.py:485:124: W291 trailing whitespace
+entrypoints\7_send_email.py:486:80: E501 line too long (94 > 79 characters)
+entrypoints\7_send_email.py:488:1: W293 blank line contains whitespace
+entrypoints\7_send_email.py:491:1: W293 blank line contains whitespace
+entrypoints\7_send_email.py:492:80: E501 line too long (114 > 79 characters)
+entrypoints\7_send_email.py:493:1: W293 blank line contains whitespace
+entrypoints\7_send_email.py:500:1: W293 blank line contains whitespace
+entrypoints\7_send_email.py:501:80: E501 line too long (135 > 79 characters)
+entrypoints\7_send_email.py:503:1: W293 blank line contains whitespace
+entrypoints\7_send_email.py:505:80: E501 line too long (80 > 79 characters)
+entrypoints\7_send_email.py:506:80: E501 line too long (125 > 79 characters)
+entrypoints\7_send_email.py:516:80: E501 line too long (145 > 79 characters)
+entrypoints\7_send_email.py:520:80: E501 line too long (95 > 79 characters)
+entrypoints\7_send_email.py:527:80: E501 line too long (116 > 79 characters)
+entrypoints\7_send_email.py:533:80: E501 line too long (91 > 79 characters)
+entrypoints\7_send_email.py:541:80: E501 line too long (82 > 79 characters)
+entrypoints\7_send_email.py:551:80: E501 line too long (80 > 79 characters)
+entrypoints\7_send_email.py:553:80: E501 line too long (97 > 79 characters)
+entrypoints\7_send_email.py:555:80: E501 line too long (94 > 79 characters)
+entrypoints\7_send_email.py:580:80: E501 line too long (88 > 79 characters)
+entrypoints\7_send_email.py:601:80: E501 line too long (80 > 79 characters)
+entrypoints\7_send_email.py:606:80: E501 line too long (84 > 79 characters)
+entrypoints\7_send_email.py:650:80: E501 line too long (92 > 79 characters)
+entrypoints\7_send_email.py:663:80: E501 line too long (82 > 79 characters)
+entrypoints\7_send_email.py:673:80: E501 line too long (91 > 79 characters)
+entrypoints\7_send_email.py:691:80: E501 line too long (82 > 79 characters)
+entrypoints\7_send_email.py:700:11: W292 no newline at end of file
+entrypoints\__init__.py:20:1: E302 expected 2 blank lines, found 1
+entrypoints\__init__.py:24:1: E302 expected 2 blank lines, found 1
+entrypoints\__init__.py:28:1: E302 expected 2 blank lines, found 1
+entrypoints\__init__.py:32:1: E302 expected 2 blank lines, found 1
+entrypoints\__init__.py:36:1: E302 expected 2 blank lines, found 1
+entrypoints\__init__.py:38:80: E501 line too long (88 > 79 characters)
+entrypoints\__init__.py:40:1: E302 expected 2 blank lines, found 1
+entrypoints\__init__.py:42:80: E501 line too long (99 > 79 characters)
+entrypoints\__init__.py:44:1: E302 expected 2 blank lines, found 1
+entrypoints\__init__.py:50:1: E303 too many blank lines (3)
+entrypoints\__init__.py:51:1: E305 expected 2 blank lines after class or function definition, found 3
+entrypoints\__init__.py:54:17: W291 trailing whitespace
+entrypoints\__init__.py:59:2: W292 no newline at end of file
+1     E114 indentation is not a multiple of 4 (comment)
+1     E116 unexpected indentation (comment)
+8     E251 unexpected spaces around keyword / parameter equals
+8     E302 expected 2 blank lines, found 1
+3     E303 too many blank lines (2)
+1     E305 expected 2 blank lines after class or function definition, found 3
+34    E402 module level import not at top of file
+308   E501 line too long (163 > 79 characters)
+14    F401 'group4py' imported but unused
+6     F541 f-string is missing placeholders
+31    W291 trailing whitespace
+8     W292 no newline at end of file
+370   W293 blank line contains whitespace

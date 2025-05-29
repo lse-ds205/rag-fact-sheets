@@ -2,6 +2,7 @@
 group4venv/
 local/
 venv/
+.venv/
 logs/
 .env
 

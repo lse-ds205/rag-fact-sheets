@@ -1,0 +1,24 @@
+entrypoints\2_chunk.py
+    F 45:0 chunk_file_one - F (43)
+entrypoints\3_embed.py
+    F 47:0 embed_all_chunks - D (28)
+entrypoints\4_retrieve.py
+    F 254:0 retrieve_chunks - D (25)
+    F 546:0 run_script - C (20)
+    F 88:0 evaluate_chunks - C (15)
+    F 417:0 retrieve_chunks_with_hop - C (14)
+entrypoints\5_llm_response.py
+    F 62:0 load_chunks_and_prompt_from_file - E (37)
+    F 412:0 merge_chunks_from_directories - C (17)
+    F 510:0 main - C (14)
+entrypoints\6_output.py
+    F 178:0 create_answer_section - D (24)
+    F 289:0 create_citations_section - C (13)
+entrypoints\7_send_email.py
+    M 157:4 SupabaseEmailSender.send_email_with_attachments - E (38)
+    F 631:0 main - C (14)
+    M 80:4 SupabaseEmailSender.find_latest_pdf_factsheet - C (12)
+    C 39:0 SupabaseEmailSender - C (11)
+
+47 blocks (classes, functions, methods) analyzed.
+Average complexity: B (8.702127659574469)
