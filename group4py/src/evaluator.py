@@ -57,14 +57,8 @@ class VectorComparison(Evaluator):
         Args:
             connection: Optional database Connection instance
         """
-        super().__init__()
-        if connection is not None:
-            self.connection = connection
-        else:
-            # Create a connection with default config
-            self.connection = PostgresConnection()
         
-        # Test the vector functionality
+        self.connection = PostgresConnection()
         self._test_vector_functionality()
 
     def _test_vector_functionality(self):
@@ -937,12 +931,7 @@ class GraphHopRetriever(Evaluator):
     
     def __init__(self, connection=None):
         super().__init__()
-        
-        if connection is not None:
-            self.connection = connection
-        else:
-            # Create a connection with default config
-            self.connection = PostgresConnection()
+        self.connection = PostgresConnection()
         
         # Create HopRAGGraphProcessor instance with the connection
         self.processor = HopRAGGraphProcessor()
