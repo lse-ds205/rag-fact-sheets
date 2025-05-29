@@ -1,4 +1,3 @@
-
 """
 Script for retrieving and evaluating document chunks for RAG system.
 """
@@ -597,8 +596,6 @@ def run_script(
                 countries_to_process = []
                 if session:
                     session.close()
-            else:
-                countries_to_process = []
         else:
             countries_to_process = [country]
         
