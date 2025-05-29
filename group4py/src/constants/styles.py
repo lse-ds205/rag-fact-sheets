@@ -1,4 +1,6 @@
 
+from reportlab.lib import colors
+
 EMAIL_CSS_STYLE = """
         <style>
             * {
@@ -176,3 +178,23 @@ EMAIL_CSS_STYLE = """
             }
         </style>
         """
+
+
+# For PDF generation:
+FONT_NAME = "Helvetica"
+FONT_SIZE_TITLE = 16
+FONT_SIZE_HEADING = 14
+FONT_SIZE_BODY = 12
+LINE_SPACING = 0.5
+COLORS = {
+    'title': colors.HexColor('#2C3E50'),            # Dark blue for title
+    'heading': colors.HexColor('#2980B9'),          # Medium blue for headings
+    'subheading': colors.HexColor('#3498DB'),       # Light blue for subheadings
+    'metadata_bg': colors.HexColor('#ECF0F1'),      # Light gray for metadata bg
+    'metadata_header': colors.HexColor('#BDC3C7'),  # Darker gray for header
+    'summary_bg': colors.HexColor('#E8F6F3'),       # Light teal for summary bg
+    'detail_bg': colors.HexColor('#EBF5FB'),        # Light blue for detailed bg
+    'citation_bg': colors.HexColor('#FEF9E7'),      # Light yellow for citations
+    'question_bg': colors.HexColor('#F4F6F7'),      # Light gray for question bg
+    'border': colors.HexColor('#D6DBDF'),           # Border color
+}
