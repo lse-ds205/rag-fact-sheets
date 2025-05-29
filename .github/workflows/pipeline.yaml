@@ -37,6 +37,8 @@ jobs:
       - name: Placebo Test - Remove a document
         run: |
           python manual/delete_one_document.py
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Run 1_scrape.py
         run: python "entrypoints/1_scrape.py"
