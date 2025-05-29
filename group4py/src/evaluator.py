@@ -19,15 +19,11 @@ import group4py
 from databases.auth import PostgresConnection
 from helpers.internal import Logger
 from embed.hoprag import HopRAGGraphProcessor
+from schemas.general import UUIDEncoder
 
 logger = logging.getLogger(__name__)
+db = PostgresConnection()
 
-
-class UUIDEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if hasattr(obj, 'hex'):
-            return obj.hex
-        return json.JSONEncoder.default(self, obj)
 
 class Evaluator:
     """Base class defining the interface for chunk evaluation strategies."""
@@ -58,7 +54,7 @@ class VectorComparison(Evaluator):
             connection: Optional database Connection instance
         """
         
-        self.connection = PostgresConnection()
+        self.connection = db
         self._test_vector_functionality()
 
     def _test_vector_functionality(self):
@@ -931,7 +927,7 @@ class GraphHopRetriever(Evaluator):
     
     def __init__(self, connection=None):
         super().__init__()
-        self.connection = PostgresConnection()
+        self.connection = db
         
         # Create HopRAGGraphProcessor instance with the connection
         self.processor = HopRAGGraphProcessor()
