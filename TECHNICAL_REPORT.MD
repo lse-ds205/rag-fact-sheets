@@ -5,7 +5,7 @@ This report details the main design choices made when building these tools.
 ## Table of Contents
 
 - [Embeddings](#embeddings)
-- [Retrival](#retrival)
+- [Retrieval](#retrieval)
 - [Tools](#tools)
   - [General Design Choices](#general-design-choices)
   - [Pillar Tool (CP 1.a & CP 1.b)](#pillar-tool-cp-1a--cp-1b)
