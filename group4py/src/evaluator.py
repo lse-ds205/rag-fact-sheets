@@ -16,10 +16,8 @@ from difflib import SequenceMatcher
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
-from database import Connection
+from databases.auth import PostgresConnection
 from helpers.internal import Logger
-from database import Connection
-from schema import DatabaseConfig
 from embed.hoprag import HopRAGGraphProcessor
 
 logger = logging.getLogger(__name__)
@@ -64,9 +62,7 @@ class VectorComparison(Evaluator):
             self.connection = connection
         else:
             # Create a connection with default config
-            config = DatabaseConfig.from_env()
-            self.connection = Connection(config)
-            self.connection.connect()
+            self.connection = PostgresConnection()
         
         # Test the vector functionality
         self._test_vector_functionality()
@@ -186,7 +182,7 @@ class VectorComparison(Evaluator):
         """
         try:
             # Create database connection using the Connection class
-            session = self.connection.get_session()
+            session = self.connection.Session()
             
             try:
                 # Determine which embedding column to use and convert prompt to vector string
@@ -295,7 +291,7 @@ class VectorComparison(Evaluator):
         """
         try:
             # Get a session using the Connection class
-            session = self.connection.get_session()
+            session = self.connection.Session()
             
             try:
                 # Determine which embedding column to use
@@ -312,9 +308,12 @@ class VectorComparison(Evaluator):
                 # Validate query_embedding dimensions
                 if not query_embedding or len(query_embedding) != vector_dim:
                     logger.error(f"[CHUNK_SIMILARITY] Invalid query embedding dimensions. Expected {vector_dim}, got {len(query_embedding) if query_embedding else 0}")
-                    return 0.0                # Convert query embedding to PostgreSQL vector literal format
+                    return 0.0
+                
+                # Convert query embedding to PostgreSQL vector literal format
                 vector_literal = '[' + ','.join(map(str, query_embedding)) + ']'
-                  # Query to find the chunk by content and calculate similarity
+                
+                # Query to find the chunk by content and calculate similarity
                 query = text(f"""
                     SELECT 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
                     FROM doc_chunks c
@@ -354,7 +353,7 @@ class VectorComparison(Evaluator):
             if not chunk_ids:
                 return {}
                 
-            session = self.connection.get_session()
+            session = self.connection.Session()
             
             try:
                 # Determine which embedding column and dimension to use
@@ -939,18 +938,14 @@ class GraphHopRetriever(Evaluator):
     def __init__(self, connection=None):
         super().__init__()
         
-        # Always create a config object, regardless of connection
-        config = DatabaseConfig.from_env()
-        
         if connection is not None:
             self.connection = connection
         else:
             # Create a connection with default config
-            self.connection = Connection(config)
-            self.connection.connect()
+            self.connection = PostgresConnection()
         
-        # Create HopRAGGraphProcessor instance with the config
-        self.processor = HopRAGGraphProcessor(config)
+        # Create HopRAGGraphProcessor instance with the connection
+        self.processor = HopRAGGraphProcessor()
         
         # Initialize the processor
         try:

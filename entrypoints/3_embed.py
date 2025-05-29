@@ -21,7 +21,6 @@ from databases.models import DocChunkORM
 logger = logging.getLogger(__name__)
 load_dotenv()
 
-
 def collect_all_chunk_texts(session):
     """
     Collect all chunk texts from the database for global Word2Vec training.
@@ -29,17 +28,17 @@ def collect_all_chunk_texts(session):
     Returns:
         List of chunk texts
     """
-    logger.info("[3.5_EMBED] Collecting all chunks from database for global Word2Vec training...")
+    logger.info("[3_EMBED] Collecting all chunks from database for global Word2Vec training...")
     
     try:
         chunks = session.query(DocChunkORM.content).filter(DocChunkORM.content.isnot(None)).all()
         texts = [chunk.content for chunk in chunks if chunk.content and chunk.content.strip()]
         
-        logger.info(f"[3.5_EMBED] Collected {len(texts)} chunks from database")
+        logger.info(f"[3_EMBED] Collected {len(texts)} chunks from database")
         return texts
         
     except Exception as e:
-        logger.error(f"[3.5_EMBED] Error collecting chunks: {e}")
+        logger.error(f"[3_EMBED] Error collecting chunks: {e}")
         return []
     finally:
         session.close()
@@ -53,17 +52,17 @@ async def embed_all_chunks(force_reembed: bool = False, db = Optional[PostgresCo
         force_reembed: If True, regenerate embeddings even if they already exist
     """
     
-    logger.info("[3.5_EMBED] Starting embedding generation process...")
+    logger.info("[3_EMBED] Starting embedding generation process...")
     
     # Step 1: Collect all chunk texts and train global Word2Vec
     chunk_texts = collect_all_chunk_texts(session)
     
     if not chunk_texts:
-        logger.error("[3.5_EMBED] No chunks found in database")
+        logger.error("[3_EMBED] No chunks found in database")
         return
     
     # Step 2: Initialize embedding models
-    logger.info("[3.5_EMBED] Loading embedding models...")
+    logger.info("[3_EMBED] Loading embedding models...")
     embedding_model = CombinedEmbedding()
     
     # Train or load Word2Vec model
@@ -71,20 +70,20 @@ async def embed_all_chunks(force_reembed: bool = False, db = Optional[PostgresCo
     
     # Check if model already exists
     if model_path.exists() and not force_reembed:
-        logger.info(f"[3.5_EMBED] Loading existing Word2Vec model from {model_path}")
+        logger.info(f"[3_EMBED] Loading existing Word2Vec model from {model_path}")
         embedding_model.word2vec_embedder.load_global_model(str(model_path))
     else:
-        logger.info("[3.5_EMBED] Training new global Word2Vec model...")
+        logger.info("[3_EMBED] Training new global Word2Vec model...")
         success = embedding_model.train_word2vec_on_texts(chunk_texts, str(model_path))
         if not success:
-            logger.error("[3.5_EMBED] Failed to train Word2Vec model")
+            logger.error("[3_EMBED] Failed to train Word2Vec model")
             return
     
     # Load transformer models
     embedding_model.transformer_embedder.load_models()
     
     if not embedding_model.models_ready:
-        logger.error("[3.5_EMBED] No embedding models loaded successfully")
+        logger.error("[3_EMBED] No embedding models loaded successfully")
         return
 
     # Step 3: Get all chunks from database
@@ -93,26 +92,26 @@ async def embed_all_chunks(force_reembed: bool = False, db = Optional[PostgresCo
         # Query chunks that need embeddings (or all if force_reembed)
         if force_reembed:
             chunks_query = session.query(DocChunkORM).all()
-            logger.info(f"[3.5_EMBED] Force re-embedding: Processing all {len(chunks_query)} chunks")
+            logger.info(f"[3_EMBED] Force re-embedding: Processing all {len(chunks_query)} chunks")
         else:
             chunks_query = session.query(DocChunkORM).filter(
                 (DocChunkORM.transformer_embedding.is_(None)) | 
                 (DocChunkORM.word2vec_embedding.is_(None))
             ).all()
-            logger.info(f"[3.5_EMBED] Processing {len(chunks_query)} chunks without embeddings")
+            logger.info(f"[3_EMBED] Processing {len(chunks_query)} chunks without embeddings")
         
         if not chunks_query:
-            logger.info("[3.5_EMBED] No chunks need embedding. All done!")
+            logger.info("[3_EMBED] No chunks need embedding. All done!")
             return
         
         # Step 4: Generate embeddings for all chunks
-        logger.info("[3.5_EMBED] Generating embeddings for chunks...")
+        logger.info("[3_EMBED] Generating embeddings for chunks...")
         
         processed_count = 0
         for chunk in tqdm(chunks_query, desc="Generating embeddings"):
             try:
                 if not chunk.content or not chunk.content.strip():
-                    logger.warning(f"[3.5_EMBED] Skipping empty chunk {chunk.id}")
+                    logger.warning(f"[3_EMBED] Skipping empty chunk {chunk.id}")
                     continue
                 
                 # Generate transformer embedding
@@ -137,44 +136,44 @@ async def embed_all_chunks(force_reembed: bool = False, db = Optional[PostgresCo
                 # Commit periodically to avoid holding large transactions (every 500 chunks)
                 if processed_count % 500 == 0:
                     session.commit()
-                    logger.debug(f"[3.5_EMBED] Committed batch at {processed_count} chunks")
+                    logger.debug(f"[3_EMBED] Committed batch at {processed_count} chunks")
                     
             except Exception as e:
-                logger.error(f"[3.5_EMBED] Error processing chunk {str(chunk.id)}: {str(e)}")
-                logger.error(f"[3.5_EMBED] Traceback: {traceback.format_exc()}")
+                logger.error(f"[3_EMBED] Error processing chunk {str(chunk.id)}: {str(e)}")
+                logger.error(f"[3_EMBED] Traceback: {traceback.format_exc()}")
                 continue
         
         # Final commit
         session.commit()
-        logger.info(f"[3.5_EMBED] Successfully generated embeddings for {processed_count} chunks")
+        logger.info(f"[3_EMBED] Successfully generated embeddings for {processed_count} chunks")
         
         # Step 5: Run HopRAG processing after embeddings are complete
         try:
-            logger.info("[3.5_EMBED] Starting HopRAG processing...")
+            logger.info("[3_EMBED] Starting HopRAG processing...")
             processor = HopRAGGraphProcessor()
             
             # Check if the HopRAG embedding model is ready
             if not processor.is_model_ready():
-                logger.error("[3.5_EMBED] HopRAG embedding model failed to initialize properly. Skipping HopRAG processing.")
+                logger.error("[3_EMBED] HopRAG embedding model failed to initialize properly. Skipping HopRAG processing.")
                 return
                 
             # Generate embeddings if needed (HopRAG uses its own embedding format)
-            logger.info("[3.5_EMBED] Processing HopRAG embeddings in batch...")
+            logger.info("[3_EMBED] Processing HopRAG embeddings in batch...")
             await processor.process_embeddings_batch(batch_size=100)
               # Build relationships for all chunks with enhanced logging
-            logger.info("[3.5_EMBED] Building logical relationships...")
+            logger.info("[3_EMBED] Building logical relationships...")
             # Get the current relationship count before building
             rel_count_before = 0
             try:
                 with db.connect() as conn:
                     result = conn.execute(text("SELECT COUNT(*) FROM logical_relationships"))
                     rel_count_before = result.scalar() or 0
-                    logger.info(f"[3.5_EMBED] Current relationship count: {rel_count_before}")
+                    logger.info(f"[3_EMBED] Current relationship count: {rel_count_before}")
             except Exception as e:
-                logger.warning(f"[3.5_EMBED] Could not get relationship count: {str(e)}")
+                logger.warning(f"[3_EMBED] Could not get relationship count: {str(e)}")
             
             # Build relationships with detailed parameters
-            logger.info("[3.5_EMBED] Building relationships for all processed chunks...")
+            logger.info("[3_EMBED] Building relationships for all processed chunks...")
             await processor.build_relationships_sparse(
                 max_neighbors=30, 
                 min_confidence=0.55,
@@ -190,26 +189,26 @@ async def embed_all_chunks(force_reembed: bool = False, db = Optional[PostgresCo
                     rel_count_after = result.scalar() or 0
                     
                     new_rels = rel_count_after - rel_count_before
-                    logger.info(f"[3.5_EMBED] Added {new_rels} new relationships. Total now: {rel_count_after}")
+                    logger.info(f"[3_EMBED] Added {new_rels} new relationships. Total now: {rel_count_after}")
             except Exception as e:
-                logger.warning(f"[3.5_EMBED] Could not get updated relationship count: {str(e)}")
+                logger.warning(f"[3_EMBED] Could not get updated relationship count: {str(e)}")
             
             # Clean up HopRAG processor
             await processor.close()
-            logger.info("[3.5_EMBED] HopRAG processing completed successfully")
+            logger.info("[3_EMBED] HopRAG processing completed successfully")
             
             # Ensure any remaining changes from HopRAG are committed to the database
             session.commit()
-            logger.info("[3.5_EMBED] Successfully committed HopRAG relationship changes")
+            logger.info("[3_EMBED] Successfully committed HopRAG relationship changes")
             
         except Exception as e:
             session.rollback()  # Roll back any failed HopRAG changes
-            logger.error(f"[3.5_EMBED] HopRAG processing failed: {str(e)}")
-            logger.error(f"[3.5_EMBED] HopRAG Traceback: {traceback.format_exc()}")
+            logger.error(f"[3_EMBED] HopRAG processing failed: {str(e)}")
+            logger.error(f"[3_EMBED] HopRAG Traceback: {traceback.format_exc()}")
             # Don't fail the entire process if HopRAG fails - embeddings are still valid
         
     except Exception as e:
-        logger.error(f"[3.5_EMBED] Error during embedding generation: {str(e)}")
+        logger.error(f"[3_EMBED] Error during embedding generation: {str(e)}")
         session.rollback()
         raise
     finally:
@@ -227,16 +226,16 @@ async def run_script(force_reembed: bool = False):
     db = PostgresConnection()
     
     try:
-        with db.get_session() as session:
-            logger.warning(f"\n\n[3.5_EMBED] Running embedding script with force_reembed={force_reembed}...")
+        with db.Session() as session:
+            logger.warning(f"\n\n[3_EMBED] Running embedding script with force_reembed={force_reembed}...")
             
             # Generate embeddings for all chunks
             await embed_all_chunks(force_reembed=force_reembed, db=db, session=session)
             
-            logger.warning("[3.5_EMBED] Embedding and relationship processing completed successfully. All chunks now have embeddings and logical relationships.")
+            logger.warning("[3_EMBED] Embedding and relationship processing completed successfully. All chunks now have embeddings and logical relationships.")
         
     except Exception as e:
-        logger.critical(f"\n\n\n\n[PIPELINE BROKE!] - Error in 3.5_embed.py: {e}")
+        logger.critical(f"\n\n\n\n[PIPELINE BROKE!] - Error in 3_embed.py: {e}")
         logger.critical(f"[PIPELINE BROKE!] - Traceback: {traceback.format_exc()}")
         raise e
 

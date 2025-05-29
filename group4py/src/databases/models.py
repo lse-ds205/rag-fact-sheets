@@ -3,6 +3,7 @@ This module contains the SQLAlchemy ORM models for the database.
 """
 
 import uuid
+from pgvector.sqlalchemy import Vector
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import ARRAY, DOUBLE_PRECISION
 from sqlalchemy.orm import relationship
@@ -61,8 +62,8 @@ class DocChunkORM(Base):
     page = Column(Integer)
     paragraph = Column(Integer)
     language = Column(String)
-    transformer_embedding = Column(ARRAY(Float))
-    word2vec_embedding = Column(ARRAY(Float))
+    transformer_embedding = Column(Vector)
+    word2vec_embedding = Column(Vector)
     hoprag_embedding = Column(ARRAY(Integer))
     content_hash = Column(String(64))
     chunk_data = Column(JSONB, default={})

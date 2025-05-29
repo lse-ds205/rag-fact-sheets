@@ -12,7 +12,7 @@ from datetime import datetime
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
-from database import Connection
+from databases.auth import PostgresConnection
 from helpers.internal import Logger
 from evaluator import VectorComparison, RegexComparison, FuzzyRegexComparison, GraphHopRetriever
 from embedding import TransformerEmbedding
@@ -21,8 +21,7 @@ from constants.prompts import (
     QUESTION_PROMPT_5, QUESTION_PROMPT_6, QUESTION_PROMPT_7, QUESTION_PROMPT_8,
     HOP_KEYWORDS, GENERAL_NDC_KEYWORDS
 )
-from database import Connection
-from schema import DatabaseConfig, UUIDEncoder
+from schema import UUIDEncoder
 
 logger = logging.getLogger(__name__)
 load_dotenv()
@@ -62,7 +61,7 @@ def embed_prompt(prompt):
         logger.error(f"[4_RETRIEVE] Traceback: {traceback_string}")
         return None
 
-def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: List[float] = None) -> List[Dict[str, Any]]:
+def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: List[float] = None, db: PostgresConnection = None) -> List[Dict[str, Any]]:
     """
     Evaluate chunks using multiple comparison methods: vector similarity, regex patterns, and fuzzy matching.
     Now handles chunks without embeddings gracefully.
@@ -71,20 +70,16 @@ def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: 
         return []
 
     try:
-        # Create database config and connection for VectorComparison
-        config = DatabaseConfig.from_env()
-        db_connection = Connection(config)
-        
         chunks_with_similarity = []
         
-        if not db_connection.connect() or embedded_prompt is None:
+        if embedded_prompt is None or db is None:
             # Fall back to chunks without similarity scores
             for chunk in chunks:
                 chunk['similarity_score'] = 0.0
             chunks_with_similarity = chunks
         else:
             # Initialize VectorComparison with proper database connection
-            vector_comp = VectorComparison(connection=db_connection)
+            vector_comp = VectorComparison(connection=db)
             
             # Get chunk IDs for batch similarity calculation
             chunk_ids = [chunk['id'] for chunk in chunks]
@@ -190,7 +185,7 @@ def evaluate_chunks(prompt: str, chunks: List[Dict[str, Any]], embedded_prompt: 
         return chunks
 
 def retrieve_chunks(embedded_prompt, prompt, top_k=20, 
-                   ensure_indices=True, country=None, n_per_doc=None, min_similarity=0.0):
+                   ensure_indices=True, country=None, n_per_doc=None, min_similarity=0.0, db: PostgresConnection = None):
     """
     Retrieve and evaluate the most similar chunks from the database using comprehensive evaluation.
     First evaluates ALL chunks, then returns top ones based on weighted average score.
@@ -204,6 +199,7 @@ def retrieve_chunks(embedded_prompt, prompt, top_k=20,
         country: Optional country name to filter documents by
         n_per_doc: Optional number of chunks to return per document (overrides top_k)
         min_similarity: Minimum similarity threshold (0-1)
+        db: Database connection to use
         
     Returns:
         List of dictionaries containing evaluated chunks with comprehensive scores
@@ -214,15 +210,13 @@ def retrieve_chunks(embedded_prompt, prompt, top_k=20,
             if not VectorComparison.create_vector_indices():
                 pass  # Continue anyway
         
+        # Create database connection if not provided
+        if db is None:
+            db = PostgresConnection()
+        
         # Step 1: Get ALL chunks from database for comprehensive evaluation
-        config = DatabaseConfig.from_env()
-        db_connection = Connection(config)
-        
-        if not db_connection.connect():
-            return []
-        
         # Get all chunks from database (without filtering by country in SQL)
-        session = db_connection.get_session()
+        session = db.Session()
         try:
             # Get all chunks without country filtering in SQL
             query = text("SELECT * FROM doc_chunks")
@@ -248,7 +242,7 @@ def retrieve_chunks(embedded_prompt, prompt, top_k=20,
             
             session.close()
         except Exception as e:
-            print(f"[4_RETRIEVE] Error retrieving chunks: {e}")
+            logger.error(f"[4_RETRIEVE] Error retrieving chunks: {e}")
             if session:
                 session.close()
             return []
@@ -261,7 +255,7 @@ def retrieve_chunks(embedded_prompt, prompt, top_k=20,
                 chunk_country = chunk.get('chunk_data', {}).get('country', 'Unknown')
                 countries_found.add(chunk_country)
             
-            print(f"[4_RETRIEVE] DEBUG: Found chunks from {len(countries_found)} countries: {sorted(countries_found)}")
+            logger.info(f"[4_RETRIEVE] DEBUG: Found chunks from {len(countries_found)} countries: {sorted(countries_found)}")
             
             # Show count per country
             country_counts = {}
@@ -270,31 +264,32 @@ def retrieve_chunks(embedded_prompt, prompt, top_k=20,
                 country_counts[chunk_country] = country_counts.get(chunk_country, 0) + 1
             
             for country_name, count in sorted(country_counts.items()):
-                print(f"[4_RETRIEVE] DEBUG: {country_name}: {count} chunks")
+                logger.info(f"[4_RETRIEVE] DEBUG: {country_name}: {count} chunks")
         else:
-            print("[4_RETRIEVE] DEBUG: No chunks retrieved from database")
+            logger.info("[4_RETRIEVE] DEBUG: No chunks retrieved from database")
             
             # Check if there are any chunks in the database at all
             try:
-                session = db_connection.get_session()
+                session = db.Session()
                 total_count = session.execute(text("SELECT COUNT(*) FROM doc_chunks")).scalar()
-                print(f"[4_RETRIEVE] DEBUG: Database has {total_count} total chunks")
+                logger.info(f"[4_RETRIEVE] DEBUG: Database has {total_count} total chunks")
                 
                 # Get list of all countries in database using JSON extraction
                 countries_in_db = session.execute(text(
                     "SELECT DISTINCT chunk_data->>'country' FROM doc_chunks WHERE chunk_data->>'country' IS NOT NULL ORDER BY chunk_data->>'country'"
                 )).fetchall()
                 countries_list = [row[0] for row in countries_in_db if row[0]]
-                print(f"[4_RETRIEVE] DEBUG: Countries in database: {countries_list}")
+                logger.info(f"[4_RETRIEVE] DEBUG: Countries in database: {countries_list}")
                 session.close()
             except Exception as e:
-                print(f"[4_RETRIEVE] DEBUG: Error checking database: {e}")
+                logger.error(f"[4_RETRIEVE] DEBUG: Error checking database: {e}")
 
         # Step 2: Run comprehensive evaluation on ALL chunks (includes vector similarity calculation)
         evaluated_chunks = evaluate_chunks(
             prompt=prompt, 
             chunks=all_chunks,
-            embedded_prompt=embedded_prompt
+            embedded_prompt=embedded_prompt,
+            db=db
         )
         
         if not evaluated_chunks:
@@ -337,7 +332,7 @@ def retrieve_chunks(embedded_prompt, prompt, top_k=20,
 
 
 def retrieve_chunks_with_hop(prompt: str, top_k: int = 20, country: Optional[str] = None, 
-                           question_number: Optional[int] = None) -> List[Dict[str, Any]]:
+                           question_number: Optional[int] = None, db: PostgresConnection = None) -> List[Dict[str, Any]]:
     """
     Retrieve chunks using graph-based multi-hop reasoning through relationship-based navigation.
     
@@ -346,12 +341,13 @@ def retrieve_chunks_with_hop(prompt: str, top_k: int = 20, country: Optional[str
         top_k: Number of top chunks to retrieve (default: 20)
         country: Optional country filter
         question_number: Optional question number for keyword enhancement
+        db: Database connection to use
         
     Returns:
         List of dictionaries containing chunks with scores and metadata
     """
     try:
-        print(f"[HOP_RETRIEVE] Starting hop retrieval for query: '{prompt[:50]}...'")
+        logger.info(f"[HOP_RETRIEVE] Starting hop retrieval for query: '{prompt[:50]}...'")
         
         # Enhance query with relevant keywords from HOP_KEYWORDS
         enhanced_query = prompt
@@ -362,27 +358,24 @@ def retrieve_chunks_with_hop(prompt: str, top_k: int = 20, country: Optional[str
             # Take a subset of keywords to avoid overly long queries
             selected_keywords = " ".join(keywords[:8])
             enhanced_query = f"{selected_keywords}"
-            print(f"[HOP_RETRIEVE] Enhanced query with keywords for question {question_number}")
-            print(f"[HOP_RETRIEVE] Using keywords: {selected_keywords}")
+            logger.info(f"[HOP_RETRIEVE] Enhanced query with keywords for question {question_number}")
+            logger.info(f"[HOP_RETRIEVE] Using keywords: {selected_keywords}")
         else:
             # Use general NDC keywords if no specific question number
             selected_keywords = " ".join(GENERAL_NDC_KEYWORDS[:5])
             enhanced_query = f"{selected_keywords}"
-            print(f"[HOP_RETRIEVE] Using general keywords: {selected_keywords}")
+            logger.info(f"[HOP_RETRIEVE] Using general keywords: {selected_keywords}")
         
-        # Create database connection
-        config = DatabaseConfig.from_env()
-        db_connection = Connection(config)
-        if not db_connection.connect():
-            print("[HOP_RETRIEVE] Failed to connect to database")
-            return []
+        # Create database connection if not provided
+        if db is None:
+            db = PostgresConnection()
         
         # Check if logical_relationships table has data
-        engine = db_connection.get_engine()
+        engine = db.get_engine()
         with engine.connect() as conn:
             # Check total relationship count
             rel_count = conn.execute(text("SELECT COUNT(*) FROM logical_relationships")).scalar() or 0
-            print(f"[HOP_RETRIEVE] Found {rel_count} total relationships in database")
+            logger.info(f"[HOP_RETRIEVE] Found {rel_count} total relationships in database")
             
             # Check chunk count for the specified country
             if country:
@@ -390,13 +383,13 @@ def retrieve_chunks_with_hop(prompt: str, top_k: int = 20, country: Optional[str
                     text("SELECT COUNT(*) FROM doc_chunks WHERE chunk_data->>'country' = :country"),
                     {"country": country}
                 ).scalar() or 0
-                print(f"[HOP_RETRIEVE] Found {country_chunks} chunks for country '{country}'")
+                logger.info(f"[HOP_RETRIEVE] Found {country_chunks} chunks for country '{country}'")
         
         # Initialize the GraphHopRetriever
-        hop_retriever = GraphHopRetriever(connection=db_connection)
+        hop_retriever = GraphHopRetriever(connection=db)
         
         # Retrieve chunks using graph-based hop reasoning with enhanced query
-        print(f"[HOP_RETRIEVE] Executing hop reasoning retrieval with enhanced query")
+        logger.info(f"[HOP_RETRIEVE] Executing hop reasoning retrieval with enhanced query")
         results = hop_retriever.retrieve_with_hop_reasoning(
             query=enhanced_query,
             top_k=top_k,
@@ -404,17 +397,17 @@ def retrieve_chunks_with_hop(prompt: str, top_k: int = 20, country: Optional[str
         )
         
         if not results:
-            print("[HOP_RETRIEVE] No results returned from hop reasoning")
+            logger.info("[HOP_RETRIEVE] No results returned from hop reasoning")
         else:
-            print(f"[HOP_RETRIEVE] Retrieved {len(results)} chunks using hop reasoning")
+            logger.info(f"[HOP_RETRIEVE] Retrieved {len(results)} chunks using hop reasoning")
         
         # Don't save individual files - we'll save one consolidated file per country
         return results
         
     except Exception as e:
-        print(f"[HOP_RETRIEVE] Error in graph hop retrieval: {e}")
+        logger.error(f"[HOP_RETRIEVE] Error in graph hop retrieval: {e}")
         traceback_string = traceback.format_exc()
-        print(f"[HOP_RETRIEVE] Traceback: {traceback_string}")
+        logger.error(f"[HOP_RETRIEVE] Traceback: {traceback_string}")
         return []
 
 @Logger.log(log_file=project_root / "logs/retrieve.log", log_level="INFO")
@@ -432,6 +425,9 @@ def run_script(question_number: int = None, country: Optional[str] = None,
     
     """
     try:
+        # Create single database connection for reuse
+        db = PostgresConnection()
+        
         # Create retrieve directories if they don't exist
         retrieve_dir = project_root / "data" / "retrieve"
         retrieve_dir.mkdir(parents=True, exist_ok=True)
@@ -447,36 +443,31 @@ def run_script(question_number: int = None, country: Optional[str] = None,
         else:
             questions_to_run = list(range(1, 9))  # Run all questions 1-8
         
-        print(f"[4_RETRIEVE] Running questions: {questions_to_run}")
+        logger.info(f"[4_RETRIEVE] Running questions: {questions_to_run}")
         
         # If no specific country is provided, get all countries from database
         if country is None:
-            config = DatabaseConfig.from_env()
-            db_connection = Connection(config)
-            if db_connection.connect():
-                session = db_connection.get_session()
-                try:
-                    # Extract countries from chunk_data JSON
-                    countries_result = session.execute(text(
-                        "SELECT DISTINCT chunk_data->>'country' FROM doc_chunks WHERE chunk_data->>'country' IS NOT NULL ORDER BY chunk_data->>'country'"
-                    )).fetchall()
-                    countries_to_process = [row[0] for row in countries_result if row[0]]
-                    session.close()
-                except Exception as e:
-                    print(f"[4_RETRIEVE] Error getting countries: {e}")
-                    countries_to_process = []
-                    if session:
-                        session.close()
-            else:
+            session = db.Session()
+            try:
+                # Extract countries from chunk_data JSON
+                countries_result = session.execute(text(
+                    "SELECT DISTINCT chunk_data->>'country' FROM doc_chunks WHERE chunk_data->>'country' IS NOT NULL ORDER BY chunk_data->>'country'"
+                )).fetchall()
+                countries_to_process = [row[0] for row in countries_result if row[0]]
+                session.close()
+            except Exception as e:
+                logger.error(f"[4_RETRIEVE] Error getting countries: {e}")
                 countries_to_process = []
+                if session:
+                    session.close()
         else:
             countries_to_process = [country]
         
-        print(f"[4_RETRIEVE] Processing countries: {countries_to_process}")
+        logger.info(f"[4_RETRIEVE] Processing countries: {countries_to_process}")
         
         # Process each country
         for country_name in countries_to_process:
-            print(f"[4_RETRIEVE] Processing country: {country_name}")
+            logger.info(f"[4_RETRIEVE] Processing country: {country_name}")
             
             # Initialize country data structures (separate for standard and hop)
             standard_country_data = {
@@ -504,7 +495,7 @@ def run_script(question_number: int = None, country: Optional[str] = None,
             
             # Process each question for this country
             for q_num in questions_to_run:
-                print(f"[4_RETRIEVE] Processing question {q_num} for {country_name}")
+                logger.info(f"[4_RETRIEVE] Processing question {q_num} for {country_name}")
                 
                 # Get the prompt text from the corresponding QUESTION_PROMPT
                 prompt = QUESTION_PROMPTS[q_num]
@@ -521,7 +512,8 @@ def run_script(question_number: int = None, country: Optional[str] = None,
                     ensure_indices=True,
                     n_per_doc=None,
                     country=country_name,
-                    min_similarity=0.2
+                    min_similarity=0.2,
+                    db=db
                 )
                 
                 # Store standard retrieval data
@@ -538,16 +530,17 @@ def run_script(question_number: int = None, country: Optional[str] = None,
                 # Add to overall collection
                 all_evaluated_chunks.extend(standard_chunks)
                 
-                print(f"[4_RETRIEVE] Question {q_num} for {country_name}: {len(standard_chunks)} chunks retrieved (vector)")
+                logger.info(f"[4_RETRIEVE] Question {q_num} for {country_name}: {len(standard_chunks)} chunks retrieved (vector)")
                 
                 # If hop retrieval is requested, also perform hop retrieval
                 if use_hop_retrieval:
-                    print(f"[4_RETRIEVE] Using graph hop retrieval for question {q_num}")
+                    logger.info(f"[4_RETRIEVE] Using graph hop retrieval for question {q_num}")
                     hop_chunks = retrieve_chunks_with_hop(
                         prompt=prompt,
                         top_k=20,
                         country=country_name,
-                        question_number=q_num  # Pass question number to hop retrieval
+                        question_number=q_num,  # Pass question number to hop retrieval
+                        db=db
                     )
                     
                     # Store hop retrieval data
@@ -564,7 +557,7 @@ def run_script(question_number: int = None, country: Optional[str] = None,
                     # Add hop chunks to overall collection as well
                     all_evaluated_chunks.extend(hop_chunks)
                     
-                    print(f"[4_RETRIEVE] Question {q_num} for {country_name}: {len(hop_chunks)} chunks retrieved (hop)")
+                    logger.info(f"[4_RETRIEVE] Question {q_num} for {country_name}: {len(hop_chunks)} chunks retrieved (hop)")
             
             # Save country file with all questions
             # Clean country name for filename
@@ -576,28 +569,28 @@ def run_script(question_number: int = None, country: Optional[str] = None,
             
             # Always save standard vector results
             standard_output_path = retrieve_dir / retrieve_filename
-            print(f"[4_RETRIEVE] Saving vector retrieval results to: {standard_output_path}")
+            logger.info(f"[4_RETRIEVE] Saving vector retrieval results to: {standard_output_path}")
             
             with open(standard_output_path, "w", encoding="utf-8") as f:
                 # Use the custom encoder to handle UUID objects
                 json.dump(standard_country_data, f, ensure_ascii=False, indent=2, cls=UUIDEncoder)
             
             standard_total_chunks = sum(len(q_data["top_k_chunks"]) for q_data in standard_country_data["questions"].values())
-            print(f"[4_RETRIEVE] Saved {len(questions_to_run)} questions with {standard_total_chunks} total chunks for {country_name} (vector)")
+            logger.info(f"[4_RETRIEVE] Saved {len(questions_to_run)} questions with {standard_total_chunks} total chunks for {country_name} (vector)")
             
             # If hop retrieval was used, also save hop results
             if use_hop_retrieval and hop_country_data:
                 hop_output_path = retrieve_hop_dir / retrieve_filename
-                print(f"[4_RETRIEVE] Saving hop retrieval results to: {hop_output_path}")
+                logger.info(f"[4_RETRIEVE] Saving hop retrieval results to: {hop_output_path}")
                 
                 with open(hop_output_path, "w", encoding="utf-8") as f:
                     # Use the custom encoder to handle UUID objects
                     json.dump(hop_country_data, f, ensure_ascii=False, indent=2, cls=UUIDEncoder)
                 
                 hop_total_chunks = sum(len(q_data["top_k_chunks"]) for q_data in hop_country_data["questions"].values())
-                print(f"[4_RETRIEVE] Saved {len(questions_to_run)} questions with {hop_total_chunks} total chunks for {country_name} (hop)")
+                logger.info(f"[4_RETRIEVE] Saved {len(questions_to_run)} questions with {hop_total_chunks} total chunks for {country_name} (hop)")
         
-        print(f"[4_RETRIEVE] Completed processing {len(countries_to_process)} countries with {len(questions_to_run)} questions each")
+        logger.info(f"[4_RETRIEVE] Completed processing {len(countries_to_process)} countries with {len(questions_to_run)} questions each")
         return all_evaluated_chunks
 
     except Exception as e:
