@@ -287,18 +287,18 @@ This approach ensures we only process genuinely new submissions, optimizing comp
                                "lineColor": "#ffffff" }}}%%
 flowchart TD
   %% ───────── class definitions ─────────
-  classDef process  fill:#E3F2FD,stroke:#333,color:#000,font-weight:bold
+  classDef process fill:#E3F2FD,stroke:#333,color:#000,font-weight:bold
   classDef decision fill:#FFF9C4,stroke:#333,color:#000,font-weight:bold
-  classDef storage  fill:#C8E6C9,stroke:#333,color:#000,font-weight:bold
-  classDef alt      fill:#FFCCBC,stroke:#333,color:#000,font-weight:bold
+  classDef storage fill:#C8E6C9,stroke:#333,color:#000,font-weight:bold
+  classDef alt fill:#FFCCBC,stroke:#333,color:#000,font-weight:bold
 
   %% ───────── nodes & edges ─────────
-  A["Web Scraper<br>Selenium"]:::process --> B{"Check PostgreSQL<br>New&nbsp;Document?"}:::decision
-  B -->|Yes| C["Store&nbsp;Document"]:::process
-  B -->|No|  Z["Skip&nbsp;Processing"]:::alt
+  A["Web Scraper<br>Selenium"]:::process --> B{"Check PostgreSQL<br>New Document?"}:::decision
+  B -->|Yes| C["Store Document"]:::process
+  B -->|No| Z["Skip Processing"]:::alt
 
-  C --> D["Text&nbsp;Processor<br>Chunking"]:::process
-  D --> E["Embedding&nbsp;Generation"]:::process
+  C --> D["Text Processor<br>Chunking"]:::process
+  D --> E["Embedding Generation"]:::process
 
   %% three separate methods (down-feed into F)
   E --> T1["Transformer<br>Embeddings"]:::process
@@ -309,20 +309,20 @@ flowchart TD
   T2 --> F
   T3 --> F
 
-  F["PostgreSQL&nbsp;Database<br>Chunks&nbsp;+&nbsp;Relationships"]:::storage
+  F["PostgreSQL Database<br>Chunks + Relationships"]:::storage
 
-  F --> G1["Similarity&nbsp;Search<br>Legacy&nbsp;RAG"]:::process
-  F --> G2["Similarity&nbsp;Search<br>HOP&nbsp;RAG"]:::alt
-  G1 --> H["Top&nbsp;K&nbsp;Chunks<br>Merger"]:::process
+  F --> G1["Similarity Search<br>Legacy RAG"]:::process
+  F --> G2["Similarity Search<br>HOP RAG"]:::alt
+  G1 --> H["Top K Chunks<br>Merger"]:::process
   G2 --> H
 
-  H --> I["LLM&nbsp;Interpretation<br>Domain&nbsp;Prompts"]:::process
-  I --> J["HTML&nbsp;/&nbsp;JSON<br>Report&nbsp;Generation"]:::process
-  J --> K["Email&nbsp;Notification<br>Resend&nbsp;API"]:::alt
-  K --> L["Client&nbsp;Receives<br>Email&nbsp;Alert"]:::process
-  L --> M["Client&nbsp;Clicks&nbsp;Link"]:::process
-  M --> N["API&nbsp;Gateway<br>FastAPI"]:::process
-  N --> O["Web&nbsp;Interface<br>React&nbsp;/&nbsp;Next.js"]:::alt
+  H --> I["LLM Interpretation<br>Domain Prompts"]:::process
+  I --> J["HTML / JSON<br>Report Generation"]:::process
+  J --> K["Email Notification<br>Resend API"]:::alt
+  K --> L["Client Receives<br>Email Alert"]:::process
+  L --> M["Client Clicks Link"]:::process
+  M --> N["API Gateway<br>FastAPI"]:::process
+  N --> O["Web Interface<br>React / Next.js"]:::alt
 ```
 
 ---
