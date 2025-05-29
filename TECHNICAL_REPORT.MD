@@ -34,7 +34,7 @@ Based on (ASCOR Methodology)[https://www.transitionpathwayinitiative.org/publica
 - The model used depends on the language of the policy documents: if English content → standard LLM (Meta-Llama-3.1-70B-Instruct), if the content is non-English → use multilingual model (Qwen3-32B) which can use over 110 languages, but is more expensive and slower. This balances being multi-lingual and easy to use and scale. 
 
 **Alternative Large-context Strategy**
-A second large context window approach was also employed instead of the chain of thought apporach. A single comprehensive prompt using one copy of Llama-3.3-70B (a much larger but more expensive model) was used
+A second large context window approach was also employed instead of the chain of thought apporach. A single comprehensive prompt using one copy of Llama-3.3-70B (a much larger but more expensive model) was used.
 
 #### Pillar Tool Evaluation
 
@@ -43,18 +43,12 @@ A second large context window approach was also employed instead of the chain of
 
 This tool creates structured reports on any climate legislation topic using documents from the Climate Policy Radar Database.
 
-#### Design Choices
-
 The tool follows the below workflow:
 
-1. Generating a template 
-Medium-power LLM creates report structure based on user topic
-2. Having the user approve the template (Human in the Loop)
-Template validation with fallback to higher-power model if rejected. This balances performance and computational efficency.
-3. Splitting the report template into subsections
-Low-power model parses template into individual question components
-4. Generating hypothetical subsections for retrival
-Medium-power LLM generates expected responses to guide document retrieval
+1. Generating a template based on the topic using a Medium-power LLM
+2. The user approves the template (Human in the Loop) with a fallback to higher-power model if the human rejects it
+3. A Low-power model parses template into individual question components
+4. Generating hypothetical subsections for retrival: Medium-power LLM generates expected responses to guide document retrieval
 4. Generating each Subsection based on retrived chunks
 5. Compiling the Document
 6. Checking the report
@@ -62,7 +56,26 @@ High-power LLM evaluates report on three metrics: completeness, template adheren
 7. Having a human check the report
 8. Rewriting parts of the report if the user doesn't like it
 
-#### Custom Report Tool Evaluation
+#### Design Choices
+
+**Human-in-the-Loop Workflow**
+- Human approval checkpoints are built in at 1. template approval and  2. final report review
+- If human rejects template or report, a higher powered model is used again balancing performance and efficency
+
+**Hypothetical Document Retrieval**
+- The function `generate_subsection_content()` generates hypothetical responses to subjections which are embedded to retrieve sub-section relevant chunks
+- This compensates for the unbounded number of topics covered making knowing which propmt to use to retreive chunks difficult
+
+**Multi-tier Model Strategy**
+- Uses three different model tiers (low, medium, high power) assigned to different workflow steps based on how demanding the step is to balance performance and cost-effectiveness
+- For example, simple tasks seperating the template into sections use low-power modeles
+
+**Template-based Design**
+- This ensures the report is well structured without trading off topics that could be covered
+- This acts as way to loosly strucutre unpredictable LLm output, particuarily with human in the loop 
+
+**Automatic Quality Control**
+- A model automaticaly rewrites subsections that it does not approve of using a hgiher powered LLM model
 
 
 ### Sectoral Analysis Tool
@@ -77,13 +90,24 @@ It also provides confidence (`"High", "Medium", "Low"`) for each of these subcom
 
 #### Design Choices
 
-**Output Format Standardization**
+**Structured Output Enforcement**
 
-A typedDict class was created for all structures with strict fields to ensure output is standardized. Some are literals, such as confidence. Langchain `with_structured_output()` is then used to ensure LLMs adhere to classes.
+- Implements strict TypedDict classes for all output structures (eg. NetZeroAssessment, PeriodAnalysis1970s, LegislativeTimeline)
+- Then Langchain's with_structured_output() is used to enforce schema compliance to the TypedDict classes 
+
+**Seperating legislation into sub-periods**
+- Divides legislative analysis into distinct time periods (1970s-1980s, 1990s-2000s, 2010s-Present) using dedicated LLMs for each era
+- This allows this complex question to be better adressed and better ensures relevant context is included for each period
+- Another LLM is used to summarise the overall change based on the sub-period analysis
+- A larger models is used for 2010s-Present because of increased policy complexity
 
 **Chain of Thought & Workflow Design**
 
 - Tasks are split between different LLMs to ensure output is focused and follows the schema and then compiled together by another LLM. 
 - Also allows for effiecny gains by giving simpler tasks to less powerful LLMs (eg. synthesising document)
+
+**Confidence**
+- To make LLMs more honest about the credibility of their analysis, they must give a confidence of `"High", "Medium", "Low"` for each section
+- This makes analysis more transparent
 
 #### Sector Report Tool Evaluation
