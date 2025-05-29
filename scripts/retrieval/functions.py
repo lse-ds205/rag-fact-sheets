@@ -9,6 +9,7 @@ import torch
 import pandas as pd
 import numpy as np
 import sys
+import re
 
 from tqdm.notebook import tqdm, trange
 
@@ -37,7 +38,6 @@ if project_root not in sys.path:
 
 # Load environment variables first
 word2vec_path = os.path.join(project_root, 'local_model', 'custom_word2vec_768.model')
-
 
 def generate_embeddings_for_text(texts, model, tokenizer):
     """
@@ -149,6 +149,7 @@ def train_custom_word2vec_from_texts(
     import re
     from gensim.models import Word2Vec
 
+
     def basic_tokenize(text):
         text = re.sub(r'[^a-zA-Z]', ' ', text.lower())
         return text.split()
@@ -175,8 +176,6 @@ def train_custom_word2vec_from_texts(
     return model
 
 
-
-
 def generate_word2vec_embedding_for_text(text, model):
     tokens = simple_preprocess(text)
     vectors = [model.wv[word] for word in tokens if word in model.wv]
@@ -190,7 +189,7 @@ def generate_word2vec_embedding_for_text(text, model):
 
 def embed_and_store_all_embeddings(df, engine):
     from sqlalchemy.orm import sessionmaker
-    from scripts.retrieval.functions import generate_embeddings_for_text  # Assuming this is defined elsewhere
+    from scripts.retrieval.functions import generate_embeddings_for_text  
 
     # Load models
     tokenizer, climatebert_model = load_climatebert_model()
