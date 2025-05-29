@@ -187,3 +187,9 @@ To run the cyclomatic complexity analysis, execute the following command:
 ```bash
 python cyclomatic_complexity/analysis.py entrypoints
 ```
+
+To run the analysis on the `entrypoints` folder for example, use:
+
+```bash
+python cyclomatic_complexity/analysis.py entrypoints
+```
