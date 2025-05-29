@@ -1,65 +1,28 @@
-# Climate Data Web Scraping
+The skeleton pipeline is designed to:
 
-Welcome to the Climate Data Web Scraping repository! This project is part of the [DS205 course](https://lse-dsi.github.io/DS205) and is designed to help you learn and practice ethical web scraping techniques using the Climate Action Tracker dataset.
+- Maximize separation of concerns, accommodating four team members.
+- Provide high flexibility for independent or collaborative work without disrupting the workflow.
+- Remain lean and lightweight, allowing for easy assembly and disassembly.
 
-## Getting Started
+Python version used: 3.13.2
 
-### 1. Clone the Repository
-To get started, clone this repository to your local machine:
-```bash
-git clone https://github.com/lse-ds205/climate-data-web-scraping.git
-cd climate-data-web-scraping
-```
+The virtual environment is pushed because it contains only five packages: `group4venv`. Will eventually .gitignore afterwards
 
-### 2. Set Up Virtual Environment
-It's strongly recommended to use a dedicated virtual environment for this project to avoid conflicts with other Python packages. This is especially important as you might be working on multiple DS205 projects simultaneously (e.g., [ascor-api](https://github.com/lse-ds205/ascor-api)).
+Alternatively, just run (you probably already have these packages):
 
 ```bash
-# Create a virtual environment
-python -m venv scraping-env
-
-# Activate the virtual environment
-# On Mac/Linux:
-source scraping-env/bin/activate
-# On Windows:
-scraping-env\Scripts\activate
+pip install -r requirements/requirements.txt
 ```
 
-### 3. Install Dependencies
-With your virtual environment activated, install the required dependencies:
+To execute the pipeline, use the following commands:
+
 ```bash
-pip install -r requirements.txt
+python interface.py detect run
+python interface.py query ask --prompt "This is a test prompt?"
 ```
 
-### 4. Run the Spider
-Navigate to the project directory and run the spider:
-```bash
-cd climate_tracker
-scrapy crawl climate_action_tracker -O ../data/output.json
-```
-
-Because we are still thinking about the best way to store the data, we will simply produce a generically-named JSON file in the `data` directory. **Once we have decided on a structure, we will likely use an [Item Pipeline](https://docs.scrapy.org/en/latest/topics/item-pipeline.html) to save the data in a more appropriate format.**
-
-Visit the [Climate Action Tracker](https://climateactiontracker.org/) website to understand the data source.
-
-## Data Usage Notice
-
-Data and extracted textual content from the Climate Action Tracker website are copyrighted © 2009-2025 by Climate Analytics and NewClimate Institute. All rights reserved.
-
-## Ethical Web Scraping
-
-This project follows ethical web scraping practices:
-- Respects robots.txt
-- Implements appropriate delays between requests
-- Properly identifies the spider with user agent information
-- Only scrapes publicly available data
-
-## Collaborator Access
-
-Students who are currently enrolled in the DS205 course (or auditing) are eligible to contribute to this repository. To be granted push permission on this repository, please send a message to Jon on Slack with your GitHub username. Once approved, you'll receive an invite to contribute.
-
-## Need Help?
-For issues or questions:
-- Post in the `#help` channel on Slack
-- Check out the [Scrapy Documentation](https://docs.scrapy.org/)
-- Contact Jon directly if you face persistent issues
+Suggestion steps:
+1. Look at interface.py
+2. Look at working_file_example.ipynb
+3. Look at /entrypoints
+4. Look at /group4py/src (custom library)

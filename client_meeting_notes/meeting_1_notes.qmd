@@ -1,0 +1,93 @@
+---
+title: "Client Meeting 1 Notes"
+author: "Group 4 x Sylvan Lutz"
+date: "2025-04-29"
+format: markdown
+---
+
+# Client Meeting 1 Summary
+**Date:** 29/04/2025  
+**Participants:** Group 4 x Sylvan Lutz
+
+---
+
+# 1. Infrastructure Walkthrough
+
+## 1.1 Rui Kai Infrastructure Overview
+- Presentation of the initial project infrastructure setup.
+
+## 1.2 Group Explanation
+- **Data Retrieval**:  
+  - Scraping and processing of necessary metadata as the first stage.
+- **Answer Generation**:  
+  - Retrieving top-matching embeddings.
+  - Utilizing LLM APIs to generate accurate outputs for the client.
+
+## 1.3 Client Response
+- **Addressing Chunk Pass-Through**:
+  - Emphasis on strong pre-processing to ensure higher model accuracy.
+  - Better pre-processing reduces the need for overly complex models:
+    - Absorbing unnecessary chunks can hurt output quality.
+    - Optimizing chunk length simplifies final model behavior.
+
+## 1.4 Conclusion
+- Alignment between the client and the group on infrastructure design and priorities.
+
+---
+
+# 2. Front-End Integration Proposal
+
+## 2.1 Group Comments
+- Proposal to explore a user-friendly front-end once the core backend infrastructure is functional.
+
+## 2.2 Client Comments
+- Focus should remain on the backend for now:
+  - **Robust code** to handle updates to incoming files.
+  - Clear **separation of concerns** in code structure.
+  - **Modularized code** to ensure ease of maintenance and extensibility.
+
+---
+
+# 3. Evaluation Criteria for the Model
+
+## 3.1 Group Questions
+- **Key evaluation objectives**:
+  - Reduce human intervention.
+  - Design a future-proof system.
+  - Efficient data processing (lower priority).
+  - Ensure **correctness** in:
+    - Data structure.
+    - Data consistency.
+- **Additional queries**:
+  - What accuracy metrics are being used?
+  - What is the expected format and appearance of the model output for the client?
+
+## 3.2 Client Commentary on TPI Objectives
+- **Scraping Concerns**:
+  - Need for a sustainable, large-scale scraping approach.
+  - Addressing challenges with countries uploading documents late against internal deadlines.
+- **Lag of Information**:
+  - The climate space suffers from a data availability lag affecting decision-making.
+  - We must reduce the time between information becoming available and being usable.
+- **Standardization of Data Output**:
+  - Standardizing how countries present data is crucial.
+
+## 3.3 Suggestions for the Retrieve/Output Phase
+- Develop **structured pipelines** tailored for different information types.
+- Identify whether the output:
+  - Can be handled by an LLM.
+  - Requires human verification during post-processing.
+- **Client Suggestion**:
+  - Think of the LLM acting as a **classifier** in the pipeline.
+- **Key Output Focus**:
+  - Prioritize producing **consistent** outputs.
+  - Initially answer **one or two questions extremely well** before scaling complexity.
+
+---
+
+# 4. Next Steps
+
+- **Update 1**: Development of the scraping and data processing pipeline.
+- **Update 2**: Focus on delivering consistent, narrow-bodied answers to maintain quality.
+
+---
