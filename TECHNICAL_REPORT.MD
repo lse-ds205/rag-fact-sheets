@@ -7,6 +7,9 @@ Given ASCOR analysts must perform reproducable assessments, a temperature of 0 w
 
 **General Model Choice**
 
+**Use of Postgres Database**
+The Huggingface Climate Policy Radar dataset is uploaded to a Postgres Database table to speed up country filtering during testing. 
+
 **Markdown Output**
 Tool output is in formatted as markdown to make assessments clearer and more readable for analysts. This is enforced for some tools (Sectoral Analysis) or prompted (Pillar Pipeline).
 
@@ -62,6 +65,8 @@ High-power LLM evaluates report on three metrics: completeness, template adheren
 
 #### Custom Report Tool Evaluation
 
+- 
+
 
 ### Sectoral Analysis Tool
 
@@ -85,3 +90,4 @@ A typedDict class was created for all structures with strict fields to ensure ou
 - Also allows for effiecny gains by giving simpler tasks to less powerful LLMs (eg. synthesising document)
 
 #### Sector Report Tool Evaluation
+
