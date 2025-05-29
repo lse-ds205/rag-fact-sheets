@@ -347,7 +347,7 @@ flowchart TD
 ---
 
 ### ⚙️ Technical Implementation Details
-![Database Schema](./images/DataBase_Schema.png)
+![Database Schema](./images/DataBase_Schema.jpeg)
 
 #### **🗄️ Database Architecture & Schema Design**
 * **Supabase PostgreSQL Cloud**: Deployed on Supabase - a fully managed PostgreSQL cloud provider enabling future-proof scaling to handle more countries and questions with minimal infrastructure management
