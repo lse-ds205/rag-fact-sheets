@@ -64,6 +64,9 @@ A second large context window approach was also employed instead of the chain of
 
 ### Pillar Tool Evaluation
 
+We tested the Pillar Tool using Albania as an example. Both the Chain of Thought and Large Context strategies generated an overall CP1a score of YES, and provide similar and reasonable justifications, for example correctly identifying the "Law for Climate Change" in the National Energy and Climate Plan 2019 Draft as evidence that climate change is enshrined in law. However, the Large Context strategy yields more comprehensive and convincing explanations for its assessments, perhaps due to the higher power of the model and less dilution of information through LangChain. Furthermore, the fourth criteria CP1a "exceptional case" was answered differently by the different approaches. The Large Context strategy answers NO to this criteria as there is "no sufficient evidence" that the criteria is met, even if the basic requirement of a broad environmental law and a climate strategy is met. This shows that criteria based on subjective evaluation may not be consistently handled well.
+
+ ```NB07-CP1_Evaluation.ipynb``` compares the CP1 assessments obtained by the our pillar tool against the "grount truth" ASCOR assessments, to measure the accuracy of our RAG system. Unfortunately, since Albania is not included in the existing ASCOR assessments, we cannot check the results with our Evaluation Notebook.  
 
 ## Custom Report Generation Tool
 
@@ -135,4 +138,5 @@ It also provides confidence (`"High", "Medium", "Low"`) for each of these subcom
 **Confidence Rating**
 - To make LLMs more honest about the credibility of their analysis, they must give a confidence of `"High", "Medium", "Low"` for each section
 - This makes analysis more transparent
+
 
