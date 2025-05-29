@@ -347,8 +347,10 @@ flowchart TD
 ---
 
 ### ⚙️ Technical Implementation Details
+![Database Schema](./images/DataBase_Schema.png)
 
 #### **🗄️ Database Architecture & Schema Design**
+* **Supabase PostgreSQL Cloud**: Deployed on Supabase - a fully managed PostgreSQL cloud provider enabling future-proof scaling to handle more countries and questions with minimal infrastructure management
 * **PostgreSQL with pgvector Extension**: Leverages native vector operations for efficient similarity search with `ARRAY(Float)` storage for embeddings
 * **Comprehensive ORM Models**: `SQLAlchemy` models for documents, chunks, and logical relationships with automatic schema validation
 * **🆔 UUID-Based Identification**: Uses `UUID` primary keys for chunks to handle distributed processing and avoid collision issues
