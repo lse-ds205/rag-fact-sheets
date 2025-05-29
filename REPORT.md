@@ -211,21 +211,13 @@ This mapping enhances retrieval by:
 > **Implementation**: The keyword mapping is used in the retrieval phase to enhance document chunks before they reach the LLM, ensuring that relevant terminology is properly weighted.
 
 #### 2. **📝 Answer Generator**
-**Key prompt clauses**:
-* *"Use only the supplied chunks. Every sentence must end with a citation tag like `[C12]`."*
-* *"If the context does not contain the answer, reply exactly `'INSUFFICIENT INFO'`."*
-* **Decoding parameters**: `temperature = 0.2`, `top_p = 0.8`, no chain-of-thought in final output (kept internal)
+**Actual implemented prompt clauses**:
+* *"Provide a comprehensive answer based ONLY on the information in the provided chunks"*
+* *"Include ALL chunks that contributed to your answer"*
+* *"Be precise and factual - do not add information not present in the chunks"*
+* **Decoding parameters**: `temperature = 0.1` (configurable via environment variables)
 
-> **Purpose**: These constraints sharply reduce **creative drift**—the main source of hallucinations in extractive tasks.
-
-#### 3. **🔍 Hallucination Audit**
-
-| Sub-check | **Method** | **Output** |
-|-----------|--------|--------|
-| **Citation coverage** | `Regex`: every sentence ⇒ does it end in `[C\d+]` that maps to one of the 20 chunks? | `cov ∈ [0,1]` |
-| **Entailment (NLI)** | For each sentence-chunk pair referenced, run `RoBERTa-large-MNLI` → entail/neutral/contradict; take mean entail prob. Adaptation proven effective for **faithfulness detection** | `nli ∈ [0,1]` |
-| **Self-Consistency (SC)** | Sample 10 answers with `temperature = 0.7`; majority-vote answer vs. others ⇒ agreement ratio. Inspired by `SelfCheckGPT` & SC decoding | `sc ∈ [0,1]` |
-| **Rule/Regex check** | For numeric/date questions, parallel pipeline: regex over chunks extracts candidate values; does generator match? | `rx ∈ {0,1}` |
+> **Purpose**: These constraints help reduce hallucinations by ensuring the LLM only uses information from the provided context chunks. The implementation allows for flexible configuration through environment variables rather than hardcoding parameters.
 
 ---
 
@@ -272,12 +264,16 @@ This approach ensures we only process genuinely new submissions, optimizing comp
 ### Step 3: 🧠 Embedding & Vector Storage
 * **Hybrid Embedding**: Combine `Climate-BERT-F` transformer embeddings with `word2vec` representations for optimal domain coverage
 * **Vector Database**: Store embeddings in Supabase PostgreSQL with `pgvector` extension for efficient similarity search
-* **Index Optimization**: Implement `HNSW indexing` for sub-linear retrieval performance across 100k+ chunks
-
+* **HopRAG Relationship Detection**: Automatically detect logical relationships between chunks using semantic similarity and pattern matching
+  * **Node Classification**: Classify chunks into four distinct categories based on graph centrality measures:
+    * `CORE_HUB`: Nodes with high scores in at least 2 centrality measures - critical knowledge centers
+    * `AUTHORITY`: Nodes with high PageRank but not qualifying as Core Hub - influential reference points
+    * `CONNECTOR`: Nodes with high betweenness centrality - important bridge nodes between topics
+    * `PERIPHERAL`: Nodes with lower centrality scores - supporting information content
+  * **Relationship Scoring**: Assign confidence scores to relationships based on semantic similarity, pattern strength, and distance penalties
 ### Step 4: 🔍 Query Processing & Fact-Sheet Generation
 * **Query Analysis**: Parse incoming questions and apply domain-specific keyword mapping for enhanced retrieval
 * **HopRAG Retrieval**: Execute multi-hop reasoning across retrieved chunks to synthesize comprehensive answers
-* **Response Validation**: Apply **four-tier hallucination audit** (citation coverage, entailment, self-consistency, regex validation)
 * **Fact-Sheet Generation**: Format validated responses into standardized `JSON/PDF` outputs with confidence scores
 
 ---
