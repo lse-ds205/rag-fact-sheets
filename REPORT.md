@@ -4,7 +4,7 @@
 
 **Client**: `Sylvan Lutz` (LSE Transition Pathway Institute)  
 **Tech Leads**: `Jon Cardoso Silva`, `Barry Ledeatte`  
-**Junior Developers**: `Liu Zi Cheng` (Embeddings & LLM), `Bryan Tan` (Hop-RAG & Documentation), `Michele Silvestri` (Front-End & Client Engagement), `Liu Rui Kai` (Database & Architecture)
+**Junior Developers**: `Liu Zi Cheng` (Embeddings & LLM), `Bryan Tan` (Hop-RAG & Retrieval), `Michele Silvestri` (Front-End & Client Engagement), `Liu Rui Kai` (Database & Architecture)
 
 ---
 
@@ -22,9 +22,20 @@ Our team initially proposed the project plan to the client via email, outlining 
 > **Close collaboration** with the client ensured the solution remained aligned with expectations and evolving requirements.
 
 ### Timeline
-*<Placeholder for image to be inserted>*
 
-### 💡 Major Takeaways after discussion from Sylvan 
+![Project Timeline](./images/Project_Timeline.png)
+
+* **25 April 2025** – First Email to Client with project proposal, outlining our approach and methodology
+* **29 April 2025** – Introductory Meeting with Client - Client shares his expectations and requirements
+* **08 May 2025** – Client Responds to roadmap from Meeting #1 - Client responds to our meeting minutes and follow-up email.
+* **09 May 2025** – We encountered a blocker with the UNFCCC website implementing a HCaptcha that blocks our web scraper. This was a major obstacle for us, as we were unable to scrape the website for new NDC documents.
+* **13 May 2025** – Meeting #2 with client to touch bases on our progress and discuss methods to circumvent the HCaptcha blocker
+* **13 May 2025** – Updating Client with our finalized plan and our revamped architecture
+* **15 May 2025** – Client shares with us GitHub repo for his workaround UNFCC ReCaptcha blocker
+
+### 💡 Major Takeaways after discussion from Sylvan
+
+![Client Interaction](./images/Group4_ClientInteraction.jpeg)
 
 1. **🏗️ Focus on scalability and reliability of architecture**
    * Our `RAG + hopRAG` architecture with confidence scoring provides scalable multi-hop reasoning while maintaining computational efficiency for large-scale document processing
@@ -48,7 +59,7 @@ Our team initially proposed the project plan to the client via email, outlining 
    * **Final Decision**: TPI currently has an application hosted on Digital Ocean and mentioned that either `Supabase` or `Digital Ocean` is good. `GitHub Actions` is also good.
 
 5. **📊 Output Format and Report**
-   * **Preferred formats** from Sylvan: `CSV`, `JSON`, or `PDF`
+   * **Preferred formats** from Sylvan: `JSON`, or `PDF`
    * **Email notifications**: Would appreciate an email to be sent to their outlook whenever the bot detects an update on the website
    * **Front-end integration**: Would appreciate a link to the front-end in the email (Through API call)
 
@@ -61,7 +72,7 @@ The following sub-sections reflect the various **design decisions** we undertook
 > **Performance Levers**: In terms of performance, we saw the following key levers to improving the accuracy of the results:
 > - Embedding Strategy
 > - RAG Strategy  
-> - Similarity Search
+> - Similarity Search & Retrieval Strategy
 
 ### 🏛️ Project Architecture
 
@@ -69,11 +80,14 @@ The following sub-sections reflect the various **design decisions** we undertook
 * **Rationale**: Supabase provides managed PostgreSQL with built-in vector extensions (`pgvector`) for efficient similarity search, while offering seamless integration with our JavaScript/Python stack and real-time capabilities for monitoring document updates.
 
 #### **Backend: Classic RAG + hopRAG**
+
 * **Problem Statement**: The main issue with classic RAG strategies is that it suffers from **multi-hop reasoning failures** ([Reference paper](https://arxiv.org/abs/2502.12442))
 * **Root Cause**: For complicated questions we require information from multiple chunks to fully answer a question and your RAG fails because it cannot make connections from chunks
 * **Alternatives Considered**: 
   - `Graph RAG` vs `hop RAG` 
 * **Final Decision**: **Hop RAG** is more computationally efficient because it avoids the `O(n²)` complexity of comparing relationships between all chunks that Graph RAG requires. With `~100k chunks` from our PDF processing, Graph RAG would create prohibitive computational overhead, while hop RAG maintains **linear scaling** by selectively exploring relevant connection paths.
+
+For more details on RAG architecture, please refer to the `RAG.MD` markdown file.
 
 #### **Front-end: Email + API**
 * **Purpose**: Updates user (meeting client's need as per request) whenever a change is detected and redirecting them to a front-end for a more custom UX
@@ -136,15 +150,22 @@ We examined the use of different methodologies to improve the retrieval of the *
 
 > **Literature Review Insight**: Upon reviewing literature, we realized that such methodology was a mini version of **BM25+ similarity search (hybrid search)**. This would perform both **lexical and semantic search** and combines both `TFIDF scoring` and `cosine similarity search`.
 
-We explored the use of this in combination with **ML techniques**:
+We explored the use of this in combination with **Fuzzy Regex**:
 
-#### 1. **Hierarchical Navigable Small World (HNSW)**
-* HNSW is a **graph-based approximate nearest neighbor algorithm** that creates a multi-layer navigation structure for efficient similarity search
-* It improves upon BM25+ by providing **sub-linear time complexity** `O(log n)` for vector similarity search, significantly accelerating retrieval for our 100k chunk dataset
+#### 🧩 **Fuzzy Regex Enhancement**
 
-#### 2. **Scalable Nearest Neighbors (ScaNN)**
-* ScaNN uses **learned quantization and pruning techniques** to compress vector representations while maintaining search accuracy
-* It enhances BM25+ performance by reducing **memory footprint by up to 10x** while achieving comparable recall, enabling faster similarity computation for large-scale climate document retrieval
+Our Fuzzy Regex implementation adds an additional layer of validation beyond traditional similarity search by implementing sophisticated text matching techniques:
+
+* **N-gram Analysis** 🔍 - Breaks text into overlapping chunks (n-grams) to identify partial matches even when terminology varies
+* **Contextual Pattern Recognition** 🧠 - Uses domain-specific regex patterns tailored to climate policy language, including:
+  * Mitigation patterns (e.g., `reduction in emissions`, `carbon neutral`)
+  * Adaptation patterns (e.g., `resilience to climate`, `disaster management`)
+  * Finance patterns (e.g., `$X million for climate`, `green bonds`)
+  * Target patterns (e.g., `by 2030`, `X% reduction`)
+* **Similarity Ratio Calculation** 📊 - Employs the Sequence Matcher algorithm to calculate text similarity scores between 0 and 1
+* **Confidence Thresholding** ⚖️ - Configurable threshold (default: 0.6) determines minimum similarity for fuzzy matches
+
+This approach significantly improves retrieval quality for climate policy documents by capturing **semantic equivalence** even when exact keywords aren't present. For example, a query about "emissions reduction targets" will match content discussing "commitment to lower greenhouse gas output by 2030" despite minimal lexical overlap.
 
 ---
 
@@ -154,12 +175,29 @@ We explored the use of this in combination with **ML techniques**:
 
 Our prompt engineering strategy follows a systematic **four-stage approach**:
 
-#### 1. **🎯 Prompt Matching**
-Based on our **domain expertise**, we realize that certain queries correspond to certain keywords in the documents:
+#### 1. **🎯 Prompt Matching & Keyword Enhancement**
+Based on our **domain expertise**, we created a comprehensive keyword mapping system (`HOP_KEYWORDS`) that connects each question type to climate-specific terminology:
 
-> **Example**: If the query is asking for the NDC targets, keywords such as `reduction`, `cutoff`, `below`, `compared`, `pledge`, `commit` are often present in the answer documents. 
+```python
+# Example from prompts.py
+HOP_KEYWORDS = {
+    # Question 1: Emissions reduction targets
+    1: [
+        "reduction target", "emissions target", "reduce emissions", 
+        "GHG emissions", "carbon emissions", "target of", "reduction of",
+        "% reduction", "unconditional target", "conditional target",
+        // ...more keywords...
+    ],
+    // ...other questions...
+}
+```
 
-Hence we created a **dictionary** to conduct this mapping, prompting the LLM to consider this domain expertise in generating responses.
+This mapping enhances retrieval by:
+- Boosting documents containing domain-specific terminology
+- Enabling better multi-hop reasoning through related concepts
+- Improving performance for specialized climate policy questions
+
+> **Implementation**: The keyword mapping is used in the retrieval phase to enhance document chunks before they reach the LLM, ensuring that relevant terminology is properly weighted.
 
 #### 2. **📝 Answer Generator**
 **Key prompt clauses**:
@@ -189,6 +227,32 @@ We used a systematic **four-step methodology** as outlined below:
 * **Document Processing**: Automated PDF extraction, text cleaning, and metadata extraction for newly detected documents
 * **Quality Assurance**: Validation checks ensure document completeness and format consistency before processing
 
+#### 🤖 Selenium Bot Methodology
+
+Our Selenium-based web scraper employs a sophisticated approach to monitor the UNFCCC NDC registry:
+
+1. **HCaptcha Bypass**: Utilizes a headless browser with randomized user agent strings and timing variations to appear as human traffic
+2. **Document Identification**: Extracts metadata (country, submission date, document type) from the NDC registry listings
+3. **Database Verification**: For each identified document, performs a check against the PostgreSQL database:
+   ```python
+   SELECT EXISTS(
+     SELECT 1 FROM documents 
+     WHERE doc_id = :doc_id OR 
+           (country = :country AND filename = :filename)
+   )
+   ```
+4. **Efficient Processing**:
+   * If document exists in database → Skip processing
+   * If new document → Download to temporary storage at `data/pdf` on the GitHub runner
+   * Document naming convention assumption: Countries upload new NDC versions with distinct filenames
+5. **Metadata Extraction**: Captures critical metadata during scraping:
+   * Country name and ISO code
+   * Submission timestamp
+   * Language identifier
+   * Original filename
+
+This approach ensures we only process genuinely new submissions, optimizing computational resources while maintaining comprehensive coverage of the NDC registry.
+
 ### Step 2: ✂️ Text Processing & Chunking
 * **Preprocessing**: Remove headers, footers, and non-content elements while preserving document structure
 * **Smart Chunking**: Context-aware chunking that maintains semantic coherence, targeting `512-token chunks` with `50-token overlap`
@@ -203,32 +267,42 @@ We used a systematic **four-step methodology** as outlined below:
 * **Query Analysis**: Parse incoming questions and apply domain-specific keyword mapping for enhanced retrieval
 * **HopRAG Retrieval**: Execute multi-hop reasoning across retrieved chunks to synthesize comprehensive answers
 * **Response Validation**: Apply **four-tier hallucination audit** (citation coverage, entailment, self-consistency, regex validation)
-* **Fact-Sheet Generation**: Format validated responses into standardized `CSV/JSON/PDF` outputs with confidence scores
+* **Fact-Sheet Generation**: Format validated responses into standardized `JSON/PDF` outputs with confidence scores
 
 ---
 
 ## 🏗️ System Architecture
 
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Web Scraper   │───▶│  Document Store  │───▶│  Text Processor │
-│   (Selenium)    │    │   (File System)  │    │   (Chunking)    │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                                         │
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Email Alert   │◀───│   GitHub Actions │    │   Embedding     │
-│   (Resend API)  │    │   (Scheduler)    │    │   (Climate-BERT)│
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                                         │
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Front-end     │◀───│   API Gateway    │◀───│  Vector DB      │
-│   (React/Next)  │    │   (FastAPI)      │    │  (Supabase)     │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                │                        │
-                       ┌──────────────────┐    ┌─────────────────┐
-                       │   HopRAG Engine  │◀───│  Query Router   │
-                       │   (Multi-hop)    │    │  (BM25+HNSW)    │
-                       └──────────────────┘    └─────────────────┘
+```mermaid
+%%{init: { "theme": "base", "themeVariables": { "fontSize": "14px", "edgeLabelBackground": "#ffffff", "lineColor": "#ffffff" }}}%%
+flowchart TD
+    %% ---------- class definitions ----------
+    classDef process fill:#E3F2FD,stroke:#333,color:#000,font-weight:bold
+    classDef decision fill:#FFF9C4,stroke:#333,color:#000,font-weight:bold
+    classDef storage fill:#C8E6C9,stroke:#333,color:#000,font-weight:bold
+    classDef alt fill:#FFCCBC,stroke:#333,color:#000,font-weight:bold
+
+    %% ---------- nodes & edges ----------
+    A["Web Scraper<br>Selenium"]:::process --> B{"Check PostgreSQL<br>New Document?"}:::decision
+    B -->|Yes| C["Store Document"]:::process
+    B -->|No| Z["Skip Processing"]:::alt
+
+    C --> D["Text Processor<br>Chunking"]:::process
+    D --> E["Embedding Generation"]:::process
+    E -->|"Transformer<br>Word2Vec<br>HopRAG"| F["PostgreSQL Database<br>Chunks + Relationships"]:::storage
+
+    F --> G1["Similarity Search<br>Legacy RAG"]:::process
+    F --> G2["Similarity Search<br>HOP RAG"]:::alt
+    G1 --> H["Top K Chunks<br>Merger"]:::process
+    G2 --> H
+
+    H --> I["LLM Interpretation<br>Domain Prompts"]:::process
+    I --> J["HTML / JSON<br>Report Generation"]:::process
+    J --> K["Email Notification<br>Resend API"]:::alt
+    K --> L["Client Receives<br>Email Alert"]:::process
+    L --> M["Client Clicks Link"]:::process
+    M --> N["API Gateway<br>FastAPI"]:::process
+    N --> O["Web Interface<br>React / Next.js"]:::alt
 ```
 
 ---
@@ -248,7 +322,7 @@ We used a systematic **four-step methodology** as outlined below:
 * **🕸️ hopRAG Architecture**: Novel multi-hop reasoning framework that efficiently connects related document chunks, enabling comprehensive answers to complex queries
 * **📈 Graph-Based Relationship Detection**: Automated logical relationship detection between document chunks using pattern matching and semantic similarity
 * **🏷️ Node Classification System**: Multi-tier classification of document chunks (`CORE_HUB`, `AUTHORITY`, `CONNECTOR`, `PERIPHERAL`) based on centrality measures
-* **📄 Automated Report Generation**: HTML and CSV report generation with email delivery system for stakeholder notifications
+* **📄 Automated Report Generation**: HTML report generation with email delivery system for stakeholder notifications
 
 ---
 
@@ -279,7 +353,7 @@ We used a systematic **four-step methodology** as outlined below:
 
 #### **📧 Email & Notification System**
 * **☁️ Supabase Edge Functions**: Serverless email delivery through `Resend API` with base64 attachment encoding
-* **📄 Multi-Format Reports**: Automated generation of `HTML` and `CSV` reports with professional styling and metadata
+* **📄 Customized Reports**: Automated generation of `HTML` reports with professional styling and metadata
 * **📋 Template-Based Emails**: Support for both custom content and predefined NDC report templates
 
 #### **✅ Data Validation & Quality Assurance**
@@ -301,7 +375,6 @@ We used a systematic **four-step methodology** as outlined below:
 
 * **💻 Computational Overhead**: While hopRAG improves multi-hop reasoning, it still incurs **higher computational costs** compared to classic RAG approaches
 * **🧠 Embedding Model Limitations**: `Climate-BERT-F` embeddings may not capture all nuances of complex climate policy language, potentially affecting retrieval quality
-* **🆔 UUID Distance Limitations**: Cannot calculate meaningful distance penalties between UUID-based chunk IDs, requiring **fallback confidence calculation** methods
 * **💾 Memory Scaling**: Processing **100k+ chunks** requires careful memory management and batch processing to avoid out-of-memory errors
 * **🗄️ PostgreSQL Dependency**: Heavy reliance on PostgreSQL-specific features (arrays, recursive CTEs, pgvector) limits **database portability**
 
@@ -324,13 +397,24 @@ We used a systematic **four-step methodology** as outlined below:
 The **RAG-Fact-Sheet system** successfully addresses TPI's core requirements for automated NDC document processing and analysis. Our hybrid approach combining `Climate-BERT-F` embeddings with `HopRAG` architecture delivers **robust performance** while maintaining computational efficiency for large-scale document collections.
 
 ### 🔮 Future Work
-* **🔧 Versatility**: Extending the system to support additional document formats (e.g., `Word`, `HTML`)
-* **📊 RAG Enhancements**: Exploring `graph RAG` based strategy using `Neo4j` graph database for more complex relationship modeling
-* **🔍 Similarity search**: Investigating alternative similarity search algorithms (e.g., `ScaNN`) for further performance improvements
+
+The following areas represent promising directions for extending this system:
+
+* **🔧 Document Versatility**  
+  Extending the system to support additional document formats (e.g., `Word`, `HTML`) to process a wider range of climate policy materials
+
+* **📊 Advanced RAG Architecture**  
+  Exploring `graph RAG` based strategy using `Neo4j` graph database for more complex relationship modeling and deeper semantic analysis
+
+* **🔍 Enhanced Similarity Search**  
+  Investigating alternative similarity search algorithms (e.g., `ScaNN`) for further performance improvements and scalability at larger document volumes
+
+---
 
 ### 🌟 Impact
+
 This project demonstrates the potential for **AI-driven automation** in climate policy analysis, providing TPI with a scalable solution that reduces manual analysis time while maintaining **high accuracy standards**. 
 
-> The **confidence-based validation approach** represents a novel contribution that enables **human-AI collaboration** in critical decision-making processes.
+> **Key Innovation**: The **confidence-based validation approach** represents a novel contribution that enables **human-AI collaboration** in critical decision-making processes, allowing policy experts to focus their attention where it matters most.
 
 ---
