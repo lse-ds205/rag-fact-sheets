@@ -22,15 +22,19 @@ This is the compilation of research on the RAG system architecture and design th
   - Uses pre-trained BERT model fine-tuned on climate policy data
   - Captures contextual relationships between words and phrases
   - Generates dense vector representations of text chunks (dimension: 768)
-- **BM25+ Dense Embeddings (Hybrid Search)** 🔍🔄
-  - **BM25** 📊
-    - Traditional keyword-based ranking function ✨
-    - Scores documents based on term frequency and inverse document frequency 📈
-    - Creates sparse vectors (mostly zeros) representing keyword presence 0️⃣
-    - Focuses on exact lexical matching 🎯
-  - **BM25+ Dense Embeddings** 🔄
-    - Combines both approaches – runs BM25 and vector search in parallel and fuses results with various fusion techniques 🔀
-    - Creates comprehensive ranking to capture both lexical and semantic matches 📋
+- **HopRAG Embeddings** 🕸️🔍
+  - **Memory-Optimized Processing** 💾
+    - Implements batch processing with garbage collection for handling large datasets
+    - Uses configurable batch sizes (default: 500 chunks) to manage memory effectively
+    - Processes embeddings with UUID consistency for reliable tracking
+  - **Relationship-Aware Vectors** 🔗
+    - Creates specialized embeddings that capture document logical structure
+    - Stores vectors in PostgreSQL using pgvector extension (typically 768-dimensional)
+    - Optimizes for both similarity search and relationship traversal
+  - **Centrality-Enhanced Representations** 📊
+    - Enriches embeddings with graph centrality information (PageRank, betweenness)
+    - Classifies nodes into specialized roles (CORE_HUB, AUTHORITY, CONNECTOR, PERIPHERAL)
+    - Enables both semantic similarity and structural importance in retrieval
 - **ColBERT (Contextualized Late Interaction over BERT)** 🤖🧩
   - Multiple token level embeddings rather than single dense vector 🧠
   - Maintains fine-grained interactions crucial for technical terminology 🔬
