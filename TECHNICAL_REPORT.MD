@@ -35,7 +35,7 @@ This report details the main design choices made when building these tools.
 
 To avoid overwhelming our PostgreSQL database with the abundance of original dataset details, many of which are unnecessary for retrieval, we created a dedicated table to store only the embeddings alongside essential metadata such as **page numbers, source url and document names etc**. This strategy ensures efficient retrieval and reduces data redundancy.
 
-# Information Retreival
+# Retrieval
 
 To determine the optimal retrieval strategy for climate policy documents, we systematically evaluated multiple approaches using a representative ASCOR CP1.a query: "Does the country have a decarbonisation strategy to meet Paris Agreement that they are implementing or in the national legislation?"
 
