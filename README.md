@@ -1,6 +1,6 @@
 # Climate Documents RAG system
 
-This project uses the (Climate Policy Radar)[https://huggingface.co/ClimatePolicyRadar] documents database to create a RAG system to help automate climate policy analysis. Using, relevant information from climate policy documents, 6 tools are avialible:
+This project uses the [Climate Policy Radar](https://huggingface.co/ClimatePolicyRadar) documents database to create a RAG system to help automate climate policy analysis. Using, relevant information from climate policy documents, 6 tools are avialible:
 
 1. Climate Pillar Evaluators which use chain of thought and multilingual LLMs to evaluate the following climate pillars for a given country:
     a) CP1a (Does the country have a framework climate law or equivalent?) evaluator
@@ -14,7 +14,7 @@ Unfortunatley, to use these tools, you must first follow this setup guide:
 
 ## Use Case
 
-These tools are aimed at ASCOR analysts at the (Transitions Pathways Initative)[https://www.transitionpathwayinitiative.org/] to help automate their country assessment workflow. The report generating tools will allow an analyst to retrieve relevant information more efficently from a large corpus of climate documents rather than manually searching for information. This could also be of interest to climate researchers outside of ASCOR, in accademia or ESG.
+These tools are aimed at ASCOR analysts at the [Transitions Pathways Initative](https://www.transitionpathwayinitiative.org/) to help automate their country assessment workflow. The report generating tools will allow an analyst to retrieve relevant information more efficently from a large corpus of climate documents rather than manually searching for information. This could also be of interest to climate researchers outside of ASCOR, in accademia or ESG.
 
 The Pillar evaluating tools can be used to help automate the annual assessment process. An example of how this could be done for all ASCOR countries is in `NB07-CP1_Evaluation`.
 
@@ -62,12 +62,6 @@ This RAG system uses a postgres database operated through docker, which should b
 1. docker run -p 5432:5432 --name pgai -e POSTGRES_PASSWORD=password timescale/timescaledb-ha:pg17
 2. docker exec -it pgai psql -c "CREATE EXTENSION ai CASCADE;"
 
-Now create a new table for embeddings. 
-
-1. Go to create_table.sql
-2. Select the Postgres Server (it's at the bottom for mac, probably the same for windows)
-3. Highlight the code and right click to run query
-
 ### 6. Dotenv setup:
 
 1. Create a .env file in the root directory
@@ -76,10 +70,31 @@ Now create a new table for embeddings.
 
 ### 7. Generate Embeddings
 
+#### Loading the Huggingface Dataset and embeddings models
+
+To load the Hugging Face dataset (Climate Policy Radar) and models, you should:
+1. Create an account and get an access token
+2. Initiate it in the terminal with the following code:
+
+```
+huggingface-cli login
+```
+3. After logging in, you can go to the Climate Policy Radar Page and gain access. The same thing applies to the embedding models.
+
+#### Creating a new table in Postgres SQL
+
+Before generating the embeddings, a new table should be created so the embeddings can be stored into the table. 
+
+To create a new table for embeddings:
+
+1. Go to `create_table.sql`
+2. Select the Postgres Server (it's at the bottom for mac, probably the same for windows)
+3. Highlight the code and right click to run query
+
 ### 8. Set up an LLM API Key
 
 In order to use these tools, you need to have an API key that lets you run inference on LLM models. This tool is built around Nebius, which gives you $1 free inference computer, enough to run our tools 1000s of times. To get a key and setup the system:
-1. Go to (https://studio.nebius.com/)[https://studio.nebius.com/]
+1. Go to [https://studio.nebius.com/](https://studio.nebius.com/)
 2. Make an account
 3. Go to "get an API key"
 4. Generate the key
