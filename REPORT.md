@@ -4,7 +4,7 @@
 
 **Client**: `Sylvan Lutz` (LSE Transition Pathway Institute)  
 **Tech Leads**: `Jon Cardoso Silva`, `Barry Ledeatte`  
-**Junior Developers**: `Liu Zi Cheng` (Embeddings & LLM), `Bryan Tan` (Hop-RAG & Retrieval), `Michele Silvestri` (Front-End & Client Engagement), `Liu Rui Kai` (Database & Architecture)
+**Junior Developers**: `Liu Zi Cheng` (Embeddings & LLM), `Bryan Tan` (Hop-RAG & Retrieval), `Michele Silvestri` (Scraper & Documentation), `Liu Rui Kai` (Database & Architecture)
 
 ---
 
@@ -23,15 +23,26 @@ Our team initially proposed the project plan to the client via email, outlining 
 
 ### Timeline
 
-![Project Timeline](./images/Project_Timeline.png)
-
-* **25 April 2025** – First Email to Client with project proposal, outlining our approach and methodology
-* **29 April 2025** – Introductory Meeting with Client - Client shares his expectations and requirements
-* **08 May 2025** – Client Responds to roadmap from Meeting #1 - Client responds to our meeting minutes and follow-up email.
-* **09 May 2025** – We encountered a blocker with the UNFCCC website implementing a HCaptcha that blocks our web scraper. This was a major obstacle for us, as we were unable to scrape the website for new NDC documents.
-* **13 May 2025** – Meeting #2 with client to touch bases on our progress and discuss methods to circumvent the HCaptcha blocker
-* **13 May 2025** – Updating Client with our finalized plan and our revamped architecture
-* **15 May 2025** – Client shares with us GitHub repo for his workaround UNFCC ReCaptcha blocker
+<table>
+  <tr>
+    <td width="50%">
+      <img src="./images/Project_Timeline.png"
+           alt="Project Timeline"
+           width="100%">
+    </td>
+    <td width="50%">
+      <ul>
+        <li><strong>25 Apr 2025</strong> – First Email to Client with project proposal, outlining our approach and methodology</li>
+        <li><strong>29 Apr 2025</strong> – Introductory meeting – expectations & requirements</li>
+        <li><strong>08 May 2025</strong> – Client responds to roadmap from Meeting #1</li>
+        <li><strong>09 May 2025</strong> – UNFCCC site adds HCaptcha → scraper blocked</li>
+        <li><strong>13 May 2025</strong> – Meeting #2 – discuss HCaptcha work-arounds</li>
+        <li><strong>13 May 2025</strong> – Sent client our revamped architecture plan</li>
+        <li><strong>15 May 2025</strong> – Client shares GitHub repo for ReCaptcha work-around</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 ### 💡 Major Takeaways after discussion from Sylvan
 
