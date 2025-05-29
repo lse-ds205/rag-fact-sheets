@@ -40,6 +40,48 @@ HOPRAG_PATTERNS = {
             ]
         }
 
+
+# Used in evaluator.py
+CLIMATE_KEYWORDS = {
+            'emissions': ['emission', 'emissions', 'ghg', 'greenhouse gas', 'co2', 'carbon dioxide', 'methane', 'nitrous oxide'],
+            'targets': ['target', 'goal', 'objective', 'commitment', 'reduction', 'increase', 'percentage', '%'],
+            'energy': ['renewable', 'solar', 'wind', 'hydro', 'nuclear', 'fossil fuel', 'coal', 'oil', 'gas'],
+            'adaptation': ['adaptation', 'resilience', 'climate change', 'vulnerability', 'impact'],
+            'mitigation': ['mitigation', 'reduction', 'abatement', 'sequestration', 'offset'],
+            'finance': ['finance', 'funding', 'investment', 'cost', 'budget', 'billion', 'million'],
+            'policy': ['policy', 'regulation', 'law', 'framework', 'strategy', 'plan', 'program']
+        }
+
+
+# Used in evaluator.py
+CLIMATE_PATTERNS = {
+            'mitigation': [
+                r'\b(?:reduc\w+|lower\w+|decreas\w+|cut\w*)\s+(?:emission\w*|ghg|co2|carbon)',
+                r'\b(?:renewable|clean|green)\s+energy',
+                r'\bcarbon\s+(?:neutral|negative|capture)',
+                r'\b(?:energy\s+efficiency|efficiency\s+improvements?)'
+            ],
+            'adaptation': [
+                r'\b(?:adapt\w+|resilien\w+|vulnerab\w+)\s+(?:to|against)?\s*(?:climate|weather)',
+                r'\b(?:disaster|risk)\s+(?:management|reduction|preparedness)',
+                r'\b(?:infrastructure|coastal|agricultural)\s+adaptation',
+                r'\b(?:early\s+warning|climate\s+monitoring)'
+            ],
+            'finance': [
+                r'\$\d+(?:[\d,]*)?(?:\s*(?:million|billion|trillion))?',
+                r'\b(?:fund\w+|invest\w+|financ\w+|budget\w+)\s+(?:for|towards|in)?\s*(?:climate|green)',
+                r'\b(?:green\s+bonds?|climate\s+finance|carbon\s+tax)',
+                r'\b(?:development\s+bank|multilateral\s+fund)'
+            ],
+            'targets': [
+                r'\b(?:by|until|before)\s+(?:20\d{2}|2030|2050)',
+                r'\b\d+%?\s+(?:reduction|increase|improvement)',
+                r'\b(?:net\s+zero|carbon\s+neutral|emissions?\s+free)',
+                r'\b(?:baseline|reference)\s+year'
+            ]
+        }
+
+
 class QueryType(Enum):
     """Enumeration of different query types for NDC documents"""
     NDC_TARGETS = "ndc_targets"

@@ -1,43 +1,52 @@
+
+"""
+This module provides various document evaluation and retrieval mechanisms for the Group4py RAG system.
+It contains classes that implement different strategies for evaluating document chunks against queries,
+including vector similarity comparison, regex pattern matching, fuzzy text matching, and graph-based
+retrieval methods. These evaluators are used to select the most relevant document chunks for
+generating answers to climate policy questions.
+"""
+
 from pathlib import Path
 import sys
 import os
 import re
 import logging
 import traceback
-import numpy as np
-import asyncio
 import logging
-import json
-from datetime import datetime
 from typing import List, Dict, Any, Optional
+
 from sqlalchemy import text, create_engine
 from difflib import SequenceMatcher
+import json
+from datetime import datetime
+import asyncio
 
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
-from databases.auth import PostgresConnection
-from helpers.internal import Logger
 from embed.hoprag import HopRAGGraphProcessor
+from databases.auth import PostgresConnection
 from schemas.general import UUIDEncoder
+from constants.regex import CLIMATE_KEYWORDS, CLIMATE_PATTERNS
 
 logger = logging.getLogger(__name__)
 db = PostgresConnection()
 
 
 class Evaluator:
-    """Base class defining the interface for chunk evaluation strategies."""
+    """Base class for all evaluation methods."""
     
     def __init__(self):
         self.name = self.__class__.__name__
         logger.debug(f"Initialized {self.name} evaluator")
     
     def evaluate(self, chunks: List[Dict[str, Any]], query: str) -> List[Dict[str, Any]]:
-        """Evaluates chunks against a query. Must be implemented by subclasses."""
+        """Base evaluation method to be overridden by subclasses."""
         raise NotImplementedError("Subclasses must implement evaluate method")
     
     def normalize_score(self, score: float, min_val: float = 0.0, max_val: float = 1.0) -> float:
-        """Normalizes a score to be within the specified range."""
+        """Normalize a score to be within the specified range."""
         return max(min_val, min(max_val, score))
 
 
@@ -53,14 +62,14 @@ class VectorComparison(Evaluator):
         Args:
             connection: Optional database Connection instance
         """
-        
+        super().__init__()
         self.connection = db
         self._test_vector_functionality()
 
     def _test_vector_functionality(self):
         """Test the pgvector functionality to verify it's working properly"""
         try:
-            engine = self.connection.get_engine()
+            engine = db.engine
             with engine.connect() as conn:
                 # First check if pgvector extension exists
                 result = conn.execute(text("SELECT COUNT(*) FROM pg_extension WHERE extname = 'vector'"))
@@ -152,7 +161,6 @@ class VectorComparison(Evaluator):
             logger.error(traceback.format_exc())
             return False
 
-    @Logger.debug_log()
     def get_vector_similarity(self, embedded_prompt: List[float], embedding_type: str = 'transformer', 
                             top_k: int = 10, min_similarity: float = 0.1, country: str = None, 
                             n_per_doc: int = None) -> List[Dict[str, Any]]:
@@ -171,8 +179,7 @@ class VectorComparison(Evaluator):
             List of dictionaries containing chunk data and similarity scores
         """
         try:
-            # Create database connection using the Connection class
-            session = self.connection.Session()
+            session = db.Session()
             
             try:
                 # Determine which embedding column to use and convert prompt to vector string
@@ -194,56 +201,130 @@ class VectorComparison(Evaluator):
                 # Convert embedding to PostgreSQL vector literal format
                 vector_literal = '[' + ','.join(map(str, embedded_prompt)) + ']'
                 
-                # IMPROVED: Log sample of the vector to check format
-                logger.debug(f"Vector literal sample (first 20 elements): {vector_literal[:50]}...")
-                
-                # Use a simpler initial query to test vector functionality
-                test_query = text(f"""
-                    SELECT 
-                        id, 
-                        1 - ({embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
-                    FROM doc_chunks
-                    WHERE {embedding_column} IS NOT NULL
-                    LIMIT 5
-                """)
-                
-                test_result = session.execute(test_query)
-                test_rows = test_result.fetchall()
-                
-                # Log the test results
-                if test_rows:
-                    logger.info(f"Vector test query returned {len(test_rows)} rows")
-                    for i, row in enumerate(test_rows):
-                        logger.info(f"  Row {i+1}: id={row[0]}, similarity={row[1]}")
+                if n_per_doc is not None:
+                    # Query to get top N chunks per document with optional country filter
+                    country_filter = "AND LOWER(d.country) = LOWER(:country)" if country else ""
+                    
+                    query = text(f"""
+                        WITH similarity_results AS (
+                            SELECT 
+                                c.id,
+                                c.doc_id,
+                                c.content,
+                                c.chunk_index,
+                                c.paragraph,
+                                c.language,
+                                c.chunk_data,
+                                d.country,
+                                1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score,
+                                ROW_NUMBER() OVER (
+                                    PARTITION BY c.doc_id 
+                                    ORDER BY c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})
+                                ) as rank
+                            FROM doc_chunks c
+                            JOIN documents d ON c.doc_id = d.doc_id
+                            WHERE c.{embedding_column} IS NOT NULL
+                              AND 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) >= :min_similarity
+                              {country_filter}
+                        )
+                        SELECT 
+                            id,
+                            doc_id,
+                            content,
+                            chunk_index,
+                            paragraph,
+                            language,
+                            chunk_data,
+                            country,
+                            similarity_score
+                        FROM similarity_results                        
+                        WHERE rank <= :n_per_doc
+                        ORDER BY similarity_score DESC
+                    """)
+                    
+                    query_params = {
+                        'n_per_doc': n_per_doc,
+                        'min_similarity': min_similarity
+                    }
+                    if country:
+                        query_params['country'] = country
+                        
                 else:
-                    logger.warning("Vector test query returned no results")
+                    # Standard query for top K chunks with optional country filter
+                    if country:
+                        query = text(f"""
+                            SELECT 
+                                c.id,
+                                c.doc_id,
+                                c.content,
+                                c.chunk_index,
+                                c.paragraph,
+                                c.language,
+                                c.chunk_data,
+                                d.country,
+                                1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
+                            FROM doc_chunks c
+                            JOIN documents d ON c.doc_id = d.doc_id
+                            WHERE c.{embedding_column} IS NOT NULL
+                              AND LOWER(d.country) = LOWER(:country)
+                              AND 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) >= :min_similarity
+                            ORDER BY 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) DESC
+                            LIMIT :top_k
+                        """)
+                        
+                        query_params = {
+                            'country': country,
+                            'top_k': top_k,
+                            'min_similarity': min_similarity
+                        }
+                    else:
+                        query = text(f"""
+                            SELECT 
+                                c.id,
+                                c.doc_id,
+                                c.content,
+                                c.chunk_index,
+                                c.paragraph,
+                                c.language,
+                                c.chunk_data,
+                                NULL as country,
+                                1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) AS similarity_score
+                            FROM doc_chunks c
+                            WHERE c.{embedding_column} IS NOT NULL
+                              AND 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) >= :min_similarity
+                            ORDER BY 1 - (c.{embedding_column}::vector <=> '{vector_literal}'::vector({vector_dim})) DESC
+                            LIMIT :top_k
+                        """)
+                        
+                        query_params = {
+                            'top_k': top_k,
+                            'min_similarity': min_similarity
+                        }
                 
-                # Now proceed with the full query as before, with better error handling
-                # ... [rest of the existing query construction code] ...
+                # Execute query using the session from Connection class
+                result = session.execute(query, query_params)
                 
-                # Add diagnostic query to check embedding format
-                diagnostic_query = text(f"""
-                    SELECT 
-                        pg_typeof({embedding_column}) as embedding_type,
-                        array_length({embedding_column}, 1) as embedding_dim,
-                        {embedding_column}[1:3] as embedding_sample
-                    FROM doc_chunks
-                    WHERE {embedding_column} IS NOT NULL
-                    LIMIT 1
-                """)
-                
-                diagnostic_result = session.execute(diagnostic_query)
-                diagnostic_row = diagnostic_result.fetchone()
-                
-                if diagnostic_row:
-                    logger.info(f"Embedding diagnostic: type={diagnostic_row[0]}, dim={diagnostic_row[1]}, sample={diagnostic_row[2]}")
+                # Convert results to list of dictionaries
+                chunks = []
+                for row in result:
+                    chunk_data = {
+                        'id': row[0],
+                        'doc_id': row[1],
+                        'content': row[2],
+                        'chunk_index': row[3],
+                        'paragraph': row[4],
+                        'language': row[5],
+                        'chunk_data': row[6],
+                        'country': row[7],
+                        'similarity_score': float(row[8])
+                    }
+                    chunks.append(chunk_data)
+
+                if country:
+                    logger.info(f"[VECTOR_SIMILARITY] Successfully retrieved {len(chunks)} chunks for country '{country}'")
                 else:
-                    logger.warning("No embeddings found in the database")
-                
-                # ... [continue with the original function code] ...
-                
-                # Rest of the function remains the same
-                
+                    logger.info(f"[VECTOR_SIMILARITY] Successfully retrieved {len(chunks)} chunks")
+
                 # If no results were returned, try a basic query to see if data exists
                 if not chunks:
                     basic_query = text("""
@@ -264,7 +345,6 @@ class VectorComparison(Evaluator):
             logger.error(f"[VECTOR_SIMILARITY] Error in chunk retrieval: {e}\nTraceback: {traceback_string}")
             return []
 
-    @Logger.debug_log()
     def get_similarity_by_chunk_content(self, chunk_content: str, query_embedding: List[float], 
                                       embedding_type: str = 'transformer') -> float:
         """
@@ -280,8 +360,7 @@ class VectorComparison(Evaluator):
             Similarity score (0.0 to 1.0), or 0.0 if chunk not found or error
         """
         try:
-            # Get a session using the Connection class
-            session = self.connection.Session()
+            session = db.Session()
             
             try:
                 # Determine which embedding column to use
@@ -296,10 +375,10 @@ class VectorComparison(Evaluator):
                     return 0.0
                 
                 # Validate query_embedding dimensions
-                if not query_embedding or len(query_embedding) != vector_dim:
-                    logger.error(f"[CHUNK_SIMILARITY] Invalid query embedding dimensions. Expected {vector_dim}, got {len(query_embedding) if query_embedding else 0}")
+                if query_embedding is None or len(query_embedding) == 0 or len(query_embedding) != vector_dim:
+                    logger.error(f"[CHUNK_SIMILARITY] Invalid query embedding dimensions. Expected {vector_dim}, got {len(query_embedding) if query_embedding is not None else 0}")
                     return 0.0
-                
+            
                 # Convert query embedding to PostgreSQL vector literal format
                 vector_literal = '[' + ','.join(map(str, query_embedding)) + ']'
                 
@@ -332,7 +411,6 @@ class VectorComparison(Evaluator):
             logger.error(f"[CHUNK_SIMILARITY] Error calculating similarity: {e}")
             return 0.0
 
-    @Logger.debug_log()
     def batch_similarity_calculation(self, chunk_ids: List[str], query_embedding: List[float], 
                                    embedding_type: str = 'transformer') -> Dict[str, float]:
         """
@@ -343,7 +421,7 @@ class VectorComparison(Evaluator):
             if not chunk_ids:
                 return {}
                 
-            session = self.connection.Session()
+            session = db.Session()
             
             try:
                 # Determine which embedding column and dimension to use
@@ -378,9 +456,9 @@ class VectorComparison(Evaluator):
                     logger.error(f"[BATCH_SIMILARITY] Invalid embedding_type: {embedding_type}")
                     return {}
                 
-                # Validate query_embedding dimensions
-                if not query_embedding or len(query_embedding) != vector_dim:
-                    logger.error(f"[BATCH_SIMILARITY] Invalid query embedding dimensions. Expected {vector_dim}, got {len(query_embedding) if query_embedding else 0}")
+                # Validate query_embedding dimensions - Fix for NumPy array issue
+                if query_embedding is None or len(query_embedding) == 0 or len(query_embedding) != vector_dim:
+                    logger.error(f"[BATCH_SIMILARITY] Invalid query embedding dimensions. Expected {vector_dim}, got {len(query_embedding) if query_embedding is not None else 0}")
                     return {}
                 
                 # Convert query embedding to PostgreSQL vector literal format
@@ -427,7 +505,6 @@ class VectorComparison(Evaluator):
             # Return 0.0 for all chunks if there's an error
             return {chunk_id: 0.0 for chunk_id in chunk_ids}
 
-    @Logger.debug_log()
     @staticmethod
     def create_vector_indices():
         """
@@ -497,6 +574,7 @@ class VectorComparison(Evaluator):
             logger.error(f"Error creating vector indices: {e}")
             return False
 
+
 class RegexComparison(Evaluator):
     """
     Regex-based comparison for keyword and pattern matching.
@@ -505,16 +583,8 @@ class RegexComparison(Evaluator):
     def __init__(self):
         super().__init__()
         # Climate-specific keywords and patterns
-        self.climate_keywords = {
-            'emissions': ['emission', 'emissions', 'ghg', 'greenhouse gas', 'co2', 'carbon dioxide', 'methane', 'nitrous oxide'],
-            'targets': ['target', 'goal', 'objective', 'commitment', 'reduction', 'increase', 'percentage', '%'],
-            'energy': ['renewable', 'solar', 'wind', 'hydro', 'nuclear', 'fossil fuel', 'coal', 'oil', 'gas'],
-            'adaptation': ['adaptation', 'resilience', 'climate change', 'vulnerability', 'impact'],
-            'mitigation': ['mitigation', 'reduction', 'abatement', 'sequestration', 'offset'],
-            'finance': ['finance', 'funding', 'investment', 'cost', 'budget', 'billion', 'million'],
-            'policy': ['policy', 'regulation', 'law', 'framework', 'strategy', 'plan', 'program']
-        }
-        
+        self.climate_keywords = CLIMATE_KEYWORDS
+
         # Numerical patterns
         self.number_patterns = {
             'percentage': r'\d+(?:\.\d+)?%',
@@ -619,34 +689,8 @@ class FuzzyRegexComparison(Evaluator):
         self.ngram_size = ngram_size
         
         # Climate-specific patterns for contextual matching
-        self.climate_patterns = {
-            'mitigation': [
-                r'\b(?:reduc\w+|lower\w+|decreas\w+|cut\w*)\s+(?:emission\w*|ghg|co2|carbon)',
-                r'\b(?:renewable|clean|green)\s+energy',
-                r'\bcarbon\s+(?:neutral|negative|capture)',
-                r'\b(?:energy\s+efficiency|efficiency\s+improvements?)'
-            ],
-            'adaptation': [
-                r'\b(?:adapt\w+|resilien\w+|vulnerab\w+)\s+(?:to|against)?\s*(?:climate|weather)',
-                r'\b(?:disaster|risk)\s+(?:management|reduction|preparedness)',
-                r'\b(?:infrastructure|coastal|agricultural)\s+adaptation',
-                r'\b(?:early\s+warning|climate\s+monitoring)'
-            ],
-            'finance': [
-                r'\$\d+(?:[\d,]*)?(?:\s*(?:million|billion|trillion))?',
-                r'\b(?:fund\w+|invest\w+|financ\w+|budget\w+)\s+(?:for|towards|in)?\s*(?:climate|green)',
-                r'\b(?:green\s+bonds?|climate\s+finance|carbon\s+tax)',
-                r'\b(?:development\s+bank|multilateral\s+fund)'
-            ],
-            'targets': [
-                r'\b(?:by|until|before)\s+(?:20\d{2}|2030|2050)',
-                r'\b\d+%?\s+(?:reduction|increase|improvement)',
-                r'\b(?:net\s+zero|carbon\s+neutral|emissions?\s+free)',
-                r'\b(?:baseline|reference)\s+year'
-            ]
-        }
+        self.climate_patterns = CLIMATE_PATTERNS
 
-    @Logger.debug_log()
     def preprocess_text(self, text: str) -> str:
         """
         Preprocess text for better matching by normalizing whitespace,
@@ -679,7 +723,6 @@ class FuzzyRegexComparison(Evaluator):
         
         return text
     
-    @Logger.debug_log()
     def generate_ngrams(self, text: str, n: int = None) -> List[str]:
         """
         Generate n-grams from text for pattern matching.
@@ -704,7 +747,6 @@ class FuzzyRegexComparison(Evaluator):
         
         return ngrams
     
-    @Logger.debug_log()
     def fuzzy_pattern_match(self, text: str, patterns: List[str]) -> Dict[str, Any]:
         """
         Perform fuzzy matching against a list of regex patterns.
@@ -758,7 +800,6 @@ class FuzzyRegexComparison(Evaluator):
             'average_score': total_score / len(patterns) if patterns else 0.0
         }
     
-    @Logger.debug_log()
     def contextual_similarity_score(self, chunk_content: str, query: str) -> Dict[str, Any]:
         """
         Calculate contextual similarity between chunk content and query using
@@ -830,7 +871,6 @@ class FuzzyRegexComparison(Evaluator):
                 'error': str(e)
             }
     
-    @Logger.debug_log()
     def evaluate_chunk_relevance(self, chunk_content: str, query: str, 
                                boost_factors: Dict[str, float] = None) -> Dict[str, Any]:
         """
@@ -916,6 +956,7 @@ class FuzzyRegexComparison(Evaluator):
                 'error': str(e)
             }
 
+
 class GraphHopRetriever(Evaluator):
     """
     Wrapper for the HopRAGGraphProcessor that provides a compatible interface
@@ -927,9 +968,8 @@ class GraphHopRetriever(Evaluator):
     
     def __init__(self, connection=None):
         super().__init__()
-        self.connection = db
         
-        # Create HopRAGGraphProcessor instance with the connection
+        self.connection = db
         self.processor = HopRAGGraphProcessor()
         
         # Initialize the processor
@@ -959,7 +999,7 @@ class GraphHopRetriever(Evaluator):
             logger.info(f"Starting hop retrieval for query: '{query[:50]}...' (country: {country})")
             
             # Check if there are any relationships in the database
-            engine = self.connection.get_engine()
+            engine = db.engine
             with engine.connect() as conn:
                 # Count total relationships
                 rel_count = conn.execute(text("SELECT COUNT(*) FROM logical_relationships")).scalar() or 0
