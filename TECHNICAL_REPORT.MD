@@ -19,6 +19,22 @@ This report details the main design choices made when building these tools.
 
 # Embeddings
 
+**Embeddings model choices**
+
+**ClimateBERT**
+
+* For our analysis of the Climate Policy Radar dataset, we selected the **ClimateBERT** model due to its strong focus on climate-specific vocabulary and contexts, making it well-suited to capture the nuanced language prevalent in environmental policy documents. 
+
+**Word2Vec**
+
+* To provide a robust comparison and broaden our semantic representation, we also incorporated **Word2Vec** embeddings. Unlike the pretrained Word2Vec models, we trained our own Word2Vec model on the dataset texts because many domain-specific terms, such as country names, project titles, and specialized terminology, were absent from standard pretrained vocabularies. 
+
+* This dual embedding approach allows us to evaluate how specialized contextual embeddings like ClimateBERT compare against custom-trained static embeddings within the information retrieval tasks. 
+
+**Database Management**
+
+To avoid overwhelming our PostgreSQL database with the abundance of original dataset details, many of which are unnecessary for retrieval, we created a dedicated table to store only the embeddings alongside essential metadata such as **page numbers, source url and document names etc**. This strategy ensures efficient retrieval and reduces data redundancy.
+
 # Retrival
 
 # Tools
