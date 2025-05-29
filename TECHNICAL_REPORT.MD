@@ -6,11 +6,13 @@
 Given ASCOR analysts must perform reproducable assessments, a temperature of 0 was used for all models, ensuring given the same context, they will always produce the same assessment.
 
 **General Model Choice**
+Models are run using Nebius rather than locally for speed and ease of use. However, all models used are **open source** and cheap to run (building these tools used 3 cents of compute). If desired, the models used can easily be changed by changing the `model` parameter in `scripts\climate_policy_pipelines\shared\llm_models`.
 
 **Markdown Output**
-Tool output is in formatted as markdown to make assessments clearer and more readable for analysts. This is enforced for some tools (Sectoral Analysis) or prompted (Pillar Pipeline).
+Tool output is in formatted as markdown to make assessments clearer and more readable for analysts. This is enforced using classes for some tools (Sectoral Analysis) or just in prompts (Pillar Pipeline).
 
 **Multilingual**
+To ensure that our tools perform well even when climate documents are in non-english languages, for the Pillar Tools, we detect chunk languages, and if they are non-english, a powerful, multilingual LLM is used.
 
 ### Pillar Tool (CP 1.a & CP 1.b)
 
