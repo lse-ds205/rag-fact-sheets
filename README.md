@@ -10,13 +10,17 @@ The RAG-Fact-Sheet system is an **automated data pipeline** that periodically mo
 * **🌍 Multi-lingual Transformer Embeddings**: Our RAG architecture allows for multilingual interpretation and support
 * **✅ Robust Validation**: Multi-tier scoring and validation framework ensures high accuracy and low hallucination rates
 * **📄 Automated Report Generation**: HTML/PDF report generation with email delivery system for stakeholder notifications
+* **☁️ Supabase Cloud Storage**: Scalable PostgreSQL database with pgvector extension for efficient vector search and storage
+* **🔄 GitHub Actions Workflow**: Automated document monitoring, processing, and report generation through configurable CI/CD pipelines
 
 ### Technical Innovations
 
 * **⚖️ Confidence-Based Workflow**: Dual validation enables analysts to focus on **low/medium confidence responses**
-* **🔍 Hybrid Similarity Search**: `Similarity` combined with `Fuzzy Regex` and `Regex` optimizes both lexical and semantic retrieval
+* **🔍 Hybrid Similarity Search**: `Cosine Similarity` combined with `Fuzzy Regex` and `Regex` optimizes both lexical and semantic retrieval
 * **🧠 Domain-Aware Prompting**: Keyword mapping leverages climate policy expertise for enhanced response quality
 * **🕸️ hopRAG Architecture**: Novel multi-hop reasoning framework that efficiently connects related document chunks
+* **☁️ Cloud-Based Database**: Hosting PostgreSQL with `pgvector` on Supabase instead of locally, allowing for scalability, durability, and concurrent access across multiple systems
+* **🔌 API Integrations**: Leveraging `Resend API` and `Supabase Edge Functions` to automate email notifications and processing, creating a robust automated workflow without dedicated server infrastructure
 
 For more details about the project architecture and design decisions, please refer to the [full project report](REPORT.md).
 
@@ -47,7 +51,7 @@ For more details about the project architecture and design decisions, please ref
 
 3. **Set up Supabase account**
    - Create a new Supabase project at [supabase.com](https://supabase.com)
-   - Set up an Edge Function named `send-email` [supabase-edge functions](supabase/edge_functions/send-email)
+   - Set up an Edge Function named `send-email`
    - Save your Supabase URL and API keys
 
 4. **Set up Resend API**
