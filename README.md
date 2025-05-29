@@ -47,7 +47,7 @@ For more details about the project architecture and design decisions, please ref
 
 3. **Set up Supabase account**
    - Create a new Supabase project at [supabase.com](https://supabase.com)
-   - Set up an Edge Function named `send-email`
+   - Set up an Edge Function named `send-email` [supabase-edge functions](supabase/edge_functions/send-email)
    - Save your Supabase URL and API keys
 
 4. **Set up Resend API**
