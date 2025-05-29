@@ -1,5 +1,10 @@
-"""Custom exceptions for the scraping module."""
+"""
+Custom exceptions for this project.
+"""
 
+
+
+"""Scraping module"""
 
 class ScrapeError(Exception):
     """Base exception for scraping operations."""
@@ -38,4 +43,27 @@ class UnsupportedFormatError(DocumentDownloadError):
 
 class FileValidationError(DocumentDownloadError):
     """Raised when file validation fails."""
-    pass 
+    pass
+
+
+
+
+"""Chunking module"""
+
+
+
+
+"""Embedding module"""
+
+
+
+
+"""Retrieval module"""
+
+
+
+
+"""LLM module"""
+
+
+

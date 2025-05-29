@@ -9,7 +9,7 @@ from openai import OpenAI
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
-from schema import LLMResponseModel
+from schemas.llm import LLMResponseModel
 from constants.prompts import (
     LLM_SYSTEM_PROMPT,
     LLM_GUIDED_PROMPT_TEMPLATE,
@@ -54,6 +54,7 @@ class ChunkFormatter:
         
         context_header = f"CONTEXT INFORMATION ({len(chunks)} chunks):\n"
         return context_header + "\n".join(formatted_chunks)
+
 
 class LLMClient:
     """
@@ -303,6 +304,7 @@ class ResponseProcessor:
             },
             "error": error_message
         }
+
 
 class ConfidenceClassification:
     """

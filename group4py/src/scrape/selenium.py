@@ -9,19 +9,18 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-from selenium.common.exceptions import TimeoutException, NoSuchElementException, WebDriverException
+from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime
 from dateutil.parser import parse
-from typing import List, Dict, Set, Optional
+from typing import List, Dict
 import uuid
 
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 import group4py
 from constants.settings import DOCS_URL, HEADERS, COOKIES
-from schema import NDCDocumentModel
-from helpers.internal import Logger, Test, TaskInfo
+from schemas.db_pydantic import NDCDocumentModel
 
 logger = logging.getLogger(__name__)
 

@@ -12,8 +12,8 @@ sys.path.insert(0, str(project_root))
 import group4py
 from databases.auth import PostgresConnection
 from databases.models import NDCDocumentORM
-from schema import NDCDocumentModel
-from scrape.exceptions import DatabaseConnectionError, DocumentValidationError
+from schemas.db_pydantic import NDCDocumentModel
+from exceptions import DatabaseConnectionError, DocumentValidationError
 
 logger = logging.getLogger(__name__)
 db = PostgresConnection()
@@ -31,7 +31,7 @@ def retrieve_existing_documents() -> List[NDCDocumentModel]:
     logger.info("Retrieving existing documents from database")
     
     try:
-        with db.get_session() as session:
+        with db.Session() as session:
             db_documents = session.query(NDCDocumentORM).all()
             existing_docs = [_convert_db_to_model(db_doc) for db_doc in db_documents]
             logger.info(f"Retrieved {len(existing_docs)} existing documents from database")
@@ -62,7 +62,7 @@ def insert_new_documents(new_docs: List[NDCDocumentModel]) -> int:
     logger.info(f"Inserting {len(new_docs)} new documents into database")
     
     try:
-        with db.get_session() as session:
+        with db.Session() as session:
             db_documents = []
             for doc in new_docs:
                 try:
@@ -107,7 +107,7 @@ def update_existing_documents(updated_docs: List[NDCDocumentModel]) -> int:
     logger.info(f"Updating {len(updated_docs)} existing documents in database")
     
     try:
-        with db.get_session() as session:
+        with db.Session() as session:
             updated_count = 0
             
             for doc in updated_docs:
@@ -134,25 +134,33 @@ def update_existing_documents(updated_docs: List[NDCDocumentModel]) -> int:
 
 def _convert_db_to_model(db_doc: NDCDocumentORM) -> NDCDocumentModel:
     """Convert SQLAlchemy NDCDocumentORM to NDCDocumentModel."""
-    return NDCDocumentModel(
-        doc_id=db_doc.doc_id,
-        country=db_doc.country,
-        title=db_doc.title,
-        url=db_doc.url,
-        language=db_doc.language,
-        submission_date=db_doc.submission_date,
-        file_path=db_doc.file_path,
-        file_size=db_doc.file_size,
-        scraped_at=db_doc.scraped_at,
-        downloaded_at=db_doc.downloaded_at,
-        processed_at=db_doc.processed_at,
-        last_download_attempt=db_doc.last_download_attempt,
-        download_error=db_doc.download_error,
-        download_attempts=db_doc.download_attempts,
-        extracted_text=db_doc.extracted_text,
-        created_at=db_doc.created_at,
-        updated_at=db_doc.updated_at
-    )
+    # Create a dictionary of non-None attributes to pass to NDCDocumentModel
+    doc_data = {
+        "doc_id": db_doc.doc_id,
+        "country": db_doc.country,
+        "url": db_doc.url,
+        "title": db_doc.title,
+        "language": db_doc.language,
+        "submission_date": db_doc.submission_date,
+        "file_path": db_doc.file_path,
+        "file_size": db_doc.file_size,
+        "scraped_at": db_doc.scraped_at,
+        "downloaded_at": db_doc.downloaded_at,
+        "processed_at": db_doc.processed_at,
+        "last_download_attempt": db_doc.last_download_attempt,
+        "download_error": db_doc.download_error,
+        "download_attempts": db_doc.download_attempts or 0,
+        "extracted_text": db_doc.extracted_text,
+    }
+    
+    # Only add created_at and updated_at if they're not None
+    if db_doc.created_at is not None:
+        doc_data["created_at"] = db_doc.created_at
+    
+    if db_doc.updated_at is not None:
+        doc_data["updated_at"] = db_doc.updated_at
+    
+    return NDCDocumentModel(**doc_data)
 
 
 def _convert_base_to_db(doc: NDCDocumentModel) -> NDCDocumentORM:

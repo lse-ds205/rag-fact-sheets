@@ -6,15 +6,18 @@ handling various edge cases and server restrictions.
 """
 
 import os
+import sys
+from pathlib import Path
 import logging
-import pathlib
 from urllib.parse import urlparse, unquote
 from typing import Optional, Dict, List
 from datetime import date
-
 import requests
 
-from .exceptions import DocumentDownloadError, UnsupportedFormatError, FileValidationError
+project_root = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(project_root))
+import group4py
+from exceptions import DocumentDownloadError, UnsupportedFormatError, FileValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +65,7 @@ def download_pdf(
         raise DocumentDownloadError(f"Invalid URL: {url}")
     
     if output_dir is None:
-        script_dir = pathlib.Path(__file__).parents[3]
+        script_dir = Path(__file__).parents[3]
         output_dir = os.path.join(script_dir, "data", "pdfs")
     
     logger.info(f"Using output directory: {output_dir}")

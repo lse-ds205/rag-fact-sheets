@@ -10,12 +10,11 @@ import sys
 project_root = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(project_root))
 import group4py
-
 from scrape.selenium import scrape_ndc_documents
 from scrape.db_operations import retrieve_existing_documents, insert_new_documents, update_existing_documents
 from scrape.comparator import compare_documents
 from scrape.config import ScrapingConfig, DEFAULT_CONFIG
-from scrape.exceptions import (
+from exceptions import (
     WorkflowError, 
     DocumentScrapingError, 
     DocumentDownloadError, 

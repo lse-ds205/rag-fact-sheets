@@ -8,7 +8,7 @@ import sys
 project_root = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(project_root))
 import group4py
-from schema import NDCDocumentModel
+from schemas.db_pydantic import NDCDocumentModel
 
 logger = logging.getLogger(__name__)
 
