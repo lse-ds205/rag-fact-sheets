@@ -51,7 +51,7 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
     """
     try:
         # Initialize database connection
-        with db.get_session() as session:
+        with db.Session() as session:
             # Extract file name to be used as document ID
             file_name = Path(file_path).stem
             logger.info(f"[3_CHUNK] Processing file {file_path}")
@@ -96,8 +96,6 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
                     logger.error(f"[3_CHUNK] Error removing existing chunks and relationships: {e}")
                     logger.error(f"[3_CHUNK] Traceback: {traceback.format_exc()}")
                     session.rollback()
-                finally:
-                    session.close()
             
             # If document doesn't exist, create it first before proceeding with chunk processing
             if not document:
@@ -140,8 +138,6 @@ async def chunk_file_one(file_path: str, force_reprocess: bool = False):
                 except Exception as e:
                     logger.error(f"[3_CHUNK] Error creating document record: {e}")
                     session.rollback()
-                finally:
-                    session.close()
             
             # 1. Extract text from PDF with multiple strategies, stopping once one succeeds
             extracted_elements = None

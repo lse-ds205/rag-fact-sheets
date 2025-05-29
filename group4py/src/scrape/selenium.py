@@ -300,7 +300,11 @@ class SeleniumDocUpdater:
                 
                 for j, doc in enumerate(docs):
                     try:
-                        lang = langs[j] if j < len(langs) else None
+                        try:
+                            lang = cols[2].text.strip() if cols[2].text.strip() else None
+                        except:
+                            lang = langs[j] if j < len(langs) else None
+                            
                         doc_title = doc_titles[j] if j < len(doc_titles) else None
                         
                         document = NDCDocumentModel(

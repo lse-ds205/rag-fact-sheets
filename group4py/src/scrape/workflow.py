@@ -157,7 +157,10 @@ def _download_new_documents(new_docs, config: ScrapingConfig) -> tuple:
                 output_dir=output_dir,
                 force_download=False,
                 max_retries=config.max_retries,
-                timeout=config.timeout
+                timeout=config.timeout,
+                country=doc.country,
+                language=doc.language,
+                submission_date=doc.submission_date
             )
             
             successful_downloads += 1

@@ -5,16 +5,22 @@ import traceback
 from typing import List, Dict, Any, Optional, Union, Tuple  
 import argparse
 import json
+import uuid
 from dotenv import load_dotenv
 from datetime import datetime
 
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
 import group4py
+from databases.auth import PostgresConnection
 from group4py.src.query import LLMClient, ResponseProcessor, ChunkFormatter, ConfidenceClassification
+from sqlalchemy import text
+from helpers.internal import Logger
 
 logger = logging.getLogger(__name__)
 load_dotenv()
+db = PostgresConnection()
+
 
 def setup_llm(supports_guided_json: bool = True) -> LLMClient:
     """
@@ -236,6 +242,59 @@ def process_response(llm_response: Any, original_chunks: List[Dict[str, Any]], q
         # Override the question field with the short version if provided
         if main_question and 'question' in final_response:
             final_response['question'] = main_question
+            
+        # Create a mapping of chunk content to UUID for citation enrichment
+        chunk_content_to_uuid = {}
+        chunk_index_to_uuid = {}
+        
+        # Log the original chunks structure for debugging
+        logger.info(f"[5_LLM_RESPONSE] Original chunks structure example: {str(original_chunks[0].keys())[:200] if original_chunks else 'No chunks'}")
+        
+        for chunk in original_chunks:
+            # Make sure this is a valid chunk with the necessary fields
+            if 'content' not in chunk or 'id' not in chunk:
+                continue
+                
+            content = chunk['content']
+            chunk_uuid = chunk['id']
+            chunk_index = chunk.get('chunk_index')
+            
+            # Store mappings to find UUIDs by content or index
+            chunk_content_to_uuid[content[:100]] = chunk_uuid
+            if chunk_index is not None:
+                chunk_index_to_uuid[chunk_index] = chunk_uuid
+        
+        # Enrich citations with correct chunk_id UUID if available
+        if 'citations' in final_response and isinstance(final_response['citations'], list):
+            for citation in final_response['citations']:
+                # Log the citation structure for debugging
+                logger.info(f"[5_LLM_RESPONSE] Citation structure: {str(citation.keys())[:200]}")
+                
+                # IMPORTANT: The 'id' field in citations is often a numeric index, not a UUID!
+                # We need to match by content or other fields to get the correct chunk UUID
+                
+                # Try to match by chunk_index first (most reliable if available)
+                if 'chunk_index' in citation and citation['chunk_index'] in chunk_index_to_uuid:
+                    citation['chunk_id'] = chunk_index_to_uuid[citation['chunk_index']]
+                    logger.info(f"[5_LLM_RESPONSE] Found chunk_id by chunk_index: {citation['chunk_id']}")
+                
+                # If no match by index, try to match by content
+                elif 'content' in citation and not citation.get('chunk_id'):
+                    content_excerpt = citation['content'][:100]
+                    if content_excerpt in chunk_content_to_uuid:
+                        citation['chunk_id'] = chunk_content_to_uuid[content_excerpt]
+                        logger.info(f"[5_LLM_RESPONSE] Found chunk_id by content: {citation['chunk_id']}")
+                    
+                # If still no match, try to use doc_id if it looks like a UUID
+                elif 'doc_id' in citation and not citation.get('chunk_id'):
+                    if isinstance(citation['doc_id'], str) and len(citation['doc_id']) > 30:
+                        # This might be a UUID - use it as a last resort
+                        citation['chunk_id'] = citation['doc_id']
+                        logger.info(f"[5_LLM_RESPONSE] Using doc_id as chunk_id: {citation['chunk_id']}")
+                
+                # Log warning if no chunk_id could be found
+                if not citation.get('chunk_id'):
+                    logger.warning(f"[5_LLM_RESPONSE] Could not find chunk_id for citation: {citation}")
         
         logger.info("[5_LLM_RESPONSE] Successfully processed LLM response")
         return final_response
@@ -253,6 +312,146 @@ def process_response(llm_response: Any, original_chunks: List[Dict[str, Any]], q
             "error": True,
             "error_details": str(e)
         }
+
+def save_to_database(country: str, question_id: int, processed_response: Dict[str, Any], chunks: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+    """
+    Save the processed LLM response to the database.
+
+    Args:
+        country: Country name
+        question_id: Question ID from the questions table
+        processed_response: Processed LLM response
+        chunks: Original chunks used for the response
+
+    Returns:
+        Dict with database operation results or None on error
+    """
+    try:
+        logger.info(f"[5_LLM_RESPONSE] Saving response for country '{country}', question {question_id} to database...")
+        
+        # Extract relevant fields from the processed response
+        answer = processed_response.get("answer", "")
+        detailed_answer = processed_response.get("detailed_answer", processed_response.get("full_answer", ""))
+        
+        # Handle case where answer or detailed_answer are dictionaries rather than strings
+        if isinstance(answer, dict):
+            if "summary" in answer:
+                answer = answer["summary"]
+            elif "answer" in answer:
+                answer = answer["answer"]
+            else:
+                # Fallback to json string if structure is unknown
+                answer = json.dumps(answer)
+                
+        if isinstance(detailed_answer, dict):
+            if "detailed_response" in detailed_answer:
+                detailed_answer = detailed_answer["detailed_response"]
+            elif "full_answer" in detailed_answer:
+                detailed_answer = detailed_answer["full_answer"]
+            else:
+                # Fallback to json string if structure is unknown
+                detailed_answer = json.dumps(detailed_answer)
+        
+        # Ensure we have strings
+        answer = str(answer) if answer is not None else ""
+        detailed_answer = str(detailed_answer) if detailed_answer is not None else ""
+        
+        citations_data = processed_response.get("citations", [])
+        
+        # Generate a UUID for the answer
+        answer_id = str(uuid.uuid4())
+        
+        with db.Session() as session:
+            # 1. Insert into questions_answers table with NULL citations array initially
+            insert_answer_query = text("""
+                INSERT INTO questions_answers 
+                (id, country, question, summary, detailed_response, citations) 
+                VALUES (:id, :country, :question, :summary, :detailed_response, NULL)
+                RETURNING id
+            """)
+            
+            result = session.execute(
+                insert_answer_query,
+                {
+                    "id": answer_id,
+                    "country": country,
+                    "question": question_id,
+                    "summary": answer,
+                    "detailed_response": detailed_answer
+                }
+            )
+            
+            logger.info(f"[5_LLM_RESPONSE] Inserted answer with ID: {answer_id}")
+            
+            # 2. Process citations
+            citation_ids = []
+            for citation in citations_data:
+                # Get chunk_id directly from the citation
+                citation_chunk_id = citation.get("chunk_id")
+                
+                # Skip if no chunk ID
+                if not citation_chunk_id:
+                    logger.warning(f"[5_LLM_RESPONSE] No chunk_id found for citation: {citation}")
+                    continue
+                
+                # Insert citation
+                citation_id = str(uuid.uuid4())
+                insert_citation_query = text("""
+                    INSERT INTO citations 
+                    (id, cited_chunk_id, cited_in_answer_id) 
+                    VALUES (:id, :chunk_id, :answer_id)
+                    RETURNING id
+                """)
+                
+                try:
+                    citation_result = session.execute(
+                        insert_citation_query,
+                        {
+                            "id": citation_id,
+                            "chunk_id": citation_chunk_id,
+                            "answer_id": answer_id
+                        }
+                    )
+                    
+                    citation_ids.append(citation_id)
+                except Exception as e:
+                    logger.warning(f"[5_LLM_RESPONSE] Error inserting citation: {e}")
+                    continue
+            
+            # 3. Update the citations array in the answer if we have citations
+            if citation_ids:
+                # Use a separate query for each citation ID to avoid array syntax issues
+                for citation_id in citation_ids:
+                    try:
+                        # Use array_append to add each UUID to the array
+                        update_citation_query = text("""
+                            UPDATE questions_answers 
+                            SET citations = array_append(COALESCE(citations, ARRAY[]::UUID[]), :citation_id::UUID)
+                            WHERE id = :answer_id
+                        """)
+                        
+                        session.execute(
+                            update_citation_query,
+                            {
+                                "citation_id": citation_id,
+                                "answer_id": answer_id
+                            }
+                        )
+                    except Exception as e:
+                        logger.warning(f"[5_LLM_RESPONSE] Error updating citations array with ID {citation_id}: {e}")
+            
+            logger.info(f"[5_LLM_RESPONSE] Added {len(citation_ids)} citations to answer {answer_id}")
+            
+            return {
+                "answer_id": answer_id,
+                "citation_count": len(citation_ids),
+                "success": True
+            }
+            
+    except Exception as e:
+        traceback_string = traceback.format_exc()
+        logger.error(f"[5_LLM_RESPONSE] Database error in save_to_database: {e}\nTraceback: {traceback_string}")
+        return None
 
 def process_country_file(file_path: Path) -> Dict[str, Any]:
     """
@@ -304,6 +503,28 @@ def process_country_file(file_path: Path) -> Dict[str, Any]:
             
             # Store the processed response
             results[question_id] = processed_response
+            
+            # Save to database if we have a valid question ID number
+            try:
+                # Extract numeric part of question_id (format is usually "question_1", "question_2", etc.)
+                numeric_id = int(question_id.split('_')[1]) if '_' in question_id else int(question_id)
+                
+                # Save to database
+                db_result = save_to_database(country_name, numeric_id, processed_response, top_k_chunks)
+                
+                if db_result:
+                    # Add database result info to the response
+                    processed_response["database_record"] = {
+                        "saved": True,
+                        "answer_id": db_result.get("answer_id"),
+                        "citation_count": db_result.get("citation_count")
+                    }
+                else:
+                    processed_response["database_record"] = {"saved": False}
+                    
+            except (ValueError, IndexError) as e:
+                logger.warning(f"[5_LLM_RESPONSE] Could not extract numeric question ID from '{question_id}': {e}")
+                processed_response["database_record"] = {"saved": False, "error": str(e)}
         
         # After processing all questions, classify responses
         results = confidence_classifier.classify_response(results, retrieve_data)
@@ -322,26 +543,12 @@ def process_country_file(file_path: Path) -> Dict[str, Any]:
             "questions": {}
         }
 
+@Logger.log(log_file=project_root / "logs/llm_response.log", log_level="INFO")
 def main():
     """
     Main execution function for the LLM response pipeline.
     """
     try:
-        # Setup logging
-        log_dir = project_root / "logs"
-        log_dir.mkdir(parents=True, exist_ok=True)
-        log_file = log_dir / "llm_response.log"
-        
-        # Configure logging to both console and file
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler(log_file),
-                logging.StreamHandler()
-            ]
-        )
-        
         logger.info("[5_LLM_RESPONSE] Starting LLM response pipeline...")
         
         # Set up directories

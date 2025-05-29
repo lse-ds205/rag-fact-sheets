@@ -10,6 +10,7 @@ import logging
 import pathlib
 from urllib.parse import urlparse, unquote
 from typing import Optional, Dict, List
+from datetime import date
 
 import requests
 
@@ -30,7 +31,10 @@ def download_pdf(
     output_dir: Optional[str] = None,
     force_download: bool = False,
     max_retries: int = 3,
-    timeout: int = 30
+    timeout: int = 30,
+    country: Optional[str] = None,
+    language: Optional[str] = None,
+    submission_date: Optional[date] = None
 ) -> str:
     """
     Download a document (PDF, DOC, DOCX) from a URL and save it to the specified folder.
@@ -41,6 +45,9 @@ def download_pdf(
         force_download: If True, download regardless of content type.
         max_retries: Maximum number of retry attempts for failed downloads.
         timeout: Timeout for HTTP requests in seconds.
+        country: Country associated with the document.
+        language: Language of the document.
+        submission_date: Submission date of the document.
         
     Returns:
         Path to the downloaded document.
@@ -55,34 +62,22 @@ def download_pdf(
         raise DocumentDownloadError(f"Invalid URL: {url}")
     
     if output_dir is None:
-        script_dir = pathlib.Path(__file__).parent.parent.parent.parent
+        script_dir = pathlib.Path(__file__).parents[3]
         output_dir = os.path.join(script_dir, "data", "pdfs")
     
     logger.info(f"Using output directory: {output_dir}")
     os.makedirs(output_dir, exist_ok=True)
-    
-    parsed_url = urlparse(url)
-    filename = unquote(os.path.basename(parsed_url.path))
-    
-    file_extension = os.path.splitext(filename.lower())[1]
-    
-    if not filename or file_extension not in SUPPORTED_EXTENSIONS:
-        if url.lower().endswith('.pdf'):
-            file_extension = '.pdf'
-        elif url.lower().endswith('.doc'):
-            file_extension = '.doc'
-        elif url.lower().endswith('.docx'):
-            file_extension = '.docx'
-        else:
-            raise UnsupportedFormatError(f"URL doesn't end with a supported extension: {url}")
-            
-        logger.warning(f"URL doesn't have a valid filename with extension, using URL extension: {url}")
-        filename = f"document_{hash(url) % 10000}{file_extension}"
-    
-    output_path = os.path.join(output_dir, filename)
-    
-    return _download_with_requests(url, output_path, force_download, max_retries, timeout)
 
+    if not country:
+        raise DocumentDownloadError("Country is required")
+    if not language:
+        language = "unknown"
+    if not submission_date:
+        submission_date = "unknown"
+
+    filename = country + "_" + language + "_" + submission_date.strftime("%Y%m%d") + ".pdf"
+    output_path = os.path.join(output_dir, filename)
+    return _download_with_requests(url, output_path, force_download, max_retries, timeout)
 
 def _download_with_requests(
     url: str,
