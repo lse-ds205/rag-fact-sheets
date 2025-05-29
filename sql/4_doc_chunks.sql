@@ -7,10 +7,10 @@ CREATE TABLE doc_chunks (
     language TEXT,
     transformer_embedding DOUBLE PRECISION[],
     word2vec_embedding DOUBLE PRECISION[],
-    hoprag_embedding INTEGER[],
+    hoprag_embedding DOUBLE PRECISION[],
     chunk_data JSONB,
     created_at TIMESTAMPTZ,
     updated_at TIMESTAMPTZ,
     page INTEGER,
-    content_hash TEXT
+    content_hash VARCHAR(64)
 );
