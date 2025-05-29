@@ -6,7 +6,7 @@ CREATE TABLE documents (
     last_download_attempt TIMESTAMPTZ,
     download_error TEXT,
     download_attempts INTEGER,
-    country TEXT REFERENCES countries(id),
+    country TEXT REFERENCES countries(id) ON DELETE CASCADE,
     title TEXT,
     url TEXT,
     language TEXT,

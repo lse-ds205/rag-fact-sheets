@@ -30,3 +30,14 @@ class GraphAnalysisResult:
     centrality_scores: Dict[str, float]
     community_id: int
     final_score: float
+
+@dataclass
+class NodeClassification:
+    """Classification result for a single node with UUID consistency"""
+    chunk_id: uuid.UUID
+    content: str
+    centrality_scores: Dict[str, float]
+    combined_score: float
+    classification: str
+    rank_within_class: int
+    confidence_level: str
