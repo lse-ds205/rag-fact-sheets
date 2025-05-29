@@ -35,9 +35,6 @@ This is the compilation of research on the RAG system architecture and design th
     - Enriches embeddings with graph centrality information (PageRank, betweenness)
     - Classifies nodes into specialized roles (CORE_HUB, AUTHORITY, CONNECTOR, PERIPHERAL)
     - Enables both semantic similarity and structural importance in retrieval
-- **ColBERT (Contextualized Late Interaction over BERT)** 🤖🧩
-  - Multiple token level embeddings rather than single dense vector 🧠
-  - Maintains fine-grained interactions crucial for technical terminology 🔬
 
 ### 🏗️ 1b RAG Structure
 - **Non-structured RAG** 📄🧩
