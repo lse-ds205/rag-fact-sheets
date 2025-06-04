@@ -1,0 +1,38 @@
+{
+  "country_name": "Rating system",
+  "sections": {
+    "Summary": {
+      "content": [
+        "\n## Overview\n",
+        "The CAT’s rating method evaluates a broad spectrum of government targets and actions to reduce greenhouse gas emissions in line with the Paris Agreement temperature limit.\n",
+        "For each country, we develop:\n",
+        "- **The overall rating:** the combination of all the ratings generates an overall rating for the country",
+        "- Rating the **policies and action**: are governments putting in place real policies and action in line with global least-cost mitigation pathways or fair share principles?",
+        "- Rating the “**domestic target**” or the “**internationally supported target**”: are government promises for targets in their country ambitious with respect to global least-cost mitigation pathways, acknowledging that most developing countries will need support to achieve this level?",
+        "- Rating the “**fair share target**”: is a country doing its fair share? We assess whether government promises for action in their country with their own resources and, if relevant, the financing of action abroad represent a fair contribution to global efforts.",
+        "- **Climate finance**: for those countries where relevant, we assess whether governments are providing sufficient support for mitigation actions in other countries.",
+        "The CAT also evaluates a government’s net zero targets where possible, and flags whether greenhouse gas emissions from land use, land-use change and forestry have a high impact on overall emissions.\n",
+        "Governments should commit to reducing their own emissions and follow through on those commitments by implementing policies that reduce emissions to meet those targets. These actions in a country can be assessed against what is technically and economically feasible, usually a globally cost-efficient perspective.\n",
+        "However, for many countries, what is feasible either falls short of what would be expected of them based on principles of fairness, or is beyond what is possible with domestic resources alone. Fair share principles mean that developed country governments need to support developing countries in achieving the global mitigation goals.\n",
+        "Our new assessment framework therefore combines both fair share and cost-efficient mitigation perspectives to assess the different components of government targets and actions.\n",
+        "With this framework we identify whether:\n",
+        "- Government promises for targets and action in its country are ambitious with respect to global least-cost mitigation pathways, acknowledging that most developing countries will need support to achieve this level",
+        "- Government promises for action in its country with its own resources and, if relevant, the financing of action abroad represent a fair contribution to global efforts",
+        "- Developed country governments are providing sufficient support to developing countries OR developing countries are making plans to use support provided by developed countries",
+        "- Governments are putting in place real policies and action in line with global least-cost mitigation pathways or fair share principles and are on track to meeting their promises.",
+        "CAT uses five rating categories for its overall rating and the different elements:\n",
+        "- The “1.5°C Paris Agreement compatible” rating indicates that a country’s climate policies and commitments are consistent with the Paris Agreement’s 1.5°C temperature limit.",
+        "- The “Almost sufficient” rating indicates that a country’s climate policies and commitments are not yet consistent with the Paris Agreement’s 1.5°C temperature limit but could be with moderate improvements.",
+        "- The “Insufficient” rating indicates that a country’s climate policies and commitments need substantial improvements to be consistent with the Paris Agreement’s 1.5°C temperature limit.",
+        "- The “Highly insufficient” rating indicates that a country’s climate policies and commitments are not consistent with the Paris Agreement’s 1.5°C temperature limit. For many countries in this category, policies and commitments lead to rising, rather than falling, emissions.",
+        "- The “Critically Insufficient” rating indicates that a country’s climate policies and commitments reflect minimal to no action and are not at all consistent with the Paris Agreement.",
+        "For the individual rating of targets and action against modelled domestic pathways and the fair share contribution, the categories can be associated with estimates for global warming:\n",
+        "If all countries followed the rated country’s approach, warming could be held below—but not well below—2°C for the “Almost sufficient” category. For the “Insufficient” category, the range is 2°C to 3°C, for the “Highly Insufficient” 3°C to 4°C, and for “Critically insufficient” above 4°C. Given that the overall rating is an aggregate of different elements, we do not provide a warming range for it.\n",
+        "The CAT focuses its rating on mitigation efforts but recognises that adaptation, and support for adaptation and loss and damage are also vital in meeting the Paris Agreement\n",
+        "View the rating method in detail\n",
+        "View all countries & sectors\n"
+      ],
+      "url": "https://climateactiontracker.org/countries/rating-system/"
+    }
+  }
+}

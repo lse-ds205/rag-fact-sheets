@@ -1,0 +1,2843 @@
+{
+  "": {},
+  "argentina": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": [
+        "2022",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8251):\nFurther information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found here. **    ## Net zero and other long-term target(s)   We evaluate the net zero target as: Poor. **   In November 2022, Argentina submitted a lon",
+      "confidence": 0.8189,
+      "source_url": "https://climateactiontracker.org/countries/argentina/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": null,
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8427):\nFor example, the government could set separate emission and reduction targets and clarify its accounting methodology for LULUCF. It could further improve transparency on its planning process, the use of tools such as pathway modelling and specific sectoral polic",
+      "confidence": 0.8421,
+      "source_url": "https://climateactiontracker.org/countries/argentina/targets/"
+    },
+    "efficiency_target": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8194):\n(2023e, January 10). Se implementar\u00e1 un sistema de etiquetado de eficiencia energ\u00e9tica de vivienda a nivel nacional. https://www.argentina.gob.ar/noticias/se-implementara-un-sistema-de-etiquetado-de-eficiencia-energetica-de-vivienda-nivel  - Government of Argent",
+      "confidence": 0.8142,
+      "source_url": "https://climateactiontracker.org/countries/argentina/sources/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2022",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8225):\nFurther information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found here. **    ## Net zero and other long-term target(s)   We evaluate the net zero target as: Poor. **   In November 2022, Argentina submitted a lon",
+      "confidence": 0.8115,
+      "source_url": "https://climateactiontracker.org/countries/argentina/targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2024",
+        "2025"
+      ],
+      "sectors": [
+        "Electricity",
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8083):\nDepending on how changes in subsidies affect total power demand, this could potentially have a significant impact on our emissions projections under current policies. The government is also considering a cap-and-trade system to reduce emissions in the power sect",
+      "confidence": 0.8159,
+      "source_url": "https://climateactiontracker.org/countries/argentina/policies-action/"
+    }
+  },
+  "australia": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": [
+        "2021",
+        "2022",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8458):\nNet zero target   We evaluate the net zero target as: Poor   Australia included its target to achieve net zero by 2050 in its updated NDCs in October 2021 and June 2022. The 2022 Climate Change Act enshrined the 2050 target in the law. Australia is preparing a n",
+      "confidence": 0.851,
+      "source_url": "https://climateactiontracker.org/countries/australia/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2005"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8663):\nThe government has repeatedly revised emissions projections downwards. This has typically not been backed by stronger climate policies but is rather the result of a change in assumptions. The government has set an emissions reductions target of 43% below 2005 le",
+      "confidence": 0.8717,
+      "source_url": "https://climateactiontracker.org/countries/australia/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions energy efficiency law or strategy and sets an efficiency target.",
+      "year": [
+        "2016"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy",
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8502):\nPower sector emissions have been declining since 2016, with this trend expected to continue as renewable energy displaces fossil fuels (DCCEEW, 2023b). The government\u2019s main policies for the power sector are the 82% renewable electricity target and the expanded ",
+      "confidence": 0.8458,
+      "source_url": "https://climateactiontracker.org/countries/australia/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "soft_yes",
+      "explanation": "Only scenario-based evidence for net zero electricity. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2023",
+        "2030",
+        "2050"
+      ],
+      "sectors": [
+        "Electricity"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8369):\nThe \u2018with additional measures\u2019 scenario includes the 82% renewable electricity target by 2030 for the country\u2019s grids, but not the expansion of the Capacity Investment Scheme announced in November 2023, which is not included in either government scenario (DCCEEW",
+      "confidence": 0.8404,
+      "source_url": "https://climateactiontracker.org/countries/australia/assumptions/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2030",
+        "2050"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy",
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8022):\nThe government\u2019s support of the fossil fuel industry hinges on false solutions such as its support for carbon capture and storage (CCS) and offsets. According to the IEA, no new fossil fuel projects are required in its Net Zero Emissions scenario, which reaches ",
+      "confidence": 0.8043,
+      "source_url": "https://climateactiontracker.org/countries/australia/"
+    }
+  },
+  "bhutan": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": [
+        "2009",
+        "2021",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7978):\nAnalysis of earlier NDC developments   - 24 June 2021 \u201cBhutan submits a second NDC\u201d   ## Net zero and other long-term target(s)   Bhutan has set an indicative goal of reaching net zero by 2050 (Royal Government of Bhutan 2021). Bhutan first committed to remain c",
+      "confidence": 0.8056,
+      "source_url": "https://climateactiontracker.org/countries/bhutan/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "sectors": [
+        "Industry",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8224):\nBy contrast, government data reports an 18% drop in emissions (excluding LULUCF) in 2020 \u2013 which is more consistent with the economic slowdown the country experienced. As the economy continued to contract in 2021, we would expect emissions to fall as well. 2021-",
+      "confidence": 0.8212,
+      "source_url": "https://climateactiontracker.org/countries/bhutan/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2019",
+        "2020"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8237):\nMinistry of Economic Affairs, 2019: National Energy Efficiency and conservation Policy. https://www.gnhc.gov.bt/en/wp-content/uploads/2019/11/Final-EEC-Policy.pdf (Accessed October 23, 2020). - Ministry of Economic Affairs, 2021a: Low Emission Development Strate",
+      "confidence": 0.8307,
+      "source_url": "https://climateactiontracker.org/countries/bhutan/sources/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2009",
+        "2021",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8077):\nAnalysis of earlier NDC developments   - 24 June 2021 \u201cBhutan submits a second NDC\u201d   ## Net zero and other long-term target(s)   Bhutan has set an indicative goal of reaching net zero by 2050 (Royal Government of Bhutan 2021). Bhutan first committed to remain c",
+      "confidence": 0.8185,
+      "source_url": "https://climateactiontracker.org/countries/bhutan/targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": [
+        "Industry",
+        "Transport"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.7880):\n## Overview   **With Bhutan being a carbon negative country due to its large land sink, it is already compliant with its NDC target of remaining carbon (and GHG) neutral. While the COVID-19 pandemic caused a temporary drop in its emissions, we project that Bhuta",
+      "confidence": 0.7809,
+      "source_url": "https://climateactiontracker.org/countries/bhutan/"
+    }
+  },
+  "brazil": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": [
+        "2023",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8376):\n## Summary   We evaluate Brail\u2019s net zero target as: **Poor. **   Brazil aims to achieve climate neutrality by 2050, a target reiterated in its 2023 NDC submission (Government of Brazil, 2023b). However, no further details on the scope, architecture and transpar",
+      "confidence": 0.8348,
+      "source_url": "https://climateactiontracker.org/countries/brazil/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2005",
+        "2035"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8442):\nThis target covers all sectors and all gases. According to the latest national inventory data for 2005, this is consistent with an emissions level between 832\u20131,033 MtCO2e in 2035 (in AR4 GWPs, incl. LULUCF).",
+      "confidence": 0.8457,
+      "source_url": "https://climateactiontracker.org/countries/brazil/2035-ndc/"
+    },
+    "efficiency_target": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2024"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.7941):\nhttps://www.energy-transitions.org/publications/bioresources-within-a-net-zero-emissions-economy/   Global Energy Monitor. (2024). Summary Tables.",
+      "confidence": 0.7933,
+      "source_url": "https://climateactiontracker.org/countries/brazil/sources/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2023",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8370):\n## Summary   We evaluate Brail\u2019s net zero target as: **Poor. **   Brazil aims to achieve climate neutrality by 2050, a target reiterated in its 2023 NDC submission (Government of Brazil, 2023b). However, no further details on the scope, architecture and transpar",
+      "confidence": 0.8398,
+      "source_url": "https://climateactiontracker.org/countries/brazil/net-zero-targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8005):\nGovernments need to ramp up the implementation of their existing targets and further develop policies to close the \u2013 still significant \u2013 emissions gap between current policies and 1.5\u00b0C. Contradictory policies must be addressed and reversed: fossil fuel producti",
+      "confidence": 0.8016,
+      "source_url": "https://climateactiontracker.org/countries/brazil/2035-ndc/"
+    }
+  },
+  "canada": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2005",
+        "2026",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8582):\nThe strategy explores a number of different scenarios capable of achieving net zero emissions in 2050, but does not set a particular pathway for the country to follow or outline the policies and measures needed to achieve its net zero target. Under the Net-Zero ",
+      "confidence": 0.852,
+      "source_url": "https://climateactiontracker.org/countries/canada/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2005",
+        "2035"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8454):\nIncrease action to reduce domestic emissions: Finally, what matters most is action to reduce emissions in the real economy. Our current policy projections for 2035 show a significant implementation gap with currently implemented policies and actions only reducin",
+      "confidence": 0.843,
+      "source_url": "https://climateactiontracker.org/countries/canada/2035-ndc/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target.",
+      "year": [
+        "2022",
+        "2024",
+        "2030"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8207):\n(\u2018Net zero energy ready\u2019 means that the building is efficient enough that a renewable energy system, once added, would be able to provide all of the building\u2019s energy needs). The aim is to move to progressively more stringent tiers so that by 2030 all new buildi",
+      "confidence": 0.8123,
+      "source_url": "https://climateactiontracker.org/countries/canada/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2005",
+        "2026",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8611):\nThe strategy explores a number of different scenarios capable of achieving net zero emissions in 2050, but does not set a particular pathway for the country to follow or outline the policies and measures needed to achieve its net zero target. Under the Net-Zero ",
+      "confidence": 0.8595,
+      "source_url": "https://climateactiontracker.org/countries/canada/net-zero-targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism.",
+      "year": [
+        "2026"
+      ],
+      "sectors": [
+        "Industrial"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8591):\nJurisdictions without such systems or taxes will fall under the federal backstop. The federal system has two components: a regulatory charge on fossil fuels and an output-based pricing system (OBPS), which applies to major emitting industrial facilities. The fed",
+      "confidence": 0.8559,
+      "source_url": "https://climateactiontracker.org/countries/canada/policies-action/"
+    }
+  },
+  "chile": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8508):\nCountries can refer to this good practice to design or enhance their net zero targets.",
+      "confidence": 0.831,
+      "source_url": "https://climateactiontracker.org/countries/chile/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2010",
+        "2019",
+        "2022",
+        "2023"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Energy",
+        "Industrial"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8486):\nIndustrial processes, agriculture, and waste emissions: based on Chile\u2019s Fifth Biennial Update Report (BUR5) (Ministerio del Medio Ambiente, 2022). For the lower range of our current policy projections, we use:   - All sectors, including energy: based on the \u2018Tr",
+      "confidence": 0.8419,
+      "source_url": "https://climateactiontracker.org/countries/chile/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": [
+        "2011"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8357):\nThis provision builds upon the existing Calificaci\u00f3n Energ\u00e9tica de Viviendas (CEV), established in 2011, and is also integrated into voluntary national building sustainability certifications (Ministerio de Energ\u00eda, 2021b). The Energy Efficiency Law also states t",
+      "confidence": 0.8382,
+      "source_url": "https://climateactiontracker.org/countries/chile/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2020",
+        "2021",
+        "2022",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8297):\nNet zero and other long-term target(s)   **We evaluate the net zero target as: Acceptable. **   Chile announced its net zero target for 2050 as proposed legislation in the Framework Law on Climate Change in 2020 (President of Chile, 2020) and included it in the ",
+      "confidence": 0.8405,
+      "source_url": "https://climateactiontracker.org/countries/chile/targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism.",
+      "year": [
+        "2014",
+        "2022",
+        "2035",
+        "2050"
+      ],
+      "sectors": [
+        "Transport"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8202):\nThe Electromobility Strategy guides climate policy in the transport sector and sets out an action plan to electrify 100% of the urban public transport vehicle fleet by 2050 and ban the sale of new cars with combustion engines in 2035. Chile has also introduced a",
+      "confidence": 0.8249,
+      "source_url": "https://climateactiontracker.org/countries/chile/policies-action/"
+    }
+  },
+  "china": {
+    "net_zero_target": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8454):\nCountries can refer to this good practice to design or enhance its net-zero targets.",
+      "confidence": 0.8234,
+      "source_url": "https://climateactiontracker.org/countries/china/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2023",
+        "2025",
+        "2030"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8270):\nLULUCF). Our conservative scenario expects China\u2019s emissions to peak before 2025, followed by a slight annual decline of 0.5% for the rest of the decade. An optimistic scenario, with accelerated renewable deployment and coal phase-down, suggests CO2 emissions co",
+      "confidence": 0.8209,
+      "source_url": "https://climateactiontracker.org/countries/china/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target.",
+      "year": [
+        "2010"
+      ],
+      "sectors": [
+        "Energy",
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8045):\nThis projection, based on the median value of conservative and optimistic estimates from the two most binding energy-related NDC targets (peaking and carbon intensity targets), represents a 28% increase from 2010 levels. The country\u2019s existing policies are set t",
+      "confidence": 0.8036,
+      "source_url": "https://climateactiontracker.org/countries/china/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2023",
+        "2024",
+        "2030",
+        "2050"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy",
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8548):\nTo be compatible with a 1.5\u00b0C pathway, China would need to have shares of renewable electricity generation reach at least 79% in 2030; It stood at only 31% in 2023 (NBS of China, 2024). Globally, all countries will need to have 95\u2013100% renewable electricity shar",
+      "confidence": 0.859,
+      "source_url": "https://climateactiontracker.org/countries/china/policies-action/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2035"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.7947):\nImprove the formulation and coverage of its climate targets by setting an absolute economy-wide peaking target for greenhouse gas emissions as well as specific emission reduction targets for 2035. China\u2019s existing peaking, carbon intensity, and non-fossil energy",
+      "confidence": 0.7874,
+      "source_url": "https://climateactiontracker.org/countries/china/"
+    }
+  },
+  "colombia": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8077):\nCAT rates this target as \u201cInsufficient\u201d when compared to required domestic efforts, and \"Almost sufficient\u201d compared to Colombia\u2019s fair share. Colombia has a net zero target and has submitted a long-term strategy to the UNFCCC. Both the NDC and net zero targets ",
+      "confidence": 0.7982,
+      "source_url": "https://climateactiontracker.org/countries/colombia/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2020",
+        "2050"
+      ],
+      "sectors": [
+        "Industrial"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8334):\nThe CAT indicates that to be compatible with the 1.5\u00b0C limit, cement production needs to reduce its emissions intensity to zero by 2050, (Climate Action Tracker, 2020). The cement sector in Colombia is still far from this zero-emissions trajectory. No target is ",
+      "confidence": 0.8247,
+      "source_url": "https://climateactiontracker.org/countries/colombia/policies-action/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2018",
+        "2020",
+        "2030",
+        "2040",
+        "2050"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy",
+        "Industry",
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8060):\nThe rest of the planned 11.2 MtCO2e energy sector mitigation target for 2030 is to be made up through increased energy efficiency in buildings and industry, reducing fugitive emissions from power plants and reducing overall energy demand (Gobierno de Colombia, 2",
+      "confidence": 0.8141,
+      "source_url": "https://climateactiontracker.org/countries/colombia/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero electricity or decarbonised power sector. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2030",
+        "2040",
+        "2050"
+      ],
+      "sectors": [
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8210):\nWhile this is a step in the right direction, it is likely not fast enough to be 1.5\u00b0C compatible, as global benchmarks indicate that national power sectors would need to be decarbonised by 2030, with a coal phase-out by 2040 for developing countries. A stronger ",
+      "confidence": 0.8339,
+      "source_url": "https://climateactiontracker.org/countries/colombia/policies-action/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2021"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7964):\nIn December 2021, with the Law No. 2169 (Ley Climatica N\u00b02169, 2021), Colombia promotes the country's low-carbon development through the establishment of minimum targets and measures for carbon neutrality and climate resilience. This enriches the carbon neutrali",
+      "confidence": 0.7953,
+      "source_url": "https://climateactiontracker.org/countries/colombia/targets/"
+    }
+  },
+  "costa-rica": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2018",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8469):\nNet zero and other long-term target(s)   **We evaluate the net zero target as Acceptable. **   Costa Rica announced a net zero target for 2050 in its National Decarbonisation Plan 2018-2050 (Government of Costa Rica, 2019c). The net zero target covers most key e",
+      "confidence": 0.8554,
+      "source_url": "https://climateactiontracker.org/countries/costa-rica/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2050"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Energy",
+        "Industrial",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8699):\nSeparate reduction & removal targets \u2013 The National Decarbonisation Plan does not explicitly set separate reduction and removal targets. However, the Plan estimates sectoral emissions by 2050. Energy, industrial processes, agriculture, and waste are estimated to",
+      "confidence": 0.8684,
+      "source_url": "https://climateactiontracker.org/countries/costa-rica/net-zero-targets/"
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions energy efficiency law or strategy and sets an efficiency target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2015",
+        "2021",
+        "2030"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy",
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8117):\nThe overarching strategy driving climate policy in the power sector is the VII National Energy Plan 2015-2030, which supports the continuation of renewable energy development, improving energy efficiency, diversifying and decentralising energy generation, and th",
+      "confidence": 0.8107,
+      "source_url": "https://climateactiontracker.org/countries/costa-rica/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2018",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8479):\nNet zero and other long-term target(s)   **We evaluate the net zero target as Acceptable. **   Costa Rica announced a net zero target for 2050 in its National Decarbonisation Plan 2018-2050 (Government of Costa Rica, 2019c). The net zero target covers most key e",
+      "confidence": 0.855,
+      "source_url": "https://climateactiontracker.org/countries/costa-rica/targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8014):\nCosta Rica\u2019s electrified rail projects have stalled and have scaled back their efforts to fully electrify, and modal shift has also been slow. Efforts to enshrine the fossil fuel moratorium into law have also faced challenges from the current administration. Cos",
+      "confidence": 0.7997,
+      "source_url": "https://climateactiontracker.org/countries/costa-rica/policies-action/"
+    }
+  },
+  "egypt": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2022",
+        "2023",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8250):\nFurther information on how the CAT rates countries (against modelled pathways and fair share) can be found here**. **    ## Net zero and other long-term target(s)   Egypt does not have a net zero target, nor has it submitted a long-term strategy (LTS) to the UNF",
+      "confidence": 0.8194,
+      "source_url": "https://climateactiontracker.org/countries/egypt/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2015",
+        "2030"
+      ],
+      "sectors": [
+        "Electricity",
+        "Transport"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8243):\nThe emissions level resulting from this target is well above what we project Egypt\u2019s emissions trajectory to be with the policies it has implemented. Emissions for the electricity and transport sectors would increase by 52% and 140%, respectively, between 2015 a",
+      "confidence": 0.8185,
+      "source_url": "https://climateactiontracker.org/countries/egypt/targets/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target.",
+      "year": [
+        "2019",
+        "2021",
+        "2022"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8156):\nThe energy sector is dominated by fossil fuels, with renewable energy supplying only 5% of total primary energy in 2019 (IEA, 2021). Egypt is seeking to develop its vast fossil gas resources to maximise domestic production, consumption and exports. It ranks amon",
+      "confidence": 0.8137,
+      "source_url": "https://climateactiontracker.org/countries/egypt/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2022",
+        "2023",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8306):\nFurther information on how the CAT rates countries (against modelled pathways and fair share) can be found here**. **    ## Net zero and other long-term target(s)   Egypt does not have a net zero target, nor has it submitted a long-term strategy (LTS) to the UNF",
+      "confidence": 0.8223,
+      "source_url": "https://climateactiontracker.org/countries/egypt/targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7956):\nTransition-related policy development also appears to be taking place in other settings, with the link to the NCCC unclear. Coordination with subnational governments is poor as there are no climate specific coordination mechanisms. **Mainstreaming the concept of",
+      "confidence": 0.7927,
+      "source_url": "https://climateactiontracker.org/countries/egypt/governance/"
+    }
+  },
+  "ethiopia": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2015",
+        "2022"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8154):\n## Summary   We evaluate the net zero target as: Target information incomplete. Ethiopia intends to become \u2018carbon neutral\u2019, but has not specified a target year (FDRE, 2015). Ethiopia has not submitted a Long-Term Low Emission Development Strategy to the UNFCCC ",
+      "confidence": 0.821,
+      "source_url": "https://climateactiontracker.org/countries/ethiopia/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2020",
+        "2021"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Energy",
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8324):\nTo estimate emissions for 2020 and 2021, we applied a sectoral approach. For energy and industry, we applied growth rates from Global Carbon Budget for the year 2020 (Global Carbon Project, 2021), and the GDP growth rates from IMF for 2021, assuming a directly p",
+      "confidence": 0.8324,
+      "source_url": "https://climateactiontracker.org/countries/ethiopia/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": [
+        "2021"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy",
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.7986):\nAs with all targets, implementation of the necessary policies and measures is critical to ensuring that these sectoral objectives are actually achieved. ## Energy supply   Ethiopia\u2019s primary energy supply is dominated by biomass, as only about half of the popula",
+      "confidence": 0.8094,
+      "source_url": "https://climateactiontracker.org/countries/ethiopia/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2015",
+        "2022"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7991):\n## Summary   We evaluate the net zero target as: Target information incomplete. Ethiopia intends to become \u2018carbon neutral\u2019, but has not specified a target year (FDRE, 2015). Ethiopia has not submitted a Long-Term Low Emission Development Strategy to the UNFCCC ",
+      "confidence": 0.8078,
+      "source_url": "https://climateactiontracker.org/countries/ethiopia/net-zero-targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism.",
+      "year": [
+        "2015",
+        "2021"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7847):\nReductions or removals outside of own borders \u2013 Ethiopia provides no information on its intention to use international offset credits to meet its net zero target. However, Ethiopia has been a proponent of international carbon markets and has indicated its intent",
+      "confidence": 0.7793,
+      "source_url": "https://climateactiontracker.org/countries/ethiopia/net-zero-targets/"
+    }
+  },
+  "eu": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": [
+        "2030",
+        "2040",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8120):\nThe Commission is in the process of passing 2040 target based on projected emissions budget for 2030-2050. The Commission\u2019s underlying analysis for the climate neutrality strategy identifies clear pathways and key measures for reaching net zero, with sector-spec",
+      "confidence": 0.804,
+      "source_url": "https://climateactiontracker.org/countries/eu/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2030"
+      ],
+      "sectors": [
+        "Energy",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8461):\nOur 1.5\u00b0C modelled domestic pathway is based on global least-cost mitigation and defines the minimum level of emission reductions needed domestically to be 1.5\u00b0C compatible. It should be taken as the floor, and not ceiling, for domestic ambition. Our planned pol",
+      "confidence": 0.8439,
+      "source_url": "https://climateactiontracker.org/countries/eu/policies-action/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target.",
+      "year": [
+        "2020",
+        "2023",
+        "2024",
+        "2030"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8287):\nThe revised Energy Efficiency Directive sets a binding target to reduce the final energy consumption by 11.7% relative to the 2020 or a target of 763 Mtoe of final energy consumption by 2030 across all sectors (European Parliament, 2023). The EED lacks robust me",
+      "confidence": 0.8365,
+      "source_url": "https://climateactiontracker.org/countries/eu/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2030",
+        "2040",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8315):\nThe Commission is in the process of passing 2040 target based on projected emissions budget for 2030-2050. The Commission\u2019s underlying analysis for the climate neutrality strategy identifies clear pathways and key measures for reaching net zero, with sector-spec",
+      "confidence": 0.8272,
+      "source_url": "https://climateactiontracker.org/countries/eu/net-zero-targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2040",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8011):\nHowever, in its latest proposal for 2040 targets to achieve net zero emission by 2050, it highlighted separate information on emission and removal pathways but this is yet to be adopted as a target (European Commission, 2024b). - Review process \u2013 The EU has a le",
+      "confidence": 0.7952,
+      "source_url": "https://climateactiontracker.org/countries/eu/net-zero-targets/"
+    }
+  },
+  "gabon": {},
+  "gambia": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": [
+        "2025",
+        "2030",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8087):\nThe net zero goal has interim targets for 2025 and 2030. - Clarity on fairness of target \u2013 The Gambia\u2019s 2050 Climate Vision explains that the target is fair since The Gambia\u2019s contribution to climate change has always been marginal (Republic of The Gambia, 2021b",
+      "confidence": 0.8148,
+      "source_url": "https://climateactiontracker.org/countries/gambia/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2030"
+      ],
+      "sectors": [
+        "Energy",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8259):\nIt will undertake two mitigation measures in forestry and energy using its own resources. The mitigation potential of these unconditional measures would result in an absolute emissions level of about 5.53 MtCO2e excl. LULUCF by 2030.",
+      "confidence": 0.8269,
+      "source_url": "https://climateactiontracker.org/countries/gambia/targets/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target.",
+      "year": [
+        "2030"
+      ],
+      "sectors": [
+        "Energy",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.7826):\nIt will undertake two mitigation measures in forestry and energy using its own resources. The mitigation potential of these unconditional measures would result in an absolute emissions level of about 5.53 MtCO2e excl. LULUCF by 2030.",
+      "confidence": 0.7843,
+      "source_url": "https://climateactiontracker.org/countries/gambia/targets/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2025",
+        "2030",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8170):\nThe net zero goal has interim targets for 2025 and 2030. - Clarity on fairness of target \u2013 The Gambia\u2019s 2050 Climate Vision explains that the target is fair since The Gambia\u2019s contribution to climate change has always been marginal (Republic of The Gambia, 2021b",
+      "confidence": 0.8215,
+      "source_url": "https://climateactiontracker.org/countries/gambia/net-zero-targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7667):\nWe consider the government reported data to be the most up to date estimate available and so use it as a starting point, rather than simply using the entire PRIMAP data set. Our estimates are about 0.5MtCO2e higher than PRIMAP. 2020-2021 estimates****To estimate",
+      "confidence": 0.7728,
+      "source_url": "https://climateactiontracker.org/countries/gambia/assumptions/"
+    }
+  },
+  "germany": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8508):\nCountries can refer to this good practice to design or enhance their net zero targets.",
+      "confidence": 0.831,
+      "source_url": "https://climateactiontracker.org/countries/germany/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2045"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Industry",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8392):\nBuildings, Industry, Agriculture and Waste: no adjustments, using scenario with implemented measures. ## Net-zero target and other long-term targets   According to Germany\u2019s Climate Law, the 2045 climate neutrality target includes a sink of 40 MtCO2e to compensa",
+      "confidence": 0.8322,
+      "source_url": "https://climateactiontracker.org/countries/germany/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions energy efficiency law or strategy and sets an efficiency target.",
+      "year": [
+        "2024"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8380):\nBefore it changed the requirement, the ministry failed to submit emergency programmes for the three years in which the sector overshot its emissions target. - Comply with own 65% renewables target in building sector: the government had agreed in its coalition co",
+      "confidence": 0.8317,
+      "source_url": "https://climateactiontracker.org/countries/germany/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2021",
+        "2022",
+        "2045"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8464):\n## Summary   We evaluate the net zero target as: Average. In June 2021, Germany adopted its 2045 net zero target in its revised climate law and submitted its updated LTS to the UNFCCC in November 2022. The net zero target generally covers all key elements but fa",
+      "confidence": 0.8473,
+      "source_url": "https://climateactiontracker.org/countries/germany/net-zero-targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2021",
+        "2022"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8255):\nCompanies selling fossil fuels have to purchase certificates for the carbon content of those fuels, and pass on the additional financial burden to the end consumers through an increased price. The scheme started in 2021 with an initial price of EUR 25 per tonne ",
+      "confidence": 0.8205,
+      "source_url": "https://climateactiontracker.org/countries/germany/policies-action/"
+    }
+  },
+  "india": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8508):\nCountries can refer to this good practice to design or enhance their net zero targets.",
+      "confidence": 0.831,
+      "source_url": "https://climateactiontracker.org/countries/india/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2005",
+        "2030"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8486):\nWe calculate the emissions intensity in 2005 using our historical emissions estimate and RBI GDP data and then apply a 45% reduction. We multiply this emissions intensity level with our 2030 GDP estimate to derive our emissions estimate. As India has a separate ",
+      "confidence": 0.8446,
+      "source_url": "https://climateactiontracker.org/countries/india/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": null,
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8397):\nThese documents and laws play a crucial role in shaping the energy landscape. There has been a steady increase in the deployment of renewable energy in the country, including both utility-scale and rooftop solar. Due to this consistent growth, the share of coal ",
+      "confidence": 0.8441,
+      "source_url": "https://climateactiontracker.org/countries/india/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2023",
+        "2026",
+        "2031"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8289):\nThe country will need international support to get onto a 1.5\u00b0C pathway. We rate India\u2019s current policies and action as \u201cInsufficient\u201d compared to its fair share contribution. India has ambitious renewable energy plans as outlined in the National Electricity Pla",
+      "confidence": 0.8375,
+      "source_url": "https://climateactiontracker.org/countries/india/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism.",
+      "year": null,
+      "sectors": [
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8328):\nFinancial and policy support has been extended for green hydrogen production and adoption in industry through the green hydrogen purchase mandate. India is planning to establish a domestic carbon market and has released draft rules for a compliance carbon market",
+      "confidence": 0.8337,
+      "source_url": "https://climateactiontracker.org/countries/india/"
+    }
+  },
+  "indonesia": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2021",
+        "2060"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8330):\nFurther information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found here. **    ## Net zero and other long-term target(s)   We evaluate the net zero target as: Target information incomplete. **   Indonesia has not ",
+      "confidence": 0.824,
+      "source_url": "https://climateactiontracker.org/countries/indonesia/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": null,
+      "sectors": [
+        "Energy",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8245):\nWe add these energy-CO2 projections to energy non-CO2 and non-energy emissions projections to obtain current policies projections for total emissions excl. LULUCF. For each sector we create a projection based on the growth rates forecast in Indonesia\u2019s Second Bi",
+      "confidence": 0.8239,
+      "source_url": "https://climateactiontracker.org/countries/indonesia/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": [
+        "2014",
+        "2025"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8457):\nThe National Energy Policy (KEN), outlined in Government Regulation No. 79 of 2014, sets targets for the minimum share of new and renewable energy (23%), coal (30%), and gas (22%) in the energy mix by 2025. The General Plan for National Energy (RUEN: Rencana Umu",
+      "confidence": 0.8454,
+      "source_url": "https://climateactiontracker.org/countries/indonesia/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "soft_yes",
+      "explanation": "Only scenario-based evidence for net zero electricity.",
+      "year": [
+        "2023",
+        "2030",
+        "2050",
+        "2060"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy",
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8365):\nSimilarly, it is inconsistent with the Accelerated Renewable Energy Scenario in the upcoming Electricity Supply Business Plan (RUPTL) and National Electricity Master Plan (RUKN) drafts stipulating 25% renewables share by 2030 and up to 73% by 2050, with the on-g",
+      "confidence": 0.8346,
+      "source_url": "https://climateactiontracker.org/countries/indonesia/policies-action/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism.",
+      "year": [
+        "2023",
+        "2024",
+        "2025",
+        "2027"
+      ],
+      "sectors": [
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8445):\nCarbon pricing   Indonesia launched the first Emissions Trading System (ETS) in Southeast Asia in February 2023, and the government expects to transform it into a hybrid \u2018cap-tax-and-trade\u2019 system by 2025. - The first operational phase (2023-2024) covers on-grid",
+      "confidence": 0.8351,
+      "source_url": "https://climateactiontracker.org/countries/indonesia/policies-action/"
+    }
+  },
+  "iran": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2023"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8297):\n**    ## Net zero and other long-term target(s)   As of October 2023, Iran does not have a net zero target, nor has it submitted a long-term strategy (LTS) to the UNFCCC.",
+      "confidence": 0.8334,
+      "source_url": "https://climateactiontracker.org/countries/iran/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2017",
+        "2021",
+        "2023"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Energy",
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8383):\nFor the agriculture and waste sector, which are traditionally less impacted by the economic sanctions and overall economic landscape, we just apply 5-year historical trend from 2017-2021. For the emissions in the agriculture and waste sector, we apply a five-yea",
+      "confidence": 0.8421,
+      "source_url": "https://climateactiontracker.org/countries/iran/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target.",
+      "year": [
+        "2015",
+        "2018",
+        "2030"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8017):\nAnalysis shows that energy consumption could be reduced by 40% compared to BAU estimates in 2030 with energy efficiency measures alone, which would also lead to significant emissions reductions (Moshiri & Lechtenb\u00f6hmer, 2015). Emissions could further decrease wi",
+      "confidence": 0.8075,
+      "source_url": "https://climateactiontracker.org/countries/iran/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2050"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8526):\nNet Zero by 2050: A Roadmap for the Global Energy Sector. International Energy Agency. https://www.iea.org/reports/net-zero-by-2050  - IMF.",
+      "confidence": 0.8634,
+      "source_url": "https://climateactiontracker.org/countries/iran/sources/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2018"
+      ],
+      "sectors": [
+        "Transport"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.7971):\nThere is however no clear timeline nor implementation plan for these measures. With the rapid development of electric vehicles, the strategy to move to CNG is outdated. The aging fleet of private vehicles is further adding to the carbon intensity of the transpor",
+      "confidence": 0.8,
+      "source_url": "https://climateactiontracker.org/countries/iran/policies-action/"
+    }
+  },
+  "japan": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2030",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8102):\nThe net zero target is included in the Japan\u2019s Long-term Strategy. - Separate reduction & removal targets \u2013 Japan provides no information on its intention to communicate separate emission reduction and removal targets. - Review process \u2013 Japan has a legally-bind",
+      "confidence": 0.8208,
+      "source_url": "https://climateactiontracker.org/countries/japan/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2009",
+        "2019",
+        "2023",
+        "2030",
+        "2050"
+      ],
+      "sectors": [
+        "Energy",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8202):\nFor this reason, we assumed that GHG emissions will balance LULUCF sinks in 2050. We estimate the LULUCF sink for 2050 to be 28\u201361 MtCO2e using a 10-years historical average between 2009\u20132019 (upper bound estimate) and a 10-years trend projection towards 2030 ba",
+      "confidence": 0.8095,
+      "source_url": "https://climateactiontracker.org/countries/japan/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8084):\n(2022b). Cabinet Decision on the Bill for the Act of Partial Revision of the Act on the Rationalization etc. of Energy Use and Other Acts in Order to Establish Stable Energy Supply and Demand Structure.",
+      "confidence": 0.8156,
+      "source_url": "https://climateactiontracker.org/countries/japan/sources/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2013",
+        "2030",
+        "2035",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8518):\nThis assumes a linear trajectory between Japan\u2019s 2030 NDC target and the 2050 net zero target. While not yet officially endorsed or submitted by the Japanese government, this proposed 2035 target would significantly fall short of what is required to be 1.5\u00b0C com",
+      "confidence": 0.8545,
+      "source_url": "https://climateactiontracker.org/countries/japan/2035-ndc/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2022",
+        "2023",
+        "2024"
+      ],
+      "sectors": [
+        "Energy",
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8354):\nThe first tranche of these bonds was auctioned in February 2024 (MoF, 2024). Details on the overall system have yet to be announced, but the carbon levy is expected to be set at around JPY 1,500 /t-CO2, which is seen as too low to be effective (Climate Integrate",
+      "confidence": 0.832,
+      "source_url": "https://climateactiontracker.org/countries/japan/policies-action/"
+    }
+  },
+  "kazakhstan": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": [
+        "2020",
+        "2060"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8138):\nFurther information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found here**. **    ## Net zero and other long-term target(s)   We evaluate the net zero target as: \u201cAverage\u201d. Kazakhstan first announced its intention ",
+      "confidence": 0.8103,
+      "source_url": "https://climateactiontracker.org/countries/kazakhstan/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8393):\nCurrent policy projections   Current policy projections stem from the \u201cwith measures\u201d scenario from the Fifth Biennial Report. We harmonise this scenario to historical emissions reported in the latest country inventory using growth rates. The \u201cwith measures\u201d sce",
+      "confidence": 0.8378,
+      "source_url": "https://climateactiontracker.org/countries/kazakhstan/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target.",
+      "year": [
+        "2023"
+      ],
+      "sectors": [
+        "Energy",
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8356):\nIn the power sector, shares of renewable energy \u2013 excluding old hydro-power plants \u2013 reached 4.5% in 2023, on track with the government's modest targets. Similarly, energy efficiency policies have contributed to a declining trend in the economy's emissions inten",
+      "confidence": 0.8288,
+      "source_url": "https://climateactiontracker.org/countries/kazakhstan/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2020",
+        "2060"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8128):\nFurther information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found here**. **    ## Net zero and other long-term target(s)   We evaluate the net zero target as: \u201cAverage\u201d. Kazakhstan first announced its intention ",
+      "confidence": 0.8134,
+      "source_url": "https://climateactiontracker.org/countries/kazakhstan/targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2022",
+        "2030",
+        "2035"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8227):\nKazakhstan could consider carbon pricing to cover all sectors, enhancing stringency through increasing the carbon price while lowering the emissions cap, and improving the credibility of the system through more predictable planning and more robust MRV. In its fi",
+      "confidence": 0.8403,
+      "source_url": "https://climateactiontracker.org/countries/kazakhstan/policies-action/"
+    }
+  },
+  "kenya": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2020"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8123):\nKenya does not have a net zero target. It is preparing its long-term strategy. ## NDC Updates   KENYA:   - Submitted a stronger target on 28 December 2020.",
+      "confidence": 0.8235,
+      "source_url": "https://climateactiontracker.org/countries/kenya/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2015",
+        "2020",
+        "2030"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8269):\nAbsolute emissions from the LULUCF sector are projected to decrease from 26 MtCO2e in 2015 to 22 MtCO2e in 2030 and the contribution of this sector to total national emissions is expected to drop from 31% in 2015 to 14% in 2030 under BAU (Ministry of Environment",
+      "confidence": 0.8276,
+      "source_url": "https://climateactiontracker.org/countries/kenya/policies-action/"
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions energy efficiency law or strategy and sets an efficiency target.",
+      "year": [
+        "2015",
+        "2020",
+        "2025"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Energy",
+        "Industry",
+        "Power",
+        "Transport"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8394):\nIt establishes energy efficiency targets in the buildings, industry, agriculture, transport, and power sectors to meet the goal of reducing the national energy intensity by 2.8% per year. The strategy also aims to ensure that energy efficiency measures contribut",
+      "confidence": 0.8464,
+      "source_url": "https://climateactiontracker.org/countries/kenya/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2015",
+        "2020",
+        "2025"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Energy",
+        "Industry",
+        "Power",
+        "Transport"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8013):\nIt establishes energy efficiency targets in the buildings, industry, agriculture, transport, and power sectors to meet the goal of reducing the national energy intensity by 2.8% per year. The strategy also aims to ensure that energy efficiency measures contribut",
+      "confidence": 0.8129,
+      "source_url": "https://climateactiontracker.org/countries/kenya/policies-action/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2020",
+        "2021"
+      ],
+      "sectors": [
+        "Energy",
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.7863):\nThe Act contains neither a target for sectoral emissions reductions nor a reference to climate mitigation (EPRA, 2019b). In 2020, EPRA published draft solar PV regulations for public review and comment, which seek to update the regulatory regime to account for d",
+      "confidence": 0.7996,
+      "source_url": "https://climateactiontracker.org/countries/kenya/policies-action/"
+    }
+  },
+  "mexico": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8508):\nCountries can refer to this good practice to design or enhance their net zero targets.",
+      "confidence": 0.831,
+      "source_url": "https://climateactiontracker.org/countries/mexico/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Energy",
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8408):\nFor years 2020 and 2021, we estimate emissions based on a sectoral approach. For the energy and industry sectors we assume a correlation between emissions and GDP, and thus apply economic growth forecasts from the IMF (IMF, 2022). For agriculture and waste secto",
+      "confidence": 0.8435,
+      "source_url": "https://climateactiontracker.org/countries/mexico/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target.",
+      "year": null,
+      "sectors": [
+        "Electricity"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8148):\nDue to the lack of details on the contribution of the forestry and land use sector in the updated climate targets, we consider a range between assumptions. See the Assumptions section for more details. 1Mexico includes electricity generation through fossil gas e",
+      "confidence": 0.8242,
+      "source_url": "https://climateactiontracker.org/countries/mexico/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2015",
+        "2018",
+        "2020",
+        "2021",
+        "2024"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy",
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8169):\nIts plans for the power sector stand in stark contrast to what is required to achieve the 1.5\u00b0C limit. The Mexican government\u2019s decisions also bring into question whether it will achieve its clean energy targets under the 2015 Energy Transition Law (LTE, in Span",
+      "confidence": 0.8312,
+      "source_url": "https://climateactiontracker.org/countries/mexico/policies-action/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism.",
+      "year": [
+        "2017",
+        "2018"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8093):\nThis regulation establishes the allowance of Certified Emissions Reductions (CERs)\u2014from CDM projects in Mexico\u2014as well as Green Certified Emission Reductions\u2014in the EU ETS\u2014as payment means under the carbon tax (REGLAS de Car\u00e1cter General Para El Pago Opcional De",
+      "confidence": 0.8173,
+      "source_url": "https://climateactiontracker.org/countries/mexico/policies-action/"
+    }
+  },
+  "morocco": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8508):\nCountries can refer to this good practice to design or enhance their net zero targets.",
+      "confidence": 0.831,
+      "source_url": "https://climateactiontracker.org/countries/morocco/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": null,
+      "sectors": [
+        "Agricultural",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8255):\nWe have also excluded LULUCF-related mitigation measures from the long list of mitigation measures used to determine the mitigation target. In this update, the CAT also excluded the LULUCF-related mitigation measures planned in the agricultural sector. ## Curren",
+      "confidence": 0.8223,
+      "source_url": "https://climateactiontracker.org/countries/morocco/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": [
+        "2030"
+      ],
+      "sectors": [
+        "Agricultural",
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8277):\nThe National Energy Efficiency Strategy also targets the agricultural sector (together with maritime fishing), and aims for 13.5% energy consumption reduction by 2030 (Kingdom of Morocco, 2020b).",
+      "confidence": 0.8381,
+      "source_url": "https://climateactiontracker.org/countries/morocco/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8153):\nFurther information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found here**. **    ## Net zero and other long-term target(s)   In its LTS, the Moroccan government stated its intention to provide sectoral analysis to",
+      "confidence": 0.8069,
+      "source_url": "https://climateactiontracker.org/countries/morocco/targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2030"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7778):\nFirst, both the unconditional and conditional 2030 emissions reduction targets were revised to be more ambitious\u2014from 17% to 18.3% below the business as usual (BAU) scenario for the unconditional target and from 42% to 45.5% for the conditional one. Morocco also",
+      "confidence": 0.7791,
+      "source_url": "https://climateactiontracker.org/countries/morocco/targets/"
+    }
+  },
+  "nepal": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8508):\nCountries can refer to this good practice to design or enhance their net zero targets.",
+      "confidence": 0.831,
+      "source_url": "https://climateactiontracker.org/countries/nepal/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2050"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8445):\nIt sets LULUCF emissions targets of -9.2 and -0.7 MtCO2 by 2050 for the WAM and WEM scenarios, respectively. The LTS does not specify the role of carbon removal in its carbon neutrality scenarios. - Review process \u2013 The implementation of the targets will be eval",
+      "confidence": 0.8458,
+      "source_url": "https://climateactiontracker.org/countries/nepal/net-zero-targets/"
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions energy efficiency law or strategy and sets an efficiency target.",
+      "year": [
+        "2000",
+        "2015",
+        "2019",
+        "2022",
+        "2030"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8291):\nNepal launched the National Energy Efficiency Strategy in 2019. It consists of action plans to achieve its main goal of doubling the average improvement rate of energy efficiency in Nepal from 0.84% per year (in 2000 -2015) to 1.68% per year in 2030 (Government ",
+      "confidence": 0.8366,
+      "source_url": "https://climateactiontracker.org/countries/nepal/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2021",
+        "2045"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Energy",
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8540):\nNet zero and other long-term target(s)   We evaluate the net zero target as: **Average. **   Nepal announced its commitment to achieving carbon neutrality before, or by, 2045, in October 2021. The long-term strategy sets out targets that cover all sectors of the",
+      "confidence": 0.8502,
+      "source_url": "https://climateactiontracker.org/countries/nepal/targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2045"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8145):\nIt is also unclear to what extent the government will rely on CDR technology and which scenario the government is committed to achieving. The scenarios above are national scenarios. However, the government argues that it is feasible to achieve net zero emissions",
+      "confidence": 0.8192,
+      "source_url": "https://climateactiontracker.org/countries/nepal/net-zero-targets/"
+    }
+  },
+  "new-zealand": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8508):\nCountries can refer to this good practice to design or enhance their net zero targets.",
+      "confidence": 0.831,
+      "source_url": "https://climateactiontracker.org/countries/new-zealand/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2015",
+        "2019",
+        "2020",
+        "2021",
+        "2022"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Energy",
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8470):\nThe energy sector emissions in 2021 are estimated using GDP growth rate from IMF as proxy (IMF 2022). For industry, agriculture, waste and other emissions, the pre-COVID 5 year trend (2015-2019) has been applied. ## NDC and other targets   Target emissions level",
+      "confidence": 0.8432,
+      "source_url": "https://climateactiontracker.org/countries/new-zealand/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions energy efficiency law or strategy and sets an efficiency target.",
+      "year": [
+        "2024",
+        "2025",
+        "2035"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy",
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8366):\nThe scheme relies strongly on industry partnerships and trust, with results yet to be seen. Other climate policy highlights include the renewable electricity target of 90% by 2025 and 100% by 2035. A target of 50% renewables for total final energy consumption by",
+      "confidence": 0.8366,
+      "source_url": "https://climateactiontracker.org/countries/new-zealand/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2024",
+        "2025",
+        "2035"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy",
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8500):\nThe scheme relies strongly on industry partnerships and trust, with results yet to be seen. Other climate policy highlights include the renewable electricity target of 90% by 2025 and 100% by 2035. A target of 50% renewables for total final energy consumption by",
+      "confidence": 0.8555,
+      "source_url": "https://climateactiontracker.org/countries/new-zealand/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2022",
+        "2025"
+      ],
+      "sectors": [
+        "Agricultural",
+        "Agriculture",
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8242):\nThe Emissions Trading Scheme, however, continues to exempt the country\u2019s largest contributor to greenhouse gas emissions \u2013 the agriculture sector \u2013 from a price on its methane emissions until 2025, despite original promises that it would cover all sectors. Agric",
+      "confidence": 0.8346,
+      "source_url": "https://climateactiontracker.org/countries/new-zealand/"
+    }
+  },
+  "nigeria": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8508):\nCountries can refer to this good practice to design or enhance their net zero targets.",
+      "confidence": 0.831,
+      "source_url": "https://climateactiontracker.org/countries/nigeria/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2021",
+        "2023",
+        "2030",
+        "2060"
+      ],
+      "sectors": [
+        "Sectoral targets"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8256):\nThe Long-Term Low-Emissions Development Strategy, published in 2023, sets a net zero target year of 2060 within the framework of the Climate Change Act (National Climate Change Council, 2023a). The plan targets significant long-term action through sectoral targe",
+      "confidence": 0.8253,
+      "source_url": "https://climateactiontracker.org/countries/nigeria/policies-action/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2023",
+        "2024",
+        "2060"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy",
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8156):\nThe Energy Transition Plan (ETP) to achieve net zero by 2060, considered in our planned policies scenario, requires significant international support. The government aimed to secure an initial USD 10 billion support package ahead of COP27 to kickstart implementa",
+      "confidence": 0.8179,
+      "source_url": "https://climateactiontracker.org/countries/nigeria/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "soft_yes",
+      "explanation": "Only scenario-based evidence for net zero electricity.",
+      "year": [
+        "2024",
+        "2060"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8273):\n**   In 2024, Nigeria submitted its new Long-Term Low-Emissions Development Strategy (LT-LEDS), which confirms their announced target to achieve net-zero emissions by 2060. However, of the four scenarios in the LT-LEDS, only the Renewable Energy Scenario achieve",
+      "confidence": 0.8296,
+      "source_url": "https://climateactiontracker.org/countries/nigeria/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism.",
+      "year": [
+        "2024"
+      ],
+      "sectors": [
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8283):\nNigeria sets sights on developing carbon markets, government working on carbon tax. S&P Global. https://www.spglobal.com/commodityinsights/en/market-insights/latest-news/electric-power/040523-nigeria-sets-sights-on-developing-carbon-markets-government-working-on",
+      "confidence": 0.8343,
+      "source_url": "https://climateactiontracker.org/countries/nigeria/sources/"
+    }
+  },
+  "norway": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8508):\nCountries can refer to this good practice to design or enhance their net zero targets.",
+      "confidence": 0.831,
+      "source_url": "https://climateactiontracker.org/countries/norway/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2015",
+        "2019",
+        "2020",
+        "2022"
+      ],
+      "sectors": [
+        "Power",
+        "Transport"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8107):\nSince the power sector is largely decarbonised, Norway has been focusing on reducing emissions in the transport sector to help achieve emission reduction rates similar to the EU (with whom they share the same reduction target). Emissions from road transport decr",
+      "confidence": 0.8092,
+      "source_url": "https://climateactiontracker.org/countries/norway/policies-action/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2015"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.7974):\nThe above numbers are not, however, in line with this target. Homeowners are also encouraged to increase the share of renewables produced domestically. Should an equivalent of more than 20 kWh/m2 be produced on the property, the respective limit on energy consum",
+      "confidence": 0.7945,
+      "source_url": "https://climateactiontracker.org/countries/norway/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8265):\nWhile the target generally covers the key elements, it should be noted that Norway has not yet committed to an actual net zero target. Despite not being a net zero target, if we were to rate its 2050 target using the same rating methodology, it would be rated as",
+      "confidence": 0.8292,
+      "source_url": "https://climateactiontracker.org/countries/norway/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism.",
+      "year": [
+        "2018",
+        "2021",
+        "2030"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8217):\nBy 2018, around 80% of greenhouse gas emissions were taxed, with the highest tax charged on domestic aviation and mineral oil. Through higher taxes, investments in carbon capture and storage (CCS) have been viable since 1996, after which nearly 1 MtCO2e a year h",
+      "confidence": 0.8217,
+      "source_url": "https://climateactiontracker.org/countries/norway/"
+    }
+  },
+  "peru": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": [
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7962):\nNo information on the target\u2019s emission coverage   No information on the target\u2019s intention to cover international aviation and shipping   Provides no information on intention to use international offset credits to meet net zero   Net zero target announced   No ",
+      "confidence": 0.7953,
+      "source_url": "https://climateactiontracker.org/countries/peru/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2015",
+        "2016",
+        "2019",
+        "2021"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8580):\nFor all other sectors, we assumed a continuation of a 5-year trend. We assume that the impact of the pandemic on agriculture, waste and other emissions is minimal and so have extrapolated emissions for 2015\u20132019 up to 2021 using a 5-year average from historical ",
+      "confidence": 0.8587,
+      "source_url": "https://climateactiontracker.org/countries/peru/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target.",
+      "year": [
+        "2017",
+        "2019"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8239):\nIn the coastal region, which hosts almost 60% of the country\u2019s population, winters have been getting colder and summers warmer over the past decade. The lack of sustainable infrastructure will only become more evident in the near future as the country continues ",
+      "confidence": 0.8172,
+      "source_url": "https://climateactiontracker.org/countries/peru/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2021",
+        "2050"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8130):\n(2021). Net Zero by 2050: A Roadmap for the Global Energy Sector. International Energy Agency.",
+      "confidence": 0.8375,
+      "source_url": "https://climateactiontracker.org/countries/peru/sources/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2020",
+        "2030"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.7835):\nThis is an improvement compared to its first submission in two ways: it leads to 6% lower emissions level by 2030 and it has changed its format from a reduction below BAU to an absolute emissions reduction target. Peru\u2019s submission also includes a conditional 20",
+      "confidence": 0.7855,
+      "source_url": "https://climateactiontracker.org/countries/peru/targets/"
+    }
+  },
+  "philippines": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2020"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8332):\nNet zero and other long-term target(s)   The Philippines does not have a net zero or long-term target. ## 2020 target   The Philippines did not set a 2020 target.",
+      "confidence": 0.8439,
+      "source_url": "https://climateactiontracker.org/countries/philippines/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8349):\nNow, we rate the government's targets and policies (and provision of climate finance where relevant) against both fairness metrics and the level of emission reductions needed within the country to achieve 1.5\u00b0C. Under the old approach, we normally based our rati",
+      "confidence": 0.8396,
+      "source_url": "https://climateactiontracker.org/countries/philippines/targets/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": [
+        "2022"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8610):\nAct Institutionalizing energy efficiency and conservation, enhancing the efficienct use of energy, and granting incentives to energy efficient and conservation projects. Republic Act No. 11285. https://www.doe.gov.ph/sites/default/files/pdf/issuances/ra-11285-en",
+      "confidence": 0.8695,
+      "source_url": "https://climateactiontracker.org/countries/philippines/sources/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2040"
+      ],
+      "sectors": [
+        "Industry"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8134):\nConsideration of a 50% EV stock target by 2040 as part of its Comprehensive Roadmap for the Electric Vehicle Industry (CREVI) currently under development. The Philippines was the first country in the Southeast Asian region to set a moratorium on new coal, and is",
+      "confidence": 0.821,
+      "source_url": "https://climateactiontracker.org/countries/philippines/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8012):\nNow, we rate the government's targets and policies (and provision of climate finance where relevant) against both fairness metrics and the level of emission reductions needed within the country to achieve 1.5\u00b0C. Under the old approach, we normally based our rati",
+      "confidence": 0.8046,
+      "source_url": "https://climateactiontracker.org/countries/philippines/targets/"
+    }
+  },
+  "rating-system": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7463):\nThe CAT also evaluates a government\u2019s net zero targets where possible, and flags whether greenhouse gas emissions from land use, land-use change and forestry have a high impact on overall emissions. Governments should commit to reducing their own emissions and f",
+      "confidence": 0.7404,
+      "source_url": "https://climateactiontracker.org/countries/rating-system/"
+    },
+    "sector_targets": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7923):\nWith this framework we identify whether:   - Government promises for targets and action in its country are ambitious with respect to global least-cost mitigation pathways, acknowledging that most developing countries will need support to achieve this level  - Go",
+      "confidence": 0.7925,
+      "source_url": "https://climateactiontracker.org/countries/rating-system/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7703):\nThe CAT also evaluates a government\u2019s net zero targets where possible, and flags whether greenhouse gas emissions from land use, land-use change and forestry have a high impact on overall emissions. Governments should commit to reducing their own emissions and f",
+      "confidence": 0.7622,
+      "source_url": "https://climateactiontracker.org/countries/rating-system/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7559):\nThe CAT also evaluates a government\u2019s net zero targets where possible, and flags whether greenhouse gas emissions from land use, land-use change and forestry have a high impact on overall emissions. Governments should commit to reducing their own emissions and f",
+      "confidence": 0.7515,
+      "source_url": "https://climateactiontracker.org/countries/rating-system/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7799):\n## Overview   The CAT\u2019s rating method evaluates a broad spectrum of government targets and actions to reduce greenhouse gas emissions in line with the Paris Agreement temperature limit. For each country, we develop:   - The overall rating: the combination of all",
+      "confidence": 0.7745,
+      "source_url": "https://climateactiontracker.org/countries/rating-system/"
+    }
+  },
+  "russian-federation": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2021",
+        "2022",
+        "2050",
+        "2060"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8147):\nReductions or removals outside of own borders \u2013 Russia has not provided any information on its intention to use international offset credits to meet its net zero target. Target architecture   - Legal status \u2013 Russia\u2019s \u2018Strategy of socio-economic development of t",
+      "confidence": 0.8135,
+      "source_url": "https://climateactiontracker.org/countries/russian-federation/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2050"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8287):\nThe enormous increase in negative emissions achieved through the land use, land use change and forestry (LULUCF) sector means that steep reductions in emissions from the combustion of fossil fuels would not be necessary to achieve net zero emissions. The steep i",
+      "confidence": 0.8267,
+      "source_url": "https://climateactiontracker.org/countries/russian-federation/targets/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target.",
+      "year": [
+        "2020",
+        "2021"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8064):\n(2020). State Report: On the state of energy saving and increasing energy efficiency in the Russian Federation. https://energiavita.ru/wp-content/uploads/2021/01/Gosdoklad_2020.pdf  - Myllyvirta, L., Thieriot, H., Lietava, J., Uusivuori, E., Borgm\u00e4stars, R., Tat",
+      "confidence": 0.8157,
+      "source_url": "https://climateactiontracker.org/countries/russian-federation/sources/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2050"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8489):\nNet Zero by 2050: A Roadmap for the Global Energy Sector. https://iea.blob.core.windows.net/assets/beceb956-0dcf-4d73-89fe-1310e3046d68/NetZeroby2050-ARoadmapfortheGlobalEnergySector_CORR.pdf  - IEA. (2021b).",
+      "confidence": 0.8533,
+      "source_url": "https://climateactiontracker.org/countries/russian-federation/sources/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2060"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7838):\nEmissions coverage \u2013 Although the long-term climate strategy does not explicitly list all greenhouse gases covered, the document mentions Russia aims to balance anthropogenic greenhouse gas emissions and sinks by \"no later than 2060\". Based on this, we interpret",
+      "confidence": 0.7763,
+      "source_url": "https://climateactiontracker.org/countries/russian-federation/net-zero-targets/"
+    }
+  },
+  "saudi-arabia": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": [
+        "2021",
+        "2060"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8108):\n**We evaluate the target as: Poor. **   Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia\u2019s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021. However, the target has yet to be enshrined in law or in a policy document",
+      "confidence": 0.8079,
+      "source_url": "https://climateactiontracker.org/countries/saudi-arabia/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2021"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8078):\nThe lower end of the BAU range reflects the KAPSARC BAU scenario, excluding land use, land use change and forestry (LULUCF). For the upper end of the range, we have assumed that LULUCF measures would contribute 200 MtCO2e of the total 278 MtCO2e emissions reduct",
+      "confidence": 0.801,
+      "source_url": "https://climateactiontracker.org/countries/saudi-arabia/targets/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target.",
+      "year": [
+        "2024"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8013):\nSaudi Arabia is taking steps to improve energy efficiency in buildings. Through the national Energy Services Company, TARSHID, the government aims to renovate numerous government buildings, public schools, hospitals, and mosques throughout the country (Kingdom o",
+      "confidence": 0.8129,
+      "source_url": "https://climateactiontracker.org/countries/saudi-arabia/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "soft_yes",
+      "explanation": "Only scenario-based evidence for net zero electricity.",
+      "year": [
+        "2030",
+        "2060"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8180):\nTo do so, we calculate the difference in electricity sector emissions resulting from KAPSARC\u2019s renewable energy scenario and the new NDC target of 50% natural gas and renewable energy, and subtract it from the upper end of our planned policies range. ## Net-zero",
+      "confidence": 0.8276,
+      "source_url": "https://climateactiontracker.org/countries/saudi-arabia/assumptions/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8066):\nThe Circular Carbon Economy approach, however, only addresses a fraction of relevant emissions from oil and gas production through carbon capture and storage technologies, but most emissions come from fuel combustion rather than oil and gas extraction and proces",
+      "confidence": 0.8025,
+      "source_url": "https://climateactiontracker.org/countries/saudi-arabia/net-zero-targets/"
+    }
+  },
+  "singapore": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7997):\nNo review processes have been established for Singapore\u2019s long-term target. Our full net zero target analysis is here.",
+      "confidence": 0.7867,
+      "source_url": "https://climateactiontracker.org/countries/singapore/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2022",
+        "2030"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8158):\nMost of the remaining natural areas are sanctuaries. We therefore do not consider emissions related to LULUCF sector for the analysis, as they are negligible. ## NDC and other targets   Singapore\u2019s updated NDC provides an absolute emissions level (60 MtCO2e) for",
+      "confidence": 0.8164,
+      "source_url": "https://climateactiontracker.org/countries/singapore/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions energy efficiency law or strategy and sets an efficiency target.",
+      "year": [
+        "2016",
+        "2030"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8327):\nImproving energy efficiency across the economy is the backbone of Singapore\u2019s mitigation strategy. In its latest National Climate Action Plan (Ministry of the Environment and Water Resources, 2016), the government listed a number of policies to improve energy ef",
+      "confidence": 0.8337,
+      "source_url": "https://climateactiontracker.org/countries/singapore/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2030",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8179):\nSingapore\u2019s NDC target in 2030 is not at all consistent with its fair share of the global mitigation effort to limit warming to 1.5\u00b0C, and would require other countries make much deeper reductions and comparably greater effort. If all countries were to follow Si",
+      "confidence": 0.8332,
+      "source_url": "https://climateactiontracker.org/countries/singapore/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism.",
+      "year": [
+        "2014",
+        "2017"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8327):\nAlthough, pricing carbon needs to be understood in terms of national context, there is a large difference between Singapore\u2019s price and the IPCC 1.5\u00b0C pathway range. A carbon tax can encourage more renewable energy in place of fossil fuel energy through changes ",
+      "confidence": 0.8312,
+      "source_url": "https://climateactiontracker.org/countries/singapore/policies-action/"
+    }
+  },
+  "south-africa": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8508):\nCountries can refer to this good practice to design or enhance their net zero targets.",
+      "confidence": 0.831,
+      "source_url": "https://climateactiontracker.org/countries/south-africa/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2023"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8147):\nUnder the legislation, the Minister responsible for Environmental Affairs together with the Ministerial Committee on Climate Change established by the Bill would have to set sectoral emission targets for each GHG emitting sector in line with the national emissio",
+      "confidence": 0.8212,
+      "source_url": "https://climateactiontracker.org/countries/south-africa/policies-action/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": [
+        "2015",
+        "2016",
+        "2017",
+        "2030"
+      ],
+      "sectors": [
+        "Energy",
+        "Industrial"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8422):\nThe post-2015 draft National Energy Efficiency Strategy proposes industrial sector targets for energy efficiency in 2030; however, there is no indication of implementation. (Department of Energy, 2016). Energy use from the mining and quarrying sector amounted to",
+      "confidence": 0.8512,
+      "source_url": "https://climateactiontracker.org/countries/south-africa/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2020",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8135):\n## Summary   We evaluate the net zero target as: Target information incomplete. South Africa states its intention to commit to a net zero CO2 target (\u201cnet zero carbon emissions\u201d) by 2050 as part of a visionary statement in its LTS (Republic of South Africa, 2020",
+      "confidence": 0.8206,
+      "source_url": "https://climateactiontracker.org/countries/south-africa/net-zero-targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism.",
+      "year": [
+        "2017",
+        "2018",
+        "2022"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8204):\nThe Carbon Tax implementation will be accompanied by a package of tax incentives and revenue recycling measures to minimise the impact of the first phase of the policy (up to 2022) on the price of electricity and energy intensive sectors including mining, iron a",
+      "confidence": 0.8257,
+      "source_url": "https://climateactiontracker.org/countries/south-africa/policies-action/"
+    }
+  },
+  "south-korea": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8522):\nThe net zero target does not include overseas reductions. However, it lacks clarity on emissions coverage and detail in the government\u2019s review process.",
+      "confidence": 0.847,
+      "source_url": "https://climateactiontracker.org/countries/south-korea/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2050"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8386):\nNet-zero target and other long-term targets   South Korea\u2019s 2050 carbon neutrality scenarios present 2050 emissions targets for each sector, in addition to details on targeted removals from LULUCF and CCUS. The CAT considers total emissions excl. LULUCF in 2050.",
+      "confidence": 0.8247,
+      "source_url": "https://climateactiontracker.org/countries/south-korea/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": null,
+      "sectors": [
+        "Electricity",
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8345):\nEmission reductions targets will now be integrated into national budget planning through the climate-responsive budgeting program. The Act also sets up a climate response fund, which will be used to support the structural transformation of carbon-intense industr",
+      "confidence": 0.8294,
+      "source_url": "https://climateactiontracker.org/countries/south-korea/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2020",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8202):\nIf all countries were to follow South Korea\u2019s approach, warming could reach over 3\u00b0C and up to 4\u00b0C. ## Net zero and other long-term target(s)   We evaluate the net zero target as: **Average. **   After former President Moon Jae-in announced South Korea\u2019s goal of",
+      "confidence": 0.823,
+      "source_url": "https://climateactiontracker.org/countries/south-korea/targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism.",
+      "year": [
+        "2018",
+        "2020",
+        "2021"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8177):\nIn total, 96.5% of CO2 emissions from energy use in Korea were priced in 2021, unchanged since 2018. Fuel excise taxes, an implicit form of carbon pricing, covered 65.8% of emissions in 2021, unchanged since 2018 (OECD, 2021). The 2020 Green New Deal commits aro",
+      "confidence": 0.8225,
+      "source_url": "https://climateactiontracker.org/countries/south-korea/policies-action/"
+    }
+  },
+  "switzerland": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": [
+        "2021",
+        "2023"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8217):\n## Summary   We evaluate the net zero target as: Acceptable. Switzerland committed to a net zero target as part of its long-term strategy submitted to the UNFCCC in January 2021. With the new Climate Protection Act (Bundesgesetz \u00dcber Die Ziele Im Klimaschutz, Di",
+      "confidence": 0.8237,
+      "source_url": "https://climateactiontracker.org/countries/switzerland/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": null,
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8205):\nTransparency   Governments should set absolute, economy wide, emission reduction target trajectories including all GHG gases, specifying the emissions levels for each year as an absolute level of emissions (excluding LULUCF) so they are clear, transparent, and i",
+      "confidence": 0.8035,
+      "source_url": "https://climateactiontracker.org/countries/switzerland/2035-ndc/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": [
+        "2017",
+        "2020",
+        "2035",
+        "2050"
+      ],
+      "sectors": [
+        "Electricity",
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8271):\nThe Energy Strategy 2050 became the key framework in the energy sector when it replaced the previous Energy law. The energy strategy withstood a public referendum in 2017 and contains a package of measures aiming at increasing energy efficiency, reduction of CO2",
+      "confidence": 0.8271,
+      "source_url": "https://climateactiontracker.org/countries/switzerland/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2030",
+        "2035"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8288):\nAmbition   For the world to have a significant chance of limiting warming to 1.5\u02daC, governments must switch to emergency mode and strengthen both their 2030 targets and current policies to include substantial emissions cuts and significantly contribute to closin",
+      "confidence": 0.8331,
+      "source_url": "https://climateactiontracker.org/countries/switzerland/2035-ndc/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2008",
+        "2021",
+        "2022",
+        "2024"
+      ],
+      "sectors": [
+        "Electricity"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.7954):\nThe Federal Act on a Secure Electricity Supply with Renewable Energies (see below) is set out to address this to some extent. Switzerland introduced a carbon levy charged on fossil fuels in 2008, which covers ~35% of CO2 emissions. The fee was repeatedly raised ",
+      "confidence": 0.805,
+      "source_url": "https://climateactiontracker.org/countries/switzerland/policies-action/"
+    }
+  },
+  "thailand": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8508):\nCountries can refer to this good practice to design or enhance their net zero targets.",
+      "confidence": 0.831,
+      "source_url": "https://climateactiontracker.org/countries/thailand/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2005",
+        "2015",
+        "2017",
+        "2020",
+        "2022",
+        "2036",
+        "2050"
+      ],
+      "sectors": [
+        "Energy",
+        "Industry",
+        "Lulucf",
+        "Transport"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8268):\n37 MtCO2), , excluding LULUCF (G\u00fctschow and Pfl\u00fcger, 2022). Under the Climate Change Master Plan (2015\u20132050), Thailand has a goal to reduce GHG emissions by 7\u201320% below 2005 levels in the energy and transport sectors by 2020, a target subjected to international ",
+      "confidence": 0.8415,
+      "source_url": "https://climateactiontracker.org/countries/thailand/policies-action/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency themes, but no clear policy or target.",
+      "year": [
+        "2015",
+        "2017",
+        "2036"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8401):\nUnder the Energy Efficiency Development Plan (EEDP) (2015), the government identifies the need for buildings and appliances to be more energy efficient. It sets an energy consumption reduction target of 4,819 ktoe by 2036 in the commercial and public buildings s",
+      "confidence": 0.8492,
+      "source_url": "https://climateactiontracker.org/countries/thailand/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2021",
+        "2035",
+        "2065",
+        "2070"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8246):\nAvailable at: NEPC knocks on the National Energy Plan to reduce carbon dioxide net to zero, 2065 - 2070. - Thanthong-Knight, R. (2021) Thailand Lays Out Bold EV Plan, Wants All Electric Cars by 2035, Bloomberg. Available at: https://www.bloomberg.com/news/articl",
+      "confidence": 0.8248,
+      "source_url": "https://climateactiontracker.org/countries/thailand/sources/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2013",
+        "2020"
+      ],
+      "sectors": [
+        "Energy",
+        "Power"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8010):\nPDP2010). Thailand is implementing a domestic carbon reduction scheme, the Thailand Voluntary Emission Reduction Scheme (T-VER), and is into the third phase of its Voluntary Emissions Trading Scheme (V-ETS), both launched in 2013. Most T-VER projects to date cov",
+      "confidence": 0.804,
+      "source_url": "https://climateactiontracker.org/countries/thailand/policies-action/"
+    }
+  },
+  "turkey": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8166):\nIntroducing a legally binding review of the net zero target to assess progress towards achieving it at regular intervals. Such a review process would benefit from quantified emissions reduction targets for each economic sector, against which progress can be meas",
+      "confidence": 0.8132,
+      "source_url": "https://climateactiontracker.org/countries/turkey/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2023",
+        "2030",
+        "2053"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Energy",
+        "Industry",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8325):\nFor non-CO2 from energy and industry as well as all gases in agriculture and waste, we follow the same method as indicated above. Finally, we sum all the individual gas projections and sectoral projections together to have an upper and lower bound for all GHG em",
+      "confidence": 0.8329,
+      "source_url": "https://climateactiontracker.org/countries/turkey/assumptions/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": [
+        "2030",
+        "2035"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8264):\nThrough its 2030 Energy Efficiency Strategy and Action Plan, T\u00fcrkiye aims to reduce energy consumption by 16% by investing USD 20 bn in energy efficiency projects (Republic of T\u00fcrkiye Ministry of Energy and Natural Resources, 2024b). If realised, these investmen",
+      "confidence": 0.8368,
+      "source_url": "https://climateactiontracker.org/countries/turkey/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero electricity or decarbonised power sector.",
+      "year": [
+        "2030",
+        "2035"
+      ],
+      "sectors": [
+        "Energy",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8438):\nT\u00fcrkiye should submit a stronger, 1.5\u00b0C compatible NDC target for 2030 as well as 2035 which can provide a realistic pathway towards reaching net zero. Modelled domestic pathways show that aligning with 1.5\u00b0C would see T\u00fcrkiye cut its emissions to 310 MtCO2e in ",
+      "confidence": 0.8619,
+      "source_url": "https://climateactiontracker.org/countries/turkey/"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "explanation": "Mentions carbon pricing mechanism. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2025"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8275):\nReductions or removals outside of own borders \u2013 T\u00fcrkiye intends to consider using international carbon markets to achieve its net zero target and plans to establish a national carbon crediting system. Target architecture   - Legal status \u2013 The LTS has been submi",
+      "confidence": 0.8228,
+      "source_url": "https://climateactiontracker.org/countries/turkey/net-zero-targets/"
+    }
+  },
+  "uae": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8508):\nCountries can refer to this good practice to design or enhance their net zero targets.",
+      "confidence": 0.831,
+      "source_url": "https://climateactiontracker.org/countries/uae/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2030"
+      ],
+      "sectors": [
+        "Lulucf",
+        "Sectoral targets"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8525):\nIt includes details of the policies and measures planned to achieve the sectoral targets, a step forward in transparency. We have estimated this new unconditional target will result in an emissions level of 185\u00a0MtCO2e by 2030 (excluding LULUCF), a 12% improvemen",
+      "confidence": 0.8498,
+      "source_url": "https://climateactiontracker.org/countries/uae/targets/"
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions energy efficiency law or strategy and sets an efficiency target.",
+      "year": [
+        "2015",
+        "2030",
+        "2050"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8126):\nUpper bound   For the upper bound of our current policy projections, we estimate the impacts of the 2050 Energy Strategy on emissions with a range to reflect for uncertainties around the efficiency target and total energy generation. We use IRENA\u2019s Renewable Ene",
+      "confidence": 0.8076,
+      "source_url": "https://climateactiontracker.org/countries/uae/assumptions/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2023",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8347):\nAt COP27, the UAE presented its \u201cNational Net Zero by 2050 pathway\u201d with further details. In March 2023, the UAE\u2019s member states signed the UAE Governments Net Zero 2050 Charter, further signalling commitment to reaching net zero (WAM, 2023). We evaluate the net",
+      "confidence": 0.8417,
+      "source_url": "https://climateactiontracker.org/countries/uae/targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2030"
+      ],
+      "sectors": [
+        "Lulucf",
+        "Sectoral targets"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.7928):\nIt includes details of the policies and measures planned to achieve the sectoral targets, a step forward in transparency. We have estimated this new unconditional target will result in an emissions level of 185\u00a0MtCO2e by 2030 (excluding LULUCF), a 12% improvemen",
+      "confidence": 0.7941,
+      "source_url": "https://climateactiontracker.org/countries/uae/targets/"
+    }
+  },
+  "uk": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": [
+        "2008",
+        "2019",
+        "2021",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8456):\n**    ## Net zero and other long-term target(s)   We evaluate the net zero target as: \u201cAcceptable\u201d. The UK has enshrined the net zero target by 2050 in law by revising and amending the Climate Change Act 2008 in 2019. The Net Zero Strategy released in October 20",
+      "confidence": 0.854,
+      "source_url": "https://climateactiontracker.org/countries/uk/targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2050"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8537):\nExcluding LULUCF and international aviation and shipping, this corresponds to 2050 emissions of 0\u00a0MtCO2e/yr as existing residual emissions from agriculture and other sectors such as international aviation are being balanced by CO2 removal from BECCS, DACCS and o",
+      "confidence": 0.8599,
+      "source_url": "https://climateactiontracker.org/countries/uk/targets/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": null,
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8391):\nIn the buildings sector, the government has committed to double funding for energy efficiency improvements, has signalled a willingness to enforce minimum efficiency standards in rental properties (a policy that was removed by the previous government), and has a",
+      "confidence": 0.8387,
+      "source_url": "https://climateactiontracker.org/countries/uk/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2008",
+        "2019",
+        "2021",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8452):\n**    ## Net zero and other long-term target(s)   We evaluate the net zero target as: \u201cAcceptable\u201d. The UK has enshrined the net zero target by 2050 in law by revising and amending the Climate Change Act 2008 in 2019. The Net Zero Strategy released in October 20",
+      "confidence": 0.8546,
+      "source_url": "https://climateactiontracker.org/countries/uk/targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2035"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.7958):\nIn this context, clarity on how much CO2 removal the government is banking on for its 2035 NDC would have been helpful. A clear commitment to not rely on carbon credits would also have been welcome, even if the UK has already stated that it \u201cdoes not intend\u201d to ",
+      "confidence": 0.7963,
+      "source_url": "https://climateactiontracker.org/countries/uk/2035-ndc/"
+    }
+  },
+  "ukraine": {
+    "net_zero_target": {
+      "yes_no": "low_confidence",
+      "explanation": "Low semantic similarity.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.6668):\n## Overview   We have suspended our rating for Ukraine as the country defends itself from the unlawful Russian invasion. We stand in solidarity with the people of Ukraine at this terrible time. Our previous assessment is available here.",
+      "confidence": 0.6689,
+      "source_url": "https://climateactiontracker.org/countries/ukraine/"
+    },
+    "sector_targets": {
+      "yes_no": "low_confidence",
+      "explanation": "Low semantic similarity.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.6529):\n## Overview   We have suspended our rating for Ukraine as the country defends itself from the unlawful Russian invasion. We stand in solidarity with the people of Ukraine at this terrible time. Our previous assessment is available here.",
+      "confidence": 0.6548,
+      "source_url": "https://climateactiontracker.org/countries/ukraine/"
+    },
+    "efficiency_target": {
+      "yes_no": "low_confidence",
+      "explanation": "Low semantic similarity.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.6670):\nOur previous assessment is available here.",
+      "confidence": 0.6568,
+      "source_url": "https://climateactiontracker.org/countries/ukraine/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "low_confidence",
+      "explanation": "Low semantic similarity.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.6764):\n## Overview   We have suspended our rating for Ukraine as the country defends itself from the unlawful Russian invasion. We stand in solidarity with the people of Ukraine at this terrible time. Our previous assessment is available here.",
+      "confidence": 0.6859,
+      "source_url": "https://climateactiontracker.org/countries/ukraine/"
+    },
+    "carbon_pricing": {
+      "yes_no": "low_confidence",
+      "explanation": "Low semantic similarity.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.6721):\nOur previous assessment is available here.",
+      "confidence": 0.656,
+      "source_url": "https://climateactiontracker.org/countries/ukraine/"
+    }
+  },
+  "usa": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target. (Note: negation present in sentence, which may weaken the claim.)",
+      "year": [
+        "2021",
+        "2024"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8351):\nReductions or removals outside of own borders \u2013 The US government reserves its right to use international market mechanisms towards the achievement of this net zero goal (U.S. Department of State, 2021), even if it currently does not expect to do so. - Legal sta",
+      "confidence": 0.8304,
+      "source_url": "https://climateactiontracker.org/countries/usa/net-zero-targets/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2005",
+        "2030"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8568):\nSee full summary of policies and actions here. **   We rate the US domestic target of reducing emissions by 50%\u201352% (or 44%\u201349% excl. LULUCF) below 2005 levels by 2030 as \u201cAlmost sufficient\u201d when compared to modelled domestic emissions pathways.",
+      "confidence": 0.8563,
+      "source_url": "https://climateactiontracker.org/countries/usa/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": [
+        "2024"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8355):\nIn total, the revised standards for these products will reduce household and business energy costs by USD 8.7bn per year. The federal government is the largest energy consumer in the US and federal buildings are a principal source of the government\u2019s emissions (",
+      "confidence": 0.8342,
+      "source_url": "https://climateactiontracker.org/countries/usa/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2005",
+        "2030",
+        "2035",
+        "2050"
+      ],
+      "sectors": [
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8378):\nThe NDC claims the 2035 target is fully aligned with its net zero pathway; it argues that \u201cthe entire 2035 range is on a straight line or steeper trajectory to net zero emissions by 2050 for all greenhouse gases.\u201d To achieve its net zero target, the CAT estimate",
+      "confidence": 0.8435,
+      "source_url": "https://climateactiontracker.org/countries/usa/2035-ndc/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2024"
+      ],
+      "sectors": [
+        "Industrial"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8072):\nOverall, the US implemented a diverse patchwork of financial incentives to support the research and development technologies thar are key for industrial decarbonisation. However, the government has not introduced instruments to facilitate the commercialisation o",
+      "confidence": 0.8104,
+      "source_url": "https://climateactiontracker.org/countries/usa/policies-action/"
+    }
+  },
+  "vietnam": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "explanation": "Mentions net zero target.",
+      "year": null,
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8380):\nThe full net zero target analysis can be found here.",
+      "confidence": 0.8148,
+      "source_url": "https://climateactiontracker.org/countries/vietnam/"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "explanation": "Mentions sector-specific targets.",
+      "year": [
+        "2030",
+        "2035"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Energy",
+        "Industrial",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8569):\nHowever, transparent assumptions for other removals and storage, in particular technological solutions, are still lacking. - Comprehensive planning \u2013 In its National Climate Change Strategy, Viet Nam provides detailed sectoral emissions reductions targets for en",
+      "confidence": 0.8469,
+      "source_url": "https://climateactiontracker.org/countries/vietnam/net-zero-targets/"
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "explanation": "Mentions energy efficiency law or strategy, but target is unclear or missing.",
+      "year": [
+        "2017",
+        "2019"
+      ],
+      "sectors": [
+        "Energy"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.8386):\nThe government has introduced some energy efficiency policies, including the VNEEP3 (MOIT, 2019). An official Prime Minister Decision (No.04/2017/QD-TTg) in 2017 sets out mandatory energy labelling and minimum energy efficiency standards roadmap for equipment an",
+      "confidence": 0.8466,
+      "source_url": "https://climateactiontracker.org/countries/vietnam/policies-action/"
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2020",
+        "2021",
+        "2022",
+        "2030",
+        "2050"
+      ],
+      "sectors": null,
+      "quote": "Answer/Evidence (Similarity: 0.8421):\n** We have updated these figures to include the latest 2030 BAU estimates to allow for comparability across estimates. Analysis of earlier NDC developments:   - 11 December 2020: Viet Nam did not increase ambition   ## Net zero and other long-term target(s)   Vi",
+      "confidence": 0.8431,
+      "source_url": "https://climateactiontracker.org/countries/vietnam/targets/"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "explanation": null,
+      "year": [
+        "2050"
+      ],
+      "sectors": [
+        "Agriculture",
+        "Energy",
+        "Industry",
+        "Lulucf"
+      ],
+      "quote": "Answer/Evidence (Similarity: 0.7841):\nIn the National Climate Change Strategy, the government sets a cap on total emissions of 185 MtCO2e in 2050. The emissions cap is divided between the energy (101 MtCO2e), industry (20 MtCO2e), agriculture (56 MtCO2e), and waste (8 MtCO2e) sectors. The strategy a",
+      "confidence": 0.7911,
+      "source_url": "https://climateactiontracker.org/countries/vietnam/net-zero-targets/"
+    }
+  }
+}

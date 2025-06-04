@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+models/
+.DS_Store
+climate_tracker/archive/
+
 # Distribution / packaging
 .Python
 build/
@@ -171,3 +175,15 @@ cython_debug/
 .pypirc
 
 scraping-env/
+
+# Virtual environment
+scraping-env-py312/
+
+# VSCode specific
+.vscode/
+
+# Old combined output file, if no longer needed
+retrieved_climate_answers.md
+
+# Notebook checkpoints
+.ipynb_checkpoints/.env
