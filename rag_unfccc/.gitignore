@@ -1,0 +1,54 @@
+# Virtual environments
+group4venv/
+local/
+venv/
+.venv/
+logs/
+.env
+
+# Editor settings
+.vscode/
+.idea/
+
+# JSON files
+*.json
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Dataframes and data files
+*.pkl
+*.parquet
+*.csv
+*.h5
+*.feather
+*.npz
+*.npy
+
+# Data folder - contains PDFs
+data/
+
+# Logs - ignore all log files and log directories anywhere in the project
+logs/
+**/logs/
+*.log
+**/*.log
+
+# Local models folder
+local_models/
+outputs/
+
+# Python cache files - ignore all pycache directories anywhere in the project
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# OS specific files
+.DS_Store
+Thumbs.db

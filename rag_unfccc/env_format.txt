@@ -1,0 +1,41 @@
+# Database settings
+DATABASE_URL=
+
+# Embedding model settings
+EMBEDDING_MODEL=
+EMBEDDING_DIMENSION=
+
+# File storage settings
+DOWNLOAD_DIR=
+PROCESSED_DIR=
+
+# SUPABASE Configuration
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_KEY=
+
+# Access token for Supabase CLI operations (generate at: https://supabase.com/dashboard/account/tokens)
+SUPABASE_ACCESS_TOKEN=
+
+# Your Supabase project ID (found in Project Settings > General)
+SUPABASE_PROJECT_ID=
+
+# Name of your Supabase Edge Function (default: send-email)
+EDGE_FUNCTION_NAME=
+
+# Resend API key for your Edge Function (get from: https://resend.com/api-keys)
+RESEND_API_KEY=
+
+# Default sender email address
+DEFAULT_EMAIL_SENDER=
+
+# Admin email for failure notifications
+ADMIN_EMAIL=
+
+# OpenAI API settings
+AI_BASE_URL=
+AI_API_KEY=
+
+LLM_MODEL=
+LLM_TEMPERATURE=
+LLM_MAX_TOKENS=
