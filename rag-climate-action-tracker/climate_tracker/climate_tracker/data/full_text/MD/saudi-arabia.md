@@ -1,0 +1,2371 @@
+
+# Summary
+
+
+## Overview
+
+Note: We have updated the text assessment to reflect the latest policy developments in Saudi Arabia. The CAT’s ratings and data are from our 2023 evaluation and will be updated soon.
+
+**Saudi Arabia has not implemented any policies that would substantially bring down its greenhouse gas emissions and reduce its reliance on fossil fuels. Previously-announced plans to cut emissions through expanding renewable energy are failing to materialise. Despite its “Vision 2030” diversification plan, initiated nearly a decade ago, the Saudi economy remains highly dependent on the production, use and export of hydrocarbons.**
+
+**As well as not mitigating greenhouse gas emissions nationally, Saudi Arabia is also playing an increasingly disruptive role in international climate negotiations. Most recently at COP29, Saudi Arabia’s interventions aimed at blocking discussion on a transition away from fossil fuels and at disconnecting the Intergovernmental Panel on Climate Change 7th Assessment Report from the 2nd Global Stocktake under the Paris Agreement.**
+
+**The country’s emissions are projected to continue increasing through 2030. As the world’s largest crude oil exporter, Saudi Arabia is responsible for a significant share of global emissions, with emissions from burning exported oil in other countries amounting to more than** **twice the level of its domestic emissions****. The Climate Action Tracker (CAT) rates Saudi Arabia’s overall climate action as “Critically Insufficient”.**
+
+Saudi Arabia’s 2030 and 2060 climate commitments are not expected to help cut emissions: they lack transparency, rely largely on the deployment of carbon, capture and storage (CCS) technologies, and fail to address concerns about Saudi Arabia’s role as the world’s leading crude oil exporter.
+
+Its 2030 emissions reduction target is explicitly based on a scenario with substantial fossil fuel exports and includes a “get out clause” if international climate change policies negatively affect these exports. Our analysis suggests that this target could lead to national emissions ranging anywhere between 520–800 MtCO2e by 2030—going from a slight decrease in emissions to a significant increase compared to current levels due to uncertainties around the expected contribution of the land use and forestry sector.
+
+The Saudi government also announced a 2060 net zero target in 2021 but has yet to release any additional information on this objective, nor enshrine it into law, giving it little credibility.
+
+Despite its diversification plan, Saudi Arabia remains heavily dependent on oil revenues and has done little to effectively diversify towards a low carbon economy and adapt to a world heading to net zero emissions. In January 2024, the Saudi national oil company, Aramco, abandoned its plan to increase oil production capacity to 13 million barrels per day by 2027 from currently 12 million barrels per day. However, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels, reflecting changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries.
+
+Saudi Arabia has the potential to become a world leader in renewable energy production, but has made very little progress in the last decade. The most recent target aims for 50% of electricity to be generated with renewable energy by 2030. However, in 2023, renewables only generated around 1% of electricity and Saudi Arabia had around 2.7 GW of installed renewable capacity. In contrast, it has 97 GW of oil and gas plants in operation along with a pipeline of more than 8 GW of fossil plants under construction as of August 2024.
+
+Saudi Arabia also has a track record of obstructing international climate negotiations by repeatedly opposing references to the 1.5°C warming limit and language related to the phase-out of fossil fuels. Notably, at COP29, Saudi Arabia had sought to undermine the pledge to transition away from fossil fuels agreed at COP28. This raises concerns about the country’s willingness to engage in meaningful climate action on the global stage.
+
+Saudi Arabia is already experiencing above-average temperature rise. Projections indicate that global warming will be more pronounced in the Middle East and North Africa region, with climate policies and actions around the world on course for warming in Saudi Arabia in the order of 4°C this century.
+
+To improve its climate action, Saudi Arabia should take the following steps:
+
+- **Develop a credible economic diversification plan away from fossil fuels, which is both compatible with the Paris Agreement and takes into account the risks** **associated with exporting** **fossil fuels in a world heading to net zero emissions.** This plan should include a clear commitment to ending new investments in oil and gas production and a phase-out of fossil fuels in line with a 1.5°C scenario.
+- **Significantly increase the pace of renewable energy deployment,** which would help drive decarbonisation efforts and stimulate sustainable job growth for its young population, all of which are objectives of the Vision 2030 agenda.
+- **Update its NDC by strengthening its 2030 target**, providing an absolute emissions reduction target (instead of a reduction below an uncommunicated baseline scenario) and clarifying the assumptions on LULUCF.
+- **Clarify the assumptions behind its 2060 net zero target**, which currently lacks transparency and credibility, and does not provide a clear emissions reduction pathway.
+
+## Description of CAT ratings
+
+The CAT rates each country’s targets and policies against (1) its fair share contribution to climate change mitigation considering a range of equity principles including responsibility, capability and equality, and (2) what is technically and economically feasible using modelled domestic pathways which, in absence of a better method, are based on global least-cost climate change mitigation.
+
+Comparing a country’s fair share ranges and modelled domestic pathways provides insights into which governments should provide climate finance and which should receive it. Developed countries with large responsibility for historical emissions and high per-capita emissions, must not only implement ambitious climate action domestically but must also support climate action in developing countries with lower historical responsibility, capability, and lower per-capita emissions.
+
+**The CAT rates Saudi Arabia’s climate targets and policies as “Critically insufficient”.** This rating indicates that Saudi Arabia’s climate policies and commitments reflect minimal to no action and are not at all consistent with the 1.5°C temperature limit. Saudi Arabia’s 2030 climate commitment is unclear, as the government has not published the baseline corresponding to its Paris Agreement target.
+
+We rate Saudi Arabia’s 2030 emissions reduction target as “Critically insufficient” when compared with its fair-share contribution to climate action and is consistent with more than 4°C of warming.
+
+The 2030 target is rated as ‘Highly insufficient’ when compared to modelled domestic pathways, downscaled from global least-cost scenarios. Saudi Arabia’s policies could lead to its emissions peaking in the second half of this decade, but still only in line with 2°C to 3°C warming. Saudi Arabia still needs to strengthen its target for emissions reductions and implement additional policies to get a rating aligned to the Paris Agreement.
+
+**We rate Saudi Arabia’s policies and actions against modelled domestic pathways as “Critically Insufficient”**. This rating indicates that Saudi Arabia’s policies and action in 2030 reflect minimal to no action and are not at all consistent with limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia remains highly dependent on fossil fuel revenues and keeps pushing for false solutions such as carbon capture and storage (CCS) in the hope of extending the life of its extractive industry. The government has put forward several mitigation measures, but implementation has been slow, particularly in the renewable energy sector. Despite its vast solar energy resource, Saudi Arabia had only installed about 2.7 GW of renewable energy capacity in 2023, generating around 1% of total electricity.
+
+**The full policies and action analysis can be found** **here****.**
+
+**We rate Saudi Arabia’s NDC target as “Critically insufficient” when compared to domestic pathways.** This rating indicates that Saudi Arabia’s NDC target reflects minimal to no action and is not at all consistent with the 1.5°C temperature limit when compared to modelled domestic pathways. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia's NDC rating against modelled domestic pathways has deteriorated compared to our previous assessment, due to an update in our modelled domestic pathways to the pathways assessed in the AR6, and a significant change in historical emissions. The latest historical data show higher emissions in the energy and industry sectors, which were previously underreported.
+
+As a result, its NDC rating is no longer “Highly insufficient” and falls into the “Critically insufficient” range. Our newer pathways better capture national circumstances - including the recent plateauing in Saudi Arabia's emissions - and, for higher temperature levels, show less room for emissions growth than the previous set.
+
+**We rate Saudi Arabia’s NDC target against fair share as “Critically insufficient”.** This rating indicates that Saudi Arabia’s NDC target in 2030 reflects minimal to no action and is not at all consistent with the 1.5°C temperature limit when compared to its fair share. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**We evaluate the target as: Poor.**
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021. However, the target has yet to be enshrined in law or in a policy document.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided a clear emissions reduction pathway to net zero. The emission coverage remains unclear. The CAT currently assumes that only CO2 emissions are covered given the lack of information.
+
+
+# Net zero targets
+
+
+## Summary
+
+We evaluate the target as: **Poor**
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021 (Kingdom of Saudi Arabia, 2021d). However, the target has yet to be enshrined in law or in a policy document. As of October 2023, Saudi Arabia has not submitted a long-term strategy to the UNFCCC.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided any clear emissions reduction pathway to net zero (Kingdom of Saudi Arabia, 2021a). The target’s emission coverage remains unclear with the CAT currently assuming that only CO2 emissions are being covered, based on scarce available information.
+
+Saudi Arabia intends to reach its net zero target through the Circular Carbon Economy approach, which relies on the use of CCS. The national oil company Saudi Aramco has committed to reaching net zero operational emissions in 2050. However, the vast majority of oil and gas emissions comes from the combustion of fossil fuels, not their production. Saudi Arabia and Aramco’s net zero targets do not take into account scope 3 emissions resulting from oil and gas exports. They also do not consider the economic risks associated with a continued reliance on fossil fuels exports in a net zero world.
+
+Target covers emissions / sectors partially (under 95% coverage)
+
+The target excludes both international aviation and shipping
+
+Relies on international offset credits or reserves right to use them to meet net zero
+
+Net zero target announced
+
+No separate emission reduction and removal targets
+
+Country provides no information on its intention to establish a review cycle for its net zero and intermediate targets
+
+No transparent assumptions on carbon dioxide removals
+
+There is no information or underlying analysis available on the anticipated pathway or measures to achieve net zero emissions
+
+Country makes no reference to fairness or equity in the context of its net zero target
+
+
+## CAT analysis of net zero target
+
+**Scope**
+
+- **Target year** – Saudi Arabia aims to reach net zero by 2060.
+- **Emissions coverage** – Saudi Arabia provides no explicit information on the sectors and gases covered by the net zero target (Kingdom of Saudi Arabia, 2021d), but mainly focuses on its Carbon Circular Economy approach in explaining how it intends to meet the target. For this reason, the CAT currently assumes Saudi Arabia’s target currently only covers CO2 emissions.
+- **International aviation and shipping** – Saudi Arabia provides no information on its intention to cover international aviation and shipping.
+- **Reductions or removals outside of own borders **– The government recently announced the launch of a carbon crediting scheme in early 2024, which will supposedly enable companies to offset their emissions by buying carbon credits compliant with Article 6 of the Paris Agreement (Carbon-Pulse, 2023). Despite the apparent focus on companies procuring credits, Saudi Arabia appears to plan to also use the credits to meet part of its climate pledge, including its 2060 net zero target. It is unclear how this could work in practice based on the information published to date in a manner that avoids more than one entity claiming rights to the same emission reductions – an outcome which would undermine the integrity of the credits and potentially lead to an overall rise in emissions.
+**Target architecture**
+
+- **Legal status** – Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target at the first Saudi Green Initiative Forum (Kingdom of Saudi Arabia, 2021d). Saudi Arabia has not submitted a Long-Term Strategy (LTS) to the UNFCCC as of October 2023.
+- **Separate reduction & removal targets** – Saudi Arabia provides no information on its intention to communicate separate emission reduction and removal targets.
+- **Review process** – Saudi Arabia provides no information on its intention to establish a review cycle for its net zero and intermediate targets.
+**Transparency**
+
+- **Carbon dioxide removal** – Saudi Arabia provides no information on its intention to communicate transparent assumptions on carbon dioxide removals.
+- **Comprehensive planning** – Saudi Arabia provides no comprehensive planning on how it aims to achieve its net zero by 2060. It has not communicated underlying pathways, interim targets or detailed measures to meet the 2060 target. Saudi Crown Prince Mohammed bin Salman stated that Saudi Arabia relies on the Circular Carbon Economy approach to meet its net zero target and makes no reference to emissions from oil and gas exported by Saudi Arabia (Kingdom of Saudi Arabia, 2021d). The Circular Carbon Economy approach, however, only addresses a fraction of relevant emissions from oil and gas production through carbon capture and storage technologies, but most emissions come from fuel combustion rather than oil and gas extraction and processing.
+- **Clarity on fairness of target **– Saudi Arabia provides no information on its intention to explain the target’s fairness.
+
+## Good practice
+
+The Climate Action Tracker has defined the following good practice for all ten key elements of net zero targets. Countries can refer to this good practice to design or enhance their net zero targets.
+
+
+# 2035 NDC
+
+
+## 2035 NDC Target
+
+Saudi Arabia has not yet submitted their 2035 NDC to the UNFCCC. Once the new NDC has been submitted, we will publish our assessment here.
+
+
+# Policies & action
+
+**We rate Saudi Arabia’s policies and actions against modelled domestic pathways as “Critically Insufficient”**. This rating indicates that Saudi Arabia’s policies and action in 2030 reflect minimal to no action and are not at all consistent with limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**Further information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found** **here****.**
+
+
+## Policy overview
+
+Saudi Arabia has done little to decarbonise its economy. We expect its emissions to rise to 800–830 MtCO2e in 2030, a 15–­19% increase from 2021 levels. It remains difficult to assess whether Saudi Arabia’s current policies reach its NDC target, given the significant uncertainties around its target (see details in the Assumptions section).
+
+Saudi Arabia’s energy sector remains dominated by fossil fuels, which represented almost 100% of the total energy supply in 2022 (IEA, 2023b). The Saudi government expects the overall demand for energy, including for oil and fossil gas, to continue increasing until 2030 and beyond (KAPSARC, 2021).
+
+Saudi Arabia’s “Vision 2030” aims to diversify its economy beyond oil, which accounted for around two thirds of total budget revenues in 2022. However, the government clearly has no intention to phase out fossil fuels. Saudi Arabia is betting on carbon capture and storage (CCS) technologies as a smokescreen to continue expanding oil and gas production.
+
+While Aramco abandoned its plan to increase oil production capacity to 13 million barrels per day (mb/d) by 2027, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels. This reversal reflects changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries, particularly the U.S.
+
+Even if Saudi Arabia were to reach its 50% target for renewable energy in the electricity mix, we project that emissions would still rise to 730–770 MtCO2e by 2030. Despite its vast solar energy potential, Saudi Arabia has only installed about 2.7 GW of renewable energy capacity as of 2023, generating around 1% of total electricity (IRENA, 2024b).
+
+In 2022, Saudi Arabia’s sovereign wealth fund, the Public Investment Fund (PIF), and the Saudi Stock Exchange Tadawul set up a voluntary carbon market in the Middle East and North Africa. The first auction in November 2022 offered one million tonnes of carbon credits (Bloomberg, 2022).
+
+Saudi Arabia has also announced the launch of a domestic carbon crediting scheme in early 2024, which will purportedly enable companies to offset their emissions by buying credits compliant with Article 6 of the Paris Agreement. The scheme appears to be voluntary, project-based and covers all sectors (Carbon-Pulse, 2023; Kingdom of Saudi Arabia, 2024).
+
+Despite the apparent focus on companies procuring credits, Saudi Arabia also appears to plan on using the credits to meet parts of its national climate pledge, including its 2060 net zero target. Based on the information published as of November 2024, it is unclear how this could work in practice in a manner that avoids both a company and the government from claiming rights to the same emission reductions ("double counting") – an outcome that would undermine the integrity of the credits, and potentially lead to an overall rise in emissions.
+
+The establishment of a voluntary carbon market in Saudi Arabia should complement and not serve to distract from - or displace - critically-needed domestic mitigation efforts. Information on how the Kingdom intends to use its carbon crediting scheme remains unclear or lacks details, and presents major risks that it will seek to use carbon credits with questionable integrity as a smokescreen to justify continuing its trajectory of maintaining high levels of domestic emissions. For more information on the role of voluntary carbon markets under the Paris Agreement and their associated risks, see Fearnehough et al. 2020.
+
+
+## Power sector
+
+In 2023 Saudi Arabia still produced nearly 100% of its electricity with fossil fuels—around 58% with fossil gas and 41% with oil (IEA, 2024). The share of electricity generated by fossil gas has increased since 2015, when it stood at just 37%, thereby contributing to some emissions reductions in the electricity sector.
+
+However, Saudi Arabia has no intention of phasing out fossil fuels from its power sector. It currently aims for 50% of total electricity to be generated with fossil gas by 2030. In December 2023, four gas-fired power plants with a total capacity of 5.6 GW started operation, and additional plants with a total capacity of 8.4 GW are currently under development (Saudi & Middle East Green Initiatives, 2023).
+
+Fossil gas is a fossil fuel and needs to be phased out as part of the global decarbonisation needed to reach the 1.5˚C temperature warming limit—by 2035 in developed countries and 2040 in developing countries (Climate Action Tracker, 2023).
+
+In 2022, Saudi Arabia had the G20's highest share of fossil fuel subsidies per capita (IMF, 2023). Fossil fuel subsidies, both direct and indirect, continue to distort energy prices by keeping oil and fossil gas prices artificially low, discouraging investment in cleaner alternatives.
+
+Saudi Arabia, acknowledging the need for reform in its “Vision 2030” strategy, took initial steps to address this issue (Kingdom of Saudi Arabia, 2021c). The government introduced a 5% VAT on fuel and increased VAT rate for goods and services from 5% to 15%, including those in the hydrocarbons sector (SPA, 2020).
+
+However, fossil fuel subsidies (explicit and implicit) provided by the government jumped from USD 141bn in 2019 to USD 253bn in 2022, accounting for 16% of Saudi Arabia’s GDP in 2019, to 27% in 2022 (IMF, 2023). Driven by soaring energy prices and the demand rebound following the pandemic, these subsidies have primarily benefited the domestic oil sector.
+
+Research shows that adequate pricing of fossil fuels could help cut 36% of global CO2 emissions (Parry et al., 2021). Setting prices that reflect the true costs of fossil fuels would also further increase the cost-competitiveness of mitigation technologies, such as renewable energy.
+
+Despite its vast potential, Saudi Arabia’s renewable energy sector has been mired in uncertainty, with ambitious announced plans and projects having yet to materialise.
+
+In the first iteration of “Vision 2030” released in 2016, the government revised its renewable energy target downward to an ‘initial’ 9.5 GW installed capacity by 2023 (Borgmann, 2016; Kingdom of Saudi Arabia, 2016). In 2019, the Ministry of Energy released an updated version of the strategy, which aimed to install 27.3 GW of renewable energy capacity by 2023 and 57.8 GW by 2030. The latest target aims for 50% of electricity to be generated with renewable energy and 50% with fossil gas in 2030 (Kingdom of Saudi Arabia, 2021c; Saudi Arabia, 2024).
+
+Despite some progress in the last two years, the government will need to significantly increase the pace of renewable energy development if it hopes to meet its latest 2030 target. In 2023, installed renewable energy capacity stood at 2.7 GW, generating around 1% of electricity, with around 1.8 GW (mostly solar) additional capacity installed between 2022 and 2023 (IRENA, 2024a).
+
+Saudi Arabia hopes to position itself as a leader in the global hydrogen market. The government announced plans to build a large green hydrogen production facility in its smart city NEOM (Al Arabiya News, 2023b; Saudi & Middle East Green Initiatives, 2023). The plant is expected to be operational in 2026 and produce 600 tonnes per day of green hydrogen using renewable electricity.
+
+The government is pursuing “clean hydrogen” development with a view to diversifying its revenues and becoming less reliant on hydrocarbon exports (Saudi Arabia, 2024). Considering its strategic location near global shipping lanes and its vast renewable energy potential, Saudi Arabia is also well-positioned to lead the decarbonisation of the maritime sector. It has the potential to lead the way by producing green hydrogen at scale as an alternative fuel source (KAPSARC, 2023b). It should, however, first prioritise rapid scaling-up of renewable capacity to decarbonise the domestic economy.
+
+Building the pipeline of renewable capacity to first meet domestic energy demand and then potentially exploiting the global market for “green” hydrogen will take time, given the low base of renewables in Saudi Arabia. A substantial policy commitment and investment in renewable electricity today is a critical enabler for Saudi Arabia to position itself as a future leader in “green” hydrogen. Without this shift in the status quo, it will only be able to rely on fossil gas and unproven CCS technologies to produce “blue” or “grey” hydrogen, neither of which are "renewable".
+
+While hydrogen production from fossil gas has been the cheapest option to date, it remains expensive, as lot of energy is lost in the conversion process and is highly susceptible to market price volatility. Gas price fluctuations caused by Russia’s invasion of Ukraine tripled the cost of grey hydrogen in 2022. Emission penalties under carbon pricing are expected to further increase the cost of fossil fuel-derived hydrogen. On the contrary, with falling renewable energy costs and technology improvements, green hydrogen – particularly produced with solar PV and wind – could become cost-competitive with fossil fuel-derived hydrogen as early as 2030 (NewClimate, 2023).
+
+Saudi Arabia has recently reiterated its intention to build a nuclear power plant, although no concrete plan had been announced as of November 2024 (World Nuclear News, 2023). While nuclear electricity generation does not emit CO2, the CAT doesn’t see nuclear as the solution to the climate crisis due to its risks such as nuclear accidents and proliferation, high and increasing costs compared to alternatives such as renewables, long construction times, incompatibility with flexible supply of electricity from wind and solar and its vulnerability to heat waves.
+
+In 2019, Saudi Arabia’s Renewable Energy Project Development Office (REPDO) completed a study claiming that 13.5 GW of renewable energy could be integrated without major grid upgrades (National Renewable Energy Program, 2018). Beyond this, and in order to meet its 2030 renewable energy target, the government will need to significantly invest in grid infrastructure.
+
+Saudi Arabia is moving ahead with grid interconnection plans with neighbouring countries, focusing on smart grid technologies, which could facilitate a future uptake and integration of renewables (Al-Gahtani, 2024). Saudi Arabia is currently working on grid interconnection project with Iraq, India, Jordan and Egypt (RE Global, 2023).
+
+
+## Industry
+
+Oil extraction has been the backbone of the Saudi economy for decades. Saudi Arabia is the world’s second largest oil producer after the United States and is OPEC’s leading oil producer (BP, 2023). It produced approximately 12% of the world’s oil in 2022 and held 17% of proven oil reserves.
+
+While the government has taken small steps to diversify the economy, Saudi Arabia remains highly dependent on hydrocarbon revenue. In 2022, Saudi Arabia reported USD 362bn in total crude oil export revenues and an additional USD 45bn in refined petroleum export revenues: several orders of magnitude higher than the oil export revenues from any other country (OEC, 2024). Oil is Saudi’s most exported commodity, accounting for 75% of the total value of exports in 2021 (OPEC, 2023).
+
+Over the past two decades oil rents, which are the difference between crude oil market prices and production costs, have consistently contributed at least 20% of Saudi’s annual GDP (World Bank, 2021). This close dependency between Saudi’s GDP growth and the oil market puts the sustainable growth of Saudi’s economy at risk. Recent geopolitical conflicts have once more shown the vulnerability of the global oil market to exogenous shocks.
+
+Saudi Arabia does not plan to end investment in new oil production, which is required to hold global warming to 1.5°C (IEA, 2023a). While Aramco recently abandoned its plan to increase oil production capacity to 13 million barrels per day (mb/d) by 2027, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels. This reversal reflects changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries, particularly the U.S (FT, 2024).
+
+The government’s current diversification plans include no scenario with a decline in global oil consumption in the coming decades, which is required to meet the objectives of the Paris Agreement and reach net zero CO2 emissions by mid-century (IEA, 2023a; IPCC, 2018). Both the “business-as-usual” and the “2030 renewable energy target” scenarios outlined in KAPSARC’s Energy Policy Solutions project hydrocarbon exports to significantly increase until 2050 (KAPSARC, 2021).
+
+At COP28, Saudi Aramco signed the Oil and Gas Decarbonisation Charter (OGDC), a new initiative which aims to “accelerate climate action” in the fossil fuel sector. However, the OGDC only addresses a fraction of relevant emissions from oil and gas production. Although most emissions come from fuel combustion, the initiative solely focuses on reducing emissions within the operations of oil and gas companies, such as in drilling and refining processes. Without a commitment to reducing the extraction and burning of fossil fuels, the charter fails to tackle the main driver of climate change. So far, none of the signatories have agreed to cut fossil fuel production.
+
+Saudi Arabia is betting on carbon capture and storage (CCS) technologies to reach its climate goals while sustaining its fossil fuel production and exports. As of 2024, it only had one operational CCS plant—which is used for enhanced oil recovery (EOR), rather than reducing emissions from fossil fuels (Global CCS Institute, 2023).
+
+The government has a target to capture and store 44 million tonnes of CO2 annually by 2035. To this end, Saudi Arabia is in the process of building a CCS hub at the industrial complex of Jubail, which it plans to capture CO2 from fossil gas plants. The hub is expected to be operational from 2027 and the plans are to capture up to nine million tonnes of CO2 per year from three Aramco fossil gas plants (The CCUS hub, 2023). But given the track record of CCS technology so far, these planned capture rates are questionable.
+
+CCS technologies are not commercially viable, nor are they proven at scale, despite large public subsidies for research and development globally. Relying on CCS to the extent Saudi Arabia is planning diverts attention and resources away from cost-effective mitigation options. The use of CCS should be limited to industrial applications where there are fewer options to reduce process emissions—not to reduce emissions from the electricity sector where there are cost-effective mitigation alternatives, not least because CCS does not remove 100% of emissions from power plants.
+
+Saudi Arabia is promoting the concept of a Circular Carbon Economy (CCE) to reduce emissions from oil and gas production (Luomi et al., 2021). This, however, only addresses a fraction of relevant emissions as most emissions come from fuel combustion rather than oil and gas extraction and processing. Saudi Arabia’s CCE plans largely rely on the development and deployment of CSS technologies (Kingdom of Saudi Arabia, 2022).
+
+
+## Transport
+
+The transport sector accounted for 29% of total final energy consumption in 2022 (IEA, 2024).
+
+The sector is primarily individual, road-based transport but the Kingdom has sought to expand its public transportation network in recent years. The King Abdulaziz Public Transport project is a major initiative to modernise transportation in the city of Riyadh. The capital is set to become the second city in Saudi Arabia with a metro network after the Makkah metro opened in 2010 (Saudi Gazette, 2020). Following a delay, the Riyadh metro system is set to open to passengers at the end of 2024 (Railway Technology, 2023; The M Metro Rail Guy, 2024).
+
+The Saudi government has also taken steps to invest in rail transport; however, it remains unclear whether the new networks will be electric or diesel-powered. In 2010, it launched the Saudi Railway Master Plan, aiming to construct a 9,900-km network by 2040 (Oxford Business Group, 2020). The first phase, running until 2025, includes constructing and upgrading 5,500 km of tracks for freight and passenger transport, including interlinkages to the wider Gulf Cooperation Council (GCC) railway network. The light rail network in the smart city NEOM is complete as of 2024 (Godfrey, 2024).
+
+Saudi Arabia has taken steps to develop its own electric vehicle (EV) industry. As part of its “Vision 2030” strategy, the government aims to produce 50,000 EVs annually by 2030 and for 30% of Riyadh’s vehicles to be electric by 2030 (Kingdom of Saudi Arabia, 2021c).
+
+In 2022, Saudi Arabia introduced its first domestic brand of EV called Ceer, through a joint venture between PIF and Taiwanese car manufacturer Foxxconn (Al Arabiya News, 2023a). Manufacturing facilities for Ceer vehicles are under construction and expected to be operational by 2025 (Al Jazeera, 2023). Additionally, in June 2023, Saudi Arabia signed a USD 6 bn deal with Chinese EV manufacturer Human Horizons to collaborate on the development, manufacture, and sale of electric vehicles (Reuters, 2023).
+
+To further promote the use of EVs, by 2024 the government had built 2,800 EV charging points,, with plans to set up 30,000 new stations by 2030 (Mobility Foresights, 2024).
+
+Despite the progress made, achieving Saudi Arabia’s 2030 EV target will be challenging. The government will need to accelerate the deployment of charging infrastructure and introduce incentives to promote greater EV adoption (Apricum, 2022).
+
+
+## Buildings
+
+In Saudi Arabia, per capita emissions in the buildings sector remain above regional and world average, despite a slow decline in recent years (Climate Transparency, 2022).
+
+In 2012, the Saudi Energy Efficiency Center (SEEC) launched the Saudi Energy Efficiency Program (SEEP), which targets key sectors of the country’s economy (Kingdom of Saudi Arabia, 2022). Through this program, SEEC has introduced a series of measures in the building sector, including mandatory labelling for insulation materials and air conditioners (Acs). SEEC has also developed guidelines designed to optimise energy consumption in buildings, with a focus on Acs, washing machines, refrigerators, lighting, and heaters. Since their introduction, these standards and guidelines have been further refined and continue to be enforced.
+
+Saudi Arabia is taking steps to improve energy efficiency in buildings. Through the national Energy Services Company, TARSHID, the government aims to renovate numerous government buildings, public schools, hospitals, and mosques throughout the country (Kingdom of Saudi Arabia, 2021b). Efforts are also underway to develop and implement an Energy Use Intensity (EUI) ecosystem (Saudi Arabia, 2024).
+
+
+## Land use and forestry
+
+In 2012, the latest year for which national data is available, the land use and forestry sink only stood at 9 MtCO2e (UNFCCC, 2020), with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2021 (World Bank, 2023). The government has announced plans to plant 450 million trees by 2030 and 10 billion trees over the coming decades as part of the Saudi Green Initiative. According to the government, this initiative foresees afforestation and land restoration measures increase the Kingdom’s forestry sink to 200 MtCO2e by 2030. Yet progress has been slow: by the end of 2023, Saudi Arabia had reportedly planted 44 million trees (Saudi & Middle East Green Initiatives, 2023).
+
+
+## Methane
+
+In 2022, the methane sector accounted for 10% of total GHGs, the majority coming from the waste and energy sectors (Gütschow et al., 2024).
+
+At COP26, Saudi Arabia signed the Global Methane Pledge, in which signatories agreed to cut methane emissions in all sectors by 30% globally over the next decade. While its 2021 NDC does not have explicit emission reduction targets for non-CO2 gases, it includes several measures to manage methane emissions, such as the objective to achieve zero flaring in the oil and gas industry (Kingdom of Saudi Arabia, 2021b). However, Saudi Arabia is still planning to ramp-up its oil production capacity towards the end of the decade, making it in practice difficult to reduce its methane emissions.
+
+
+# Sources
+
+
+## References
+
+Al-Gahtani, S. F. (2024). Saudi Arabia’s Journey toward a Renewable Future. Energies , 17(11), 1–19. https://doi.org/10.3390/en17112444
+
+Al Arabiya News. (2023a). Electric vehicle demand booms in Saudi Arabia amid move to green mobility. https://english.alarabiya.net/News/saudi-arabia/2023/06/21/Electric-vehicle-demand-booms-in-Saudi-Arabia-amid-move-to-green-mobility
+
+Al Arabiya News. (2023b). NEOM’s green hydrogen plant will secure Saudi Arabia’s clean energy transition: CEO. https://english.alarabiya.net/News/2023/05/25/Saudi-s-green-hydrogen-plant-will-put-Kingdom-on-global-map-for-clean-energy-CEO
+
+Al Jazeera. (2023). Saudi Arabia signs $5.6bn EV deal as it eyes closer China ties. https://www.aljazeera.com/news/2023/6/12/saudi-arabia-signs-5-6bn-ev-deal-as-it-eyes-closer-china-ties
+
+Apricum. (2022). Challenges and opportunities in Saudi Arabia’s green mobility expansion. https://apricum-group.com/challenges-and-opportunities-in-saudi-arabias-green-mobility-expansion-plans/?cn-reloaded=1&cn-reloaded=1
+
+Arab News. (2024). Saudi Arabia unveils plan to recycle up to 95% of waste in 2024. Arab News. https://www.arabnews.com/node/2441531/business-economy
+
+Bloomberg. (2022). Saudi Arabia Holds Middle East’s First Carbon Offset Auction. https://www.bloomberg.com/news/articles/2022-10-25/saudi-fund-sets-up-carbon-market-firm-to-support-net-zero-goal
+
+Borgmann. (2016). Potentially Game-Changing Saudi Arabian Government Restructuring Bolsters 9.5 GW Renewable Energy Target by 2023. http://www.apricum-group.com/saudi-arabia-announces-9-5-gw-renewable-energy-target-new-king-salman-renewable-energy-initiative/
+
+BP. (2023). Statistical Review of World Energy Data 2023. https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fwww.energyinst.org%2F__data%2Fassets%2Fexcel_doc%2F0007%2F1055545%2FEI-stats-review-all-data.xlsx&wdOrigin=BROWSELINK
+
+Carbon-Pulse. (2023). Saudi Arabia to launch domestic “Article 6-aligned” carbon crediting system in 2024. https://carbon-pulse.com/227909/
+
+Climate Action Tracker. (2023). CAT briefing: Pulling the plug on fossils in power. https://climateactiontracker.org/publications/pulling-the-plug-on-fossils-in-power
+
+Climate Transparency. (2022). Saudi Arabia - Climate Transparency report 2022. https://www.climate-transparency.org/wp-content/uploads/2022/10/CT2022-Saudi-Arabia-Web.pdf
+
+Global CCS Institute. (2023). Global Status of CCS 2022. https://status22.globalccsinstitute.com/wp-content/uploads/2022/11/Global-Status-of-CCS-2022_Download.pdf
+
+Godfrey, P. (2024, August 2). NEOM completes construction of light rail network. ME Construction News. https://meconstructionnews.com/60136/neom-completes-construction-of-light-rail-network
+
+Gütschow, J., Pflüger, M., & Busch, D. (2024). The PRIMAP-hist national historical emissions time series (1750-2022) v2.5.1. https://doi.org/10.5281/zenodo.10705513
+
+IEA. (2023a). Net Zero Roadmap: A Global Pathway to Keep the 1.5 °C Goal in Reach 2023 Update. International Energy Agency. https://www.iea.org/reports/net-zero-roadmap-a-global-pathway-to-keep-the-15-0c-goal-in-reach
+
+IEA. (2023b). Saudi Arabia. https://www.iea.org/countries/saudi-arabia
+
+IEA. (2024). Country profile - Saudi Arabia. https://www.iea.org/countries/saudi-arabia/energy-mix
+
+IFA. (2024). Saudi Arabia - Country Commercial Guide. International Trade Administration. https://www.trade.gov/country-commercial-guides/saudi-arabia-waste-management
+
+IMF. (2023). IMF Fossil Fuel Subsidies Data: 2023 Update. https://www.elibrary.imf.org/view/journals/001/2023/169/001.2023.issue-169-en.xml
+
+IPCC. (2018). Summary for Policymakers. In V. Masson-Delmotte, P. Zhai, H.-O. Pörtner, D. Roberts, J. Skea, P. R. Shukla, A. Pirani, W. Moufouma-Okia, C. Péan, R. Pidcock, S. Connors, J. B. R. Matthews, Y. Chen, X. Zhou, M. I. Gomis, E. Lonnoy, T. Maycock, M. Tignor, & T. Waterfield (Eds.), Global Warming of 1.5°C. An IPCC Special Report on the impacts of global warming of 1.5°C above pre-industrial levels and related global greenhouse gas emission pathways, in the context of strengthening the global response to the threat of climate change, (Issue October 2018). IPCC. https://www.ipcc.ch/sr15/chapter/spm/
+
+IRENA. (2023). Renewable capacity statistics 2023. https://www.irena.org/Publications/2023/Mar/Renewable-capacity-statistics-2023
+
+IRENA. (2024a). Renewable Capacity Statistics 2024. https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2024/Mar/IRENA_RE_Capacity_Statistics_2024.pdf?rev=a587503ac9a2435c8d13e40081d2ec34
+
+IRENA. (2024b). Renewable Energy Capacity Statistics 2024. IRENA. https://www.irena.org/Data/View-data-by-topic/Capacity-and-Generation/Statistics-Time-Series
+
+KAPSARC. (2021). Saudi Arabia | Energy Policy Solutions. https://eps.kapsarc.org/scenarios/home
+
+KAPSARC. (2023a). Baseline Forecasts of Carbon Dioxide Emissions for Saudi Arabia Using the Structural Time Series Model and Autometrics (Issue May). https://doi.org/10.30573/KS--2022-DP19
+
+KAPSARC. (2023b). Saudi Arabia’s Potential to Further Hydrogen Use in the Maritime Sector. https://www.kapsarc.org/research/publications/saudi-arabias-potential-to-further-hydrogen-use-in-the-maritime-sector/
+
+Kingdom of Saudi Arabia. (2016). Vision 2030. http://vision2030.gov.sa/en/media-center
+
+Kingdom of Saudi Arabia. (2021a). Reducing Emissions - Saudi Green Initiative. https://www.saudigreeninitiative.org/targets/reducing-emissions/
+
+Kingdom of Saudi Arabia. (2021b). Updated First Nationally Determined Contributions. https://unfccc.int/sites/default/files/resource/202203111154---KSA NDC 2021.pdf
+
+Kingdom of Saudi Arabia. (2021c). Vision 2030. https://www.vision2030.gov.sa/media/cofh1nmf/vision-2030-overview.pdf
+
+Kingdom of Saudi Arabia. (2021d, October 23). Press release: His Royal Highness the Crown Prince announces the Kingdom of Saudi Arabia’s aims to achieve net zero emissions by 2060. Saudi Green Initiative. https://www.saudigreeninitiative.org/pr/SGI_Forum_Press_Release-EN.pdf
+
+Kingdom of Saudi Arabia. (2022). Saudi Arabia, Fourth National Communication. https://unfccc.int/sites/default/files/resource/7123846_Saudi Arabia-NC4-1-Fourth National Communication NC4 Kingdom of Saudi Arabia March 2022.pdf
+
+Kingdom of Saudi Arabia. (2024). GCOM STEPS. https://gcom.cdmdna.gov.sa/Overall
+
+Luomi, M., Yılmaz, F., Alshehri, T., & Howarth, N. (2021). The Circular Carbon Economy Index – Methodological Approach and Conceptual Framework. https://www.kapsarc.org/research/publications/the-circular-carbon-economy-index-methodological-approach-and-conceptual-framework/
+
+Mobility Foresights. (2024). Saudi Arabia EV Charger Market 2024-2030. Mobility Foresights. https://mobilityforesights.com/product/saudi-arabia-ev-charger-market/
+
+National Renewable Energy Program. (2018). Saudi Arabia Renewable Energy Targets and Long Term Visibility. https://www.powersaudiarabia.com.sa/web/attach/media/Saudi-Arabia-Renewable-Energy-Targets-and-Long-Term-Visibility.pdf
+
+Oxford Business Group. (2020). Saudi Arabia moving ahead with local and regional rail integration. In The Report: Saudi Arabia 2020. https://oxfordbusinessgroup.com/analysis/full-throttle-moving-ahead-local-and-regional-rail-network-integration
+
+Parry, I. W. H., Black, S., & Vernon, N. (2021). Still Not Getting Energy Prices Right: A Global and Country Update of Fossil Fuel Subsidies (2021/236). https://www.imf.org/en/Publications/WP/Issues/2021/09/23/Still-Not-Getting-Energy-Prices-Right-A-Global-and-Country-Update-of-Fossil-Fuel-Subsidies-466004
+
+Railway Technology. (2023). Riyadh Metro, Saudi Arabia. https://www.railway-technology.com/projects/riyadh-metro-saudi-arabia/
+
+RE Global. (2023). Transmission Ties: Saudi Arabia’s regional connections.
+
+Reuters. (2023). Saudi Arabia signs $5.6 billion deal with Chinese EV company. https://www.reuters.com/business/energy/saudi-arabia-signs-56-bln-deal-with-chinese-ev-company-state-media-2023-06-12/
+
+Saudi & Middle East Green Initiatives. (2023, December 4). Saudi Arabia announces 300% increase in installed renewables capacity, 43.9 million trees planted since launch of Saudi Green Initiative. Saudi & Middle East Green Initiatives. https://www.greeninitiatives.gov.sa/knowledge-hub/saudi-arabia-announces-300-increase-in-installed-renewables-capacity-439-million-trees-planted-since-launch-of-saudi-green-initiative/
+
+Saudi Arabia. (2024). Kingdom of Saudi Arabia The Second Biennial Update Report (BUR2). https://unfccc.int/sites/default/files/resource/Kingdom of Saudi Arabia Bur2.pdf
+
+Saudi Gazette. (2020, July 7). Riyadh Metro to open partially by end of year. Saudi Gazette. https://saudigazette.com.sa/article/595199/SAUDI-ARABIA/Riyadh-Metro-to-open-partially-by-end-of-year
+
+SPA. (2020, May 11). GAZT: VAT of 15% Goes into Effect in July, 2020. Saudi Press Agency. https://www.spa.gov.sa/viewfullstory.php?lang=en&newsid=2085204
+
+The CCUS hub. (2023). Aramco Jubail. https://ccushub.ogci.com/focus_hubs/aramco-jubail-ccs-hub/
+
+The M Metro Rail Guy. (2024). Riyadh Metro – Information, Route Map, Tickets & Timings. The M Metro Rail Guy. https://themetrorailguy.com/riyadh-metro-information-route-map-tickets-timings/
+
+UNFCCC. (2020). National Inventory Submissions 2020. United Nations Framework Convention on Climate Change. https://unfccc.int/process-and-meetings/transparency-and-reporting/reporting-and-review-under-the-convention/greenhouse-gas-inventories-annex-i-parties/national-inventory-submissions-2020
+
+World Bank. (2023). Forest area (% of land area) - Saudi Arabia. https://data.worldbank.org/indicator/AG.LND.FRST.ZS?name_desc=true&locations=SA
+
+World Nuclear News. (2023). Saudi Arabia reiterates plans for nuclear energy. https://www.world-nuclear-news.org/Articles/Saudi-Arabia-reiterates-plans-for-nuclear-energy
+
+
+# Assumptions
+
+
+## Note
+
+**Note: We have updated the text assessment to reflect the latest policy developments in Saudi Arabia. The CAT’s ratings and data is from our 2023 evaluation and will be updated soon.**
+
+
+## Historical emissions
+
+Historical emissions from 1990 to 2022 are taken from PRIMAP National Greenhouse Gas Emission Database 2023 (Gütschow and Pflüger, 2023). Saudi Arabia’s own national inventory data from the UNFCCC only extends to 2012.
+
+LULUCF values for 1990, 2000, 2010 and 2012 are still taken from the UNFCCC emissions inventory (2018).
+
+
+## NDC and other targets
+
+As Saudi Arabia has not communicated the business as usual (BAU) scenario for its NDC target, we quantified the target based on a business-as-usual scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC). The lower end of the NDC range reflects the KAPSARC BAU scenario, excluding land use, land use change and forestry (LULUCF). For the upper end of the range, we have assumed that LULUCF measures would contribute 200 MtCO2e of the total 278 MtCO2e emissions reductions in the NDC. This number is based on the announcements made at the Saudi Green Initiative Forum in 2021 (Kingdom of Saudi Arabia, 2021d). In 2012, the latest year for which national data is available, the land use and forestry sink stood at just 9 MtCO2e, with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2020.
+
+The Global Warming Potential (GWP) values used for the NDC have not been communicated. We have assumed these to be expressed in either AR4 or SAR and have included both calculations in our range.
+
+
+## Current policy projections
+
+We use a business-as-usual (BAU) emissions scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC) for the upper end of our current policy projections (KAPSARC, 2021), adjusted to our latest historical data. Given the slow progress on renewable energy deployment and the lack substantial mitigation policies in other sectors, we estimate the BAU scenario to reflect current developments. The BAU scenario assumes 11 TWh of electricity generated with solar PV by 2030, which we estimate would translate to around 5–6 GW of solar PV capacity by 2030. Given that only 0.4 GW of renewable energy capacity had been installed by end of 2022 (IRENA, 2023), and that only few projects have been tendered since then, 5–6 GW of renewable capacity by 2030 is broadly in line with the current pace of deployment.
+
+For the lower end of our current policy scenario, we take the above BAU scenario but replaced it with CO2 emissions provided in KAPSARC’s latest baseline forecasts of carbon dioxide emissions (KAPSARC, 2023a). We then adjusted the results to our latest historical data.
+
+
+## Planned policy projections
+
+We use KAPSARC’s renewable energy scenario (“2030 MEIM RE target”) scenario for the upper end of our planned policies scenario (KAPSARC, 2021), adjusted to our latest historical data point. This scenario translates to about a 30% share of renewable energy in total electricity production by 2030. We estimate a 30% share of renewable energy to be roughly in line with the former (2019) Vision 2030 target of installing 57.8 GW of renewable energy by 2030.
+
+The lower end of our planned policy projections reflects the 50% renewable energy and 50% natural gas in electricity production by 2030, as foreseen in the 2021 NDC and the Vision 2030 targets from October 2021. To do so, we calculate the difference in electricity sector emissions resulting from KAPSARC’s renewable energy scenario and the new NDC target of 50% natural gas and renewable energy, and subtract it from the upper end of our planned policies range.
+
+
+## Net-zero target and other long-term targets
+
+The Saudi government has announced it aims to achieve a sink of 200 MtCO2 from 2030 onwards, which we assume to stay constant towards 2060 to meet Saudi Arabia’s net-zero CO2 target.
+
+Given the lack of information on Saudi Arabia’s net zero target announcement, we have assumed it aims to reach net zero CO2 emissions by 2060.
+
+We assume that CO2 emissions will decline at a linear rate between 2030 and 2060 to balance LULUCF sinks in 2060. We further assume that non-CO2 emissions will decline at a linear rate between 2030 and 2080 in line with the IPCC SR1.5 pathways.
+
+
+## Global Warming Potentials values
+
+The CAT uses Global Warming Potential (GWP) values from the IPCC's Fourth Assessment Report (AR4) for all its figures and time series.
+
+
+# Targets
+
+
+## Target Overview
+
+Saudi Arabia submitted an updated NDC on 23 October 2021, increasing the 2030 emissions reduction target from 130 MtCO2e in the first NDC to 278 MtCO2e in the updated one. However, we do not consider this a stronger target, as the median of the NDC range remains lower than Saudi Arabia’s emissions trajectory based on current policies. We interpret the NDC target to be a reduction below a baseline scenario, similarly to the previous one, although this is not explicitly mentioned in the document. It is important to note that neither the previous NDC nor the updated one includes a baseline projection to which the emissions reduction target is applied.
+
+The 2021 NDC, similarly to the previous version, mentions that the reduction target is contingent on international climate action under the Paris Agreement not causing an “abnormal burden” on its economy. The NDC specifically mentions that the emissions reductions are based on a scenario under which hydrocarbons exports continue to provide a ‘robust contribution’ to the Saudi economy.
+
+Under a second scenario, which we understand to be a scenario under which global hydrocarbons exports decline, Saudi Arabia would continue what it calls a ‘sustainable utilisation of hydrocarbons’ domestically. Under this scenario, Saudi Arabia reserves itself the right to revise its NDC.
+
+Saudi Arabia plans to meet part of its emissions reduction targets through the use of a carbon market scheme and Article 6 mechanisms, including for both the 2030 NDC and 2060 net zero targets. However, details on how these mechanisms might be used are lacking or unclear; they present major risks that Saudi Arabia will seek to use carbon credits with questionable integrity as a smokescreen to justify continuing its trajectory of maintaining high levels of domestic emissions.
+
+
+## NDC updates
+
+Saudi Arabia submitted its updated NDC on 23 October 2021, increasing the 2030 emissions reduction target from 130 MtCO2e in the first NDC to 278 MtCO2e in the updated one.
+
+The 2021 NDC lists the following mitigation measures:
+
+- Energy efficiency, particularly in the industry, buildings, and transport sectors
+- Renewable energy in the power sector, making up 50% of the electricity mix by 2030, and to generate green hydrogen
+- A switch from oil to gas in the electricity sector
+- Zero flaring in the oil and gas industry
+- Carbon capture utilisation and storage (CCUS), coupled with blue hydrogen
+As Saudi Arabia has not yet communicated the business as usual (BAU) range for its NDC target, we quantified the target based on a business as usual scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC) (KAPSARC, 2021), a Saudi-based organisation.
+
+The lower end of the BAU range reflects the KAPSARC BAU scenario, excluding land use, land use change and forestry (LULUCF). For the upper end of the range, we have assumed that LULUCF measures would contribute 200 MtCO2e of the total 278 MtCO2e emissions reductions in the NDC. This number is based on the announcements made at the Saudi Green Initiative Forum in 2021. However, in 2012, the latest year for which national data is available, the land use and forestry sink stood at just 9 MtCO2e (UNFCCC, 2020), with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2021 (World Bank, 2023).
+
+Based on this BAU range, and due to the uncertainties around the contributions of emissions reductions from land use and forestry, we project Saudi Arabia’s NDC emissions level to be anywhere between ~520–800 MtCO2e in 2030, excluding LULUCF. This represents an approximate change of –24% to +14% compared to 2021 levels. We do not consider the updated NDC target to be an increase in ambition compared to the previous target, as the median of the NDC range remains lower than Saudi Arabia’s emissions trajectory based on current policies.
+
+* Before September 2021, all CAT ratings were based exclusively on fair share and only assessed a country’s target.
+
+**Target development timeline & previous CAT analysis**
+
+- 04.11.2021: Updated NDC
+
+## CAT rating of targets
+
+NDC target against modelled domestic pathways
+
+**The CAT rates Saudi Arabia’s NDC target as “Critically insufficient” when compared to modelled domestic pathways.** This rating indicates that Saudi Arabia’s NDC target in 2030 reflects minimal to no action and is not at all consistent with modelled domestic pathways limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia's NDC rating against modelled domestic pathways has deteriorated compared to our previous assessment due to an update in our modelled domestic pathways to the pathways assessed in the AR6. This latest evidence shows that Saudi Arabia requires lower 2030 emissions to be consistent with a 4°C compatible pathway.
+
+As a result, its NDC rating is no longer “Highly insufficient” and falls into the “Critically Insufficient” range. Our newer pathways better capture national circumstances - including the recent plateauing in Saudi Arabia's emissions - and for higher temperature levels show less room for emissions growth than the previous set.
+
+NDC target against fair share
+
+**The CAT rates Saudi Arabia’s NDC target against fair share as “Critically insufficient”.** This rating indicates that Saudi Arabia’s NDC target reflects minimal to no action and is not at all consistent with its fair share of the global mitigation effort to limit warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**Further information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found** **here****.**
+
+
+## Net zero and other long-term target(s)
+
+We evaluate the target as: Poor.
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021 (Kingdom of Saudi Arabia, 2021d). However, the target has yet to be enshrined in law, or in a policy document.
+
+As of October 2023, Saudi Arabia has not submitted a long-term strategy to the UNFCCC.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided a clear emissions reduction pathway to net zero (Kingdom of Saudi Arabia, 2021a). The target’s emission coverage remains unclear with the CAT currently assuming that only CO2 emissions are being covered based on scarce available information.
+
+Saudi Arabia intends to reach its net zero target through the Circular Carbon Economy approach, which relies on the use of CCS. The national oil company Saudi Aramco has committed to reaching net zero operational emissions in 2050. However, most oil and gas emissions come from the combustion of fossil fuels, not their production. Saudi Arabia and Aramco’s net zero targets do not take into account emissions resulting from oil and gas exports. They also do not consider the economic risks associated with a continued reliance on fossil fuels exports in a net zero world (for further details, see the “Oil production” section under “Energy supply” here).
+
+**For the full analysis click** **here****.**
+
+
+# Summary
+
+
+## Overview
+
+Note: We have updated the text assessment to reflect the latest policy developments in Saudi Arabia. The CAT’s ratings and data are from our 2023 evaluation and will be updated soon.
+
+**Saudi Arabia has not implemented any policies that would substantially bring down its greenhouse gas emissions and reduce its reliance on fossil fuels. Previously-announced plans to cut emissions through expanding renewable energy are failing to materialise. Despite its “Vision 2030” diversification plan, initiated nearly a decade ago, the Saudi economy remains highly dependent on the production, use and export of hydrocarbons.**
+
+**As well as not mitigating greenhouse gas emissions nationally, Saudi Arabia is also playing an increasingly disruptive role in international climate negotiations. Most recently at COP29, Saudi Arabia’s interventions aimed at blocking discussion on a transition away from fossil fuels and at disconnecting the Intergovernmental Panel on Climate Change 7th Assessment Report from the 2nd Global Stocktake under the Paris Agreement.**
+
+**The country’s emissions are projected to continue increasing through 2030. As the world’s largest crude oil exporter, Saudi Arabia is responsible for a significant share of global emissions, with emissions from burning exported oil in other countries amounting to more than** **twice the level of its domestic emissions****. The Climate Action Tracker (CAT) rates Saudi Arabia’s overall climate action as “Critically Insufficient”.**
+
+Saudi Arabia’s 2030 and 2060 climate commitments are not expected to help cut emissions: they lack transparency, rely largely on the deployment of carbon, capture and storage (CCS) technologies, and fail to address concerns about Saudi Arabia’s role as the world’s leading crude oil exporter.
+
+Its 2030 emissions reduction target is explicitly based on a scenario with substantial fossil fuel exports and includes a “get out clause” if international climate change policies negatively affect these exports. Our analysis suggests that this target could lead to national emissions ranging anywhere between 520–800 MtCO2e by 2030—going from a slight decrease in emissions to a significant increase compared to current levels due to uncertainties around the expected contribution of the land use and forestry sector.
+
+The Saudi government also announced a 2060 net zero target in 2021 but has yet to release any additional information on this objective, nor enshrine it into law, giving it little credibility.
+
+Despite its diversification plan, Saudi Arabia remains heavily dependent on oil revenues and has done little to effectively diversify towards a low carbon economy and adapt to a world heading to net zero emissions. In January 2024, the Saudi national oil company, Aramco, abandoned its plan to increase oil production capacity to 13 million barrels per day by 2027 from currently 12 million barrels per day. However, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels, reflecting changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries.
+
+Saudi Arabia has the potential to become a world leader in renewable energy production, but has made very little progress in the last decade. The most recent target aims for 50% of electricity to be generated with renewable energy by 2030. However, in 2023, renewables only generated around 1% of electricity and Saudi Arabia had around 2.7 GW of installed renewable capacity. In contrast, it has 97 GW of oil and gas plants in operation along with a pipeline of more than 8 GW of fossil plants under construction as of August 2024.
+
+Saudi Arabia also has a track record of obstructing international climate negotiations by repeatedly opposing references to the 1.5°C warming limit and language related to the phase-out of fossil fuels. Notably, at COP29, Saudi Arabia had sought to undermine the pledge to transition away from fossil fuels agreed at COP28. This raises concerns about the country’s willingness to engage in meaningful climate action on the global stage.
+
+Saudi Arabia is already experiencing above-average temperature rise. Projections indicate that global warming will be more pronounced in the Middle East and North Africa region, with climate policies and actions around the world on course for warming in Saudi Arabia in the order of 4°C this century.
+
+To improve its climate action, Saudi Arabia should take the following steps:
+
+- **Develop a credible economic diversification plan away from fossil fuels, which is both compatible with the Paris Agreement and takes into account the risks** **associated with exporting** **fossil fuels in a world heading to net zero emissions.** This plan should include a clear commitment to ending new investments in oil and gas production and a phase-out of fossil fuels in line with a 1.5°C scenario.
+- **Significantly increase the pace of renewable energy deployment,** which would help drive decarbonisation efforts and stimulate sustainable job growth for its young population, all of which are objectives of the Vision 2030 agenda.
+- **Update its NDC by strengthening its 2030 target**, providing an absolute emissions reduction target (instead of a reduction below an uncommunicated baseline scenario) and clarifying the assumptions on LULUCF.
+- **Clarify the assumptions behind its 2060 net zero target**, which currently lacks transparency and credibility, and does not provide a clear emissions reduction pathway.
+
+## Description of CAT ratings
+
+The CAT rates each country’s targets and policies against (1) its fair share contribution to climate change mitigation considering a range of equity principles including responsibility, capability and equality, and (2) what is technically and economically feasible using modelled domestic pathways which, in absence of a better method, are based on global least-cost climate change mitigation.
+
+Comparing a country’s fair share ranges and modelled domestic pathways provides insights into which governments should provide climate finance and which should receive it. Developed countries with large responsibility for historical emissions and high per-capita emissions, must not only implement ambitious climate action domestically but must also support climate action in developing countries with lower historical responsibility, capability, and lower per-capita emissions.
+
+**The CAT rates Saudi Arabia’s climate targets and policies as “Critically insufficient”.** This rating indicates that Saudi Arabia’s climate policies and commitments reflect minimal to no action and are not at all consistent with the 1.5°C temperature limit. Saudi Arabia’s 2030 climate commitment is unclear, as the government has not published the baseline corresponding to its Paris Agreement target.
+
+We rate Saudi Arabia’s 2030 emissions reduction target as “Critically insufficient” when compared with its fair-share contribution to climate action and is consistent with more than 4°C of warming.
+
+The 2030 target is rated as ‘Highly insufficient’ when compared to modelled domestic pathways, downscaled from global least-cost scenarios. Saudi Arabia’s policies could lead to its emissions peaking in the second half of this decade, but still only in line with 2°C to 3°C warming. Saudi Arabia still needs to strengthen its target for emissions reductions and implement additional policies to get a rating aligned to the Paris Agreement.
+
+**We rate Saudi Arabia’s policies and actions against modelled domestic pathways as “Critically Insufficient”**. This rating indicates that Saudi Arabia’s policies and action in 2030 reflect minimal to no action and are not at all consistent with limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia remains highly dependent on fossil fuel revenues and keeps pushing for false solutions such as carbon capture and storage (CCS) in the hope of extending the life of its extractive industry. The government has put forward several mitigation measures, but implementation has been slow, particularly in the renewable energy sector. Despite its vast solar energy resource, Saudi Arabia had only installed about 2.7 GW of renewable energy capacity in 2023, generating around 1% of total electricity.
+
+**The full policies and action analysis can be found** **here****.**
+
+**We rate Saudi Arabia’s NDC target as “Critically insufficient” when compared to domestic pathways.** This rating indicates that Saudi Arabia’s NDC target reflects minimal to no action and is not at all consistent with the 1.5°C temperature limit when compared to modelled domestic pathways. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia's NDC rating against modelled domestic pathways has deteriorated compared to our previous assessment, due to an update in our modelled domestic pathways to the pathways assessed in the AR6, and a significant change in historical emissions. The latest historical data show higher emissions in the energy and industry sectors, which were previously underreported.
+
+As a result, its NDC rating is no longer “Highly insufficient” and falls into the “Critically insufficient” range. Our newer pathways better capture national circumstances - including the recent plateauing in Saudi Arabia's emissions - and, for higher temperature levels, show less room for emissions growth than the previous set.
+
+**We rate Saudi Arabia’s NDC target against fair share as “Critically insufficient”.** This rating indicates that Saudi Arabia’s NDC target in 2030 reflects minimal to no action and is not at all consistent with the 1.5°C temperature limit when compared to its fair share. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**We evaluate the target as: Poor.**
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021. However, the target has yet to be enshrined in law or in a policy document.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided a clear emissions reduction pathway to net zero. The emission coverage remains unclear. The CAT currently assumes that only CO2 emissions are covered given the lack of information.
+
+
+# Net zero targets
+
+
+## Summary
+
+We evaluate the target as: **Poor**
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021 (Kingdom of Saudi Arabia, 2021d). However, the target has yet to be enshrined in law or in a policy document. As of October 2023, Saudi Arabia has not submitted a long-term strategy to the UNFCCC.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided any clear emissions reduction pathway to net zero (Kingdom of Saudi Arabia, 2021a). The target’s emission coverage remains unclear with the CAT currently assuming that only CO2 emissions are being covered, based on scarce available information.
+
+Saudi Arabia intends to reach its net zero target through the Circular Carbon Economy approach, which relies on the use of CCS. The national oil company Saudi Aramco has committed to reaching net zero operational emissions in 2050. However, the vast majority of oil and gas emissions comes from the combustion of fossil fuels, not their production. Saudi Arabia and Aramco’s net zero targets do not take into account scope 3 emissions resulting from oil and gas exports. They also do not consider the economic risks associated with a continued reliance on fossil fuels exports in a net zero world.
+
+Target covers emissions / sectors partially (under 95% coverage)
+
+The target excludes both international aviation and shipping
+
+Relies on international offset credits or reserves right to use them to meet net zero
+
+Net zero target announced
+
+No separate emission reduction and removal targets
+
+Country provides no information on its intention to establish a review cycle for its net zero and intermediate targets
+
+No transparent assumptions on carbon dioxide removals
+
+There is no information or underlying analysis available on the anticipated pathway or measures to achieve net zero emissions
+
+Country makes no reference to fairness or equity in the context of its net zero target
+
+
+## CAT analysis of net zero target
+
+**Scope**
+
+- **Target year** – Saudi Arabia aims to reach net zero by 2060.
+- **Emissions coverage** – Saudi Arabia provides no explicit information on the sectors and gases covered by the net zero target (Kingdom of Saudi Arabia, 2021d), but mainly focuses on its Carbon Circular Economy approach in explaining how it intends to meet the target. For this reason, the CAT currently assumes Saudi Arabia’s target currently only covers CO2 emissions.
+- **International aviation and shipping** – Saudi Arabia provides no information on its intention to cover international aviation and shipping.
+- **Reductions or removals outside of own borders **– The government recently announced the launch of a carbon crediting scheme in early 2024, which will supposedly enable companies to offset their emissions by buying carbon credits compliant with Article 6 of the Paris Agreement (Carbon-Pulse, 2023). Despite the apparent focus on companies procuring credits, Saudi Arabia appears to plan to also use the credits to meet part of its climate pledge, including its 2060 net zero target. It is unclear how this could work in practice based on the information published to date in a manner that avoids more than one entity claiming rights to the same emission reductions – an outcome which would undermine the integrity of the credits and potentially lead to an overall rise in emissions.
+**Target architecture**
+
+- **Legal status** – Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target at the first Saudi Green Initiative Forum (Kingdom of Saudi Arabia, 2021d). Saudi Arabia has not submitted a Long-Term Strategy (LTS) to the UNFCCC as of October 2023.
+- **Separate reduction & removal targets** – Saudi Arabia provides no information on its intention to communicate separate emission reduction and removal targets.
+- **Review process** – Saudi Arabia provides no information on its intention to establish a review cycle for its net zero and intermediate targets.
+**Transparency**
+
+- **Carbon dioxide removal** – Saudi Arabia provides no information on its intention to communicate transparent assumptions on carbon dioxide removals.
+- **Comprehensive planning** – Saudi Arabia provides no comprehensive planning on how it aims to achieve its net zero by 2060. It has not communicated underlying pathways, interim targets or detailed measures to meet the 2060 target. Saudi Crown Prince Mohammed bin Salman stated that Saudi Arabia relies on the Circular Carbon Economy approach to meet its net zero target and makes no reference to emissions from oil and gas exported by Saudi Arabia (Kingdom of Saudi Arabia, 2021d). The Circular Carbon Economy approach, however, only addresses a fraction of relevant emissions from oil and gas production through carbon capture and storage technologies, but most emissions come from fuel combustion rather than oil and gas extraction and processing.
+- **Clarity on fairness of target **– Saudi Arabia provides no information on its intention to explain the target’s fairness.
+
+## Good practice
+
+The Climate Action Tracker has defined the following good practice for all ten key elements of net zero targets. Countries can refer to this good practice to design or enhance their net zero targets.
+
+
+# 2035 NDC
+
+
+## 2035 NDC Target
+
+Saudi Arabia has not yet submitted their 2035 NDC to the UNFCCC. Once the new NDC has been submitted, we will publish our assessment here.
+
+
+# Policies & action
+
+**We rate Saudi Arabia’s policies and actions against modelled domestic pathways as “Critically Insufficient”**. This rating indicates that Saudi Arabia’s policies and action in 2030 reflect minimal to no action and are not at all consistent with limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**Further information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found** **here****.**
+
+
+## Policy overview
+
+Saudi Arabia has done little to decarbonise its economy. We expect its emissions to rise to 800–830 MtCO2e in 2030, a 15–­19% increase from 2021 levels. It remains difficult to assess whether Saudi Arabia’s current policies reach its NDC target, given the significant uncertainties around its target (see details in the Assumptions section).
+
+Saudi Arabia’s energy sector remains dominated by fossil fuels, which represented almost 100% of the total energy supply in 2022 (IEA, 2023b). The Saudi government expects the overall demand for energy, including for oil and fossil gas, to continue increasing until 2030 and beyond (KAPSARC, 2021).
+
+Saudi Arabia’s “Vision 2030” aims to diversify its economy beyond oil, which accounted for around two thirds of total budget revenues in 2022. However, the government clearly has no intention to phase out fossil fuels. Saudi Arabia is betting on carbon capture and storage (CCS) technologies as a smokescreen to continue expanding oil and gas production.
+
+While Aramco abandoned its plan to increase oil production capacity to 13 million barrels per day (mb/d) by 2027, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels. This reversal reflects changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries, particularly the U.S.
+
+Even if Saudi Arabia were to reach its 50% target for renewable energy in the electricity mix, we project that emissions would still rise to 730–770 MtCO2e by 2030. Despite its vast solar energy potential, Saudi Arabia has only installed about 2.7 GW of renewable energy capacity as of 2023, generating around 1% of total electricity (IRENA, 2024b).
+
+In 2022, Saudi Arabia’s sovereign wealth fund, the Public Investment Fund (PIF), and the Saudi Stock Exchange Tadawul set up a voluntary carbon market in the Middle East and North Africa. The first auction in November 2022 offered one million tonnes of carbon credits (Bloomberg, 2022).
+
+Saudi Arabia has also announced the launch of a domestic carbon crediting scheme in early 2024, which will purportedly enable companies to offset their emissions by buying credits compliant with Article 6 of the Paris Agreement. The scheme appears to be voluntary, project-based and covers all sectors (Carbon-Pulse, 2023; Kingdom of Saudi Arabia, 2024).
+
+Despite the apparent focus on companies procuring credits, Saudi Arabia also appears to plan on using the credits to meet parts of its national climate pledge, including its 2060 net zero target. Based on the information published as of November 2024, it is unclear how this could work in practice in a manner that avoids both a company and the government from claiming rights to the same emission reductions ("double counting") – an outcome that would undermine the integrity of the credits, and potentially lead to an overall rise in emissions.
+
+The establishment of a voluntary carbon market in Saudi Arabia should complement and not serve to distract from - or displace - critically-needed domestic mitigation efforts. Information on how the Kingdom intends to use its carbon crediting scheme remains unclear or lacks details, and presents major risks that it will seek to use carbon credits with questionable integrity as a smokescreen to justify continuing its trajectory of maintaining high levels of domestic emissions. For more information on the role of voluntary carbon markets under the Paris Agreement and their associated risks, see Fearnehough et al. 2020.
+
+
+## Power sector
+
+In 2023 Saudi Arabia still produced nearly 100% of its electricity with fossil fuels—around 58% with fossil gas and 41% with oil (IEA, 2024). The share of electricity generated by fossil gas has increased since 2015, when it stood at just 37%, thereby contributing to some emissions reductions in the electricity sector.
+
+However, Saudi Arabia has no intention of phasing out fossil fuels from its power sector. It currently aims for 50% of total electricity to be generated with fossil gas by 2030. In December 2023, four gas-fired power plants with a total capacity of 5.6 GW started operation, and additional plants with a total capacity of 8.4 GW are currently under development (Saudi & Middle East Green Initiatives, 2023).
+
+Fossil gas is a fossil fuel and needs to be phased out as part of the global decarbonisation needed to reach the 1.5˚C temperature warming limit—by 2035 in developed countries and 2040 in developing countries (Climate Action Tracker, 2023).
+
+In 2022, Saudi Arabia had the G20's highest share of fossil fuel subsidies per capita (IMF, 2023). Fossil fuel subsidies, both direct and indirect, continue to distort energy prices by keeping oil and fossil gas prices artificially low, discouraging investment in cleaner alternatives.
+
+Saudi Arabia, acknowledging the need for reform in its “Vision 2030” strategy, took initial steps to address this issue (Kingdom of Saudi Arabia, 2021c). The government introduced a 5% VAT on fuel and increased VAT rate for goods and services from 5% to 15%, including those in the hydrocarbons sector (SPA, 2020).
+
+However, fossil fuel subsidies (explicit and implicit) provided by the government jumped from USD 141bn in 2019 to USD 253bn in 2022, accounting for 16% of Saudi Arabia’s GDP in 2019, to 27% in 2022 (IMF, 2023). Driven by soaring energy prices and the demand rebound following the pandemic, these subsidies have primarily benefited the domestic oil sector.
+
+Research shows that adequate pricing of fossil fuels could help cut 36% of global CO2 emissions (Parry et al., 2021). Setting prices that reflect the true costs of fossil fuels would also further increase the cost-competitiveness of mitigation technologies, such as renewable energy.
+
+Despite its vast potential, Saudi Arabia’s renewable energy sector has been mired in uncertainty, with ambitious announced plans and projects having yet to materialise.
+
+In the first iteration of “Vision 2030” released in 2016, the government revised its renewable energy target downward to an ‘initial’ 9.5 GW installed capacity by 2023 (Borgmann, 2016; Kingdom of Saudi Arabia, 2016). In 2019, the Ministry of Energy released an updated version of the strategy, which aimed to install 27.3 GW of renewable energy capacity by 2023 and 57.8 GW by 2030. The latest target aims for 50% of electricity to be generated with renewable energy and 50% with fossil gas in 2030 (Kingdom of Saudi Arabia, 2021c; Saudi Arabia, 2024).
+
+Despite some progress in the last two years, the government will need to significantly increase the pace of renewable energy development if it hopes to meet its latest 2030 target. In 2023, installed renewable energy capacity stood at 2.7 GW, generating around 1% of electricity, with around 1.8 GW (mostly solar) additional capacity installed between 2022 and 2023 (IRENA, 2024a).
+
+Saudi Arabia hopes to position itself as a leader in the global hydrogen market. The government announced plans to build a large green hydrogen production facility in its smart city NEOM (Al Arabiya News, 2023b; Saudi & Middle East Green Initiatives, 2023). The plant is expected to be operational in 2026 and produce 600 tonnes per day of green hydrogen using renewable electricity.
+
+The government is pursuing “clean hydrogen” development with a view to diversifying its revenues and becoming less reliant on hydrocarbon exports (Saudi Arabia, 2024). Considering its strategic location near global shipping lanes and its vast renewable energy potential, Saudi Arabia is also well-positioned to lead the decarbonisation of the maritime sector. It has the potential to lead the way by producing green hydrogen at scale as an alternative fuel source (KAPSARC, 2023b). It should, however, first prioritise rapid scaling-up of renewable capacity to decarbonise the domestic economy.
+
+Building the pipeline of renewable capacity to first meet domestic energy demand and then potentially exploiting the global market for “green” hydrogen will take time, given the low base of renewables in Saudi Arabia. A substantial policy commitment and investment in renewable electricity today is a critical enabler for Saudi Arabia to position itself as a future leader in “green” hydrogen. Without this shift in the status quo, it will only be able to rely on fossil gas and unproven CCS technologies to produce “blue” or “grey” hydrogen, neither of which are "renewable".
+
+While hydrogen production from fossil gas has been the cheapest option to date, it remains expensive, as lot of energy is lost in the conversion process and is highly susceptible to market price volatility. Gas price fluctuations caused by Russia’s invasion of Ukraine tripled the cost of grey hydrogen in 2022. Emission penalties under carbon pricing are expected to further increase the cost of fossil fuel-derived hydrogen. On the contrary, with falling renewable energy costs and technology improvements, green hydrogen – particularly produced with solar PV and wind – could become cost-competitive with fossil fuel-derived hydrogen as early as 2030 (NewClimate, 2023).
+
+Saudi Arabia has recently reiterated its intention to build a nuclear power plant, although no concrete plan had been announced as of November 2024 (World Nuclear News, 2023). While nuclear electricity generation does not emit CO2, the CAT doesn’t see nuclear as the solution to the climate crisis due to its risks such as nuclear accidents and proliferation, high and increasing costs compared to alternatives such as renewables, long construction times, incompatibility with flexible supply of electricity from wind and solar and its vulnerability to heat waves.
+
+In 2019, Saudi Arabia’s Renewable Energy Project Development Office (REPDO) completed a study claiming that 13.5 GW of renewable energy could be integrated without major grid upgrades (National Renewable Energy Program, 2018). Beyond this, and in order to meet its 2030 renewable energy target, the government will need to significantly invest in grid infrastructure.
+
+Saudi Arabia is moving ahead with grid interconnection plans with neighbouring countries, focusing on smart grid technologies, which could facilitate a future uptake and integration of renewables (Al-Gahtani, 2024). Saudi Arabia is currently working on grid interconnection project with Iraq, India, Jordan and Egypt (RE Global, 2023).
+
+
+## Industry
+
+Oil extraction has been the backbone of the Saudi economy for decades. Saudi Arabia is the world’s second largest oil producer after the United States and is OPEC’s leading oil producer (BP, 2023). It produced approximately 12% of the world’s oil in 2022 and held 17% of proven oil reserves.
+
+While the government has taken small steps to diversify the economy, Saudi Arabia remains highly dependent on hydrocarbon revenue. In 2022, Saudi Arabia reported USD 362bn in total crude oil export revenues and an additional USD 45bn in refined petroleum export revenues: several orders of magnitude higher than the oil export revenues from any other country (OEC, 2024). Oil is Saudi’s most exported commodity, accounting for 75% of the total value of exports in 2021 (OPEC, 2023).
+
+Over the past two decades oil rents, which are the difference between crude oil market prices and production costs, have consistently contributed at least 20% of Saudi’s annual GDP (World Bank, 2021). This close dependency between Saudi’s GDP growth and the oil market puts the sustainable growth of Saudi’s economy at risk. Recent geopolitical conflicts have once more shown the vulnerability of the global oil market to exogenous shocks.
+
+Saudi Arabia does not plan to end investment in new oil production, which is required to hold global warming to 1.5°C (IEA, 2023a). While Aramco recently abandoned its plan to increase oil production capacity to 13 million barrels per day (mb/d) by 2027, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels. This reversal reflects changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries, particularly the U.S (FT, 2024).
+
+The government’s current diversification plans include no scenario with a decline in global oil consumption in the coming decades, which is required to meet the objectives of the Paris Agreement and reach net zero CO2 emissions by mid-century (IEA, 2023a; IPCC, 2018). Both the “business-as-usual” and the “2030 renewable energy target” scenarios outlined in KAPSARC’s Energy Policy Solutions project hydrocarbon exports to significantly increase until 2050 (KAPSARC, 2021).
+
+At COP28, Saudi Aramco signed the Oil and Gas Decarbonisation Charter (OGDC), a new initiative which aims to “accelerate climate action” in the fossil fuel sector. However, the OGDC only addresses a fraction of relevant emissions from oil and gas production. Although most emissions come from fuel combustion, the initiative solely focuses on reducing emissions within the operations of oil and gas companies, such as in drilling and refining processes. Without a commitment to reducing the extraction and burning of fossil fuels, the charter fails to tackle the main driver of climate change. So far, none of the signatories have agreed to cut fossil fuel production.
+
+Saudi Arabia is betting on carbon capture and storage (CCS) technologies to reach its climate goals while sustaining its fossil fuel production and exports. As of 2024, it only had one operational CCS plant—which is used for enhanced oil recovery (EOR), rather than reducing emissions from fossil fuels (Global CCS Institute, 2023).
+
+The government has a target to capture and store 44 million tonnes of CO2 annually by 2035. To this end, Saudi Arabia is in the process of building a CCS hub at the industrial complex of Jubail, which it plans to capture CO2 from fossil gas plants. The hub is expected to be operational from 2027 and the plans are to capture up to nine million tonnes of CO2 per year from three Aramco fossil gas plants (The CCUS hub, 2023). But given the track record of CCS technology so far, these planned capture rates are questionable.
+
+CCS technologies are not commercially viable, nor are they proven at scale, despite large public subsidies for research and development globally. Relying on CCS to the extent Saudi Arabia is planning diverts attention and resources away from cost-effective mitigation options. The use of CCS should be limited to industrial applications where there are fewer options to reduce process emissions—not to reduce emissions from the electricity sector where there are cost-effective mitigation alternatives, not least because CCS does not remove 100% of emissions from power plants.
+
+Saudi Arabia is promoting the concept of a Circular Carbon Economy (CCE) to reduce emissions from oil and gas production (Luomi et al., 2021). This, however, only addresses a fraction of relevant emissions as most emissions come from fuel combustion rather than oil and gas extraction and processing. Saudi Arabia’s CCE plans largely rely on the development and deployment of CSS technologies (Kingdom of Saudi Arabia, 2022).
+
+
+## Transport
+
+The transport sector accounted for 29% of total final energy consumption in 2022 (IEA, 2024).
+
+The sector is primarily individual, road-based transport but the Kingdom has sought to expand its public transportation network in recent years. The King Abdulaziz Public Transport project is a major initiative to modernise transportation in the city of Riyadh. The capital is set to become the second city in Saudi Arabia with a metro network after the Makkah metro opened in 2010 (Saudi Gazette, 2020). Following a delay, the Riyadh metro system is set to open to passengers at the end of 2024 (Railway Technology, 2023; The M Metro Rail Guy, 2024).
+
+The Saudi government has also taken steps to invest in rail transport; however, it remains unclear whether the new networks will be electric or diesel-powered. In 2010, it launched the Saudi Railway Master Plan, aiming to construct a 9,900-km network by 2040 (Oxford Business Group, 2020). The first phase, running until 2025, includes constructing and upgrading 5,500 km of tracks for freight and passenger transport, including interlinkages to the wider Gulf Cooperation Council (GCC) railway network. The light rail network in the smart city NEOM is complete as of 2024 (Godfrey, 2024).
+
+Saudi Arabia has taken steps to develop its own electric vehicle (EV) industry. As part of its “Vision 2030” strategy, the government aims to produce 50,000 EVs annually by 2030 and for 30% of Riyadh’s vehicles to be electric by 2030 (Kingdom of Saudi Arabia, 2021c).
+
+In 2022, Saudi Arabia introduced its first domestic brand of EV called Ceer, through a joint venture between PIF and Taiwanese car manufacturer Foxxconn (Al Arabiya News, 2023a). Manufacturing facilities for Ceer vehicles are under construction and expected to be operational by 2025 (Al Jazeera, 2023). Additionally, in June 2023, Saudi Arabia signed a USD 6 bn deal with Chinese EV manufacturer Human Horizons to collaborate on the development, manufacture, and sale of electric vehicles (Reuters, 2023).
+
+To further promote the use of EVs, by 2024 the government had built 2,800 EV charging points,, with plans to set up 30,000 new stations by 2030 (Mobility Foresights, 2024).
+
+Despite the progress made, achieving Saudi Arabia’s 2030 EV target will be challenging. The government will need to accelerate the deployment of charging infrastructure and introduce incentives to promote greater EV adoption (Apricum, 2022).
+
+
+## Buildings
+
+In Saudi Arabia, per capita emissions in the buildings sector remain above regional and world average, despite a slow decline in recent years (Climate Transparency, 2022).
+
+In 2012, the Saudi Energy Efficiency Center (SEEC) launched the Saudi Energy Efficiency Program (SEEP), which targets key sectors of the country’s economy (Kingdom of Saudi Arabia, 2022). Through this program, SEEC has introduced a series of measures in the building sector, including mandatory labelling for insulation materials and air conditioners (Acs). SEEC has also developed guidelines designed to optimise energy consumption in buildings, with a focus on Acs, washing machines, refrigerators, lighting, and heaters. Since their introduction, these standards and guidelines have been further refined and continue to be enforced.
+
+Saudi Arabia is taking steps to improve energy efficiency in buildings. Through the national Energy Services Company, TARSHID, the government aims to renovate numerous government buildings, public schools, hospitals, and mosques throughout the country (Kingdom of Saudi Arabia, 2021b). Efforts are also underway to develop and implement an Energy Use Intensity (EUI) ecosystem (Saudi Arabia, 2024).
+
+
+## Land use and forestry
+
+In 2012, the latest year for which national data is available, the land use and forestry sink only stood at 9 MtCO2e (UNFCCC, 2020), with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2021 (World Bank, 2023). The government has announced plans to plant 450 million trees by 2030 and 10 billion trees over the coming decades as part of the Saudi Green Initiative. According to the government, this initiative foresees afforestation and land restoration measures increase the Kingdom’s forestry sink to 200 MtCO2e by 2030. Yet progress has been slow: by the end of 2023, Saudi Arabia had reportedly planted 44 million trees (Saudi & Middle East Green Initiatives, 2023).
+
+
+## Methane
+
+In 2022, the methane sector accounted for 10% of total GHGs, the majority coming from the waste and energy sectors (Gütschow et al., 2024).
+
+At COP26, Saudi Arabia signed the Global Methane Pledge, in which signatories agreed to cut methane emissions in all sectors by 30% globally over the next decade. While its 2021 NDC does not have explicit emission reduction targets for non-CO2 gases, it includes several measures to manage methane emissions, such as the objective to achieve zero flaring in the oil and gas industry (Kingdom of Saudi Arabia, 2021b). However, Saudi Arabia is still planning to ramp-up its oil production capacity towards the end of the decade, making it in practice difficult to reduce its methane emissions.
+
+
+# Sources
+
+
+## References
+
+Al-Gahtani, S. F. (2024). Saudi Arabia’s Journey toward a Renewable Future. Energies , 17(11), 1–19. https://doi.org/10.3390/en17112444
+
+Al Arabiya News. (2023a). Electric vehicle demand booms in Saudi Arabia amid move to green mobility. https://english.alarabiya.net/News/saudi-arabia/2023/06/21/Electric-vehicle-demand-booms-in-Saudi-Arabia-amid-move-to-green-mobility
+
+Al Arabiya News. (2023b). NEOM’s green hydrogen plant will secure Saudi Arabia’s clean energy transition: CEO. https://english.alarabiya.net/News/2023/05/25/Saudi-s-green-hydrogen-plant-will-put-Kingdom-on-global-map-for-clean-energy-CEO
+
+Al Jazeera. (2023). Saudi Arabia signs $5.6bn EV deal as it eyes closer China ties. https://www.aljazeera.com/news/2023/6/12/saudi-arabia-signs-5-6bn-ev-deal-as-it-eyes-closer-china-ties
+
+Apricum. (2022). Challenges and opportunities in Saudi Arabia’s green mobility expansion. https://apricum-group.com/challenges-and-opportunities-in-saudi-arabias-green-mobility-expansion-plans/?cn-reloaded=1&cn-reloaded=1
+
+Arab News. (2024). Saudi Arabia unveils plan to recycle up to 95% of waste in 2024. Arab News. https://www.arabnews.com/node/2441531/business-economy
+
+Bloomberg. (2022). Saudi Arabia Holds Middle East’s First Carbon Offset Auction. https://www.bloomberg.com/news/articles/2022-10-25/saudi-fund-sets-up-carbon-market-firm-to-support-net-zero-goal
+
+Borgmann. (2016). Potentially Game-Changing Saudi Arabian Government Restructuring Bolsters 9.5 GW Renewable Energy Target by 2023. http://www.apricum-group.com/saudi-arabia-announces-9-5-gw-renewable-energy-target-new-king-salman-renewable-energy-initiative/
+
+BP. (2023). Statistical Review of World Energy Data 2023. https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fwww.energyinst.org%2F__data%2Fassets%2Fexcel_doc%2F0007%2F1055545%2FEI-stats-review-all-data.xlsx&wdOrigin=BROWSELINK
+
+Carbon-Pulse. (2023). Saudi Arabia to launch domestic “Article 6-aligned” carbon crediting system in 2024. https://carbon-pulse.com/227909/
+
+Climate Action Tracker. (2023). CAT briefing: Pulling the plug on fossils in power. https://climateactiontracker.org/publications/pulling-the-plug-on-fossils-in-power
+
+Climate Transparency. (2022). Saudi Arabia - Climate Transparency report 2022. https://www.climate-transparency.org/wp-content/uploads/2022/10/CT2022-Saudi-Arabia-Web.pdf
+
+Global CCS Institute. (2023). Global Status of CCS 2022. https://status22.globalccsinstitute.com/wp-content/uploads/2022/11/Global-Status-of-CCS-2022_Download.pdf
+
+Godfrey, P. (2024, August 2). NEOM completes construction of light rail network. ME Construction News. https://meconstructionnews.com/60136/neom-completes-construction-of-light-rail-network
+
+Gütschow, J., Pflüger, M., & Busch, D. (2024). The PRIMAP-hist national historical emissions time series (1750-2022) v2.5.1. https://doi.org/10.5281/zenodo.10705513
+
+IEA. (2023a). Net Zero Roadmap: A Global Pathway to Keep the 1.5 °C Goal in Reach 2023 Update. International Energy Agency. https://www.iea.org/reports/net-zero-roadmap-a-global-pathway-to-keep-the-15-0c-goal-in-reach
+
+IEA. (2023b). Saudi Arabia. https://www.iea.org/countries/saudi-arabia
+
+IEA. (2024). Country profile - Saudi Arabia. https://www.iea.org/countries/saudi-arabia/energy-mix
+
+IFA. (2024). Saudi Arabia - Country Commercial Guide. International Trade Administration. https://www.trade.gov/country-commercial-guides/saudi-arabia-waste-management
+
+IMF. (2023). IMF Fossil Fuel Subsidies Data: 2023 Update. https://www.elibrary.imf.org/view/journals/001/2023/169/001.2023.issue-169-en.xml
+
+IPCC. (2018). Summary for Policymakers. In V. Masson-Delmotte, P. Zhai, H.-O. Pörtner, D. Roberts, J. Skea, P. R. Shukla, A. Pirani, W. Moufouma-Okia, C. Péan, R. Pidcock, S. Connors, J. B. R. Matthews, Y. Chen, X. Zhou, M. I. Gomis, E. Lonnoy, T. Maycock, M. Tignor, & T. Waterfield (Eds.), Global Warming of 1.5°C. An IPCC Special Report on the impacts of global warming of 1.5°C above pre-industrial levels and related global greenhouse gas emission pathways, in the context of strengthening the global response to the threat of climate change, (Issue October 2018). IPCC. https://www.ipcc.ch/sr15/chapter/spm/
+
+IRENA. (2023). Renewable capacity statistics 2023. https://www.irena.org/Publications/2023/Mar/Renewable-capacity-statistics-2023
+
+IRENA. (2024a). Renewable Capacity Statistics 2024. https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2024/Mar/IRENA_RE_Capacity_Statistics_2024.pdf?rev=a587503ac9a2435c8d13e40081d2ec34
+
+IRENA. (2024b). Renewable Energy Capacity Statistics 2024. IRENA. https://www.irena.org/Data/View-data-by-topic/Capacity-and-Generation/Statistics-Time-Series
+
+KAPSARC. (2021). Saudi Arabia | Energy Policy Solutions. https://eps.kapsarc.org/scenarios/home
+
+KAPSARC. (2023a). Baseline Forecasts of Carbon Dioxide Emissions for Saudi Arabia Using the Structural Time Series Model and Autometrics (Issue May). https://doi.org/10.30573/KS--2022-DP19
+
+KAPSARC. (2023b). Saudi Arabia’s Potential to Further Hydrogen Use in the Maritime Sector. https://www.kapsarc.org/research/publications/saudi-arabias-potential-to-further-hydrogen-use-in-the-maritime-sector/
+
+Kingdom of Saudi Arabia. (2016). Vision 2030. http://vision2030.gov.sa/en/media-center
+
+Kingdom of Saudi Arabia. (2021a). Reducing Emissions - Saudi Green Initiative. https://www.saudigreeninitiative.org/targets/reducing-emissions/
+
+Kingdom of Saudi Arabia. (2021b). Updated First Nationally Determined Contributions. https://unfccc.int/sites/default/files/resource/202203111154---KSA NDC 2021.pdf
+
+Kingdom of Saudi Arabia. (2021c). Vision 2030. https://www.vision2030.gov.sa/media/cofh1nmf/vision-2030-overview.pdf
+
+Kingdom of Saudi Arabia. (2021d, October 23). Press release: His Royal Highness the Crown Prince announces the Kingdom of Saudi Arabia’s aims to achieve net zero emissions by 2060. Saudi Green Initiative. https://www.saudigreeninitiative.org/pr/SGI_Forum_Press_Release-EN.pdf
+
+Kingdom of Saudi Arabia. (2022). Saudi Arabia, Fourth National Communication. https://unfccc.int/sites/default/files/resource/7123846_Saudi Arabia-NC4-1-Fourth National Communication NC4 Kingdom of Saudi Arabia March 2022.pdf
+
+Kingdom of Saudi Arabia. (2024). GCOM STEPS. https://gcom.cdmdna.gov.sa/Overall
+
+Luomi, M., Yılmaz, F., Alshehri, T., & Howarth, N. (2021). The Circular Carbon Economy Index – Methodological Approach and Conceptual Framework. https://www.kapsarc.org/research/publications/the-circular-carbon-economy-index-methodological-approach-and-conceptual-framework/
+
+Mobility Foresights. (2024). Saudi Arabia EV Charger Market 2024-2030. Mobility Foresights. https://mobilityforesights.com/product/saudi-arabia-ev-charger-market/
+
+National Renewable Energy Program. (2018). Saudi Arabia Renewable Energy Targets and Long Term Visibility. https://www.powersaudiarabia.com.sa/web/attach/media/Saudi-Arabia-Renewable-Energy-Targets-and-Long-Term-Visibility.pdf
+
+Oxford Business Group. (2020). Saudi Arabia moving ahead with local and regional rail integration. In The Report: Saudi Arabia 2020. https://oxfordbusinessgroup.com/analysis/full-throttle-moving-ahead-local-and-regional-rail-network-integration
+
+Parry, I. W. H., Black, S., & Vernon, N. (2021). Still Not Getting Energy Prices Right: A Global and Country Update of Fossil Fuel Subsidies (2021/236). https://www.imf.org/en/Publications/WP/Issues/2021/09/23/Still-Not-Getting-Energy-Prices-Right-A-Global-and-Country-Update-of-Fossil-Fuel-Subsidies-466004
+
+Railway Technology. (2023). Riyadh Metro, Saudi Arabia. https://www.railway-technology.com/projects/riyadh-metro-saudi-arabia/
+
+RE Global. (2023). Transmission Ties: Saudi Arabia’s regional connections.
+
+Reuters. (2023). Saudi Arabia signs $5.6 billion deal with Chinese EV company. https://www.reuters.com/business/energy/saudi-arabia-signs-56-bln-deal-with-chinese-ev-company-state-media-2023-06-12/
+
+Saudi & Middle East Green Initiatives. (2023, December 4). Saudi Arabia announces 300% increase in installed renewables capacity, 43.9 million trees planted since launch of Saudi Green Initiative. Saudi & Middle East Green Initiatives. https://www.greeninitiatives.gov.sa/knowledge-hub/saudi-arabia-announces-300-increase-in-installed-renewables-capacity-439-million-trees-planted-since-launch-of-saudi-green-initiative/
+
+Saudi Arabia. (2024). Kingdom of Saudi Arabia The Second Biennial Update Report (BUR2). https://unfccc.int/sites/default/files/resource/Kingdom of Saudi Arabia Bur2.pdf
+
+Saudi Gazette. (2020, July 7). Riyadh Metro to open partially by end of year. Saudi Gazette. https://saudigazette.com.sa/article/595199/SAUDI-ARABIA/Riyadh-Metro-to-open-partially-by-end-of-year
+
+SPA. (2020, May 11). GAZT: VAT of 15% Goes into Effect in July, 2020. Saudi Press Agency. https://www.spa.gov.sa/viewfullstory.php?lang=en&newsid=2085204
+
+The CCUS hub. (2023). Aramco Jubail. https://ccushub.ogci.com/focus_hubs/aramco-jubail-ccs-hub/
+
+The M Metro Rail Guy. (2024). Riyadh Metro – Information, Route Map, Tickets & Timings. The M Metro Rail Guy. https://themetrorailguy.com/riyadh-metro-information-route-map-tickets-timings/
+
+UNFCCC. (2020). National Inventory Submissions 2020. United Nations Framework Convention on Climate Change. https://unfccc.int/process-and-meetings/transparency-and-reporting/reporting-and-review-under-the-convention/greenhouse-gas-inventories-annex-i-parties/national-inventory-submissions-2020
+
+World Bank. (2023). Forest area (% of land area) - Saudi Arabia. https://data.worldbank.org/indicator/AG.LND.FRST.ZS?name_desc=true&locations=SA
+
+World Nuclear News. (2023). Saudi Arabia reiterates plans for nuclear energy. https://www.world-nuclear-news.org/Articles/Saudi-Arabia-reiterates-plans-for-nuclear-energy
+
+
+# Assumptions
+
+
+## Note
+
+**Note: We have updated the text assessment to reflect the latest policy developments in Saudi Arabia. The CAT’s ratings and data is from our 2023 evaluation and will be updated soon.**
+
+
+## Historical emissions
+
+Historical emissions from 1990 to 2022 are taken from PRIMAP National Greenhouse Gas Emission Database 2023 (Gütschow and Pflüger, 2023). Saudi Arabia’s own national inventory data from the UNFCCC only extends to 2012.
+
+LULUCF values for 1990, 2000, 2010 and 2012 are still taken from the UNFCCC emissions inventory (2018).
+
+
+## NDC and other targets
+
+As Saudi Arabia has not communicated the business as usual (BAU) scenario for its NDC target, we quantified the target based on a business-as-usual scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC). The lower end of the NDC range reflects the KAPSARC BAU scenario, excluding land use, land use change and forestry (LULUCF). For the upper end of the range, we have assumed that LULUCF measures would contribute 200 MtCO2e of the total 278 MtCO2e emissions reductions in the NDC. This number is based on the announcements made at the Saudi Green Initiative Forum in 2021 (Kingdom of Saudi Arabia, 2021d). In 2012, the latest year for which national data is available, the land use and forestry sink stood at just 9 MtCO2e, with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2020.
+
+The Global Warming Potential (GWP) values used for the NDC have not been communicated. We have assumed these to be expressed in either AR4 or SAR and have included both calculations in our range.
+
+
+## Current policy projections
+
+We use a business-as-usual (BAU) emissions scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC) for the upper end of our current policy projections (KAPSARC, 2021), adjusted to our latest historical data. Given the slow progress on renewable energy deployment and the lack substantial mitigation policies in other sectors, we estimate the BAU scenario to reflect current developments. The BAU scenario assumes 11 TWh of electricity generated with solar PV by 2030, which we estimate would translate to around 5–6 GW of solar PV capacity by 2030. Given that only 0.4 GW of renewable energy capacity had been installed by end of 2022 (IRENA, 2023), and that only few projects have been tendered since then, 5–6 GW of renewable capacity by 2030 is broadly in line with the current pace of deployment.
+
+For the lower end of our current policy scenario, we take the above BAU scenario but replaced it with CO2 emissions provided in KAPSARC’s latest baseline forecasts of carbon dioxide emissions (KAPSARC, 2023a). We then adjusted the results to our latest historical data.
+
+
+## Planned policy projections
+
+We use KAPSARC’s renewable energy scenario (“2030 MEIM RE target”) scenario for the upper end of our planned policies scenario (KAPSARC, 2021), adjusted to our latest historical data point. This scenario translates to about a 30% share of renewable energy in total electricity production by 2030. We estimate a 30% share of renewable energy to be roughly in line with the former (2019) Vision 2030 target of installing 57.8 GW of renewable energy by 2030.
+
+The lower end of our planned policy projections reflects the 50% renewable energy and 50% natural gas in electricity production by 2030, as foreseen in the 2021 NDC and the Vision 2030 targets from October 2021. To do so, we calculate the difference in electricity sector emissions resulting from KAPSARC’s renewable energy scenario and the new NDC target of 50% natural gas and renewable energy, and subtract it from the upper end of our planned policies range.
+
+
+## Net-zero target and other long-term targets
+
+The Saudi government has announced it aims to achieve a sink of 200 MtCO2 from 2030 onwards, which we assume to stay constant towards 2060 to meet Saudi Arabia’s net-zero CO2 target.
+
+Given the lack of information on Saudi Arabia’s net zero target announcement, we have assumed it aims to reach net zero CO2 emissions by 2060.
+
+We assume that CO2 emissions will decline at a linear rate between 2030 and 2060 to balance LULUCF sinks in 2060. We further assume that non-CO2 emissions will decline at a linear rate between 2030 and 2080 in line with the IPCC SR1.5 pathways.
+
+
+## Global Warming Potentials values
+
+The CAT uses Global Warming Potential (GWP) values from the IPCC's Fourth Assessment Report (AR4) for all its figures and time series.
+
+
+# Targets
+
+
+## Target Overview
+
+Saudi Arabia submitted an updated NDC on 23 October 2021, increasing the 2030 emissions reduction target from 130 MtCO2e in the first NDC to 278 MtCO2e in the updated one. However, we do not consider this a stronger target, as the median of the NDC range remains lower than Saudi Arabia’s emissions trajectory based on current policies. We interpret the NDC target to be a reduction below a baseline scenario, similarly to the previous one, although this is not explicitly mentioned in the document. It is important to note that neither the previous NDC nor the updated one includes a baseline projection to which the emissions reduction target is applied.
+
+The 2021 NDC, similarly to the previous version, mentions that the reduction target is contingent on international climate action under the Paris Agreement not causing an “abnormal burden” on its economy. The NDC specifically mentions that the emissions reductions are based on a scenario under which hydrocarbons exports continue to provide a ‘robust contribution’ to the Saudi economy.
+
+Under a second scenario, which we understand to be a scenario under which global hydrocarbons exports decline, Saudi Arabia would continue what it calls a ‘sustainable utilisation of hydrocarbons’ domestically. Under this scenario, Saudi Arabia reserves itself the right to revise its NDC.
+
+Saudi Arabia plans to meet part of its emissions reduction targets through the use of a carbon market scheme and Article 6 mechanisms, including for both the 2030 NDC and 2060 net zero targets. However, details on how these mechanisms might be used are lacking or unclear; they present major risks that Saudi Arabia will seek to use carbon credits with questionable integrity as a smokescreen to justify continuing its trajectory of maintaining high levels of domestic emissions.
+
+
+## NDC updates
+
+Saudi Arabia submitted its updated NDC on 23 October 2021, increasing the 2030 emissions reduction target from 130 MtCO2e in the first NDC to 278 MtCO2e in the updated one.
+
+The 2021 NDC lists the following mitigation measures:
+
+- Energy efficiency, particularly in the industry, buildings, and transport sectors
+- Renewable energy in the power sector, making up 50% of the electricity mix by 2030, and to generate green hydrogen
+- A switch from oil to gas in the electricity sector
+- Zero flaring in the oil and gas industry
+- Carbon capture utilisation and storage (CCUS), coupled with blue hydrogen
+As Saudi Arabia has not yet communicated the business as usual (BAU) range for its NDC target, we quantified the target based on a business as usual scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC) (KAPSARC, 2021), a Saudi-based organisation.
+
+The lower end of the BAU range reflects the KAPSARC BAU scenario, excluding land use, land use change and forestry (LULUCF). For the upper end of the range, we have assumed that LULUCF measures would contribute 200 MtCO2e of the total 278 MtCO2e emissions reductions in the NDC. This number is based on the announcements made at the Saudi Green Initiative Forum in 2021. However, in 2012, the latest year for which national data is available, the land use and forestry sink stood at just 9 MtCO2e (UNFCCC, 2020), with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2021 (World Bank, 2023).
+
+Based on this BAU range, and due to the uncertainties around the contributions of emissions reductions from land use and forestry, we project Saudi Arabia’s NDC emissions level to be anywhere between ~520–800 MtCO2e in 2030, excluding LULUCF. This represents an approximate change of –24% to +14% compared to 2021 levels. We do not consider the updated NDC target to be an increase in ambition compared to the previous target, as the median of the NDC range remains lower than Saudi Arabia’s emissions trajectory based on current policies.
+
+* Before September 2021, all CAT ratings were based exclusively on fair share and only assessed a country’s target.
+
+**Target development timeline & previous CAT analysis**
+
+- 04.11.2021: Updated NDC
+
+## CAT rating of targets
+
+NDC target against modelled domestic pathways
+
+**The CAT rates Saudi Arabia’s NDC target as “Critically insufficient” when compared to modelled domestic pathways.** This rating indicates that Saudi Arabia’s NDC target in 2030 reflects minimal to no action and is not at all consistent with modelled domestic pathways limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia's NDC rating against modelled domestic pathways has deteriorated compared to our previous assessment due to an update in our modelled domestic pathways to the pathways assessed in the AR6. This latest evidence shows that Saudi Arabia requires lower 2030 emissions to be consistent with a 4°C compatible pathway.
+
+As a result, its NDC rating is no longer “Highly insufficient” and falls into the “Critically Insufficient” range. Our newer pathways better capture national circumstances - including the recent plateauing in Saudi Arabia's emissions - and for higher temperature levels show less room for emissions growth than the previous set.
+
+NDC target against fair share
+
+**The CAT rates Saudi Arabia’s NDC target against fair share as “Critically insufficient”.** This rating indicates that Saudi Arabia’s NDC target reflects minimal to no action and is not at all consistent with its fair share of the global mitigation effort to limit warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**Further information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found** **here****.**
+
+
+## Net zero and other long-term target(s)
+
+We evaluate the target as: Poor.
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021 (Kingdom of Saudi Arabia, 2021d). However, the target has yet to be enshrined in law, or in a policy document.
+
+As of October 2023, Saudi Arabia has not submitted a long-term strategy to the UNFCCC.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided a clear emissions reduction pathway to net zero (Kingdom of Saudi Arabia, 2021a). The target’s emission coverage remains unclear with the CAT currently assuming that only CO2 emissions are being covered based on scarce available information.
+
+Saudi Arabia intends to reach its net zero target through the Circular Carbon Economy approach, which relies on the use of CCS. The national oil company Saudi Aramco has committed to reaching net zero operational emissions in 2050. However, most oil and gas emissions come from the combustion of fossil fuels, not their production. Saudi Arabia and Aramco’s net zero targets do not take into account emissions resulting from oil and gas exports. They also do not consider the economic risks associated with a continued reliance on fossil fuels exports in a net zero world (for further details, see the “Oil production” section under “Energy supply” here).
+
+**For the full analysis click** **here****.**
+
+
+# Summary
+
+
+## Overview
+
+Note: We have updated the text assessment to reflect the latest policy developments in Saudi Arabia. The CAT’s ratings and data are from our 2023 evaluation and will be updated soon.
+
+**Saudi Arabia has not implemented any policies that would substantially bring down its greenhouse gas emissions and reduce its reliance on fossil fuels. Previously-announced plans to cut emissions through expanding renewable energy are failing to materialise. Despite its “Vision 2030” diversification plan, initiated nearly a decade ago, the Saudi economy remains highly dependent on the production, use and export of hydrocarbons.**
+
+**As well as not mitigating greenhouse gas emissions nationally, Saudi Arabia is also playing an increasingly disruptive role in international climate negotiations. Most recently at COP29, Saudi Arabia’s interventions aimed at blocking discussion on a transition away from fossil fuels and at disconnecting the Intergovernmental Panel on Climate Change 7th Assessment Report from the 2nd Global Stocktake under the Paris Agreement.**
+
+**The country’s emissions are projected to continue increasing through 2030. As the world’s largest crude oil exporter, Saudi Arabia is responsible for a significant share of global emissions, with emissions from burning exported oil in other countries amounting to more than** **twice the level of its domestic emissions****. The Climate Action Tracker (CAT) rates Saudi Arabia’s overall climate action as “Critically Insufficient”.**
+
+Saudi Arabia’s 2030 and 2060 climate commitments are not expected to help cut emissions: they lack transparency, rely largely on the deployment of carbon, capture and storage (CCS) technologies, and fail to address concerns about Saudi Arabia’s role as the world’s leading crude oil exporter.
+
+Its 2030 emissions reduction target is explicitly based on a scenario with substantial fossil fuel exports and includes a “get out clause” if international climate change policies negatively affect these exports. Our analysis suggests that this target could lead to national emissions ranging anywhere between 520–800 MtCO2e by 2030—going from a slight decrease in emissions to a significant increase compared to current levels due to uncertainties around the expected contribution of the land use and forestry sector.
+
+The Saudi government also announced a 2060 net zero target in 2021 but has yet to release any additional information on this objective, nor enshrine it into law, giving it little credibility.
+
+Despite its diversification plan, Saudi Arabia remains heavily dependent on oil revenues and has done little to effectively diversify towards a low carbon economy and adapt to a world heading to net zero emissions. In January 2024, the Saudi national oil company, Aramco, abandoned its plan to increase oil production capacity to 13 million barrels per day by 2027 from currently 12 million barrels per day. However, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels, reflecting changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries.
+
+Saudi Arabia has the potential to become a world leader in renewable energy production, but has made very little progress in the last decade. The most recent target aims for 50% of electricity to be generated with renewable energy by 2030. However, in 2023, renewables only generated around 1% of electricity and Saudi Arabia had around 2.7 GW of installed renewable capacity. In contrast, it has 97 GW of oil and gas plants in operation along with a pipeline of more than 8 GW of fossil plants under construction as of August 2024.
+
+Saudi Arabia also has a track record of obstructing international climate negotiations by repeatedly opposing references to the 1.5°C warming limit and language related to the phase-out of fossil fuels. Notably, at COP29, Saudi Arabia had sought to undermine the pledge to transition away from fossil fuels agreed at COP28. This raises concerns about the country’s willingness to engage in meaningful climate action on the global stage.
+
+Saudi Arabia is already experiencing above-average temperature rise. Projections indicate that global warming will be more pronounced in the Middle East and North Africa region, with climate policies and actions around the world on course for warming in Saudi Arabia in the order of 4°C this century.
+
+To improve its climate action, Saudi Arabia should take the following steps:
+
+- **Develop a credible economic diversification plan away from fossil fuels, which is both compatible with the Paris Agreement and takes into account the risks** **associated with exporting** **fossil fuels in a world heading to net zero emissions.** This plan should include a clear commitment to ending new investments in oil and gas production and a phase-out of fossil fuels in line with a 1.5°C scenario.
+- **Significantly increase the pace of renewable energy deployment,** which would help drive decarbonisation efforts and stimulate sustainable job growth for its young population, all of which are objectives of the Vision 2030 agenda.
+- **Update its NDC by strengthening its 2030 target**, providing an absolute emissions reduction target (instead of a reduction below an uncommunicated baseline scenario) and clarifying the assumptions on LULUCF.
+- **Clarify the assumptions behind its 2060 net zero target**, which currently lacks transparency and credibility, and does not provide a clear emissions reduction pathway.
+
+## Description of CAT ratings
+
+The CAT rates each country’s targets and policies against (1) its fair share contribution to climate change mitigation considering a range of equity principles including responsibility, capability and equality, and (2) what is technically and economically feasible using modelled domestic pathways which, in absence of a better method, are based on global least-cost climate change mitigation.
+
+Comparing a country’s fair share ranges and modelled domestic pathways provides insights into which governments should provide climate finance and which should receive it. Developed countries with large responsibility for historical emissions and high per-capita emissions, must not only implement ambitious climate action domestically but must also support climate action in developing countries with lower historical responsibility, capability, and lower per-capita emissions.
+
+**The CAT rates Saudi Arabia’s climate targets and policies as “Critically insufficient”.** This rating indicates that Saudi Arabia’s climate policies and commitments reflect minimal to no action and are not at all consistent with the 1.5°C temperature limit. Saudi Arabia’s 2030 climate commitment is unclear, as the government has not published the baseline corresponding to its Paris Agreement target.
+
+We rate Saudi Arabia’s 2030 emissions reduction target as “Critically insufficient” when compared with its fair-share contribution to climate action and is consistent with more than 4°C of warming.
+
+The 2030 target is rated as ‘Highly insufficient’ when compared to modelled domestic pathways, downscaled from global least-cost scenarios. Saudi Arabia’s policies could lead to its emissions peaking in the second half of this decade, but still only in line with 2°C to 3°C warming. Saudi Arabia still needs to strengthen its target for emissions reductions and implement additional policies to get a rating aligned to the Paris Agreement.
+
+**We rate Saudi Arabia’s policies and actions against modelled domestic pathways as “Critically Insufficient”**. This rating indicates that Saudi Arabia’s policies and action in 2030 reflect minimal to no action and are not at all consistent with limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia remains highly dependent on fossil fuel revenues and keeps pushing for false solutions such as carbon capture and storage (CCS) in the hope of extending the life of its extractive industry. The government has put forward several mitigation measures, but implementation has been slow, particularly in the renewable energy sector. Despite its vast solar energy resource, Saudi Arabia had only installed about 2.7 GW of renewable energy capacity in 2023, generating around 1% of total electricity.
+
+**The full policies and action analysis can be found** **here****.**
+
+**We rate Saudi Arabia’s NDC target as “Critically insufficient” when compared to domestic pathways.** This rating indicates that Saudi Arabia’s NDC target reflects minimal to no action and is not at all consistent with the 1.5°C temperature limit when compared to modelled domestic pathways. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia's NDC rating against modelled domestic pathways has deteriorated compared to our previous assessment, due to an update in our modelled domestic pathways to the pathways assessed in the AR6, and a significant change in historical emissions. The latest historical data show higher emissions in the energy and industry sectors, which were previously underreported.
+
+As a result, its NDC rating is no longer “Highly insufficient” and falls into the “Critically insufficient” range. Our newer pathways better capture national circumstances - including the recent plateauing in Saudi Arabia's emissions - and, for higher temperature levels, show less room for emissions growth than the previous set.
+
+**We rate Saudi Arabia’s NDC target against fair share as “Critically insufficient”.** This rating indicates that Saudi Arabia’s NDC target in 2030 reflects minimal to no action and is not at all consistent with the 1.5°C temperature limit when compared to its fair share. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**We evaluate the target as: Poor.**
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021. However, the target has yet to be enshrined in law or in a policy document.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided a clear emissions reduction pathway to net zero. The emission coverage remains unclear. The CAT currently assumes that only CO2 emissions are covered given the lack of information.
+
+
+# Net zero targets
+
+
+## Summary
+
+We evaluate the target as: **Poor**
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021 (Kingdom of Saudi Arabia, 2021d). However, the target has yet to be enshrined in law or in a policy document. As of October 2023, Saudi Arabia has not submitted a long-term strategy to the UNFCCC.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided any clear emissions reduction pathway to net zero (Kingdom of Saudi Arabia, 2021a). The target’s emission coverage remains unclear with the CAT currently assuming that only CO2 emissions are being covered, based on scarce available information.
+
+Saudi Arabia intends to reach its net zero target through the Circular Carbon Economy approach, which relies on the use of CCS. The national oil company Saudi Aramco has committed to reaching net zero operational emissions in 2050. However, the vast majority of oil and gas emissions comes from the combustion of fossil fuels, not their production. Saudi Arabia and Aramco’s net zero targets do not take into account scope 3 emissions resulting from oil and gas exports. They also do not consider the economic risks associated with a continued reliance on fossil fuels exports in a net zero world.
+
+Target covers emissions / sectors partially (under 95% coverage)
+
+The target excludes both international aviation and shipping
+
+Relies on international offset credits or reserves right to use them to meet net zero
+
+Net zero target announced
+
+No separate emission reduction and removal targets
+
+Country provides no information on its intention to establish a review cycle for its net zero and intermediate targets
+
+No transparent assumptions on carbon dioxide removals
+
+There is no information or underlying analysis available on the anticipated pathway or measures to achieve net zero emissions
+
+Country makes no reference to fairness or equity in the context of its net zero target
+
+
+## CAT analysis of net zero target
+
+**Scope**
+
+- **Target year** – Saudi Arabia aims to reach net zero by 2060.
+- **Emissions coverage** – Saudi Arabia provides no explicit information on the sectors and gases covered by the net zero target (Kingdom of Saudi Arabia, 2021d), but mainly focuses on its Carbon Circular Economy approach in explaining how it intends to meet the target. For this reason, the CAT currently assumes Saudi Arabia’s target currently only covers CO2 emissions.
+- **International aviation and shipping** – Saudi Arabia provides no information on its intention to cover international aviation and shipping.
+- **Reductions or removals outside of own borders **– The government recently announced the launch of a carbon crediting scheme in early 2024, which will supposedly enable companies to offset their emissions by buying carbon credits compliant with Article 6 of the Paris Agreement (Carbon-Pulse, 2023). Despite the apparent focus on companies procuring credits, Saudi Arabia appears to plan to also use the credits to meet part of its climate pledge, including its 2060 net zero target. It is unclear how this could work in practice based on the information published to date in a manner that avoids more than one entity claiming rights to the same emission reductions – an outcome which would undermine the integrity of the credits and potentially lead to an overall rise in emissions.
+**Target architecture**
+
+- **Legal status** – Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target at the first Saudi Green Initiative Forum (Kingdom of Saudi Arabia, 2021d). Saudi Arabia has not submitted a Long-Term Strategy (LTS) to the UNFCCC as of October 2023.
+- **Separate reduction & removal targets** – Saudi Arabia provides no information on its intention to communicate separate emission reduction and removal targets.
+- **Review process** – Saudi Arabia provides no information on its intention to establish a review cycle for its net zero and intermediate targets.
+**Transparency**
+
+- **Carbon dioxide removal** – Saudi Arabia provides no information on its intention to communicate transparent assumptions on carbon dioxide removals.
+- **Comprehensive planning** – Saudi Arabia provides no comprehensive planning on how it aims to achieve its net zero by 2060. It has not communicated underlying pathways, interim targets or detailed measures to meet the 2060 target. Saudi Crown Prince Mohammed bin Salman stated that Saudi Arabia relies on the Circular Carbon Economy approach to meet its net zero target and makes no reference to emissions from oil and gas exported by Saudi Arabia (Kingdom of Saudi Arabia, 2021d). The Circular Carbon Economy approach, however, only addresses a fraction of relevant emissions from oil and gas production through carbon capture and storage technologies, but most emissions come from fuel combustion rather than oil and gas extraction and processing.
+- **Clarity on fairness of target **– Saudi Arabia provides no information on its intention to explain the target’s fairness.
+
+## Good practice
+
+The Climate Action Tracker has defined the following good practice for all ten key elements of net zero targets. Countries can refer to this good practice to design or enhance their net zero targets.
+
+
+# 2035 NDC
+
+
+## 2035 NDC Target
+
+Saudi Arabia has not yet submitted their 2035 NDC to the UNFCCC. Once the new NDC has been submitted, we will publish our assessment here.
+
+
+# Policies & action
+
+**We rate Saudi Arabia’s policies and actions against modelled domestic pathways as “Critically Insufficient”**. This rating indicates that Saudi Arabia’s policies and action in 2030 reflect minimal to no action and are not at all consistent with limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**Further information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found** **here****.**
+
+
+## Policy overview
+
+Saudi Arabia has done little to decarbonise its economy. We expect its emissions to rise to 800–830 MtCO2e in 2030, a 15–­19% increase from 2021 levels. It remains difficult to assess whether Saudi Arabia’s current policies reach its NDC target, given the significant uncertainties around its target (see details in the Assumptions section).
+
+Saudi Arabia’s energy sector remains dominated by fossil fuels, which represented almost 100% of the total energy supply in 2022 (IEA, 2023b). The Saudi government expects the overall demand for energy, including for oil and fossil gas, to continue increasing until 2030 and beyond (KAPSARC, 2021).
+
+Saudi Arabia’s “Vision 2030” aims to diversify its economy beyond oil, which accounted for around two thirds of total budget revenues in 2022. However, the government clearly has no intention to phase out fossil fuels. Saudi Arabia is betting on carbon capture and storage (CCS) technologies as a smokescreen to continue expanding oil and gas production.
+
+While Aramco abandoned its plan to increase oil production capacity to 13 million barrels per day (mb/d) by 2027, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels. This reversal reflects changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries, particularly the U.S.
+
+Even if Saudi Arabia were to reach its 50% target for renewable energy in the electricity mix, we project that emissions would still rise to 730–770 MtCO2e by 2030. Despite its vast solar energy potential, Saudi Arabia has only installed about 2.7 GW of renewable energy capacity as of 2023, generating around 1% of total electricity (IRENA, 2024b).
+
+In 2022, Saudi Arabia’s sovereign wealth fund, the Public Investment Fund (PIF), and the Saudi Stock Exchange Tadawul set up a voluntary carbon market in the Middle East and North Africa. The first auction in November 2022 offered one million tonnes of carbon credits (Bloomberg, 2022).
+
+Saudi Arabia has also announced the launch of a domestic carbon crediting scheme in early 2024, which will purportedly enable companies to offset their emissions by buying credits compliant with Article 6 of the Paris Agreement. The scheme appears to be voluntary, project-based and covers all sectors (Carbon-Pulse, 2023; Kingdom of Saudi Arabia, 2024).
+
+Despite the apparent focus on companies procuring credits, Saudi Arabia also appears to plan on using the credits to meet parts of its national climate pledge, including its 2060 net zero target. Based on the information published as of November 2024, it is unclear how this could work in practice in a manner that avoids both a company and the government from claiming rights to the same emission reductions ("double counting") – an outcome that would undermine the integrity of the credits, and potentially lead to an overall rise in emissions.
+
+The establishment of a voluntary carbon market in Saudi Arabia should complement and not serve to distract from - or displace - critically-needed domestic mitigation efforts. Information on how the Kingdom intends to use its carbon crediting scheme remains unclear or lacks details, and presents major risks that it will seek to use carbon credits with questionable integrity as a smokescreen to justify continuing its trajectory of maintaining high levels of domestic emissions. For more information on the role of voluntary carbon markets under the Paris Agreement and their associated risks, see Fearnehough et al. 2020.
+
+
+## Power sector
+
+In 2023 Saudi Arabia still produced nearly 100% of its electricity with fossil fuels—around 58% with fossil gas and 41% with oil (IEA, 2024). The share of electricity generated by fossil gas has increased since 2015, when it stood at just 37%, thereby contributing to some emissions reductions in the electricity sector.
+
+However, Saudi Arabia has no intention of phasing out fossil fuels from its power sector. It currently aims for 50% of total electricity to be generated with fossil gas by 2030. In December 2023, four gas-fired power plants with a total capacity of 5.6 GW started operation, and additional plants with a total capacity of 8.4 GW are currently under development (Saudi & Middle East Green Initiatives, 2023).
+
+Fossil gas is a fossil fuel and needs to be phased out as part of the global decarbonisation needed to reach the 1.5˚C temperature warming limit—by 2035 in developed countries and 2040 in developing countries (Climate Action Tracker, 2023).
+
+In 2022, Saudi Arabia had the G20's highest share of fossil fuel subsidies per capita (IMF, 2023). Fossil fuel subsidies, both direct and indirect, continue to distort energy prices by keeping oil and fossil gas prices artificially low, discouraging investment in cleaner alternatives.
+
+Saudi Arabia, acknowledging the need for reform in its “Vision 2030” strategy, took initial steps to address this issue (Kingdom of Saudi Arabia, 2021c). The government introduced a 5% VAT on fuel and increased VAT rate for goods and services from 5% to 15%, including those in the hydrocarbons sector (SPA, 2020).
+
+However, fossil fuel subsidies (explicit and implicit) provided by the government jumped from USD 141bn in 2019 to USD 253bn in 2022, accounting for 16% of Saudi Arabia’s GDP in 2019, to 27% in 2022 (IMF, 2023). Driven by soaring energy prices and the demand rebound following the pandemic, these subsidies have primarily benefited the domestic oil sector.
+
+Research shows that adequate pricing of fossil fuels could help cut 36% of global CO2 emissions (Parry et al., 2021). Setting prices that reflect the true costs of fossil fuels would also further increase the cost-competitiveness of mitigation technologies, such as renewable energy.
+
+Despite its vast potential, Saudi Arabia’s renewable energy sector has been mired in uncertainty, with ambitious announced plans and projects having yet to materialise.
+
+In the first iteration of “Vision 2030” released in 2016, the government revised its renewable energy target downward to an ‘initial’ 9.5 GW installed capacity by 2023 (Borgmann, 2016; Kingdom of Saudi Arabia, 2016). In 2019, the Ministry of Energy released an updated version of the strategy, which aimed to install 27.3 GW of renewable energy capacity by 2023 and 57.8 GW by 2030. The latest target aims for 50% of electricity to be generated with renewable energy and 50% with fossil gas in 2030 (Kingdom of Saudi Arabia, 2021c; Saudi Arabia, 2024).
+
+Despite some progress in the last two years, the government will need to significantly increase the pace of renewable energy development if it hopes to meet its latest 2030 target. In 2023, installed renewable energy capacity stood at 2.7 GW, generating around 1% of electricity, with around 1.8 GW (mostly solar) additional capacity installed between 2022 and 2023 (IRENA, 2024a).
+
+Saudi Arabia hopes to position itself as a leader in the global hydrogen market. The government announced plans to build a large green hydrogen production facility in its smart city NEOM (Al Arabiya News, 2023b; Saudi & Middle East Green Initiatives, 2023). The plant is expected to be operational in 2026 and produce 600 tonnes per day of green hydrogen using renewable electricity.
+
+The government is pursuing “clean hydrogen” development with a view to diversifying its revenues and becoming less reliant on hydrocarbon exports (Saudi Arabia, 2024). Considering its strategic location near global shipping lanes and its vast renewable energy potential, Saudi Arabia is also well-positioned to lead the decarbonisation of the maritime sector. It has the potential to lead the way by producing green hydrogen at scale as an alternative fuel source (KAPSARC, 2023b). It should, however, first prioritise rapid scaling-up of renewable capacity to decarbonise the domestic economy.
+
+Building the pipeline of renewable capacity to first meet domestic energy demand and then potentially exploiting the global market for “green” hydrogen will take time, given the low base of renewables in Saudi Arabia. A substantial policy commitment and investment in renewable electricity today is a critical enabler for Saudi Arabia to position itself as a future leader in “green” hydrogen. Without this shift in the status quo, it will only be able to rely on fossil gas and unproven CCS technologies to produce “blue” or “grey” hydrogen, neither of which are "renewable".
+
+While hydrogen production from fossil gas has been the cheapest option to date, it remains expensive, as lot of energy is lost in the conversion process and is highly susceptible to market price volatility. Gas price fluctuations caused by Russia’s invasion of Ukraine tripled the cost of grey hydrogen in 2022. Emission penalties under carbon pricing are expected to further increase the cost of fossil fuel-derived hydrogen. On the contrary, with falling renewable energy costs and technology improvements, green hydrogen – particularly produced with solar PV and wind – could become cost-competitive with fossil fuel-derived hydrogen as early as 2030 (NewClimate, 2023).
+
+Saudi Arabia has recently reiterated its intention to build a nuclear power plant, although no concrete plan had been announced as of November 2024 (World Nuclear News, 2023). While nuclear electricity generation does not emit CO2, the CAT doesn’t see nuclear as the solution to the climate crisis due to its risks such as nuclear accidents and proliferation, high and increasing costs compared to alternatives such as renewables, long construction times, incompatibility with flexible supply of electricity from wind and solar and its vulnerability to heat waves.
+
+In 2019, Saudi Arabia’s Renewable Energy Project Development Office (REPDO) completed a study claiming that 13.5 GW of renewable energy could be integrated without major grid upgrades (National Renewable Energy Program, 2018). Beyond this, and in order to meet its 2030 renewable energy target, the government will need to significantly invest in grid infrastructure.
+
+Saudi Arabia is moving ahead with grid interconnection plans with neighbouring countries, focusing on smart grid technologies, which could facilitate a future uptake and integration of renewables (Al-Gahtani, 2024). Saudi Arabia is currently working on grid interconnection project with Iraq, India, Jordan and Egypt (RE Global, 2023).
+
+
+## Industry
+
+Oil extraction has been the backbone of the Saudi economy for decades. Saudi Arabia is the world’s second largest oil producer after the United States and is OPEC’s leading oil producer (BP, 2023). It produced approximately 12% of the world’s oil in 2022 and held 17% of proven oil reserves.
+
+While the government has taken small steps to diversify the economy, Saudi Arabia remains highly dependent on hydrocarbon revenue. In 2022, Saudi Arabia reported USD 362bn in total crude oil export revenues and an additional USD 45bn in refined petroleum export revenues: several orders of magnitude higher than the oil export revenues from any other country (OEC, 2024). Oil is Saudi’s most exported commodity, accounting for 75% of the total value of exports in 2021 (OPEC, 2023).
+
+Over the past two decades oil rents, which are the difference between crude oil market prices and production costs, have consistently contributed at least 20% of Saudi’s annual GDP (World Bank, 2021). This close dependency between Saudi’s GDP growth and the oil market puts the sustainable growth of Saudi’s economy at risk. Recent geopolitical conflicts have once more shown the vulnerability of the global oil market to exogenous shocks.
+
+Saudi Arabia does not plan to end investment in new oil production, which is required to hold global warming to 1.5°C (IEA, 2023a). While Aramco recently abandoned its plan to increase oil production capacity to 13 million barrels per day (mb/d) by 2027, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels. This reversal reflects changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries, particularly the U.S (FT, 2024).
+
+The government’s current diversification plans include no scenario with a decline in global oil consumption in the coming decades, which is required to meet the objectives of the Paris Agreement and reach net zero CO2 emissions by mid-century (IEA, 2023a; IPCC, 2018). Both the “business-as-usual” and the “2030 renewable energy target” scenarios outlined in KAPSARC’s Energy Policy Solutions project hydrocarbon exports to significantly increase until 2050 (KAPSARC, 2021).
+
+At COP28, Saudi Aramco signed the Oil and Gas Decarbonisation Charter (OGDC), a new initiative which aims to “accelerate climate action” in the fossil fuel sector. However, the OGDC only addresses a fraction of relevant emissions from oil and gas production. Although most emissions come from fuel combustion, the initiative solely focuses on reducing emissions within the operations of oil and gas companies, such as in drilling and refining processes. Without a commitment to reducing the extraction and burning of fossil fuels, the charter fails to tackle the main driver of climate change. So far, none of the signatories have agreed to cut fossil fuel production.
+
+Saudi Arabia is betting on carbon capture and storage (CCS) technologies to reach its climate goals while sustaining its fossil fuel production and exports. As of 2024, it only had one operational CCS plant—which is used for enhanced oil recovery (EOR), rather than reducing emissions from fossil fuels (Global CCS Institute, 2023).
+
+The government has a target to capture and store 44 million tonnes of CO2 annually by 2035. To this end, Saudi Arabia is in the process of building a CCS hub at the industrial complex of Jubail, which it plans to capture CO2 from fossil gas plants. The hub is expected to be operational from 2027 and the plans are to capture up to nine million tonnes of CO2 per year from three Aramco fossil gas plants (The CCUS hub, 2023). But given the track record of CCS technology so far, these planned capture rates are questionable.
+
+CCS technologies are not commercially viable, nor are they proven at scale, despite large public subsidies for research and development globally. Relying on CCS to the extent Saudi Arabia is planning diverts attention and resources away from cost-effective mitigation options. The use of CCS should be limited to industrial applications where there are fewer options to reduce process emissions—not to reduce emissions from the electricity sector where there are cost-effective mitigation alternatives, not least because CCS does not remove 100% of emissions from power plants.
+
+Saudi Arabia is promoting the concept of a Circular Carbon Economy (CCE) to reduce emissions from oil and gas production (Luomi et al., 2021). This, however, only addresses a fraction of relevant emissions as most emissions come from fuel combustion rather than oil and gas extraction and processing. Saudi Arabia’s CCE plans largely rely on the development and deployment of CSS technologies (Kingdom of Saudi Arabia, 2022).
+
+
+## Transport
+
+The transport sector accounted for 29% of total final energy consumption in 2022 (IEA, 2024).
+
+The sector is primarily individual, road-based transport but the Kingdom has sought to expand its public transportation network in recent years. The King Abdulaziz Public Transport project is a major initiative to modernise transportation in the city of Riyadh. The capital is set to become the second city in Saudi Arabia with a metro network after the Makkah metro opened in 2010 (Saudi Gazette, 2020). Following a delay, the Riyadh metro system is set to open to passengers at the end of 2024 (Railway Technology, 2023; The M Metro Rail Guy, 2024).
+
+The Saudi government has also taken steps to invest in rail transport; however, it remains unclear whether the new networks will be electric or diesel-powered. In 2010, it launched the Saudi Railway Master Plan, aiming to construct a 9,900-km network by 2040 (Oxford Business Group, 2020). The first phase, running until 2025, includes constructing and upgrading 5,500 km of tracks for freight and passenger transport, including interlinkages to the wider Gulf Cooperation Council (GCC) railway network. The light rail network in the smart city NEOM is complete as of 2024 (Godfrey, 2024).
+
+Saudi Arabia has taken steps to develop its own electric vehicle (EV) industry. As part of its “Vision 2030” strategy, the government aims to produce 50,000 EVs annually by 2030 and for 30% of Riyadh’s vehicles to be electric by 2030 (Kingdom of Saudi Arabia, 2021c).
+
+In 2022, Saudi Arabia introduced its first domestic brand of EV called Ceer, through a joint venture between PIF and Taiwanese car manufacturer Foxxconn (Al Arabiya News, 2023a). Manufacturing facilities for Ceer vehicles are under construction and expected to be operational by 2025 (Al Jazeera, 2023). Additionally, in June 2023, Saudi Arabia signed a USD 6 bn deal with Chinese EV manufacturer Human Horizons to collaborate on the development, manufacture, and sale of electric vehicles (Reuters, 2023).
+
+To further promote the use of EVs, by 2024 the government had built 2,800 EV charging points,, with plans to set up 30,000 new stations by 2030 (Mobility Foresights, 2024).
+
+Despite the progress made, achieving Saudi Arabia’s 2030 EV target will be challenging. The government will need to accelerate the deployment of charging infrastructure and introduce incentives to promote greater EV adoption (Apricum, 2022).
+
+
+## Buildings
+
+In Saudi Arabia, per capita emissions in the buildings sector remain above regional and world average, despite a slow decline in recent years (Climate Transparency, 2022).
+
+In 2012, the Saudi Energy Efficiency Center (SEEC) launched the Saudi Energy Efficiency Program (SEEP), which targets key sectors of the country’s economy (Kingdom of Saudi Arabia, 2022). Through this program, SEEC has introduced a series of measures in the building sector, including mandatory labelling for insulation materials and air conditioners (Acs). SEEC has also developed guidelines designed to optimise energy consumption in buildings, with a focus on Acs, washing machines, refrigerators, lighting, and heaters. Since their introduction, these standards and guidelines have been further refined and continue to be enforced.
+
+Saudi Arabia is taking steps to improve energy efficiency in buildings. Through the national Energy Services Company, TARSHID, the government aims to renovate numerous government buildings, public schools, hospitals, and mosques throughout the country (Kingdom of Saudi Arabia, 2021b). Efforts are also underway to develop and implement an Energy Use Intensity (EUI) ecosystem (Saudi Arabia, 2024).
+
+
+## Land use and forestry
+
+In 2012, the latest year for which national data is available, the land use and forestry sink only stood at 9 MtCO2e (UNFCCC, 2020), with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2021 (World Bank, 2023). The government has announced plans to plant 450 million trees by 2030 and 10 billion trees over the coming decades as part of the Saudi Green Initiative. According to the government, this initiative foresees afforestation and land restoration measures increase the Kingdom’s forestry sink to 200 MtCO2e by 2030. Yet progress has been slow: by the end of 2023, Saudi Arabia had reportedly planted 44 million trees (Saudi & Middle East Green Initiatives, 2023).
+
+
+## Methane
+
+In 2022, the methane sector accounted for 10% of total GHGs, the majority coming from the waste and energy sectors (Gütschow et al., 2024).
+
+At COP26, Saudi Arabia signed the Global Methane Pledge, in which signatories agreed to cut methane emissions in all sectors by 30% globally over the next decade. While its 2021 NDC does not have explicit emission reduction targets for non-CO2 gases, it includes several measures to manage methane emissions, such as the objective to achieve zero flaring in the oil and gas industry (Kingdom of Saudi Arabia, 2021b). However, Saudi Arabia is still planning to ramp-up its oil production capacity towards the end of the decade, making it in practice difficult to reduce its methane emissions.
+
+
+# Sources
+
+
+## References
+
+Al-Gahtani, S. F. (2024). Saudi Arabia’s Journey toward a Renewable Future. Energies , 17(11), 1–19. https://doi.org/10.3390/en17112444
+
+Al Arabiya News. (2023a). Electric vehicle demand booms in Saudi Arabia amid move to green mobility. https://english.alarabiya.net/News/saudi-arabia/2023/06/21/Electric-vehicle-demand-booms-in-Saudi-Arabia-amid-move-to-green-mobility
+
+Al Arabiya News. (2023b). NEOM’s green hydrogen plant will secure Saudi Arabia’s clean energy transition: CEO. https://english.alarabiya.net/News/2023/05/25/Saudi-s-green-hydrogen-plant-will-put-Kingdom-on-global-map-for-clean-energy-CEO
+
+Al Jazeera. (2023). Saudi Arabia signs $5.6bn EV deal as it eyes closer China ties. https://www.aljazeera.com/news/2023/6/12/saudi-arabia-signs-5-6bn-ev-deal-as-it-eyes-closer-china-ties
+
+Apricum. (2022). Challenges and opportunities in Saudi Arabia’s green mobility expansion. https://apricum-group.com/challenges-and-opportunities-in-saudi-arabias-green-mobility-expansion-plans/?cn-reloaded=1&cn-reloaded=1
+
+Arab News. (2024). Saudi Arabia unveils plan to recycle up to 95% of waste in 2024. Arab News. https://www.arabnews.com/node/2441531/business-economy
+
+Bloomberg. (2022). Saudi Arabia Holds Middle East’s First Carbon Offset Auction. https://www.bloomberg.com/news/articles/2022-10-25/saudi-fund-sets-up-carbon-market-firm-to-support-net-zero-goal
+
+Borgmann. (2016). Potentially Game-Changing Saudi Arabian Government Restructuring Bolsters 9.5 GW Renewable Energy Target by 2023. http://www.apricum-group.com/saudi-arabia-announces-9-5-gw-renewable-energy-target-new-king-salman-renewable-energy-initiative/
+
+BP. (2023). Statistical Review of World Energy Data 2023. https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fwww.energyinst.org%2F__data%2Fassets%2Fexcel_doc%2F0007%2F1055545%2FEI-stats-review-all-data.xlsx&wdOrigin=BROWSELINK
+
+Carbon-Pulse. (2023). Saudi Arabia to launch domestic “Article 6-aligned” carbon crediting system in 2024. https://carbon-pulse.com/227909/
+
+Climate Action Tracker. (2023). CAT briefing: Pulling the plug on fossils in power. https://climateactiontracker.org/publications/pulling-the-plug-on-fossils-in-power
+
+Climate Transparency. (2022). Saudi Arabia - Climate Transparency report 2022. https://www.climate-transparency.org/wp-content/uploads/2022/10/CT2022-Saudi-Arabia-Web.pdf
+
+Global CCS Institute. (2023). Global Status of CCS 2022. https://status22.globalccsinstitute.com/wp-content/uploads/2022/11/Global-Status-of-CCS-2022_Download.pdf
+
+Godfrey, P. (2024, August 2). NEOM completes construction of light rail network. ME Construction News. https://meconstructionnews.com/60136/neom-completes-construction-of-light-rail-network
+
+Gütschow, J., Pflüger, M., & Busch, D. (2024). The PRIMAP-hist national historical emissions time series (1750-2022) v2.5.1. https://doi.org/10.5281/zenodo.10705513
+
+IEA. (2023a). Net Zero Roadmap: A Global Pathway to Keep the 1.5 °C Goal in Reach 2023 Update. International Energy Agency. https://www.iea.org/reports/net-zero-roadmap-a-global-pathway-to-keep-the-15-0c-goal-in-reach
+
+IEA. (2023b). Saudi Arabia. https://www.iea.org/countries/saudi-arabia
+
+IEA. (2024). Country profile - Saudi Arabia. https://www.iea.org/countries/saudi-arabia/energy-mix
+
+IFA. (2024). Saudi Arabia - Country Commercial Guide. International Trade Administration. https://www.trade.gov/country-commercial-guides/saudi-arabia-waste-management
+
+IMF. (2023). IMF Fossil Fuel Subsidies Data: 2023 Update. https://www.elibrary.imf.org/view/journals/001/2023/169/001.2023.issue-169-en.xml
+
+IPCC. (2018). Summary for Policymakers. In V. Masson-Delmotte, P. Zhai, H.-O. Pörtner, D. Roberts, J. Skea, P. R. Shukla, A. Pirani, W. Moufouma-Okia, C. Péan, R. Pidcock, S. Connors, J. B. R. Matthews, Y. Chen, X. Zhou, M. I. Gomis, E. Lonnoy, T. Maycock, M. Tignor, & T. Waterfield (Eds.), Global Warming of 1.5°C. An IPCC Special Report on the impacts of global warming of 1.5°C above pre-industrial levels and related global greenhouse gas emission pathways, in the context of strengthening the global response to the threat of climate change, (Issue October 2018). IPCC. https://www.ipcc.ch/sr15/chapter/spm/
+
+IRENA. (2023). Renewable capacity statistics 2023. https://www.irena.org/Publications/2023/Mar/Renewable-capacity-statistics-2023
+
+IRENA. (2024a). Renewable Capacity Statistics 2024. https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2024/Mar/IRENA_RE_Capacity_Statistics_2024.pdf?rev=a587503ac9a2435c8d13e40081d2ec34
+
+IRENA. (2024b). Renewable Energy Capacity Statistics 2024. IRENA. https://www.irena.org/Data/View-data-by-topic/Capacity-and-Generation/Statistics-Time-Series
+
+KAPSARC. (2021). Saudi Arabia | Energy Policy Solutions. https://eps.kapsarc.org/scenarios/home
+
+KAPSARC. (2023a). Baseline Forecasts of Carbon Dioxide Emissions for Saudi Arabia Using the Structural Time Series Model and Autometrics (Issue May). https://doi.org/10.30573/KS--2022-DP19
+
+KAPSARC. (2023b). Saudi Arabia’s Potential to Further Hydrogen Use in the Maritime Sector. https://www.kapsarc.org/research/publications/saudi-arabias-potential-to-further-hydrogen-use-in-the-maritime-sector/
+
+Kingdom of Saudi Arabia. (2016). Vision 2030. http://vision2030.gov.sa/en/media-center
+
+Kingdom of Saudi Arabia. (2021a). Reducing Emissions - Saudi Green Initiative. https://www.saudigreeninitiative.org/targets/reducing-emissions/
+
+Kingdom of Saudi Arabia. (2021b). Updated First Nationally Determined Contributions. https://unfccc.int/sites/default/files/resource/202203111154---KSA NDC 2021.pdf
+
+Kingdom of Saudi Arabia. (2021c). Vision 2030. https://www.vision2030.gov.sa/media/cofh1nmf/vision-2030-overview.pdf
+
+Kingdom of Saudi Arabia. (2021d, October 23). Press release: His Royal Highness the Crown Prince announces the Kingdom of Saudi Arabia’s aims to achieve net zero emissions by 2060. Saudi Green Initiative. https://www.saudigreeninitiative.org/pr/SGI_Forum_Press_Release-EN.pdf
+
+Kingdom of Saudi Arabia. (2022). Saudi Arabia, Fourth National Communication. https://unfccc.int/sites/default/files/resource/7123846_Saudi Arabia-NC4-1-Fourth National Communication NC4 Kingdom of Saudi Arabia March 2022.pdf
+
+Kingdom of Saudi Arabia. (2024). GCOM STEPS. https://gcom.cdmdna.gov.sa/Overall
+
+Luomi, M., Yılmaz, F., Alshehri, T., & Howarth, N. (2021). The Circular Carbon Economy Index – Methodological Approach and Conceptual Framework. https://www.kapsarc.org/research/publications/the-circular-carbon-economy-index-methodological-approach-and-conceptual-framework/
+
+Mobility Foresights. (2024). Saudi Arabia EV Charger Market 2024-2030. Mobility Foresights. https://mobilityforesights.com/product/saudi-arabia-ev-charger-market/
+
+National Renewable Energy Program. (2018). Saudi Arabia Renewable Energy Targets and Long Term Visibility. https://www.powersaudiarabia.com.sa/web/attach/media/Saudi-Arabia-Renewable-Energy-Targets-and-Long-Term-Visibility.pdf
+
+Oxford Business Group. (2020). Saudi Arabia moving ahead with local and regional rail integration. In The Report: Saudi Arabia 2020. https://oxfordbusinessgroup.com/analysis/full-throttle-moving-ahead-local-and-regional-rail-network-integration
+
+Parry, I. W. H., Black, S., & Vernon, N. (2021). Still Not Getting Energy Prices Right: A Global and Country Update of Fossil Fuel Subsidies (2021/236). https://www.imf.org/en/Publications/WP/Issues/2021/09/23/Still-Not-Getting-Energy-Prices-Right-A-Global-and-Country-Update-of-Fossil-Fuel-Subsidies-466004
+
+Railway Technology. (2023). Riyadh Metro, Saudi Arabia. https://www.railway-technology.com/projects/riyadh-metro-saudi-arabia/
+
+RE Global. (2023). Transmission Ties: Saudi Arabia’s regional connections.
+
+Reuters. (2023). Saudi Arabia signs $5.6 billion deal with Chinese EV company. https://www.reuters.com/business/energy/saudi-arabia-signs-56-bln-deal-with-chinese-ev-company-state-media-2023-06-12/
+
+Saudi & Middle East Green Initiatives. (2023, December 4). Saudi Arabia announces 300% increase in installed renewables capacity, 43.9 million trees planted since launch of Saudi Green Initiative. Saudi & Middle East Green Initiatives. https://www.greeninitiatives.gov.sa/knowledge-hub/saudi-arabia-announces-300-increase-in-installed-renewables-capacity-439-million-trees-planted-since-launch-of-saudi-green-initiative/
+
+Saudi Arabia. (2024). Kingdom of Saudi Arabia The Second Biennial Update Report (BUR2). https://unfccc.int/sites/default/files/resource/Kingdom of Saudi Arabia Bur2.pdf
+
+Saudi Gazette. (2020, July 7). Riyadh Metro to open partially by end of year. Saudi Gazette. https://saudigazette.com.sa/article/595199/SAUDI-ARABIA/Riyadh-Metro-to-open-partially-by-end-of-year
+
+SPA. (2020, May 11). GAZT: VAT of 15% Goes into Effect in July, 2020. Saudi Press Agency. https://www.spa.gov.sa/viewfullstory.php?lang=en&newsid=2085204
+
+The CCUS hub. (2023). Aramco Jubail. https://ccushub.ogci.com/focus_hubs/aramco-jubail-ccs-hub/
+
+The M Metro Rail Guy. (2024). Riyadh Metro – Information, Route Map, Tickets & Timings. The M Metro Rail Guy. https://themetrorailguy.com/riyadh-metro-information-route-map-tickets-timings/
+
+UNFCCC. (2020). National Inventory Submissions 2020. United Nations Framework Convention on Climate Change. https://unfccc.int/process-and-meetings/transparency-and-reporting/reporting-and-review-under-the-convention/greenhouse-gas-inventories-annex-i-parties/national-inventory-submissions-2020
+
+World Bank. (2023). Forest area (% of land area) - Saudi Arabia. https://data.worldbank.org/indicator/AG.LND.FRST.ZS?name_desc=true&locations=SA
+
+World Nuclear News. (2023). Saudi Arabia reiterates plans for nuclear energy. https://www.world-nuclear-news.org/Articles/Saudi-Arabia-reiterates-plans-for-nuclear-energy
+
+
+# Assumptions
+
+
+## Note
+
+**Note: We have updated the text assessment to reflect the latest policy developments in Saudi Arabia. The CAT’s ratings and data is from our 2023 evaluation and will be updated soon.**
+
+
+## Historical emissions
+
+Historical emissions from 1990 to 2022 are taken from PRIMAP National Greenhouse Gas Emission Database 2023 (Gütschow and Pflüger, 2023). Saudi Arabia’s own national inventory data from the UNFCCC only extends to 2012.
+
+LULUCF values for 1990, 2000, 2010 and 2012 are still taken from the UNFCCC emissions inventory (2018).
+
+
+## NDC and other targets
+
+As Saudi Arabia has not communicated the business as usual (BAU) scenario for its NDC target, we quantified the target based on a business-as-usual scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC). The lower end of the NDC range reflects the KAPSARC BAU scenario, excluding land use, land use change and forestry (LULUCF). For the upper end of the range, we have assumed that LULUCF measures would contribute 200 MtCO2e of the total 278 MtCO2e emissions reductions in the NDC. This number is based on the announcements made at the Saudi Green Initiative Forum in 2021 (Kingdom of Saudi Arabia, 2021d). In 2012, the latest year for which national data is available, the land use and forestry sink stood at just 9 MtCO2e, with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2020.
+
+The Global Warming Potential (GWP) values used for the NDC have not been communicated. We have assumed these to be expressed in either AR4 or SAR and have included both calculations in our range.
+
+
+## Current policy projections
+
+We use a business-as-usual (BAU) emissions scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC) for the upper end of our current policy projections (KAPSARC, 2021), adjusted to our latest historical data. Given the slow progress on renewable energy deployment and the lack substantial mitigation policies in other sectors, we estimate the BAU scenario to reflect current developments. The BAU scenario assumes 11 TWh of electricity generated with solar PV by 2030, which we estimate would translate to around 5–6 GW of solar PV capacity by 2030. Given that only 0.4 GW of renewable energy capacity had been installed by end of 2022 (IRENA, 2023), and that only few projects have been tendered since then, 5–6 GW of renewable capacity by 2030 is broadly in line with the current pace of deployment.
+
+For the lower end of our current policy scenario, we take the above BAU scenario but replaced it with CO2 emissions provided in KAPSARC’s latest baseline forecasts of carbon dioxide emissions (KAPSARC, 2023a). We then adjusted the results to our latest historical data.
+
+
+## Planned policy projections
+
+We use KAPSARC’s renewable energy scenario (“2030 MEIM RE target”) scenario for the upper end of our planned policies scenario (KAPSARC, 2021), adjusted to our latest historical data point. This scenario translates to about a 30% share of renewable energy in total electricity production by 2030. We estimate a 30% share of renewable energy to be roughly in line with the former (2019) Vision 2030 target of installing 57.8 GW of renewable energy by 2030.
+
+The lower end of our planned policy projections reflects the 50% renewable energy and 50% natural gas in electricity production by 2030, as foreseen in the 2021 NDC and the Vision 2030 targets from October 2021. To do so, we calculate the difference in electricity sector emissions resulting from KAPSARC’s renewable energy scenario and the new NDC target of 50% natural gas and renewable energy, and subtract it from the upper end of our planned policies range.
+
+
+## Net-zero target and other long-term targets
+
+The Saudi government has announced it aims to achieve a sink of 200 MtCO2 from 2030 onwards, which we assume to stay constant towards 2060 to meet Saudi Arabia’s net-zero CO2 target.
+
+Given the lack of information on Saudi Arabia’s net zero target announcement, we have assumed it aims to reach net zero CO2 emissions by 2060.
+
+We assume that CO2 emissions will decline at a linear rate between 2030 and 2060 to balance LULUCF sinks in 2060. We further assume that non-CO2 emissions will decline at a linear rate between 2030 and 2080 in line with the IPCC SR1.5 pathways.
+
+
+## Global Warming Potentials values
+
+The CAT uses Global Warming Potential (GWP) values from the IPCC's Fourth Assessment Report (AR4) for all its figures and time series.
+
+
+# Targets
+
+
+## Target Overview
+
+Saudi Arabia submitted an updated NDC on 23 October 2021, increasing the 2030 emissions reduction target from 130 MtCO2e in the first NDC to 278 MtCO2e in the updated one. However, we do not consider this a stronger target, as the median of the NDC range remains lower than Saudi Arabia’s emissions trajectory based on current policies. We interpret the NDC target to be a reduction below a baseline scenario, similarly to the previous one, although this is not explicitly mentioned in the document. It is important to note that neither the previous NDC nor the updated one includes a baseline projection to which the emissions reduction target is applied.
+
+The 2021 NDC, similarly to the previous version, mentions that the reduction target is contingent on international climate action under the Paris Agreement not causing an “abnormal burden” on its economy. The NDC specifically mentions that the emissions reductions are based on a scenario under which hydrocarbons exports continue to provide a ‘robust contribution’ to the Saudi economy.
+
+Under a second scenario, which we understand to be a scenario under which global hydrocarbons exports decline, Saudi Arabia would continue what it calls a ‘sustainable utilisation of hydrocarbons’ domestically. Under this scenario, Saudi Arabia reserves itself the right to revise its NDC.
+
+Saudi Arabia plans to meet part of its emissions reduction targets through the use of a carbon market scheme and Article 6 mechanisms, including for both the 2030 NDC and 2060 net zero targets. However, details on how these mechanisms might be used are lacking or unclear; they present major risks that Saudi Arabia will seek to use carbon credits with questionable integrity as a smokescreen to justify continuing its trajectory of maintaining high levels of domestic emissions.
+
+
+## NDC updates
+
+Saudi Arabia submitted its updated NDC on 23 October 2021, increasing the 2030 emissions reduction target from 130 MtCO2e in the first NDC to 278 MtCO2e in the updated one.
+
+The 2021 NDC lists the following mitigation measures:
+
+- Energy efficiency, particularly in the industry, buildings, and transport sectors
+- Renewable energy in the power sector, making up 50% of the electricity mix by 2030, and to generate green hydrogen
+- A switch from oil to gas in the electricity sector
+- Zero flaring in the oil and gas industry
+- Carbon capture utilisation and storage (CCUS), coupled with blue hydrogen
+As Saudi Arabia has not yet communicated the business as usual (BAU) range for its NDC target, we quantified the target based on a business as usual scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC) (KAPSARC, 2021), a Saudi-based organisation.
+
+The lower end of the BAU range reflects the KAPSARC BAU scenario, excluding land use, land use change and forestry (LULUCF). For the upper end of the range, we have assumed that LULUCF measures would contribute 200 MtCO2e of the total 278 MtCO2e emissions reductions in the NDC. This number is based on the announcements made at the Saudi Green Initiative Forum in 2021. However, in 2012, the latest year for which national data is available, the land use and forestry sink stood at just 9 MtCO2e (UNFCCC, 2020), with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2021 (World Bank, 2023).
+
+Based on this BAU range, and due to the uncertainties around the contributions of emissions reductions from land use and forestry, we project Saudi Arabia’s NDC emissions level to be anywhere between ~520–800 MtCO2e in 2030, excluding LULUCF. This represents an approximate change of –24% to +14% compared to 2021 levels. We do not consider the updated NDC target to be an increase in ambition compared to the previous target, as the median of the NDC range remains lower than Saudi Arabia’s emissions trajectory based on current policies.
+
+* Before September 2021, all CAT ratings were based exclusively on fair share and only assessed a country’s target.
+
+**Target development timeline & previous CAT analysis**
+
+- 04.11.2021: Updated NDC
+
+## CAT rating of targets
+
+NDC target against modelled domestic pathways
+
+**The CAT rates Saudi Arabia’s NDC target as “Critically insufficient” when compared to modelled domestic pathways.** This rating indicates that Saudi Arabia’s NDC target in 2030 reflects minimal to no action and is not at all consistent with modelled domestic pathways limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia's NDC rating against modelled domestic pathways has deteriorated compared to our previous assessment due to an update in our modelled domestic pathways to the pathways assessed in the AR6. This latest evidence shows that Saudi Arabia requires lower 2030 emissions to be consistent with a 4°C compatible pathway.
+
+As a result, its NDC rating is no longer “Highly insufficient” and falls into the “Critically Insufficient” range. Our newer pathways better capture national circumstances - including the recent plateauing in Saudi Arabia's emissions - and for higher temperature levels show less room for emissions growth than the previous set.
+
+NDC target against fair share
+
+**The CAT rates Saudi Arabia’s NDC target against fair share as “Critically insufficient”.** This rating indicates that Saudi Arabia’s NDC target reflects minimal to no action and is not at all consistent with its fair share of the global mitigation effort to limit warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**Further information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found** **here****.**
+
+
+## Net zero and other long-term target(s)
+
+We evaluate the target as: Poor.
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021 (Kingdom of Saudi Arabia, 2021d). However, the target has yet to be enshrined in law, or in a policy document.
+
+As of October 2023, Saudi Arabia has not submitted a long-term strategy to the UNFCCC.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided a clear emissions reduction pathway to net zero (Kingdom of Saudi Arabia, 2021a). The target’s emission coverage remains unclear with the CAT currently assuming that only CO2 emissions are being covered based on scarce available information.
+
+Saudi Arabia intends to reach its net zero target through the Circular Carbon Economy approach, which relies on the use of CCS. The national oil company Saudi Aramco has committed to reaching net zero operational emissions in 2050. However, most oil and gas emissions come from the combustion of fossil fuels, not their production. Saudi Arabia and Aramco’s net zero targets do not take into account emissions resulting from oil and gas exports. They also do not consider the economic risks associated with a continued reliance on fossil fuels exports in a net zero world (for further details, see the “Oil production” section under “Energy supply” here).
+
+**For the full analysis click** **here****.**
+
+
+# Summary
+
+
+## Overview
+
+Note: We have updated the text assessment to reflect the latest policy developments in Saudi Arabia. The CAT’s ratings and data are from our 2023 evaluation and will be updated soon.
+
+**Saudi Arabia has not implemented any policies that would substantially bring down its greenhouse gas emissions and reduce its reliance on fossil fuels. Previously-announced plans to cut emissions through expanding renewable energy are failing to materialise. Despite its “Vision 2030” diversification plan, initiated nearly a decade ago, the Saudi economy remains highly dependent on the production, use and export of hydrocarbons.**
+
+**As well as not mitigating greenhouse gas emissions nationally, Saudi Arabia is also playing an increasingly disruptive role in international climate negotiations. Most recently at COP29, Saudi Arabia’s interventions aimed at blocking discussion on a transition away from fossil fuels and at disconnecting the Intergovernmental Panel on Climate Change 7th Assessment Report from the 2nd Global Stocktake under the Paris Agreement.**
+
+**The country’s emissions are projected to continue increasing through 2030. As the world’s largest crude oil exporter, Saudi Arabia is responsible for a significant share of global emissions, with emissions from burning exported oil in other countries amounting to more than** **twice the level of its domestic emissions****. The Climate Action Tracker (CAT) rates Saudi Arabia’s overall climate action as “Critically Insufficient”.**
+
+Saudi Arabia’s 2030 and 2060 climate commitments are not expected to help cut emissions: they lack transparency, rely largely on the deployment of carbon, capture and storage (CCS) technologies, and fail to address concerns about Saudi Arabia’s role as the world’s leading crude oil exporter.
+
+Its 2030 emissions reduction target is explicitly based on a scenario with substantial fossil fuel exports and includes a “get out clause” if international climate change policies negatively affect these exports. Our analysis suggests that this target could lead to national emissions ranging anywhere between 520–800 MtCO2e by 2030—going from a slight decrease in emissions to a significant increase compared to current levels due to uncertainties around the expected contribution of the land use and forestry sector.
+
+The Saudi government also announced a 2060 net zero target in 2021 but has yet to release any additional information on this objective, nor enshrine it into law, giving it little credibility.
+
+Despite its diversification plan, Saudi Arabia remains heavily dependent on oil revenues and has done little to effectively diversify towards a low carbon economy and adapt to a world heading to net zero emissions. In January 2024, the Saudi national oil company, Aramco, abandoned its plan to increase oil production capacity to 13 million barrels per day by 2027 from currently 12 million barrels per day. However, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels, reflecting changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries.
+
+Saudi Arabia has the potential to become a world leader in renewable energy production, but has made very little progress in the last decade. The most recent target aims for 50% of electricity to be generated with renewable energy by 2030. However, in 2023, renewables only generated around 1% of electricity and Saudi Arabia had around 2.7 GW of installed renewable capacity. In contrast, it has 97 GW of oil and gas plants in operation along with a pipeline of more than 8 GW of fossil plants under construction as of August 2024.
+
+Saudi Arabia also has a track record of obstructing international climate negotiations by repeatedly opposing references to the 1.5°C warming limit and language related to the phase-out of fossil fuels. Notably, at COP29, Saudi Arabia had sought to undermine the pledge to transition away from fossil fuels agreed at COP28. This raises concerns about the country’s willingness to engage in meaningful climate action on the global stage.
+
+Saudi Arabia is already experiencing above-average temperature rise. Projections indicate that global warming will be more pronounced in the Middle East and North Africa region, with climate policies and actions around the world on course for warming in Saudi Arabia in the order of 4°C this century.
+
+To improve its climate action, Saudi Arabia should take the following steps:
+
+- **Develop a credible economic diversification plan away from fossil fuels, which is both compatible with the Paris Agreement and takes into account the risks** **associated with exporting** **fossil fuels in a world heading to net zero emissions.** This plan should include a clear commitment to ending new investments in oil and gas production and a phase-out of fossil fuels in line with a 1.5°C scenario.
+- **Significantly increase the pace of renewable energy deployment,** which would help drive decarbonisation efforts and stimulate sustainable job growth for its young population, all of which are objectives of the Vision 2030 agenda.
+- **Update its NDC by strengthening its 2030 target**, providing an absolute emissions reduction target (instead of a reduction below an uncommunicated baseline scenario) and clarifying the assumptions on LULUCF.
+- **Clarify the assumptions behind its 2060 net zero target**, which currently lacks transparency and credibility, and does not provide a clear emissions reduction pathway.
+
+## Description of CAT ratings
+
+The CAT rates each country’s targets and policies against (1) its fair share contribution to climate change mitigation considering a range of equity principles including responsibility, capability and equality, and (2) what is technically and economically feasible using modelled domestic pathways which, in absence of a better method, are based on global least-cost climate change mitigation.
+
+Comparing a country’s fair share ranges and modelled domestic pathways provides insights into which governments should provide climate finance and which should receive it. Developed countries with large responsibility for historical emissions and high per-capita emissions, must not only implement ambitious climate action domestically but must also support climate action in developing countries with lower historical responsibility, capability, and lower per-capita emissions.
+
+**The CAT rates Saudi Arabia’s climate targets and policies as “Critically insufficient”.** This rating indicates that Saudi Arabia’s climate policies and commitments reflect minimal to no action and are not at all consistent with the 1.5°C temperature limit. Saudi Arabia’s 2030 climate commitment is unclear, as the government has not published the baseline corresponding to its Paris Agreement target.
+
+We rate Saudi Arabia’s 2030 emissions reduction target as “Critically insufficient” when compared with its fair-share contribution to climate action and is consistent with more than 4°C of warming.
+
+The 2030 target is rated as ‘Highly insufficient’ when compared to modelled domestic pathways, downscaled from global least-cost scenarios. Saudi Arabia’s policies could lead to its emissions peaking in the second half of this decade, but still only in line with 2°C to 3°C warming. Saudi Arabia still needs to strengthen its target for emissions reductions and implement additional policies to get a rating aligned to the Paris Agreement.
+
+**We rate Saudi Arabia’s policies and actions against modelled domestic pathways as “Critically Insufficient”**. This rating indicates that Saudi Arabia’s policies and action in 2030 reflect minimal to no action and are not at all consistent with limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia remains highly dependent on fossil fuel revenues and keeps pushing for false solutions such as carbon capture and storage (CCS) in the hope of extending the life of its extractive industry. The government has put forward several mitigation measures, but implementation has been slow, particularly in the renewable energy sector. Despite its vast solar energy resource, Saudi Arabia had only installed about 2.7 GW of renewable energy capacity in 2023, generating around 1% of total electricity.
+
+**The full policies and action analysis can be found** **here****.**
+
+**We rate Saudi Arabia’s NDC target as “Critically insufficient” when compared to domestic pathways.** This rating indicates that Saudi Arabia’s NDC target reflects minimal to no action and is not at all consistent with the 1.5°C temperature limit when compared to modelled domestic pathways. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia's NDC rating against modelled domestic pathways has deteriorated compared to our previous assessment, due to an update in our modelled domestic pathways to the pathways assessed in the AR6, and a significant change in historical emissions. The latest historical data show higher emissions in the energy and industry sectors, which were previously underreported.
+
+As a result, its NDC rating is no longer “Highly insufficient” and falls into the “Critically insufficient” range. Our newer pathways better capture national circumstances - including the recent plateauing in Saudi Arabia's emissions - and, for higher temperature levels, show less room for emissions growth than the previous set.
+
+**We rate Saudi Arabia’s NDC target against fair share as “Critically insufficient”.** This rating indicates that Saudi Arabia’s NDC target in 2030 reflects minimal to no action and is not at all consistent with the 1.5°C temperature limit when compared to its fair share. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**We evaluate the target as: Poor.**
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021. However, the target has yet to be enshrined in law or in a policy document.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided a clear emissions reduction pathway to net zero. The emission coverage remains unclear. The CAT currently assumes that only CO2 emissions are covered given the lack of information.
+
+
+# Net zero targets
+
+
+## Summary
+
+We evaluate the target as: **Poor**
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021 (Kingdom of Saudi Arabia, 2021d). However, the target has yet to be enshrined in law or in a policy document. As of October 2023, Saudi Arabia has not submitted a long-term strategy to the UNFCCC.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided any clear emissions reduction pathway to net zero (Kingdom of Saudi Arabia, 2021a). The target’s emission coverage remains unclear with the CAT currently assuming that only CO2 emissions are being covered, based on scarce available information.
+
+Saudi Arabia intends to reach its net zero target through the Circular Carbon Economy approach, which relies on the use of CCS. The national oil company Saudi Aramco has committed to reaching net zero operational emissions in 2050. However, the vast majority of oil and gas emissions comes from the combustion of fossil fuels, not their production. Saudi Arabia and Aramco’s net zero targets do not take into account scope 3 emissions resulting from oil and gas exports. They also do not consider the economic risks associated with a continued reliance on fossil fuels exports in a net zero world.
+
+Target covers emissions / sectors partially (under 95% coverage)
+
+The target excludes both international aviation and shipping
+
+Relies on international offset credits or reserves right to use them to meet net zero
+
+Net zero target announced
+
+No separate emission reduction and removal targets
+
+Country provides no information on its intention to establish a review cycle for its net zero and intermediate targets
+
+No transparent assumptions on carbon dioxide removals
+
+There is no information or underlying analysis available on the anticipated pathway or measures to achieve net zero emissions
+
+Country makes no reference to fairness or equity in the context of its net zero target
+
+
+## CAT analysis of net zero target
+
+**Scope**
+
+- **Target year** – Saudi Arabia aims to reach net zero by 2060.
+- **Emissions coverage** – Saudi Arabia provides no explicit information on the sectors and gases covered by the net zero target (Kingdom of Saudi Arabia, 2021d), but mainly focuses on its Carbon Circular Economy approach in explaining how it intends to meet the target. For this reason, the CAT currently assumes Saudi Arabia’s target currently only covers CO2 emissions.
+- **International aviation and shipping** – Saudi Arabia provides no information on its intention to cover international aviation and shipping.
+- **Reductions or removals outside of own borders **– The government recently announced the launch of a carbon crediting scheme in early 2024, which will supposedly enable companies to offset their emissions by buying carbon credits compliant with Article 6 of the Paris Agreement (Carbon-Pulse, 2023). Despite the apparent focus on companies procuring credits, Saudi Arabia appears to plan to also use the credits to meet part of its climate pledge, including its 2060 net zero target. It is unclear how this could work in practice based on the information published to date in a manner that avoids more than one entity claiming rights to the same emission reductions – an outcome which would undermine the integrity of the credits and potentially lead to an overall rise in emissions.
+**Target architecture**
+
+- **Legal status** – Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target at the first Saudi Green Initiative Forum (Kingdom of Saudi Arabia, 2021d). Saudi Arabia has not submitted a Long-Term Strategy (LTS) to the UNFCCC as of October 2023.
+- **Separate reduction & removal targets** – Saudi Arabia provides no information on its intention to communicate separate emission reduction and removal targets.
+- **Review process** – Saudi Arabia provides no information on its intention to establish a review cycle for its net zero and intermediate targets.
+**Transparency**
+
+- **Carbon dioxide removal** – Saudi Arabia provides no information on its intention to communicate transparent assumptions on carbon dioxide removals.
+- **Comprehensive planning** – Saudi Arabia provides no comprehensive planning on how it aims to achieve its net zero by 2060. It has not communicated underlying pathways, interim targets or detailed measures to meet the 2060 target. Saudi Crown Prince Mohammed bin Salman stated that Saudi Arabia relies on the Circular Carbon Economy approach to meet its net zero target and makes no reference to emissions from oil and gas exported by Saudi Arabia (Kingdom of Saudi Arabia, 2021d). The Circular Carbon Economy approach, however, only addresses a fraction of relevant emissions from oil and gas production through carbon capture and storage technologies, but most emissions come from fuel combustion rather than oil and gas extraction and processing.
+- **Clarity on fairness of target **– Saudi Arabia provides no information on its intention to explain the target’s fairness.
+
+## Good practice
+
+The Climate Action Tracker has defined the following good practice for all ten key elements of net zero targets. Countries can refer to this good practice to design or enhance their net zero targets.
+
+
+# 2035 NDC
+
+
+## 2035 NDC Target
+
+Saudi Arabia has not yet submitted their 2035 NDC to the UNFCCC. Once the new NDC has been submitted, we will publish our assessment here.
+
+
+# Policies & action
+
+**We rate Saudi Arabia’s policies and actions against modelled domestic pathways as “Critically Insufficient”**. This rating indicates that Saudi Arabia’s policies and action in 2030 reflect minimal to no action and are not at all consistent with limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**Further information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found** **here****.**
+
+
+## Policy overview
+
+Saudi Arabia has done little to decarbonise its economy. We expect its emissions to rise to 800–830 MtCO2e in 2030, a 15–­19% increase from 2021 levels. It remains difficult to assess whether Saudi Arabia’s current policies reach its NDC target, given the significant uncertainties around its target (see details in the Assumptions section).
+
+Saudi Arabia’s energy sector remains dominated by fossil fuels, which represented almost 100% of the total energy supply in 2022 (IEA, 2023b). The Saudi government expects the overall demand for energy, including for oil and fossil gas, to continue increasing until 2030 and beyond (KAPSARC, 2021).
+
+Saudi Arabia’s “Vision 2030” aims to diversify its economy beyond oil, which accounted for around two thirds of total budget revenues in 2022. However, the government clearly has no intention to phase out fossil fuels. Saudi Arabia is betting on carbon capture and storage (CCS) technologies as a smokescreen to continue expanding oil and gas production.
+
+While Aramco abandoned its plan to increase oil production capacity to 13 million barrels per day (mb/d) by 2027, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels. This reversal reflects changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries, particularly the U.S.
+
+Even if Saudi Arabia were to reach its 50% target for renewable energy in the electricity mix, we project that emissions would still rise to 730–770 MtCO2e by 2030. Despite its vast solar energy potential, Saudi Arabia has only installed about 2.7 GW of renewable energy capacity as of 2023, generating around 1% of total electricity (IRENA, 2024b).
+
+In 2022, Saudi Arabia’s sovereign wealth fund, the Public Investment Fund (PIF), and the Saudi Stock Exchange Tadawul set up a voluntary carbon market in the Middle East and North Africa. The first auction in November 2022 offered one million tonnes of carbon credits (Bloomberg, 2022).
+
+Saudi Arabia has also announced the launch of a domestic carbon crediting scheme in early 2024, which will purportedly enable companies to offset their emissions by buying credits compliant with Article 6 of the Paris Agreement. The scheme appears to be voluntary, project-based and covers all sectors (Carbon-Pulse, 2023; Kingdom of Saudi Arabia, 2024).
+
+Despite the apparent focus on companies procuring credits, Saudi Arabia also appears to plan on using the credits to meet parts of its national climate pledge, including its 2060 net zero target. Based on the information published as of November 2024, it is unclear how this could work in practice in a manner that avoids both a company and the government from claiming rights to the same emission reductions ("double counting") – an outcome that would undermine the integrity of the credits, and potentially lead to an overall rise in emissions.
+
+The establishment of a voluntary carbon market in Saudi Arabia should complement and not serve to distract from - or displace - critically-needed domestic mitigation efforts. Information on how the Kingdom intends to use its carbon crediting scheme remains unclear or lacks details, and presents major risks that it will seek to use carbon credits with questionable integrity as a smokescreen to justify continuing its trajectory of maintaining high levels of domestic emissions. For more information on the role of voluntary carbon markets under the Paris Agreement and their associated risks, see Fearnehough et al. 2020.
+
+
+## Power sector
+
+In 2023 Saudi Arabia still produced nearly 100% of its electricity with fossil fuels—around 58% with fossil gas and 41% with oil (IEA, 2024). The share of electricity generated by fossil gas has increased since 2015, when it stood at just 37%, thereby contributing to some emissions reductions in the electricity sector.
+
+However, Saudi Arabia has no intention of phasing out fossil fuels from its power sector. It currently aims for 50% of total electricity to be generated with fossil gas by 2030. In December 2023, four gas-fired power plants with a total capacity of 5.6 GW started operation, and additional plants with a total capacity of 8.4 GW are currently under development (Saudi & Middle East Green Initiatives, 2023).
+
+Fossil gas is a fossil fuel and needs to be phased out as part of the global decarbonisation needed to reach the 1.5˚C temperature warming limit—by 2035 in developed countries and 2040 in developing countries (Climate Action Tracker, 2023).
+
+In 2022, Saudi Arabia had the G20's highest share of fossil fuel subsidies per capita (IMF, 2023). Fossil fuel subsidies, both direct and indirect, continue to distort energy prices by keeping oil and fossil gas prices artificially low, discouraging investment in cleaner alternatives.
+
+Saudi Arabia, acknowledging the need for reform in its “Vision 2030” strategy, took initial steps to address this issue (Kingdom of Saudi Arabia, 2021c). The government introduced a 5% VAT on fuel and increased VAT rate for goods and services from 5% to 15%, including those in the hydrocarbons sector (SPA, 2020).
+
+However, fossil fuel subsidies (explicit and implicit) provided by the government jumped from USD 141bn in 2019 to USD 253bn in 2022, accounting for 16% of Saudi Arabia’s GDP in 2019, to 27% in 2022 (IMF, 2023). Driven by soaring energy prices and the demand rebound following the pandemic, these subsidies have primarily benefited the domestic oil sector.
+
+Research shows that adequate pricing of fossil fuels could help cut 36% of global CO2 emissions (Parry et al., 2021). Setting prices that reflect the true costs of fossil fuels would also further increase the cost-competitiveness of mitigation technologies, such as renewable energy.
+
+Despite its vast potential, Saudi Arabia’s renewable energy sector has been mired in uncertainty, with ambitious announced plans and projects having yet to materialise.
+
+In the first iteration of “Vision 2030” released in 2016, the government revised its renewable energy target downward to an ‘initial’ 9.5 GW installed capacity by 2023 (Borgmann, 2016; Kingdom of Saudi Arabia, 2016). In 2019, the Ministry of Energy released an updated version of the strategy, which aimed to install 27.3 GW of renewable energy capacity by 2023 and 57.8 GW by 2030. The latest target aims for 50% of electricity to be generated with renewable energy and 50% with fossil gas in 2030 (Kingdom of Saudi Arabia, 2021c; Saudi Arabia, 2024).
+
+Despite some progress in the last two years, the government will need to significantly increase the pace of renewable energy development if it hopes to meet its latest 2030 target. In 2023, installed renewable energy capacity stood at 2.7 GW, generating around 1% of electricity, with around 1.8 GW (mostly solar) additional capacity installed between 2022 and 2023 (IRENA, 2024a).
+
+Saudi Arabia hopes to position itself as a leader in the global hydrogen market. The government announced plans to build a large green hydrogen production facility in its smart city NEOM (Al Arabiya News, 2023b; Saudi & Middle East Green Initiatives, 2023). The plant is expected to be operational in 2026 and produce 600 tonnes per day of green hydrogen using renewable electricity.
+
+The government is pursuing “clean hydrogen” development with a view to diversifying its revenues and becoming less reliant on hydrocarbon exports (Saudi Arabia, 2024). Considering its strategic location near global shipping lanes and its vast renewable energy potential, Saudi Arabia is also well-positioned to lead the decarbonisation of the maritime sector. It has the potential to lead the way by producing green hydrogen at scale as an alternative fuel source (KAPSARC, 2023b). It should, however, first prioritise rapid scaling-up of renewable capacity to decarbonise the domestic economy.
+
+Building the pipeline of renewable capacity to first meet domestic energy demand and then potentially exploiting the global market for “green” hydrogen will take time, given the low base of renewables in Saudi Arabia. A substantial policy commitment and investment in renewable electricity today is a critical enabler for Saudi Arabia to position itself as a future leader in “green” hydrogen. Without this shift in the status quo, it will only be able to rely on fossil gas and unproven CCS technologies to produce “blue” or “grey” hydrogen, neither of which are "renewable".
+
+While hydrogen production from fossil gas has been the cheapest option to date, it remains expensive, as lot of energy is lost in the conversion process and is highly susceptible to market price volatility. Gas price fluctuations caused by Russia’s invasion of Ukraine tripled the cost of grey hydrogen in 2022. Emission penalties under carbon pricing are expected to further increase the cost of fossil fuel-derived hydrogen. On the contrary, with falling renewable energy costs and technology improvements, green hydrogen – particularly produced with solar PV and wind – could become cost-competitive with fossil fuel-derived hydrogen as early as 2030 (NewClimate, 2023).
+
+Saudi Arabia has recently reiterated its intention to build a nuclear power plant, although no concrete plan had been announced as of November 2024 (World Nuclear News, 2023). While nuclear electricity generation does not emit CO2, the CAT doesn’t see nuclear as the solution to the climate crisis due to its risks such as nuclear accidents and proliferation, high and increasing costs compared to alternatives such as renewables, long construction times, incompatibility with flexible supply of electricity from wind and solar and its vulnerability to heat waves.
+
+In 2019, Saudi Arabia’s Renewable Energy Project Development Office (REPDO) completed a study claiming that 13.5 GW of renewable energy could be integrated without major grid upgrades (National Renewable Energy Program, 2018). Beyond this, and in order to meet its 2030 renewable energy target, the government will need to significantly invest in grid infrastructure.
+
+Saudi Arabia is moving ahead with grid interconnection plans with neighbouring countries, focusing on smart grid technologies, which could facilitate a future uptake and integration of renewables (Al-Gahtani, 2024). Saudi Arabia is currently working on grid interconnection project with Iraq, India, Jordan and Egypt (RE Global, 2023).
+
+
+## Industry
+
+Oil extraction has been the backbone of the Saudi economy for decades. Saudi Arabia is the world’s second largest oil producer after the United States and is OPEC’s leading oil producer (BP, 2023). It produced approximately 12% of the world’s oil in 2022 and held 17% of proven oil reserves.
+
+While the government has taken small steps to diversify the economy, Saudi Arabia remains highly dependent on hydrocarbon revenue. In 2022, Saudi Arabia reported USD 362bn in total crude oil export revenues and an additional USD 45bn in refined petroleum export revenues: several orders of magnitude higher than the oil export revenues from any other country (OEC, 2024). Oil is Saudi’s most exported commodity, accounting for 75% of the total value of exports in 2021 (OPEC, 2023).
+
+Over the past two decades oil rents, which are the difference between crude oil market prices and production costs, have consistently contributed at least 20% of Saudi’s annual GDP (World Bank, 2021). This close dependency between Saudi’s GDP growth and the oil market puts the sustainable growth of Saudi’s economy at risk. Recent geopolitical conflicts have once more shown the vulnerability of the global oil market to exogenous shocks.
+
+Saudi Arabia does not plan to end investment in new oil production, which is required to hold global warming to 1.5°C (IEA, 2023a). While Aramco recently abandoned its plan to increase oil production capacity to 13 million barrels per day (mb/d) by 2027, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels. This reversal reflects changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries, particularly the U.S (FT, 2024).
+
+The government’s current diversification plans include no scenario with a decline in global oil consumption in the coming decades, which is required to meet the objectives of the Paris Agreement and reach net zero CO2 emissions by mid-century (IEA, 2023a; IPCC, 2018). Both the “business-as-usual” and the “2030 renewable energy target” scenarios outlined in KAPSARC’s Energy Policy Solutions project hydrocarbon exports to significantly increase until 2050 (KAPSARC, 2021).
+
+At COP28, Saudi Aramco signed the Oil and Gas Decarbonisation Charter (OGDC), a new initiative which aims to “accelerate climate action” in the fossil fuel sector. However, the OGDC only addresses a fraction of relevant emissions from oil and gas production. Although most emissions come from fuel combustion, the initiative solely focuses on reducing emissions within the operations of oil and gas companies, such as in drilling and refining processes. Without a commitment to reducing the extraction and burning of fossil fuels, the charter fails to tackle the main driver of climate change. So far, none of the signatories have agreed to cut fossil fuel production.
+
+Saudi Arabia is betting on carbon capture and storage (CCS) technologies to reach its climate goals while sustaining its fossil fuel production and exports. As of 2024, it only had one operational CCS plant—which is used for enhanced oil recovery (EOR), rather than reducing emissions from fossil fuels (Global CCS Institute, 2023).
+
+The government has a target to capture and store 44 million tonnes of CO2 annually by 2035. To this end, Saudi Arabia is in the process of building a CCS hub at the industrial complex of Jubail, which it plans to capture CO2 from fossil gas plants. The hub is expected to be operational from 2027 and the plans are to capture up to nine million tonnes of CO2 per year from three Aramco fossil gas plants (The CCUS hub, 2023). But given the track record of CCS technology so far, these planned capture rates are questionable.
+
+CCS technologies are not commercially viable, nor are they proven at scale, despite large public subsidies for research and development globally. Relying on CCS to the extent Saudi Arabia is planning diverts attention and resources away from cost-effective mitigation options. The use of CCS should be limited to industrial applications where there are fewer options to reduce process emissions—not to reduce emissions from the electricity sector where there are cost-effective mitigation alternatives, not least because CCS does not remove 100% of emissions from power plants.
+
+Saudi Arabia is promoting the concept of a Circular Carbon Economy (CCE) to reduce emissions from oil and gas production (Luomi et al., 2021). This, however, only addresses a fraction of relevant emissions as most emissions come from fuel combustion rather than oil and gas extraction and processing. Saudi Arabia’s CCE plans largely rely on the development and deployment of CSS technologies (Kingdom of Saudi Arabia, 2022).
+
+
+## Transport
+
+The transport sector accounted for 29% of total final energy consumption in 2022 (IEA, 2024).
+
+The sector is primarily individual, road-based transport but the Kingdom has sought to expand its public transportation network in recent years. The King Abdulaziz Public Transport project is a major initiative to modernise transportation in the city of Riyadh. The capital is set to become the second city in Saudi Arabia with a metro network after the Makkah metro opened in 2010 (Saudi Gazette, 2020). Following a delay, the Riyadh metro system is set to open to passengers at the end of 2024 (Railway Technology, 2023; The M Metro Rail Guy, 2024).
+
+The Saudi government has also taken steps to invest in rail transport; however, it remains unclear whether the new networks will be electric or diesel-powered. In 2010, it launched the Saudi Railway Master Plan, aiming to construct a 9,900-km network by 2040 (Oxford Business Group, 2020). The first phase, running until 2025, includes constructing and upgrading 5,500 km of tracks for freight and passenger transport, including interlinkages to the wider Gulf Cooperation Council (GCC) railway network. The light rail network in the smart city NEOM is complete as of 2024 (Godfrey, 2024).
+
+Saudi Arabia has taken steps to develop its own electric vehicle (EV) industry. As part of its “Vision 2030” strategy, the government aims to produce 50,000 EVs annually by 2030 and for 30% of Riyadh’s vehicles to be electric by 2030 (Kingdom of Saudi Arabia, 2021c).
+
+In 2022, Saudi Arabia introduced its first domestic brand of EV called Ceer, through a joint venture between PIF and Taiwanese car manufacturer Foxxconn (Al Arabiya News, 2023a). Manufacturing facilities for Ceer vehicles are under construction and expected to be operational by 2025 (Al Jazeera, 2023). Additionally, in June 2023, Saudi Arabia signed a USD 6 bn deal with Chinese EV manufacturer Human Horizons to collaborate on the development, manufacture, and sale of electric vehicles (Reuters, 2023).
+
+To further promote the use of EVs, by 2024 the government had built 2,800 EV charging points,, with plans to set up 30,000 new stations by 2030 (Mobility Foresights, 2024).
+
+Despite the progress made, achieving Saudi Arabia’s 2030 EV target will be challenging. The government will need to accelerate the deployment of charging infrastructure and introduce incentives to promote greater EV adoption (Apricum, 2022).
+
+
+## Buildings
+
+In Saudi Arabia, per capita emissions in the buildings sector remain above regional and world average, despite a slow decline in recent years (Climate Transparency, 2022).
+
+In 2012, the Saudi Energy Efficiency Center (SEEC) launched the Saudi Energy Efficiency Program (SEEP), which targets key sectors of the country’s economy (Kingdom of Saudi Arabia, 2022). Through this program, SEEC has introduced a series of measures in the building sector, including mandatory labelling for insulation materials and air conditioners (Acs). SEEC has also developed guidelines designed to optimise energy consumption in buildings, with a focus on Acs, washing machines, refrigerators, lighting, and heaters. Since their introduction, these standards and guidelines have been further refined and continue to be enforced.
+
+Saudi Arabia is taking steps to improve energy efficiency in buildings. Through the national Energy Services Company, TARSHID, the government aims to renovate numerous government buildings, public schools, hospitals, and mosques throughout the country (Kingdom of Saudi Arabia, 2021b). Efforts are also underway to develop and implement an Energy Use Intensity (EUI) ecosystem (Saudi Arabia, 2024).
+
+
+## Land use and forestry
+
+In 2012, the latest year for which national data is available, the land use and forestry sink only stood at 9 MtCO2e (UNFCCC, 2020), with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2021 (World Bank, 2023). The government has announced plans to plant 450 million trees by 2030 and 10 billion trees over the coming decades as part of the Saudi Green Initiative. According to the government, this initiative foresees afforestation and land restoration measures increase the Kingdom’s forestry sink to 200 MtCO2e by 2030. Yet progress has been slow: by the end of 2023, Saudi Arabia had reportedly planted 44 million trees (Saudi & Middle East Green Initiatives, 2023).
+
+
+## Methane
+
+In 2022, the methane sector accounted for 10% of total GHGs, the majority coming from the waste and energy sectors (Gütschow et al., 2024).
+
+At COP26, Saudi Arabia signed the Global Methane Pledge, in which signatories agreed to cut methane emissions in all sectors by 30% globally over the next decade. While its 2021 NDC does not have explicit emission reduction targets for non-CO2 gases, it includes several measures to manage methane emissions, such as the objective to achieve zero flaring in the oil and gas industry (Kingdom of Saudi Arabia, 2021b). However, Saudi Arabia is still planning to ramp-up its oil production capacity towards the end of the decade, making it in practice difficult to reduce its methane emissions.
+
+
+# Sources
+
+
+## References
+
+Al-Gahtani, S. F. (2024). Saudi Arabia’s Journey toward a Renewable Future. Energies , 17(11), 1–19. https://doi.org/10.3390/en17112444
+
+Al Arabiya News. (2023a). Electric vehicle demand booms in Saudi Arabia amid move to green mobility. https://english.alarabiya.net/News/saudi-arabia/2023/06/21/Electric-vehicle-demand-booms-in-Saudi-Arabia-amid-move-to-green-mobility
+
+Al Arabiya News. (2023b). NEOM’s green hydrogen plant will secure Saudi Arabia’s clean energy transition: CEO. https://english.alarabiya.net/News/2023/05/25/Saudi-s-green-hydrogen-plant-will-put-Kingdom-on-global-map-for-clean-energy-CEO
+
+Al Jazeera. (2023). Saudi Arabia signs $5.6bn EV deal as it eyes closer China ties. https://www.aljazeera.com/news/2023/6/12/saudi-arabia-signs-5-6bn-ev-deal-as-it-eyes-closer-china-ties
+
+Apricum. (2022). Challenges and opportunities in Saudi Arabia’s green mobility expansion. https://apricum-group.com/challenges-and-opportunities-in-saudi-arabias-green-mobility-expansion-plans/?cn-reloaded=1&cn-reloaded=1
+
+Arab News. (2024). Saudi Arabia unveils plan to recycle up to 95% of waste in 2024. Arab News. https://www.arabnews.com/node/2441531/business-economy
+
+Bloomberg. (2022). Saudi Arabia Holds Middle East’s First Carbon Offset Auction. https://www.bloomberg.com/news/articles/2022-10-25/saudi-fund-sets-up-carbon-market-firm-to-support-net-zero-goal
+
+Borgmann. (2016). Potentially Game-Changing Saudi Arabian Government Restructuring Bolsters 9.5 GW Renewable Energy Target by 2023. http://www.apricum-group.com/saudi-arabia-announces-9-5-gw-renewable-energy-target-new-king-salman-renewable-energy-initiative/
+
+BP. (2023). Statistical Review of World Energy Data 2023. https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fwww.energyinst.org%2F__data%2Fassets%2Fexcel_doc%2F0007%2F1055545%2FEI-stats-review-all-data.xlsx&wdOrigin=BROWSELINK
+
+Carbon-Pulse. (2023). Saudi Arabia to launch domestic “Article 6-aligned” carbon crediting system in 2024. https://carbon-pulse.com/227909/
+
+Climate Action Tracker. (2023). CAT briefing: Pulling the plug on fossils in power. https://climateactiontracker.org/publications/pulling-the-plug-on-fossils-in-power
+
+Climate Transparency. (2022). Saudi Arabia - Climate Transparency report 2022. https://www.climate-transparency.org/wp-content/uploads/2022/10/CT2022-Saudi-Arabia-Web.pdf
+
+Global CCS Institute. (2023). Global Status of CCS 2022. https://status22.globalccsinstitute.com/wp-content/uploads/2022/11/Global-Status-of-CCS-2022_Download.pdf
+
+Godfrey, P. (2024, August 2). NEOM completes construction of light rail network. ME Construction News. https://meconstructionnews.com/60136/neom-completes-construction-of-light-rail-network
+
+Gütschow, J., Pflüger, M., & Busch, D. (2024). The PRIMAP-hist national historical emissions time series (1750-2022) v2.5.1. https://doi.org/10.5281/zenodo.10705513
+
+IEA. (2023a). Net Zero Roadmap: A Global Pathway to Keep the 1.5 °C Goal in Reach 2023 Update. International Energy Agency. https://www.iea.org/reports/net-zero-roadmap-a-global-pathway-to-keep-the-15-0c-goal-in-reach
+
+IEA. (2023b). Saudi Arabia. https://www.iea.org/countries/saudi-arabia
+
+IEA. (2024). Country profile - Saudi Arabia. https://www.iea.org/countries/saudi-arabia/energy-mix
+
+IFA. (2024). Saudi Arabia - Country Commercial Guide. International Trade Administration. https://www.trade.gov/country-commercial-guides/saudi-arabia-waste-management
+
+IMF. (2023). IMF Fossil Fuel Subsidies Data: 2023 Update. https://www.elibrary.imf.org/view/journals/001/2023/169/001.2023.issue-169-en.xml
+
+IPCC. (2018). Summary for Policymakers. In V. Masson-Delmotte, P. Zhai, H.-O. Pörtner, D. Roberts, J. Skea, P. R. Shukla, A. Pirani, W. Moufouma-Okia, C. Péan, R. Pidcock, S. Connors, J. B. R. Matthews, Y. Chen, X. Zhou, M. I. Gomis, E. Lonnoy, T. Maycock, M. Tignor, & T. Waterfield (Eds.), Global Warming of 1.5°C. An IPCC Special Report on the impacts of global warming of 1.5°C above pre-industrial levels and related global greenhouse gas emission pathways, in the context of strengthening the global response to the threat of climate change, (Issue October 2018). IPCC. https://www.ipcc.ch/sr15/chapter/spm/
+
+IRENA. (2023). Renewable capacity statistics 2023. https://www.irena.org/Publications/2023/Mar/Renewable-capacity-statistics-2023
+
+IRENA. (2024a). Renewable Capacity Statistics 2024. https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2024/Mar/IRENA_RE_Capacity_Statistics_2024.pdf?rev=a587503ac9a2435c8d13e40081d2ec34
+
+IRENA. (2024b). Renewable Energy Capacity Statistics 2024. IRENA. https://www.irena.org/Data/View-data-by-topic/Capacity-and-Generation/Statistics-Time-Series
+
+KAPSARC. (2021). Saudi Arabia | Energy Policy Solutions. https://eps.kapsarc.org/scenarios/home
+
+KAPSARC. (2023a). Baseline Forecasts of Carbon Dioxide Emissions for Saudi Arabia Using the Structural Time Series Model and Autometrics (Issue May). https://doi.org/10.30573/KS--2022-DP19
+
+KAPSARC. (2023b). Saudi Arabia’s Potential to Further Hydrogen Use in the Maritime Sector. https://www.kapsarc.org/research/publications/saudi-arabias-potential-to-further-hydrogen-use-in-the-maritime-sector/
+
+Kingdom of Saudi Arabia. (2016). Vision 2030. http://vision2030.gov.sa/en/media-center
+
+Kingdom of Saudi Arabia. (2021a). Reducing Emissions - Saudi Green Initiative. https://www.saudigreeninitiative.org/targets/reducing-emissions/
+
+Kingdom of Saudi Arabia. (2021b). Updated First Nationally Determined Contributions. https://unfccc.int/sites/default/files/resource/202203111154---KSA NDC 2021.pdf
+
+Kingdom of Saudi Arabia. (2021c). Vision 2030. https://www.vision2030.gov.sa/media/cofh1nmf/vision-2030-overview.pdf
+
+Kingdom of Saudi Arabia. (2021d, October 23). Press release: His Royal Highness the Crown Prince announces the Kingdom of Saudi Arabia’s aims to achieve net zero emissions by 2060. Saudi Green Initiative. https://www.saudigreeninitiative.org/pr/SGI_Forum_Press_Release-EN.pdf
+
+Kingdom of Saudi Arabia. (2022). Saudi Arabia, Fourth National Communication. https://unfccc.int/sites/default/files/resource/7123846_Saudi Arabia-NC4-1-Fourth National Communication NC4 Kingdom of Saudi Arabia March 2022.pdf
+
+Kingdom of Saudi Arabia. (2024). GCOM STEPS. https://gcom.cdmdna.gov.sa/Overall
+
+Luomi, M., Yılmaz, F., Alshehri, T., & Howarth, N. (2021). The Circular Carbon Economy Index – Methodological Approach and Conceptual Framework. https://www.kapsarc.org/research/publications/the-circular-carbon-economy-index-methodological-approach-and-conceptual-framework/
+
+Mobility Foresights. (2024). Saudi Arabia EV Charger Market 2024-2030. Mobility Foresights. https://mobilityforesights.com/product/saudi-arabia-ev-charger-market/
+
+National Renewable Energy Program. (2018). Saudi Arabia Renewable Energy Targets and Long Term Visibility. https://www.powersaudiarabia.com.sa/web/attach/media/Saudi-Arabia-Renewable-Energy-Targets-and-Long-Term-Visibility.pdf
+
+Oxford Business Group. (2020). Saudi Arabia moving ahead with local and regional rail integration. In The Report: Saudi Arabia 2020. https://oxfordbusinessgroup.com/analysis/full-throttle-moving-ahead-local-and-regional-rail-network-integration
+
+Parry, I. W. H., Black, S., & Vernon, N. (2021). Still Not Getting Energy Prices Right: A Global and Country Update of Fossil Fuel Subsidies (2021/236). https://www.imf.org/en/Publications/WP/Issues/2021/09/23/Still-Not-Getting-Energy-Prices-Right-A-Global-and-Country-Update-of-Fossil-Fuel-Subsidies-466004
+
+Railway Technology. (2023). Riyadh Metro, Saudi Arabia. https://www.railway-technology.com/projects/riyadh-metro-saudi-arabia/
+
+RE Global. (2023). Transmission Ties: Saudi Arabia’s regional connections.
+
+Reuters. (2023). Saudi Arabia signs $5.6 billion deal with Chinese EV company. https://www.reuters.com/business/energy/saudi-arabia-signs-56-bln-deal-with-chinese-ev-company-state-media-2023-06-12/
+
+Saudi & Middle East Green Initiatives. (2023, December 4). Saudi Arabia announces 300% increase in installed renewables capacity, 43.9 million trees planted since launch of Saudi Green Initiative. Saudi & Middle East Green Initiatives. https://www.greeninitiatives.gov.sa/knowledge-hub/saudi-arabia-announces-300-increase-in-installed-renewables-capacity-439-million-trees-planted-since-launch-of-saudi-green-initiative/
+
+Saudi Arabia. (2024). Kingdom of Saudi Arabia The Second Biennial Update Report (BUR2). https://unfccc.int/sites/default/files/resource/Kingdom of Saudi Arabia Bur2.pdf
+
+Saudi Gazette. (2020, July 7). Riyadh Metro to open partially by end of year. Saudi Gazette. https://saudigazette.com.sa/article/595199/SAUDI-ARABIA/Riyadh-Metro-to-open-partially-by-end-of-year
+
+SPA. (2020, May 11). GAZT: VAT of 15% Goes into Effect in July, 2020. Saudi Press Agency. https://www.spa.gov.sa/viewfullstory.php?lang=en&newsid=2085204
+
+The CCUS hub. (2023). Aramco Jubail. https://ccushub.ogci.com/focus_hubs/aramco-jubail-ccs-hub/
+
+The M Metro Rail Guy. (2024). Riyadh Metro – Information, Route Map, Tickets & Timings. The M Metro Rail Guy. https://themetrorailguy.com/riyadh-metro-information-route-map-tickets-timings/
+
+UNFCCC. (2020). National Inventory Submissions 2020. United Nations Framework Convention on Climate Change. https://unfccc.int/process-and-meetings/transparency-and-reporting/reporting-and-review-under-the-convention/greenhouse-gas-inventories-annex-i-parties/national-inventory-submissions-2020
+
+World Bank. (2023). Forest area (% of land area) - Saudi Arabia. https://data.worldbank.org/indicator/AG.LND.FRST.ZS?name_desc=true&locations=SA
+
+World Nuclear News. (2023). Saudi Arabia reiterates plans for nuclear energy. https://www.world-nuclear-news.org/Articles/Saudi-Arabia-reiterates-plans-for-nuclear-energy
+
+
+# Assumptions
+
+
+## Note
+
+**Note: We have updated the text assessment to reflect the latest policy developments in Saudi Arabia. The CAT’s ratings and data is from our 2023 evaluation and will be updated soon.**
+
+
+## Historical emissions
+
+Historical emissions from 1990 to 2022 are taken from PRIMAP National Greenhouse Gas Emission Database 2023 (Gütschow and Pflüger, 2023). Saudi Arabia’s own national inventory data from the UNFCCC only extends to 2012.
+
+LULUCF values for 1990, 2000, 2010 and 2012 are still taken from the UNFCCC emissions inventory (2018).
+
+
+## NDC and other targets
+
+As Saudi Arabia has not communicated the business as usual (BAU) scenario for its NDC target, we quantified the target based on a business-as-usual scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC). The lower end of the NDC range reflects the KAPSARC BAU scenario, excluding land use, land use change and forestry (LULUCF). For the upper end of the range, we have assumed that LULUCF measures would contribute 200 MtCO2e of the total 278 MtCO2e emissions reductions in the NDC. This number is based on the announcements made at the Saudi Green Initiative Forum in 2021 (Kingdom of Saudi Arabia, 2021d). In 2012, the latest year for which national data is available, the land use and forestry sink stood at just 9 MtCO2e, with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2020.
+
+The Global Warming Potential (GWP) values used for the NDC have not been communicated. We have assumed these to be expressed in either AR4 or SAR and have included both calculations in our range.
+
+
+## Current policy projections
+
+We use a business-as-usual (BAU) emissions scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC) for the upper end of our current policy projections (KAPSARC, 2021), adjusted to our latest historical data. Given the slow progress on renewable energy deployment and the lack substantial mitigation policies in other sectors, we estimate the BAU scenario to reflect current developments. The BAU scenario assumes 11 TWh of electricity generated with solar PV by 2030, which we estimate would translate to around 5–6 GW of solar PV capacity by 2030. Given that only 0.4 GW of renewable energy capacity had been installed by end of 2022 (IRENA, 2023), and that only few projects have been tendered since then, 5–6 GW of renewable capacity by 2030 is broadly in line with the current pace of deployment.
+
+For the lower end of our current policy scenario, we take the above BAU scenario but replaced it with CO2 emissions provided in KAPSARC’s latest baseline forecasts of carbon dioxide emissions (KAPSARC, 2023a). We then adjusted the results to our latest historical data.
+
+
+## Planned policy projections
+
+We use KAPSARC’s renewable energy scenario (“2030 MEIM RE target”) scenario for the upper end of our planned policies scenario (KAPSARC, 2021), adjusted to our latest historical data point. This scenario translates to about a 30% share of renewable energy in total electricity production by 2030. We estimate a 30% share of renewable energy to be roughly in line with the former (2019) Vision 2030 target of installing 57.8 GW of renewable energy by 2030.
+
+The lower end of our planned policy projections reflects the 50% renewable energy and 50% natural gas in electricity production by 2030, as foreseen in the 2021 NDC and the Vision 2030 targets from October 2021. To do so, we calculate the difference in electricity sector emissions resulting from KAPSARC’s renewable energy scenario and the new NDC target of 50% natural gas and renewable energy, and subtract it from the upper end of our planned policies range.
+
+
+## Net-zero target and other long-term targets
+
+The Saudi government has announced it aims to achieve a sink of 200 MtCO2 from 2030 onwards, which we assume to stay constant towards 2060 to meet Saudi Arabia’s net-zero CO2 target.
+
+Given the lack of information on Saudi Arabia’s net zero target announcement, we have assumed it aims to reach net zero CO2 emissions by 2060.
+
+We assume that CO2 emissions will decline at a linear rate between 2030 and 2060 to balance LULUCF sinks in 2060. We further assume that non-CO2 emissions will decline at a linear rate between 2030 and 2080 in line with the IPCC SR1.5 pathways.
+
+
+## Global Warming Potentials values
+
+The CAT uses Global Warming Potential (GWP) values from the IPCC's Fourth Assessment Report (AR4) for all its figures and time series.
+
+
+# Targets
+
+
+## Target Overview
+
+Saudi Arabia submitted an updated NDC on 23 October 2021, increasing the 2030 emissions reduction target from 130 MtCO2e in the first NDC to 278 MtCO2e in the updated one. However, we do not consider this a stronger target, as the median of the NDC range remains lower than Saudi Arabia’s emissions trajectory based on current policies. We interpret the NDC target to be a reduction below a baseline scenario, similarly to the previous one, although this is not explicitly mentioned in the document. It is important to note that neither the previous NDC nor the updated one includes a baseline projection to which the emissions reduction target is applied.
+
+The 2021 NDC, similarly to the previous version, mentions that the reduction target is contingent on international climate action under the Paris Agreement not causing an “abnormal burden” on its economy. The NDC specifically mentions that the emissions reductions are based on a scenario under which hydrocarbons exports continue to provide a ‘robust contribution’ to the Saudi economy.
+
+Under a second scenario, which we understand to be a scenario under which global hydrocarbons exports decline, Saudi Arabia would continue what it calls a ‘sustainable utilisation of hydrocarbons’ domestically. Under this scenario, Saudi Arabia reserves itself the right to revise its NDC.
+
+Saudi Arabia plans to meet part of its emissions reduction targets through the use of a carbon market scheme and Article 6 mechanisms, including for both the 2030 NDC and 2060 net zero targets. However, details on how these mechanisms might be used are lacking or unclear; they present major risks that Saudi Arabia will seek to use carbon credits with questionable integrity as a smokescreen to justify continuing its trajectory of maintaining high levels of domestic emissions.
+
+
+## NDC updates
+
+Saudi Arabia submitted its updated NDC on 23 October 2021, increasing the 2030 emissions reduction target from 130 MtCO2e in the first NDC to 278 MtCO2e in the updated one.
+
+The 2021 NDC lists the following mitigation measures:
+
+- Energy efficiency, particularly in the industry, buildings, and transport sectors
+- Renewable energy in the power sector, making up 50% of the electricity mix by 2030, and to generate green hydrogen
+- A switch from oil to gas in the electricity sector
+- Zero flaring in the oil and gas industry
+- Carbon capture utilisation and storage (CCUS), coupled with blue hydrogen
+As Saudi Arabia has not yet communicated the business as usual (BAU) range for its NDC target, we quantified the target based on a business as usual scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC) (KAPSARC, 2021), a Saudi-based organisation.
+
+The lower end of the BAU range reflects the KAPSARC BAU scenario, excluding land use, land use change and forestry (LULUCF). For the upper end of the range, we have assumed that LULUCF measures would contribute 200 MtCO2e of the total 278 MtCO2e emissions reductions in the NDC. This number is based on the announcements made at the Saudi Green Initiative Forum in 2021. However, in 2012, the latest year for which national data is available, the land use and forestry sink stood at just 9 MtCO2e (UNFCCC, 2020), with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2021 (World Bank, 2023).
+
+Based on this BAU range, and due to the uncertainties around the contributions of emissions reductions from land use and forestry, we project Saudi Arabia’s NDC emissions level to be anywhere between ~520–800 MtCO2e in 2030, excluding LULUCF. This represents an approximate change of –24% to +14% compared to 2021 levels. We do not consider the updated NDC target to be an increase in ambition compared to the previous target, as the median of the NDC range remains lower than Saudi Arabia’s emissions trajectory based on current policies.
+
+* Before September 2021, all CAT ratings were based exclusively on fair share and only assessed a country’s target.
+
+**Target development timeline & previous CAT analysis**
+
+- 04.11.2021: Updated NDC
+
+## CAT rating of targets
+
+NDC target against modelled domestic pathways
+
+**The CAT rates Saudi Arabia’s NDC target as “Critically insufficient” when compared to modelled domestic pathways.** This rating indicates that Saudi Arabia’s NDC target in 2030 reflects minimal to no action and is not at all consistent with modelled domestic pathways limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia's NDC rating against modelled domestic pathways has deteriorated compared to our previous assessment due to an update in our modelled domestic pathways to the pathways assessed in the AR6. This latest evidence shows that Saudi Arabia requires lower 2030 emissions to be consistent with a 4°C compatible pathway.
+
+As a result, its NDC rating is no longer “Highly insufficient” and falls into the “Critically Insufficient” range. Our newer pathways better capture national circumstances - including the recent plateauing in Saudi Arabia's emissions - and for higher temperature levels show less room for emissions growth than the previous set.
+
+NDC target against fair share
+
+**The CAT rates Saudi Arabia’s NDC target against fair share as “Critically insufficient”.** This rating indicates that Saudi Arabia’s NDC target reflects minimal to no action and is not at all consistent with its fair share of the global mitigation effort to limit warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**Further information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found** **here****.**
+
+
+## Net zero and other long-term target(s)
+
+We evaluate the target as: Poor.
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021 (Kingdom of Saudi Arabia, 2021d). However, the target has yet to be enshrined in law, or in a policy document.
+
+As of October 2023, Saudi Arabia has not submitted a long-term strategy to the UNFCCC.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided a clear emissions reduction pathway to net zero (Kingdom of Saudi Arabia, 2021a). The target’s emission coverage remains unclear with the CAT currently assuming that only CO2 emissions are being covered based on scarce available information.
+
+Saudi Arabia intends to reach its net zero target through the Circular Carbon Economy approach, which relies on the use of CCS. The national oil company Saudi Aramco has committed to reaching net zero operational emissions in 2050. However, most oil and gas emissions come from the combustion of fossil fuels, not their production. Saudi Arabia and Aramco’s net zero targets do not take into account emissions resulting from oil and gas exports. They also do not consider the economic risks associated with a continued reliance on fossil fuels exports in a net zero world (for further details, see the “Oil production” section under “Energy supply” here).
+
+**For the full analysis click** **here****.**
+
+
+# Summary
+
+
+## Overview
+
+Note: We have updated the text assessment to reflect the latest policy developments in Saudi Arabia. The CAT’s ratings and data are from our 2023 evaluation and will be updated soon.
+
+**Saudi Arabia has not implemented any policies that would substantially bring down its greenhouse gas emissions and reduce its reliance on fossil fuels. Previously-announced plans to cut emissions through expanding renewable energy are failing to materialise. Despite its “Vision 2030” diversification plan, initiated nearly a decade ago, the Saudi economy remains highly dependent on the production, use and export of hydrocarbons.**
+
+**As well as not mitigating greenhouse gas emissions nationally, Saudi Arabia is also playing an increasingly disruptive role in international climate negotiations. Most recently at COP29, Saudi Arabia’s interventions aimed at blocking discussion on a transition away from fossil fuels and at disconnecting the Intergovernmental Panel on Climate Change 7th Assessment Report from the 2nd Global Stocktake under the Paris Agreement.**
+
+**The country’s emissions are projected to continue increasing through 2030. As the world’s largest crude oil exporter, Saudi Arabia is responsible for a significant share of global emissions, with emissions from burning exported oil in other countries amounting to more than** **twice the level of its domestic emissions****. The Climate Action Tracker (CAT) rates Saudi Arabia’s overall climate action as “Critically Insufficient”.**
+
+Saudi Arabia’s 2030 and 2060 climate commitments are not expected to help cut emissions: they lack transparency, rely largely on the deployment of carbon, capture and storage (CCS) technologies, and fail to address concerns about Saudi Arabia’s role as the world’s leading crude oil exporter.
+
+Its 2030 emissions reduction target is explicitly based on a scenario with substantial fossil fuel exports and includes a “get out clause” if international climate change policies negatively affect these exports. Our analysis suggests that this target could lead to national emissions ranging anywhere between 520–800 MtCO2e by 2030—going from a slight decrease in emissions to a significant increase compared to current levels due to uncertainties around the expected contribution of the land use and forestry sector.
+
+The Saudi government also announced a 2060 net zero target in 2021 but has yet to release any additional information on this objective, nor enshrine it into law, giving it little credibility.
+
+Despite its diversification plan, Saudi Arabia remains heavily dependent on oil revenues and has done little to effectively diversify towards a low carbon economy and adapt to a world heading to net zero emissions. In January 2024, the Saudi national oil company, Aramco, abandoned its plan to increase oil production capacity to 13 million barrels per day by 2027 from currently 12 million barrels per day. However, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels, reflecting changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries.
+
+Saudi Arabia has the potential to become a world leader in renewable energy production, but has made very little progress in the last decade. The most recent target aims for 50% of electricity to be generated with renewable energy by 2030. However, in 2023, renewables only generated around 1% of electricity and Saudi Arabia had around 2.7 GW of installed renewable capacity. In contrast, it has 97 GW of oil and gas plants in operation along with a pipeline of more than 8 GW of fossil plants under construction as of August 2024.
+
+Saudi Arabia also has a track record of obstructing international climate negotiations by repeatedly opposing references to the 1.5°C warming limit and language related to the phase-out of fossil fuels. Notably, at COP29, Saudi Arabia had sought to undermine the pledge to transition away from fossil fuels agreed at COP28. This raises concerns about the country’s willingness to engage in meaningful climate action on the global stage.
+
+Saudi Arabia is already experiencing above-average temperature rise. Projections indicate that global warming will be more pronounced in the Middle East and North Africa region, with climate policies and actions around the world on course for warming in Saudi Arabia in the order of 4°C this century.
+
+To improve its climate action, Saudi Arabia should take the following steps:
+
+- **Develop a credible economic diversification plan away from fossil fuels, which is both compatible with the Paris Agreement and takes into account the risks** **associated with exporting** **fossil fuels in a world heading to net zero emissions.** This plan should include a clear commitment to ending new investments in oil and gas production and a phase-out of fossil fuels in line with a 1.5°C scenario.
+- **Significantly increase the pace of renewable energy deployment,** which would help drive decarbonisation efforts and stimulate sustainable job growth for its young population, all of which are objectives of the Vision 2030 agenda.
+- **Update its NDC by strengthening its 2030 target**, providing an absolute emissions reduction target (instead of a reduction below an uncommunicated baseline scenario) and clarifying the assumptions on LULUCF.
+- **Clarify the assumptions behind its 2060 net zero target**, which currently lacks transparency and credibility, and does not provide a clear emissions reduction pathway.
+
+## Description of CAT ratings
+
+The CAT rates each country’s targets and policies against (1) its fair share contribution to climate change mitigation considering a range of equity principles including responsibility, capability and equality, and (2) what is technically and economically feasible using modelled domestic pathways which, in absence of a better method, are based on global least-cost climate change mitigation.
+
+Comparing a country’s fair share ranges and modelled domestic pathways provides insights into which governments should provide climate finance and which should receive it. Developed countries with large responsibility for historical emissions and high per-capita emissions, must not only implement ambitious climate action domestically but must also support climate action in developing countries with lower historical responsibility, capability, and lower per-capita emissions.
+
+**The CAT rates Saudi Arabia’s climate targets and policies as “Critically insufficient”.** This rating indicates that Saudi Arabia’s climate policies and commitments reflect minimal to no action and are not at all consistent with the 1.5°C temperature limit. Saudi Arabia’s 2030 climate commitment is unclear, as the government has not published the baseline corresponding to its Paris Agreement target.
+
+We rate Saudi Arabia’s 2030 emissions reduction target as “Critically insufficient” when compared with its fair-share contribution to climate action and is consistent with more than 4°C of warming.
+
+The 2030 target is rated as ‘Highly insufficient’ when compared to modelled domestic pathways, downscaled from global least-cost scenarios. Saudi Arabia’s policies could lead to its emissions peaking in the second half of this decade, but still only in line with 2°C to 3°C warming. Saudi Arabia still needs to strengthen its target for emissions reductions and implement additional policies to get a rating aligned to the Paris Agreement.
+
+**We rate Saudi Arabia’s policies and actions against modelled domestic pathways as “Critically Insufficient”**. This rating indicates that Saudi Arabia’s policies and action in 2030 reflect minimal to no action and are not at all consistent with limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia remains highly dependent on fossil fuel revenues and keeps pushing for false solutions such as carbon capture and storage (CCS) in the hope of extending the life of its extractive industry. The government has put forward several mitigation measures, but implementation has been slow, particularly in the renewable energy sector. Despite its vast solar energy resource, Saudi Arabia had only installed about 2.7 GW of renewable energy capacity in 2023, generating around 1% of total electricity.
+
+**The full policies and action analysis can be found** **here****.**
+
+**We rate Saudi Arabia’s NDC target as “Critically insufficient” when compared to domestic pathways.** This rating indicates that Saudi Arabia’s NDC target reflects minimal to no action and is not at all consistent with the 1.5°C temperature limit when compared to modelled domestic pathways. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia's NDC rating against modelled domestic pathways has deteriorated compared to our previous assessment, due to an update in our modelled domestic pathways to the pathways assessed in the AR6, and a significant change in historical emissions. The latest historical data show higher emissions in the energy and industry sectors, which were previously underreported.
+
+As a result, its NDC rating is no longer “Highly insufficient” and falls into the “Critically insufficient” range. Our newer pathways better capture national circumstances - including the recent plateauing in Saudi Arabia's emissions - and, for higher temperature levels, show less room for emissions growth than the previous set.
+
+**We rate Saudi Arabia’s NDC target against fair share as “Critically insufficient”.** This rating indicates that Saudi Arabia’s NDC target in 2030 reflects minimal to no action and is not at all consistent with the 1.5°C temperature limit when compared to its fair share. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**We evaluate the target as: Poor.**
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021. However, the target has yet to be enshrined in law or in a policy document.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided a clear emissions reduction pathway to net zero. The emission coverage remains unclear. The CAT currently assumes that only CO2 emissions are covered given the lack of information.
+
+
+# Net zero targets
+
+
+## Summary
+
+We evaluate the target as: **Poor**
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021 (Kingdom of Saudi Arabia, 2021d). However, the target has yet to be enshrined in law or in a policy document. As of October 2023, Saudi Arabia has not submitted a long-term strategy to the UNFCCC.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided any clear emissions reduction pathway to net zero (Kingdom of Saudi Arabia, 2021a). The target’s emission coverage remains unclear with the CAT currently assuming that only CO2 emissions are being covered, based on scarce available information.
+
+Saudi Arabia intends to reach its net zero target through the Circular Carbon Economy approach, which relies on the use of CCS. The national oil company Saudi Aramco has committed to reaching net zero operational emissions in 2050. However, the vast majority of oil and gas emissions comes from the combustion of fossil fuels, not their production. Saudi Arabia and Aramco’s net zero targets do not take into account scope 3 emissions resulting from oil and gas exports. They also do not consider the economic risks associated with a continued reliance on fossil fuels exports in a net zero world.
+
+Target covers emissions / sectors partially (under 95% coverage)
+
+The target excludes both international aviation and shipping
+
+Relies on international offset credits or reserves right to use them to meet net zero
+
+Net zero target announced
+
+No separate emission reduction and removal targets
+
+Country provides no information on its intention to establish a review cycle for its net zero and intermediate targets
+
+No transparent assumptions on carbon dioxide removals
+
+There is no information or underlying analysis available on the anticipated pathway or measures to achieve net zero emissions
+
+Country makes no reference to fairness or equity in the context of its net zero target
+
+
+## CAT analysis of net zero target
+
+**Scope**
+
+- **Target year** – Saudi Arabia aims to reach net zero by 2060.
+- **Emissions coverage** – Saudi Arabia provides no explicit information on the sectors and gases covered by the net zero target (Kingdom of Saudi Arabia, 2021d), but mainly focuses on its Carbon Circular Economy approach in explaining how it intends to meet the target. For this reason, the CAT currently assumes Saudi Arabia’s target currently only covers CO2 emissions.
+- **International aviation and shipping** – Saudi Arabia provides no information on its intention to cover international aviation and shipping.
+- **Reductions or removals outside of own borders **– The government recently announced the launch of a carbon crediting scheme in early 2024, which will supposedly enable companies to offset their emissions by buying carbon credits compliant with Article 6 of the Paris Agreement (Carbon-Pulse, 2023). Despite the apparent focus on companies procuring credits, Saudi Arabia appears to plan to also use the credits to meet part of its climate pledge, including its 2060 net zero target. It is unclear how this could work in practice based on the information published to date in a manner that avoids more than one entity claiming rights to the same emission reductions – an outcome which would undermine the integrity of the credits and potentially lead to an overall rise in emissions.
+**Target architecture**
+
+- **Legal status** – Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target at the first Saudi Green Initiative Forum (Kingdom of Saudi Arabia, 2021d). Saudi Arabia has not submitted a Long-Term Strategy (LTS) to the UNFCCC as of October 2023.
+- **Separate reduction & removal targets** – Saudi Arabia provides no information on its intention to communicate separate emission reduction and removal targets.
+- **Review process** – Saudi Arabia provides no information on its intention to establish a review cycle for its net zero and intermediate targets.
+**Transparency**
+
+- **Carbon dioxide removal** – Saudi Arabia provides no information on its intention to communicate transparent assumptions on carbon dioxide removals.
+- **Comprehensive planning** – Saudi Arabia provides no comprehensive planning on how it aims to achieve its net zero by 2060. It has not communicated underlying pathways, interim targets or detailed measures to meet the 2060 target. Saudi Crown Prince Mohammed bin Salman stated that Saudi Arabia relies on the Circular Carbon Economy approach to meet its net zero target and makes no reference to emissions from oil and gas exported by Saudi Arabia (Kingdom of Saudi Arabia, 2021d). The Circular Carbon Economy approach, however, only addresses a fraction of relevant emissions from oil and gas production through carbon capture and storage technologies, but most emissions come from fuel combustion rather than oil and gas extraction and processing.
+- **Clarity on fairness of target **– Saudi Arabia provides no information on its intention to explain the target’s fairness.
+
+## Good practice
+
+The Climate Action Tracker has defined the following good practice for all ten key elements of net zero targets. Countries can refer to this good practice to design or enhance their net zero targets.
+
+
+# 2035 NDC
+
+
+## 2035 NDC Target
+
+Saudi Arabia has not yet submitted their 2035 NDC to the UNFCCC. Once the new NDC has been submitted, we will publish our assessment here.
+
+
+# Policies & action
+
+**We rate Saudi Arabia’s policies and actions against modelled domestic pathways as “Critically Insufficient”**. This rating indicates that Saudi Arabia’s policies and action in 2030 reflect minimal to no action and are not at all consistent with limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**Further information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found** **here****.**
+
+
+## Policy overview
+
+Saudi Arabia has done little to decarbonise its economy. We expect its emissions to rise to 800–830 MtCO2e in 2030, a 15–­19% increase from 2021 levels. It remains difficult to assess whether Saudi Arabia’s current policies reach its NDC target, given the significant uncertainties around its target (see details in the Assumptions section).
+
+Saudi Arabia’s energy sector remains dominated by fossil fuels, which represented almost 100% of the total energy supply in 2022 (IEA, 2023b). The Saudi government expects the overall demand for energy, including for oil and fossil gas, to continue increasing until 2030 and beyond (KAPSARC, 2021).
+
+Saudi Arabia’s “Vision 2030” aims to diversify its economy beyond oil, which accounted for around two thirds of total budget revenues in 2022. However, the government clearly has no intention to phase out fossil fuels. Saudi Arabia is betting on carbon capture and storage (CCS) technologies as a smokescreen to continue expanding oil and gas production.
+
+While Aramco abandoned its plan to increase oil production capacity to 13 million barrels per day (mb/d) by 2027, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels. This reversal reflects changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries, particularly the U.S.
+
+Even if Saudi Arabia were to reach its 50% target for renewable energy in the electricity mix, we project that emissions would still rise to 730–770 MtCO2e by 2030. Despite its vast solar energy potential, Saudi Arabia has only installed about 2.7 GW of renewable energy capacity as of 2023, generating around 1% of total electricity (IRENA, 2024b).
+
+In 2022, Saudi Arabia’s sovereign wealth fund, the Public Investment Fund (PIF), and the Saudi Stock Exchange Tadawul set up a voluntary carbon market in the Middle East and North Africa. The first auction in November 2022 offered one million tonnes of carbon credits (Bloomberg, 2022).
+
+Saudi Arabia has also announced the launch of a domestic carbon crediting scheme in early 2024, which will purportedly enable companies to offset their emissions by buying credits compliant with Article 6 of the Paris Agreement. The scheme appears to be voluntary, project-based and covers all sectors (Carbon-Pulse, 2023; Kingdom of Saudi Arabia, 2024).
+
+Despite the apparent focus on companies procuring credits, Saudi Arabia also appears to plan on using the credits to meet parts of its national climate pledge, including its 2060 net zero target. Based on the information published as of November 2024, it is unclear how this could work in practice in a manner that avoids both a company and the government from claiming rights to the same emission reductions ("double counting") – an outcome that would undermine the integrity of the credits, and potentially lead to an overall rise in emissions.
+
+The establishment of a voluntary carbon market in Saudi Arabia should complement and not serve to distract from - or displace - critically-needed domestic mitigation efforts. Information on how the Kingdom intends to use its carbon crediting scheme remains unclear or lacks details, and presents major risks that it will seek to use carbon credits with questionable integrity as a smokescreen to justify continuing its trajectory of maintaining high levels of domestic emissions. For more information on the role of voluntary carbon markets under the Paris Agreement and their associated risks, see Fearnehough et al. 2020.
+
+
+## Power sector
+
+The power sector is the largest source of GHG emissions in Saudi Arabia. In 2023, Saudi Arabia still produced nearly 100% of its electricity with fossil fuels—around 63% with fossil gas and 36% with oil (Ember, 2025).
+
+Saudi Arabia policy is headed in the **“Wrong Direction”** on fossil gas. The share of gas in the power mix has remained relatively stagnant in the last five years, but generation in absolute terms has increased from 224 TWh in 2019 to 265 TWh in 2025 (Ember, 2025). Saudi Arabia has no intention of phasing out fossil gas from its power sector. It currently aims for 50% of total electricity to be generated with fossil gas by 2030.
+
+Saudi Arabia is planning to further expand its fossil gas power capacity, with a substantial number of projects currently under development. In December 2023, four gas-fired power plants with a total capacity of 5.6 GW started operation, and additional plants with a total capacity of 8.4 GW are currently under development (Saudi & Middle East Green Initiatives, 2023).
+
+Fossil gas is a fossil fuel and needs to be phased out as part of the global decarbonisation needed to reach the 1.5˚C temperature warming limit—by 2035 in developed countries and 2040 in developing countries (Climate Action Tracker, 2023).
+
+Saudi Arabia is sending **“Mixed signals”** on oil. While the Kingdom aims to fully phase out oil from its power sector by 2030, it remains off track. Although the share of oil in the power mix has decreased over the last five years, falling to 36% in 2023, absolute amount of oil generation has remained largely stagnant (Ember, 2025).
+
+In 2022, Saudi Arabia had the G20's highest share of fossil fuel subsidies per capita (IMF, 2023). Fossil fuel subsidies, both direct and indirect, continue to distort energy prices by keeping oil and fossil gas prices artificially low, discouraging investment in cleaner alternatives.
+
+Saudi Arabia, acknowledging the need for reform in its “Vision 2030” strategy, took initial steps to address this issue (Kingdom of Saudi Arabia, 2021c). The government introduced a 5% VAT on fuel and increased VAT rate for goods and services from 5% to 15%, including those in the hydrocarbons sector (SPA, 2020).
+
+However, fossil fuel subsidies (explicit and implicit) provided by the government jumped from USD 141bn in 2019 to USD 253bn in 2022, accounting for 16% of Saudi Arabia’s GDP in 2019, to 27% in 2022 (IMF, 2023). Driven by soaring energy prices and the demand rebound following the pandemic, these subsidies have primarily benefited the domestic oil sector.
+
+Research shows that adequate pricing of fossil fuels could help cut 36% of global CO2 emissions (Parry et al., 2021). Setting prices that reflect the true costs of fossil fuels would also further increase the cost-competitiveness of mitigation technologies, such as renewable energy.
+
+The renewable energy sector remains in its fancy in Saudi Arabia. In 2023, installed renewable energy capacity stood at 2.7 GW, generating around 1% of electricity, with around 1.9 GW (mostly solar) additional capacity installed between 2022 and 2023 (Ember, 2025)
+
+Despite its vast potential, Saudi Arabia’s renewable energy sector has been mired in uncertainty, with ambitious announced plans and projects having yet to materialise. In the first iteration of “Vision 2030” released in 2016, the government revised its renewable energy target downward to an ‘initial’ 9.5 GW installed capacity by 2023 (Borgmann, 2016; Kingdom of Saudi Arabia, 2016). In 2019, the Ministry of Energy released an updated version of the strategy, which aimed to install 27.3 GW of renewable energy capacity by 2023 and 57.8 GW by 2030. The latest target aims for 50% of electricity to be generated with renewable energy and 50% with fossil gas in 2030 (Kingdom of Saudi Arabia, 2021c; Saudi Arabia, 2024).
+
+Despite some limited progress in the last two years, the pace of renewables deployment in Saudi Arabia remains far too slow to meet the Kingdom’s latest 2030 target. We evaluate progress in this sector as **“Barely Moving”.**
+
+Saudi Arabia hopes to position itself as a leader in the global hydrogen market. The government announced plans to build a large green hydrogen production facility in its smart city NEOM (Al Arabiya News, 2023b; Saudi & Middle East Green Initiatives, 2023). The plant is expected to be operational in 2026 and produce 600 tonnes per day of green hydrogen using renewable electricity.
+
+The government is pursuing “clean hydrogen” development with a view to diversifying its revenues and becoming less reliant on hydrocarbon exports (Saudi Arabia, 2024). Considering its strategic location near global shipping lanes and its vast renewable energy potential, Saudi Arabia is also well-positioned to lead the decarbonisation of the maritime sector. It has the potential to lead the way by producing green hydrogen at scale as an alternative fuel source (KAPSARC, 2023b). It should, however, first prioritise rapid scaling-up of renewable capacity to decarbonise the domestic economy.
+
+Building the pipeline of renewable capacity to first meet domestic energy demand and then potentially exploiting the global market for “green” hydrogen will take time, given the low base of renewables in Saudi Arabia. A substantial policy commitment and investment in renewable electricity today is a critical enabler for Saudi Arabia to position itself as a future leader in “green” hydrogen. Without this shift in the status quo, it will only be able to rely on fossil gas and unproven CCS technologies to produce “blue” or “grey” hydrogen, neither of which are "renewable".
+
+While hydrogen production from fossil gas has been the cheapest option to date, it remains expensive, as lot of energy is lost in the conversion process and is highly susceptible to market price volatility. Gas price fluctuations caused by Russia’s invasion of Ukraine tripled the cost of grey hydrogen in 2022. Emission penalties under carbon pricing are expected to further increase the cost of fossil fuel-derived hydrogen. On the contrary, with falling renewable energy costs and technology improvements, green hydrogen – particularly produced with solar PV and wind – could become cost-competitive with fossil fuel-derived hydrogen as early as 2030 (NewClimate, 2023).
+
+Saudi Arabia has recently reiterated its intention to build a nuclear power plant, although no concrete plan had been announced as of November 2024 (World Nuclear News, 2023). While nuclear electricity generation does not emit CO2, the CAT doesn’t see nuclear as the solution to the climate crisis due to its risks such as nuclear accidents and proliferation, high and increasing costs compared to alternatives such as renewables, long construction times, incompatibility with flexible supply of electricity from wind and solar and its vulnerability to heat waves.
+
+In 2019, Saudi Arabia’s Renewable Energy Project Development Office (REPDO) completed a study claiming that 13.5 GW of renewable energy could be integrated without major grid upgrades (National Renewable Energy Program, 2018). Beyond this, and in order to meet its 2030 renewable energy target, the government will need to significantly invest in grid infrastructure.
+
+Saudi Arabia is moving ahead with grid interconnection plans with neighbouring countries, focusing on smart grid technologies, which could facilitate a future uptake and integration of renewables (Al-Gahtani, 2024). Saudi Arabia is currently working on grid interconnection project with Iraq, India, Jordan and Egypt (RE Global, 2023).
+
+
+## Industry
+
+Oil extraction has been the backbone of the Saudi economy for decades. Saudi Arabia is the world’s second largest oil producer after the United States and is OPEC’s leading oil producer (BP, 2023). It produced approximately 12% of the world’s oil in 2022 and held 17% of proven oil reserves.
+
+While the government has taken small steps to diversify the economy, Saudi Arabia remains highly dependent on hydrocarbon revenue. In 2022, Saudi Arabia reported USD 362bn in total crude oil export revenues and an additional USD 45bn in refined petroleum export revenues: several orders of magnitude higher than the oil export revenues from any other country (OEC, 2024). Oil is Saudi’s most exported commodity, accounting for 75% of the total value of exports in 2021 (OPEC, 2023).
+
+Over the past two decades oil rents, which are the difference between crude oil market prices and production costs, have consistently contributed at least 20% of Saudi’s annual GDP (World Bank, 2021). This close dependency between Saudi’s GDP growth and the oil market puts the sustainable growth of Saudi’s economy at risk. Recent geopolitical conflicts have once more shown the vulnerability of the global oil market to exogenous shocks.
+
+Saudi Arabia does not plan to end investment in new oil production, which is required to hold global warming to 1.5°C (IEA, 2023a). While Aramco recently abandoned its plan to increase oil production capacity to 13 million barrels per day (mb/d) by 2027, this decision appears largely driven by strategic considerations rather than a commitment to phase out fossil fuels. This reversal reflects changes in the global oil market, including slowing demand growth and increased production from non-OPEC countries, particularly the U.S (FT, 2024).
+
+The government’s current diversification plans include no scenario with a decline in global oil consumption in the coming decades, which is required to meet the objectives of the Paris Agreement and reach net zero CO2 emissions by mid-century (IEA, 2023a; IPCC, 2018). Both the “business-as-usual” and the “2030 renewable energy target” scenarios outlined in KAPSARC’s Energy Policy Solutions project hydrocarbon exports to significantly increase until 2050 (KAPSARC, 2021).
+
+At COP28, Saudi Aramco signed the Oil and Gas Decarbonisation Charter (OGDC), a new initiative which aims to “accelerate climate action” in the fossil fuel sector. However, the OGDC only addresses a fraction of relevant emissions from oil and gas production. Although most emissions come from fuel combustion, the initiative solely focuses on reducing emissions within the operations of oil and gas companies, such as in drilling and refining processes. Without a commitment to reducing the extraction and burning of fossil fuels, the charter fails to tackle the main driver of climate change. So far, none of the signatories have agreed to cut fossil fuel production.
+
+Saudi Arabia is betting on carbon capture and storage (CCS) technologies to reach its climate goals while sustaining its fossil fuel production and exports. As of 2024, it only had one operational CCS plant—which is used for enhanced oil recovery (EOR), rather than reducing emissions from fossil fuels (Global CCS Institute, 2023).
+
+The government has a target to capture and store 44 million tonnes of CO2 annually by 2035. To this end, Saudi Arabia is in the process of building a CCS hub at the industrial complex of Jubail, which it plans to capture CO2 from fossil gas plants. The hub is expected to be operational from 2027 and the plans are to capture up to nine million tonnes of CO2 per year from three Aramco fossil gas plants (The CCUS hub, 2023). But given the track record of CCS technology so far, these planned capture rates are questionable.
+
+CCS technologies are not commercially viable, nor are they proven at scale, despite large public subsidies for research and development globally. Relying on CCS to the extent Saudi Arabia is planning diverts attention and resources away from cost-effective mitigation options. The use of CCS should be limited to industrial applications where there are fewer options to reduce process emissions—not to reduce emissions from the electricity sector where there are cost-effective mitigation alternatives, not least because CCS does not remove 100% of emissions from power plants.
+
+Saudi Arabia is promoting the concept of a Circular Carbon Economy (CCE) to reduce emissions from oil and gas production (Luomi et al., 2021). This, however, only addresses a fraction of relevant emissions as most emissions come from fuel combustion rather than oil and gas extraction and processing. Saudi Arabia’s CCE plans largely rely on the development and deployment of CSS technologies (Kingdom of Saudi Arabia, 2022).
+
+
+## Transport
+
+The transport sector accounted for 29% of total final energy consumption in 2022 (IEA, 2024).
+
+The sector is primarily individual, road-based transport but the Kingdom has sought to expand its public transportation network in recent years. The King Abdulaziz Public Transport project is a major initiative to modernise transportation in the city of Riyadh. The capital is set to become the second city in Saudi Arabia with a metro network after the Makkah metro opened in 2010 (Saudi Gazette, 2020). Following a delay, the Riyadh metro system is set to open to passengers at the end of 2024 (Railway Technology, 2023; The M Metro Rail Guy, 2024).
+
+The Saudi government has also taken steps to invest in rail transport; however, it remains unclear whether the new networks will be electric or diesel-powered. In 2010, it launched the Saudi Railway Master Plan, aiming to construct a 9,900-km network by 2040 (Oxford Business Group, 2020). The first phase, running until 2025, includes constructing and upgrading 5,500 km of tracks for freight and passenger transport, including interlinkages to the wider Gulf Cooperation Council (GCC) railway network. The light rail network in the smart city NEOM is complete as of 2024 (Godfrey, 2024).
+
+Saudi Arabia has taken steps to develop its own electric vehicle (EV) industry. As part of its “Vision 2030” strategy, the government aims to produce 50,000 EVs annually by 2030 and for 30% of Riyadh’s vehicles to be electric by 2030 (Kingdom of Saudi Arabia, 2021c).
+
+In 2022, Saudi Arabia introduced its first domestic brand of EV called Ceer, through a joint venture between PIF and Taiwanese car manufacturer Foxxconn (Al Arabiya News, 2023a). Manufacturing facilities for Ceer vehicles are under construction and expected to be operational by 2025 (Al Jazeera, 2023). Additionally, in June 2023, Saudi Arabia signed a USD 6 bn deal with Chinese EV manufacturer Human Horizons to collaborate on the development, manufacture, and sale of electric vehicles (Reuters, 2023).
+
+To further promote the use of EVs, by 2024 the government had built 2,800 EV charging points,, with plans to set up 30,000 new stations by 2030 (Mobility Foresights, 2024).
+
+Despite the progress made, achieving Saudi Arabia’s 2030 EV target will be challenging. The government will need to accelerate the deployment of charging infrastructure and introduce incentives to promote greater EV adoption (Apricum, 2022).
+
+
+## Buildings
+
+In Saudi Arabia, per capita emissions in the buildings sector remain above regional and world average, despite a slow decline in recent years (Climate Transparency, 2022).
+
+In 2012, the Saudi Energy Efficiency Center (SEEC) launched the Saudi Energy Efficiency Program (SEEP), which targets key sectors of the country’s economy (Kingdom of Saudi Arabia, 2022). Through this program, SEEC has introduced a series of measures in the building sector, including mandatory labelling for insulation materials and air conditioners (Acs). SEEC has also developed guidelines designed to optimise energy consumption in buildings, with a focus on Acs, washing machines, refrigerators, lighting, and heaters. Since their introduction, these standards and guidelines have been further refined and continue to be enforced.
+
+Saudi Arabia is taking steps to improve energy efficiency in buildings. Through the national Energy Services Company, TARSHID, the government aims to renovate numerous government buildings, public schools, hospitals, and mosques throughout the country (Kingdom of Saudi Arabia, 2021b). Efforts are also underway to develop and implement an Energy Use Intensity (EUI) ecosystem (Saudi Arabia, 2024).
+
+
+## Land use and forestry
+
+In 2012, the latest year for which national data is available, the land use and forestry sink only stood at 9 MtCO2e (UNFCCC, 2020), with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2021 (World Bank, 2023). The government has announced plans to plant 450 million trees by 2030 and 10 billion trees over the coming decades as part of the Saudi Green Initiative. According to the government, this initiative foresees afforestation and land restoration measures increase the Kingdom’s forestry sink to 200 MtCO2e by 2030. Yet progress has been slow: by the end of 2023, Saudi Arabia had reportedly planted 44 million trees (Saudi & Middle East Green Initiatives, 2023).
+
+
+## Methane
+
+In 2022, the methane sector accounted for 10% of total GHGs, the majority coming from the waste and energy sectors (Gütschow et al., 2024).
+
+At COP26, Saudi Arabia signed the Global Methane Pledge, in which signatories agreed to cut methane emissions in all sectors by 30% globally over the next decade. While its 2021 NDC does not have explicit emission reduction targets for non-CO2 gases, it includes several measures to manage methane emissions, such as the objective to achieve zero flaring in the oil and gas industry (Kingdom of Saudi Arabia, 2021b). However, Saudi Arabia is still planning to ramp-up its oil production capacity towards the end of the decade, making it in practice difficult to reduce its methane emissions.
+
+
+# Sources
+
+
+## References
+
+- Al-Gahtani, S. F. (2024). Saudi Arabia’s Journey toward a Renewable Future. Energies , 17(11), 1–19. https://doi.org/10.3390/en17112444
+- Al Arabiya News. (2023a). Electric vehicle demand booms in Saudi Arabia amid move to green mobility. https://english.alarabiya.net/News/saudi-arabia/2023/06/21/Electric-vehicle-demand-booms-in-Saudi-Arabia-amid-move-to-green-mobility
+- Al Arabiya News. (2023b). NEOM’s green hydrogen plant will secure Saudi Arabia’s clean energy transition: CEO. https://english.alarabiya.net/News/2023/05/25/Saudi-s-green-hydrogen-plant-will-put-Kingdom-on-global-map-for-clean-energy-CEO
+- Al Jazeera. (2023). Saudi Arabia signs $5.6bn EV deal as it eyes closer China ties. https://www.aljazeera.com/news/2023/6/12/saudi-arabia-signs-5-6bn-ev-deal-as-it-eyes-closer-china-ties
+- Apricum. (2022). Challenges and opportunities in Saudi Arabia’s green mobility expansion. https://apricum-group.com/challenges-and-opportunities-in-saudi-arabias-green-mobility-expansion-plans/?cn-reloaded=1&cn-reloaded=1
+- Bloomberg. (2022). Saudi Arabia Holds Middle East’s First Carbon Offset Auction. https://www.bloomberg.com/news/articles/2022-10-25/saudi-fund-sets-up-carbon-market-firm-to-support-net-zero-goal
+- Borgmann. (2016). Potentially Game-Changing Saudi Arabian Government Restructuring Bolsters 9.5 GW Renewable Energy Target by 2023. http://www.apricum-group.com/saudi-arabia-announces-9-5-gw-renewable-energy-target-new-king-salman-renewable-energy-initiative/
+- BP. (2023). Statistical Review of World Energy Data 2023. https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fwww.energyinst.org%2F__data%2Fassets%2Fexcel_doc%2F0007%2F1055545%2FEI-stats-review-all-data.xlsx&wdOrigin=BROWSELINK
+- Carbon-Pulse. (2023). Saudi Arabia to launch domestic “Article 6-aligned” carbon crediting system in 2024. https://carbon-pulse.com/227909/
+- Climate Action Tracker. (2023). CAT briefing: Pulling the plug on fossils in power. https://climateactiontracker.org/publications/pulling-the-plug-on-fossils-in-power
+- Climate Transparency. (2022). Saudi Arabia - Climate Transparency report 2022. https://www.climate-transparency.org/wp-content/uploads/2022/10/CT2022-Saudi-Arabia-Web.pdf
+- Ember. (2025). Electricity Data Explorer - Yearly Electricity Data. https://ember-energy.org/data/yearly-electricity-data/
+- Global CCS Institute. (2023). Global Status of CCS 2022. https://status22.globalccsinstitute.com/wp-content/uploads/2022/11/Global-Status-of-CCS-2022_Download.pdf
+- Godfrey, P. (2024, August 2). NEOM completes construction of light rail network. ME Construction News. https://meconstructionnews.com/60136/neom-completes-construction-of-light-rail-network
+- Gütschow, J., Pflüger, M., & Busch, D. (2024). The PRIMAP-hist national historical emissions time series (1750-2022) v2.5.1. https://doi.org/10.5281/zenodo.10705513
+- IEA. (2023a). Net Zero Roadmap: A Global Pathway to Keep the 1.5 °C Goal in Reach 2023 Update. International Energy Agency. https://www.iea.org/reports/net-zero-roadmap-a-global-pathway-to-keep-the-15-0c-goal-in-reach
+- IEA. (2023b). Saudi Arabia. https://www.iea.org/countries/saudi-arabia
+- IEA. (2024). Country profile - Saudi Arabia. https://www.iea.org/countries/saudi-arabia/energy-mix
+- IMF. (2023). IMF Fossil Fuel Subsidies Data: 2023 Update. https://www.elibrary.imf.org/view/journals/001/2023/169/001.2023.issue-169-en.xml
+- IPCC. (2018). Summary for Policymakers. In V. Masson-Delmotte, P. Zhai, H.-O. Pörtner, D. Roberts, J. Skea, P. R. Shukla, A. Pirani, W. Moufouma-Okia, C. Péan, R. Pidcock, S. Connors, J. B. R. Matthews, Y. Chen, X. Zhou, M. I. Gomis, E. Lonnoy, T. Maycock, M. Tignor, & T. Waterfield (Eds.), Global Warming of 1.5°C. An IPCC Special Report on the impacts of global warming of 1.5°C above pre-industrial levels and related global greenhouse gas emission pathways, in the context of strengthening the global response to the threat of climate change, (Issue October 2018). IPCC. https://www.ipcc.ch/sr15/chapter/spm/
+- IRENA. (2023). Renewable capacity statistics 2023. https://www.irena.org/Publications/2023/Mar/Renewable-capacity-statistics-2023
+- IRENA. (2024). Renewable Energy Capacity Statistics 2024. IRENA. https://www.irena.org/Data/View-data-by-topic/Capacity-and-Generation/Statistics-Time-Series
+- KAPSARC. (2021). Saudi Arabia | Energy Policy Solutions. https://eps.kapsarc.org/scenarios/home
+- KAPSARC. (2023a). Baseline Forecasts of Carbon Dioxide Emissions for Saudi Arabia Using the Structural Time Series Model and Autometrics (Issue May). https://doi.org/10.30573/KS--2022-DP19
+- KAPSARC. (2023b). Saudi Arabia’s Potential to Further Hydrogen Use in the Maritime Sector. https://www.kapsarc.org/research/publications/saudi-arabias-potential-to-further-hydrogen-use-in-the-maritime-sector/
+- Kingdom of Saudi Arabia. (2016). Vision 2030. http://vision2030.gov.sa/en/media-center
+- Kingdom of Saudi Arabia. (2021a). Reducing Emissions - Saudi Green Initiative. https://www.saudigreeninitiative.org/targets/reducing-emissions/
+- Kingdom of Saudi Arabia. (2021b). Updated First Nationally Determined Contributions. https://unfccc.int/sites/default/files/resource/202203111154---KSA NDC 2021.pdf
+- Kingdom of Saudi Arabia. (2021c). Vision 2030. https://www.vision2030.gov.sa/media/cofh1nmf/vision-2030-overview.pdf
+- Kingdom of Saudi Arabia. (2021d, October 23). Press release: His Royal Highness the Crown Prince announces the Kingdom of Saudi Arabia’s aims to achieve net zero emissions by 2060. Saudi Green Initiative. https://www.saudigreeninitiative.org/pr/SGI_Forum_Press_Release-EN.pdf
+- Kingdom of Saudi Arabia. (2022). Saudi Arabia, Fourth National Communication. https://unfccc.int/sites/default/files/resource/7123846_Saudi Arabia-NC4-1-Fourth National Communication NC4 Kingdom of Saudi Arabia March 2022.pdf
+- Kingdom of Saudi Arabia. (2024). GCOM STEPS. https://gcom.cdmdna.gov.sa/Overall
+- Luomi, M., Yılmaz, F., Alshehri, T., & Howarth, N. (2021). The Circular Carbon Economy Index – Methodological Approach and Conceptual Framework. https://www.kapsarc.org/research/publications/the-circular-carbon-economy-index-methodological-approach-and-conceptual-framework/
+- Mobility Foresights. (2024). Saudi Arabia EV Charger Market 2024-2030. Mobility Foresights. https://mobilityforesights.com/product/saudi-arabia-ev-charger-market/
+- National Renewable Energy Program. (2018). Saudi Arabia Renewable Energy Targets and Long Term Visibility. https://www.powersaudiarabia.com.sa/web/attach/media/Saudi-Arabia-Renewable-Energy-Targets-and-Long-Term-Visibility.pdf
+- Oxford Business Group. (2020). Saudi Arabia moving ahead with local and regional rail integration. In The Report: Saudi Arabia 2020. https://oxfordbusinessgroup.com/analysis/full-throttle-moving-ahead-local-and-regional-rail-network-integration
+- Parry, I. W. H., Black, S., & Vernon, N. (2021). Still Not Getting Energy Prices Right: A Global and Country Update of Fossil Fuel Subsidies (2021/236). https://www.imf.org/en/Publications/WP/Issues/2021/09/23/Still-Not-Getting-Energy-Prices-Right-A-Global-and-Country-Update-of-Fossil-Fuel-Subsidies-466004
+- Railway Technology. (2023). Riyadh Metro, Saudi Arabia. https://www.railway-technology.com/projects/riyadh-metro-saudi-arabia/
+- RE Global. (2023). Transmission Ties: Saudi Arabia’s regional connections.
+- Reuters. (2023). Saudi Arabia signs $5.6 billion deal with Chinese EV company. https://www.reuters.com/business/energy/saudi-arabia-signs-56-bln-deal-with-chinese-ev-company-state-media-2023-06-12/
+- Saudi & Middle East Green Initiatives. (2023, December 4). Saudi Arabia announces 300% increase in installed renewables capacity, 43.9 million trees planted since launch of Saudi Green Initiative. Saudi & Middle East Green Initiatives. https://www.greeninitiatives.gov.sa/knowledge-hub/saudi-arabia-announces-300-increase-in-installed-renewables-capacity-439-million-trees-planted-since-launch-of-saudi-green-initiative/
+- Saudi Arabia. (2024). Kingdom of Saudi Arabia The Second Biennial Update Report (BUR2). https://unfccc.int/sites/default/files/resource/Kingdom of Saudi Arabia Bur2.pdf
+- Saudi Gazette. (2020, July 7). Riyadh Metro to open partially by end of year. Saudi Gazette. https://saudigazette.com.sa/article/595199/SAUDI-ARABIA/Riyadh-Metro-to-open-partially-by-end-of-year
+- SPA. (2020, May 11). GAZT: VAT of 15% Goes into Effect in July, 2020. Saudi Press Agency. https://www.spa.gov.sa/viewfullstory.php?lang=en&newsid=2085204
+- The CCUS hub. (2023). Aramco Jubail. https://ccushub.ogci.com/focus_hubs/aramco-jubail-ccs-hub/
+- The M Metro Rail Guy. (2024). Riyadh Metro – Information, Route Map, Tickets & Timings. The M Metro Rail Guy. https://themetrorailguy.com/riyadh-metro-information-route-map-tickets-timings/
+- UNFCCC. (2020). National Inventory Submissions 2020. United Nations Framework Convention on Climate Change. https://unfccc.int/process-and-meetings/transparency-and-reporting/reporting-and-review-under-the-convention/greenhouse-gas-inventories-annex-i-parties/national-inventory-submissions-2020
+- World Bank. (2023). Forest area (% of land area) - Saudi Arabia. https://data.worldbank.org/indicator/AG.LND.FRST.ZS?name_desc=true&locations=SA
+- World Nuclear News. (2023). Saudi Arabia reiterates plans for nuclear energy. https://www.world-nuclear-news.org/Articles/Saudi-Arabia-reiterates-plans-for-nuclear-energy
+
+# Assumptions
+
+
+## Note
+
+**Note: We have updated the text assessment to reflect the latest policy developments in Saudi Arabia. The CAT’s ratings and data is from our 2023 evaluation and will be updated soon.**
+
+
+## Historical emissions
+
+Historical emissions from 1990 to 2022 are taken from PRIMAP National Greenhouse Gas Emission Database 2023 (Gütschow and Pflüger, 2023). Saudi Arabia’s own national inventory data from the UNFCCC only extends to 2012.
+
+LULUCF values for 1990, 2000, 2010 and 2012 are still taken from the UNFCCC emissions inventory (2018).
+
+
+## NDC and other targets
+
+As Saudi Arabia has not communicated the business as usual (BAU) scenario for its NDC target, we quantified the target based on a business-as-usual scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC). The lower end of the NDC range reflects the KAPSARC BAU scenario, excluding land use, land use change and forestry (LULUCF). For the upper end of the range, we have assumed that LULUCF measures would contribute 200 MtCO2e of the total 278 MtCO2e emissions reductions in the NDC. This number is based on the announcements made at the Saudi Green Initiative Forum in 2021 (Kingdom of Saudi Arabia, 2021d). In 2012, the latest year for which national data is available, the land use and forestry sink stood at just 9 MtCO2e, with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2020.
+
+The Global Warming Potential (GWP) values used for the NDC have not been communicated. We have assumed these to be expressed in either AR4 or SAR and have included both calculations in our range.
+
+
+## Current policy projections
+
+We use a business-as-usual (BAU) emissions scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC) for the upper end of our current policy projections (KAPSARC, 2021), adjusted to our latest historical data. Given the slow progress on renewable energy deployment and the lack substantial mitigation policies in other sectors, we estimate the BAU scenario to reflect current developments. The BAU scenario assumes 11 TWh of electricity generated with solar PV by 2030, which we estimate would translate to around 5–6 GW of solar PV capacity by 2030. Given that only 0.4 GW of renewable energy capacity had been installed by end of 2022 (IRENA, 2023), and that only few projects have been tendered since then, 5–6 GW of renewable capacity by 2030 is broadly in line with the current pace of deployment.
+
+For the lower end of our current policy scenario, we take the above BAU scenario but replaced it with CO2 emissions provided in KAPSARC’s latest baseline forecasts of carbon dioxide emissions (KAPSARC, 2023a). We then adjusted the results to our latest historical data.
+
+
+## Planned policy projections
+
+We use KAPSARC’s renewable energy scenario (“2030 MEIM RE target”) scenario for the upper end of our planned policies scenario (KAPSARC, 2021), adjusted to our latest historical data point. This scenario translates to about a 30% share of renewable energy in total electricity production by 2030. We estimate a 30% share of renewable energy to be roughly in line with the former (2019) Vision 2030 target of installing 57.8 GW of renewable energy by 2030.
+
+The lower end of our planned policy projections reflects the 50% renewable energy and 50% natural gas in electricity production by 2030, as foreseen in the 2021 NDC and the Vision 2030 targets from October 2021. To do so, we calculate the difference in electricity sector emissions resulting from KAPSARC’s renewable energy scenario and the new NDC target of 50% natural gas and renewable energy, and subtract it from the upper end of our planned policies range.
+
+
+## Net-zero target and other long-term targets
+
+The Saudi government has announced it aims to achieve a sink of 200 MtCO2 from 2030 onwards, which we assume to stay constant towards 2060 to meet Saudi Arabia’s net-zero CO2 target.
+
+Given the lack of information on Saudi Arabia’s net zero target announcement, we have assumed it aims to reach net zero CO2 emissions by 2060.
+
+We assume that CO2 emissions will decline at a linear rate between 2030 and 2060 to balance LULUCF sinks in 2060. We further assume that non-CO2 emissions will decline at a linear rate between 2030 and 2080 in line with the IPCC SR1.5 pathways.
+
+
+## Global Warming Potentials values
+
+The CAT uses Global Warming Potential (GWP) values from the IPCC's Fourth Assessment Report (AR4) for all its figures and time series.
+
+
+# Targets
+
+
+## Target Overview
+
+Saudi Arabia submitted an updated NDC on 23 October 2021, increasing the 2030 emissions reduction target from 130 MtCO2e in the first NDC to 278 MtCO2e in the updated one. However, we do not consider this a stronger target, as the median of the NDC range remains lower than Saudi Arabia’s emissions trajectory based on current policies. We interpret the NDC target to be a reduction below a baseline scenario, similarly to the previous one, although this is not explicitly mentioned in the document. It is important to note that neither the previous NDC nor the updated one includes a baseline projection to which the emissions reduction target is applied.
+
+The 2021 NDC, similarly to the previous version, mentions that the reduction target is contingent on international climate action under the Paris Agreement not causing an “abnormal burden” on its economy. The NDC specifically mentions that the emissions reductions are based on a scenario under which hydrocarbons exports continue to provide a ‘robust contribution’ to the Saudi economy.
+
+Under a second scenario, which we understand to be a scenario under which global hydrocarbons exports decline, Saudi Arabia would continue what it calls a ‘sustainable utilisation of hydrocarbons’ domestically. Under this scenario, Saudi Arabia reserves itself the right to revise its NDC.
+
+Saudi Arabia plans to meet part of its emissions reduction targets through the use of a carbon market scheme and Article 6 mechanisms, including for both the 2030 NDC and 2060 net zero targets. However, details on how these mechanisms might be used are lacking or unclear; they present major risks that Saudi Arabia will seek to use carbon credits with questionable integrity as a smokescreen to justify continuing its trajectory of maintaining high levels of domestic emissions.
+
+
+## NDC updates
+
+Saudi Arabia submitted its updated NDC on 23 October 2021, increasing the 2030 emissions reduction target from 130 MtCO2e in the first NDC to 278 MtCO2e in the updated one.
+
+The 2021 NDC lists the following mitigation measures:
+
+- Energy efficiency, particularly in the industry, buildings, and transport sectors
+- Renewable energy in the power sector, making up 50% of the electricity mix by 2030, and to generate green hydrogen
+- A switch from oil to gas in the electricity sector
+- Zero flaring in the oil and gas industry
+- Carbon capture utilisation and storage (CCUS), coupled with blue hydrogen
+As Saudi Arabia has not yet communicated the business as usual (BAU) range for its NDC target, we quantified the target based on a business as usual scenario developed by the King Abdullah Petroleum Studies and Research Center (KAPSARC) (KAPSARC, 2021), a Saudi-based organisation.
+
+The lower end of the BAU range reflects the KAPSARC BAU scenario, excluding land use, land use change and forestry (LULUCF). For the upper end of the range, we have assumed that LULUCF measures would contribute 200 MtCO2e of the total 278 MtCO2e emissions reductions in the NDC. This number is based on the announcements made at the Saudi Green Initiative Forum in 2021. However, in 2012, the latest year for which national data is available, the land use and forestry sink stood at just 9 MtCO2e (UNFCCC, 2020), with forests covering a mere 0.5% of Saudi Arabia’s total land area in 2021 (World Bank, 2023).
+
+Based on this BAU range, and due to the uncertainties around the contributions of emissions reductions from land use and forestry, we project Saudi Arabia’s NDC emissions level to be anywhere between ~520–800 MtCO2e in 2030, excluding LULUCF. This represents an approximate change of –24% to +14% compared to 2021 levels. We do not consider the updated NDC target to be an increase in ambition compared to the previous target, as the median of the NDC range remains lower than Saudi Arabia’s emissions trajectory based on current policies.
+
+* Before September 2021, all CAT ratings were based exclusively on fair share and only assessed a country’s target.
+
+**Target development timeline & previous CAT analysis**
+
+- 04.11.2021: Updated NDC
+
+## CAT rating of targets
+
+NDC target against modelled domestic pathways
+
+**The CAT rates Saudi Arabia’s NDC target as “Critically insufficient” when compared to modelled domestic pathways.** This rating indicates that Saudi Arabia’s NDC target in 2030 reflects minimal to no action and is not at all consistent with modelled domestic pathways limiting warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+Saudi Arabia's NDC rating against modelled domestic pathways has deteriorated compared to our previous assessment due to an update in our modelled domestic pathways to the pathways assessed in the AR6. This latest evidence shows that Saudi Arabia requires lower 2030 emissions to be consistent with a 4°C compatible pathway.
+
+As a result, its NDC rating is no longer “Highly insufficient” and falls into the “Critically Insufficient” range. Our newer pathways better capture national circumstances - including the recent plateauing in Saudi Arabia's emissions - and for higher temperature levels show less room for emissions growth than the previous set.
+
+NDC target against fair share
+
+**The CAT rates Saudi Arabia’s NDC target against fair share as “Critically insufficient”.** This rating indicates that Saudi Arabia’s NDC target reflects minimal to no action and is not at all consistent with its fair share of the global mitigation effort to limit warming to 1.5°C. If all countries were to follow Saudi Arabia’s approach, warming would exceed 4°C.
+
+**Further information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found** **here****.**
+
+
+## Net zero and other long-term target(s)
+
+We evaluate the target as: Poor.
+
+Saudi Crown Prince Mohammed bin Salman announced Saudi Arabia’s net zero target for 2060 at the first Saudi Green Initiative Forum in October 2021 (Kingdom of Saudi Arabia, 2021d). However, the target has yet to be enshrined in law, or in a policy document.
+
+As of October 2023, Saudi Arabia has not submitted a long-term strategy to the UNFCCC.
+
+Since its initial announcement in 2021, the Saudi government has not provided any further detailed information on scope, target architecture, or transparency. Saudi Arabia has not yet provided a clear emissions reduction pathway to net zero (Kingdom of Saudi Arabia, 2021a). The target’s emission coverage remains unclear with the CAT currently assuming that only CO2 emissions are being covered based on scarce available information.
+
+Saudi Arabia intends to reach its net zero target through the Circular Carbon Economy approach, which relies on the use of CCS. The national oil company Saudi Aramco has committed to reaching net zero operational emissions in 2050. However, most oil and gas emissions come from the combustion of fossil fuels, not their production. Saudi Arabia and Aramco’s net zero targets do not take into account emissions resulting from oil and gas exports. They also do not consider the economic risks associated with a continued reliance on fossil fuels exports in a net zero world (for further details, see the “Oil production” section under “Energy supply” here).
+
+**For the full analysis click** **here****.**
+

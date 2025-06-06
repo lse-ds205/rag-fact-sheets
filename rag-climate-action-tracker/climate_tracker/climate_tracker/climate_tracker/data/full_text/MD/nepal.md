@@ -1,0 +1,391 @@
+
+# Summary
+
+
+## Overview
+
+**Note: Further updates for this country are currently suspended.**
+
+**Since our last update in 2021, Nepal has released its Long-Term Strategy, an important step in enhancing its strategy to achieve carbon neutrality, after releasing its second NDC in 2020. Under a scenario in its LTS, if borne out, Nepal intends to reach carbon neutrality by as soon as 2045, if its carbon sink is included. The CAT’s rating of Nepal’s climate targets and action remains “Almost sufficient”.**
+
+**In its latest NDC, Nepal has set an activity-based target for both its unconditional and conditional targets. However, given it has no absolute emissions reduction in the unconditional target, the CAT instead uses Nepal’s current policy projections as its unconditional target and rates this as “1.5°C compatible” compared to Nepal’s fair share. The CAT estimates Nepal’s conditional target as 59–64 MtCO****2****e in 2030, which Nepal will achieve easily with current policies. We rate this as “Critically Insufficient” compared to its modelled domestic pathway.**
+
+**As a least developed country, Nepal would need significant international support to increase its climate ambition and implement more stringent policies to enable deep decarbonisation aligned with a global least cost 1.5°C compatible domestic emissions pathway. Nepal needs to enhance the ambition of its NDC targets beyond the level of current policies to drive real world emission reductions and expand its LTS beyond CO****2**** emissions, since around 54% of national emissions are from methane, mostly from the agriculture sector.**
+
+**Nepal’s electricity generation comes from 100% renewable energy sources since 2015. The government plans to expand more of hydroelectricity and all types of renewable energy. For instance, in 2023, the Nepal Electricity Authority (NEA) signed power purchase agreements (PPAs) for 1.5 GW of run-of-the-river hydropower projects, and these are expected to continue until they reach a cumulative 6.75 GW by 2028. Nepal additionally supplies its neighboring countries with renewable energy, reducing their carbon intensity.**
+
+**Nepal has pushed forward with rolling out electric vehicle (EV) policies in 2022. There are several fiscal incentives i.e. for EV purchase and road tax exemption. EV imports have greatly increased and a considerable number of charging stations have been installed. Through its NDC, the government of Nepal aims to phase out petrol-diesel vehicles with EVs by 2031. In its new budget (FY 2022-2023), the government plans to install 500 charging stations throughout the country, although currently only around 50 are operational. Nepal government also announced a renewal and tax waiver for EVs for the next five years.**
+
+The CAT rates Nepal’s climate targets and action as “Almost sufficient”. The “Almost sufficient” rating indicates that Nepal’s climate policies and commitments are not yet consistent with the Paris Agreement’s 1.5°C temperature limit but could be with moderate improvements. While Nepal’s updated NDC is a step in the right direction, Nepal needs to strengthen its conditional target further, with international support.
+
+Nepal’s current policies and action are 1.5°C compatible when compared to its fair share contribution. The “1.5°C compatible” rating indicates that Nepal’s climate policies and action are consistent with limiting warming to 1.5°C. Nepal’s climate policies and action.
+
+Emissions have continued to grow in Nepal, going from about 35-49 MtCO2e between 2010 and 2020, based on CAT calculation from historical emissions data. While the government is showing some progress in the implementation of its mitigation policies, under current policies, emissions are expected to increase by about 10% above current levels by 2030. Current policies and actions are not sufficient to meet the lower end of Nepal’s updated conditional target, nor are they where Nepal needs to be when compared with modelled domestic pathways. Nepal needs to implement more stringent policies, for which it will need international support.
+
+**The full policies and action analysis can be found** **here**
+
+Nepal's current "Critically insufficient" rating indicates that its conditional 2030 target reflects minimal to no action and is not at all consistent with limiting warming to 1.5°C, when compared to modelled domestic pathways. If all countries were to follow Nepal’s approach, warming would exceed 4°C.
+
+We haven't included all sectoral measures in our assessment of Nepal’s conditional target because the NDC provided limited details on some of the sectoral target, so it was not possible to estimate the impact of all of them. Nepal is encouraged to provide further information on the quantification of its NDC and to improve this target with international support.
+
+Nepal’s unconditional target is “1.5°C compatible”. The “1.5°C compatible” rating indicates that Nepal’s fair share target is consistent with limiting warming to 1.5°C. Nepal’s latest NDC doesn’t provide clear quantification of the unconditional target, hence the CAT has rated it against emissions under current policies and action.
+
+In Nepal, land use and forests served as carbon sink from 1997–2015 and was a carbon source from 2016–2021. The CAT estimated that LULUCF emissions were about 14 MtCO2e/yr in 2021. Nepal would need significant international support to achieve carbon neutrality by 2045, as Nepal relies highly on a LULUCF carbon sink in their carbon neutrality scenario. In addition, Nepal aims to maintain 45% forest cover (including other wooded land limited to less than 4%) by 2030. As of its enhanced NDC 2020, the forest coverage percentage in 2020 has reached approximately 44.7%.
+
+Nepal announced a 2045 net zero carbon emissions target at COP26. In 2021, Nepal released its Long-term Strategy, aimed at reaching carbon neutrality by 2045 or sooner and negative carbon emissions by 2050. We evaluate the target as "Average".
+
+
+# Net zero targets
+
+
+## Summary
+
+We evaluate Nepal’s net zero target as: **Average**
+
+At COP26, Nepal announced its commitment to carbon neutrality by or before 2045. The government submitted its Long-Term Strategy which outlines two GHG mitigation scenarios: the WAM (with additional measures) and the WEM (with existing measures) for achieving carbon neutrality by or before 2045 (Government of Nepal, 2021). The targets mentioned in the LTS are conditional upon receiving climate financing.
+
+The WEM scenario is based on existing plans and policies, highlighting the energy sector as the main CO2 removal strategy. Despite this, the scenario relies on the LULUCF sink to mitigate emissions for the first 10 years. Strategic measures in the agriculture and waste sectors cover CO2 and non-CO2 reduction targets. In the IPPU sector, no intervention will be made.
+
+On the other hand, the WAM scenario introduces ambitious intervention in the energy sector including the use of fuel cells, biofuel, green hydrogen, and CCUS. This pathway relies heavily on decreasing emissions from the energy sector, while maintaining the LULUCF sector’s carbon sink potential. In this scenario, net CO2 emissions are projected to remain negative from 2020 to 2030, and increase to around ‘zero’ between 2035 to 2045, and then sink to negative by 2050. This scenario aims to pave the way towards carbon neutrality sooner than 2045 (Government of Nepal, 2021).
+
+Both scenarios cover energy efficiency improvement, fuel switching and a strong target for electrification across most sectors. The LTS also put targets on promoting agroforestry and efficient agricultural practices. However, the WEM scenario will not lead to the achievement of the carbon neutrality target while WAM scenario does. It is also unclear to what extent the government will rely on CDR technology and which scenario the government is committed to achieving.
+
+The scenarios above are national scenarios. However, the government argues that it is feasible to achieve net zero emissions sooner than 2045 through cross-border energy trade. Thus, the LTS projected additional scenario, where both domestic scenarios are combined with a 50% energy trade, shows that Nepal could be carbon negative by 2030 (Government of Nepal, 2021).
+
+To improve its net zero target rating, the government of Nepal could clarify the scope and target architecture, as well as enhance its transparency. For instance, the government would need to: cover all GHG emissions in its net zero emission scenario, explicitly include emissions from international aviation and establish a binding review cycle.
+
+Target covers emissions / sectors partially (under 95% coverage)
+
+The target excludes both international aviation and shipping
+
+Plans to reach net zero through domestic actions and no removals outside borders
+
+Net zero target in proposed legislation or in a policy document
+
+No separate emission reduction and removal targets
+
+Non-legally binding process to review net zero target OR In process of establishing a review cycle for net zero
+
+Transparent assumptions or pathways only for removals or only for LULUCF
+
+Some information on the anticipated pathway or measures for achieving net zero is available, but with limited detail.
+
+Country makes no reference to fairness or equity in the context of its net zero target
+
+
+## CAT analysis of net zero target
+
+**Scope**
+
+- **Target year** – Nepal aims to be carbon neutral by 2045 or sooner and achieve negative carbon emissions by 2050.
+- **Emissions coverage** – The long-term strategy sets out targets that cover all sectors of the economy: energy, industry process, agriculture, forestry and land use, and waste. However, the LTS only covers CO2 emissions despite non-CO2 emissions representing 70% of Nepal's total emissions (excl. LULUCF) in 2021 (Gütschow, Günther and Pflüger, 2022). Nepal’s second NDC makes reference to ‘net-zero greenhouse gas emission by 2050’ and clearly states all sectors and emissions (CO2, CH4 and N2O) are covered.
+- **International aviation and shipping** – In its LTS, Nepal makes reference to shifting fuel to clean energy in aviation to reduce CO2 emissions from the transport sector. We assume that the target only covers domestic aviation. Nepal would need to explicitly include emissions from international aviation to upgrade the rating.
+- **Reductions or removals outside of own borders** – Nepal’s LTS provides a preliminary analysis of the carbon offset potential based on hydropower generation. It also highlights a potential scenario for clean energy trade combined with the WEM and WAM scenarios; which is projected to drive Nepal to be carbon-negative significantly faster (Government of Nepal, 2021). However, Nepal only plans to sell offsets, but does not aim to use external offsets to meet its own carbon neutrality target.
+**Target architecture**
+
+- **Legal status** – Nepal first announced its net zero target at COP26 to be cumulatively ‘net zero carbon’ from 2022-2045 and ‘carbon negative’ after that. In October 2021, Nepal submitted its long-term strategy (LTS) to the UNFCCC including its ‘carbon neutrality’ target for 2045. Neither target has been enshrined into policy or law as of March 2023.
+- **Separate reduction & removal targets** – Nepal provides separate emissions reduction and removal targets. It sets LULUCF emissions targets of -9.2 and -0.7 MtCO2 by 2050 for the WAM and WEM scenarios, respectively. The LTS does not specify the role of carbon removal in its carbon neutrality scenarios.
+- **Review process** – The implementation of the targets will be evaluated against performance indicators compatible with national targets. The indicators will be updated biennially, linear with the government’s GHG inventory report (Government of Nepal, 2021). Nepal needs to provide a legally binding review cycle to improve the rating.
+**Transparency**
+
+- **Carbon dioxide removal** – Nepal's long-term strategy sets out LULUCF as the main removal strategy for the first 10 years under a minimum intervention scenario.
+- **Comprehensive planning** – Nepal provides sectoral plans and targets for 2030 and 2050 within its net zero scenarios (Government of Nepal, 2021). The LTS mentions briefly CDR technology as a necessary intervention in the WAM scenario, but no further information is provided.
+- **Clarity on fairness of target** – Nepal provides no information on its intention to explain the target’s fairness.
+
+## Good practice
+
+The Climate Action Tracker has defined the following good practice for all ten key elements of net zero targets. Countries can refer to this good practice to design or enhance their net zero targets.
+
+
+# 2035 NDC
+
+
+## 2035 NDC Target Overview
+
+Nepal submitted its 2035 NDC to the UNFCCC on May 19, 2025. Updates of this country are currently suspended, so we will not publish a full assessment.
+
+
+# Policies & action
+
+Nepal’s current policies are 1.5°C compatible when compared to its fair share contribution. The “1.5°C compatible” rating indicates that Nepal’s climate policies and action are consistent with limiting warming to 1.5°C. Nepal’s climate policies and action do not require other countries to make comparably deeper reductions.
+
+Nepal is off track when compared with modelled domestic pathways and needs to implement more stringent policies, for which it will need additional support. Current policies are also not sufficient to meet the lower end of its Nepal’s conditional target.
+
+
+## Policy overview
+
+Nepal’s emissions excluding LULUCF increased 41.5% between 2010 and 2021 going from about 35 MtCO2e to 50 MtCO2e in that period. Under current policies, emissions are expected to increase 67% by 2030, above 2010 levels, reaching 59 MtCO2e in 2030. To be on a 1.5°C compatible domestic emissions pathway, Nepal would need to halve its emissions - reducing them to 27-37 MtCO2e/yr by 2030 and 18-23 MtCO2e/yr by 2050 (Climate Analytics, 2021). As a Least Developed Country, Nepal would need significant international support to achieve this.
+
+Despite the country’s emission growth, the country’s per capita emissions, excluding LULUCF, would go from 1.6 tCO2e/cap in 2016 to 1.8 tCO2e/cap by 2030, but will remain well below the world’s current average emissions per capita in 2017 of 4.8 tCO2e/cap (Ritchie, 2019).
+
+In October 2021, the government published Nepal's Long-term Strategy for Net Zero Emissions (LTS). It provides a timeframe and measures for achieving carbon neutrality by 2045 accounting for a sink in the LULUCF sector (Adhikari, 2022; Government of Nepal, 2021). There are two GHG mitigation scenarios: WEM (With Existing Measures) and WAM (With Additional Measures). The WEM scenario takes into account the plans and policies implemented and adopted up to 2020, as well as potential adoption in 2030 and 2050. The WEM scenario does not target carbon neutrality, while the WAM scenario does. The WAM scenario includes more ambitious and conditional targets, aiming to achieve carbon neutrality by 2045 (Government of Nepal, 2021).
+
+The LTS includes two potential clean energy trade scenarios in combination with its net zero scenarios, which will drive Nepal to be carbon-negative significantly earlier than 2045. The government of Nepal argues that trading its clean energy surplus can offset significant carbon emission of neighboring countries and play a pivotal role in decarbonising Nepal’s economy.
+
+Nepal is one of the leading countries that uses hydro as its main source of electricity generation. Since 2015, Nepal’s electricity generation has been 100% sourced from renewable energy, of which 99.87% comes from hydro (IEA, 2023). The government plans to expand its hydroelectricity as well as all types of renewable energy. In addition, Nepal plans to export clean hydropower to adjacent countries which it explains in the LTS (Havukainen et al., 2022).
+
+Apart from hydro, Nepal is also rich in other renewables potential. In June 2022, the government of Nepal published the Nepal Energy Sector Synopsis Report, which defines Nepal’s renewable energy potential and its development. The potential of solar energy in Nepal is immense. Nepal has almost one million residential solar photovoltaic (PV) systems installed and is growing large utility-scale solar. However, Nepal’s massive potential in biogas and wind energy is underdeveloped. Scaling up renewable energy is crucial for Nepal to achieve its renewable energy target based on the 15th Five Year Plan (FY2020-FY2024) by as much as 12% of total energy consumption (Government of Nepal, 2018b).
+
+In March 2020, the government published the ‘Kathmandu Valley Air Quality Management Action Plan-2020’ to reduce air pollution levels. It includes strategic plans to reduce emissions from transport and industry sectors (Himalayan News Service, 2020). This was also one of the targets listed in the NDC. Air pollution levels are still above the national air quality standards (CEN, 2020). Promoting alternative fuel sources would lead to better air quality and to improved human health (Baral & Thapa, 2021).
+
+Nepal has pushed forward with its EV development policies in 2022. There are several fiscal incentives, i.e. for EV purchase and road tax exemption. In addition, EV imports increased greatly and a considerable number of charging stations have been installed.
+
+The Covid-19 pandemic did not significantly impact Nepal’s emissions: its emissions for 2019 and 2020 were 48 and 49 MtCO2e respectively. However, Nepal’s lockdown reduced the amount of particulate emissions or pollutants responsible for degrading air quality, due to vehicular movement restriction (Baral & Thapa, 2021).
+
+Nepal had two rounds of lockdown periods and suffered a widespread disruption of economic activity, especially in service industries such as tourism, hospitality and aviation (World Trade Organization, 2020). Nepal’s economic activity has heavily shrunk since the pandemic. Exports and imports have significantly decreased, by 34.6% and 20.7% respectively, during FY2022 until January 2023. In addition, Nepal’s reduction in agricultural production led to a drop in foreign reserves and revenues and a further decline in GDP growth is expected (AIIA, 2023).
+
+
+## Sectoral pledges
+
+In Glasgow, a number of sectoral initiatives were launched to accelerate climate action. At most, these initiatives may close the 2030 emissions gap by around 9% - or 2.2 GtCO2e, though assessing what is new and what is already covered by existing NDC targets is challenging.
+
+For methane, signatories agreed to cut emissions in all sectors by 30% globally over the next decade. The coal exit initiative seeks to transition away from unabated coal power by the 2030s or 2040s and to cease building new coal plants. Signatories of the 100% EVs declaration agreed that 100% of new car and van sales in 2040 should be electric vehicles, 2035 for leading markets. On forests, leaders agreed “to halt and reverse forest loss and land degradation by 2030”. The Beyond Oil & Gas Alliance (BOGA) seeks to facilitate a managed phase out of oil and gas production.
+
+NDCs should be updated to include these sectoral initiatives, if they're not already covered by existing NDC targets. As with all targets, implementation of the necessary policies and measures is critical to ensuring that these sectoral objectives are actually achieved.
+
+- **Methane pledge:** Nepal signed the methane pledge at COP26. Agriculture is a key sector in Nepal and one of the highest emissions sources. In 2021, agriculture sector accounted for 54.2% of Nepal’s GHG emissions and methane made up 76.1% of agriculture emissions. Nepal regulates agriculture adaptations through Nepal’s Climate Change Policy 2019 which promotes transition to sustainable, climate-resilient food and agriculture systems. In addition, Nepal’s long-term strategy in waste sector has included promotion of methane recovery from landfills and methane generation from anaerobic digesters in wastewater treatment.
+- **Coal exit:** Nepal agreed to the coal exit at COP26. Coal is not included in the NDC and a coal exit was not included in the LTS. Nepal stated in its second NDC it will adopt low emission technologies in brick and cement industries to reduce coal consumption and air pollution by 2030.
+- **100% EVs:** Nepal adopted the target to integrate full EVs at COP26. Nepal's 2021/22 budget outlines a plan to replace fossil fuel-based vehicles with EVs by 2031, and it also provides tax incentives for EVs. This plan has resulted in an increase in the import of EVs. Nepal is also developing charging stations for EVs.
+- **Forestry:** Nepal has signed the Leaders' declaration on forest and land use at COP26. Through its LTS (2021), Nepal intends to increase forest cover to 45% by 2030.
+- **Beyond oil and gas:** Nepal did not sign the beyond oil and gas pledge at COP26.
+
+## Energy Supply
+
+Energy sector emissions contributed about 30% to Nepal’s total emissions excluding LULUCF in 2021 (Gütschow, Günther and Pflüger, 2022). In the same year, about 91% of Nepal’s population had access to electricity. The Nepali electricity mix is dominated by hydropower, which accounts for nearly 90% of installed capacity and 99% of total electricity generation (Government of Nepal, 2014).
+
+The total energy supply, on the other hand, is predominantly based on biofuels and waste, but with a growing share of oil since 2015. This is in conflict with one of Nepal’s NDC sectoral targets that aims to reduce its dependency on fossil fuels. Instead, the consumption of biofuels, waste, oil and coal have continued to increase steadily since 2015 (coal to a lesser extent) (IEA, 2020). On a positive note, Nepal’s second NDC has plans to increase clean energy trading with its adjacent countries.
+
+The Government’s “white paper” on Nepal’s energy sector sets the target of generating 15 GW of electricity (Government of Nepal, 2018a). On top of this, the government marked the years 2018–2028 as the Energy Decade and will focus on the “development and expansion of hydroelectricity and all types of renewable energy to provide clean energy to all Nepali households within the coming three years and to avail electricity to all households per demand within the next five years” (Government of Nepal, 2018a).
+
+In 2022, the cabinet revised how it will divide the share of power generation, where a 40-45% share will come from run-of-the-river projects while 20-25% will come from reservoir type projects. In February 2023, the Nepal Electricity Authority (NEA) signed power purchase agreements (PPAs) for 1.5 GW run-of-the-river hydropower projects. It is expected that the NEA will continue signing PPAs for run-of-the-river projects until they reach a cumulative 6.75 GW (Kathmandu Post, 2023c).
+
+With abundant renewable energy resources, Nepal’s LTS aims to reduce emissions from the energy sector by using renewable energy and hydrogen technologies to power the industrial, commercial, and agricultural sectors. Hydropower plants and solar PV will generate most of electricity in the power generation sector.
+
+Other strategic actions are to scale-up distributed energy resources (mini-grid, off-grid isolated wind, solar, micro-hydro, and biogas) and develop policy on regional power sector integration, VRE integration, and grid flexibility (Government of Nepal, 2021). For instance, Gham Power Nepal Private Limited has installed over nine microgrids and 2500 solar projects that cumulatively generate 2.5 MW of electricity (Gham Power, 2023).
+
+The LTS outlines plans to export clean hydropower to adjacent countries (Havukainen et al., 2022), which has begun to be implemented: Nepal began exporting hydropower to India in 2021 (Poudel, 2021). Under the WAM or carbon neutrality scenario, emissions in the energy sector are expected to be 11 MtCO2e in 2030 and 1.7 MtCO2e in 2050 [GWP AR5].
+
+The potential of solar energy in Nepal is immense. In 2022, almost one million residential solar PV systems were installed. It is also building large utility-scale solar, with some plants already operating. Around 1.35 MW of solar plants operating are managed by the NEA while around 21 MW is under IPPs. In terms of bioenergy, Nepal’s huge amount of biomass produced by livestock and agriculture activities makes biogas sufficient for large population. However, there have not been many biogas plants installed. The same issue goes for wind energy, which there has been no considerable development despite Nepal’s massive potential of wind energy (Government of Nepal, 2022a).
+
+
+## Industry
+
+Currently, Nepal government is trying to attract foreign investment through its FDI (Foreign Direct Investment) policy. The industrial sector in Nepal is small but growing steadily. It plays a key role in job creation, economic growth, living standard improvement, and more. The manufacturing sub-sector accounts for 5.7% of GDP from industry.
+
+Nepal’s emissions from industrial processes and product uses are currently low. Under the LTS’s WAM scenario, emissions in the industry sector are expected to be 2.9 MtCO2e in 2030 and 1.6 MtCO2e in 2050 [GWP AR5]. However, Nepal will need to decarbonise the industry sector due to the expected growth forecast. It is crucial for Nepal to increase renewable energy penetration and improve energy efficiency in the industry sector.
+
+Nepal intends to switch to renewable energy and waste-related fuel and exchange raw materials such as limestone for the cement industry (Government of Nepal, 2021). In its FY 2022-2023 budget, the Government of Nepal intends to provide up to a 15% reduction on electricity bills of industries consuming electricity worth above NPR 100 million (ca. USD 820,000) (Nepal Economic Forum, 2022).
+
+
+## Transport
+
+As a landlocked country, road transport in Nepal accounts for over 90% of the domestic movement of passengers and freight. Because of rapid urbanisation, rising incomes and increased road access in rural areas, the total number of registered vehicles increased significantly, along with GHG emission levels.
+
+Nepal’s LTS contains strategic actions for the transport sector, including promotion of electric mass passenger transport, switching fuel to clean energy (electricity, fuel cells, synthetic fuels/biofuels in aviation), electrification in freight transport, and installation and expansion of charging stations (Government of Nepal, 2021).
+
+The NDC included the plan to develop an electrical (hydro-powered) rail network (Government of Nepal, 2016). The 945 km Mechi-Mahakali Electric Railway is being developed, although it remains unclear when the railway will come into operation (CEN, 2020) There are some difficulties related to land acquirement and potential conflict with residents near the project area who feel aggrieved by the construction of the railway (Kathmandu Post, 2021b, 2021a, 2022).
+
+There are several tax incentives and fiscal support measures by the government to promote EVs in Nepal. Private EV taxes for buyers are currently around ten times less than private petroleum vehicles due to rebates. EVs are also free of annual road tax for petrol and diesel vehicles (Foreign Policy, 2022). The government also plans to exempt 40% income tax for five years for a new industry of four-wheeler electrical passenger vehicles established for production or assembly (Kathmandu Post, 2023a).
+
+Nepal made considerable progress on EVs in 2022. The Investment Board Nepal (IBN) performed a feasibility study for an electric Bus Rapid Transit (eBRT) on the Ring Road of Kathmandu Valley (My Republica, 2022). In the first seven months of FY2022/FY2023, the import of EVs increased by 61% compared to the same period in the previous FY (Kathmandu Post, 2023a). In addition, the Nepal Electricity Authority (NEA), has launched an effort to install 51 charging stations across the country (Online Khabar, 2022), of which currently NEA has around 50 operational charging stations distributed across Nepal (My Republica, 2023a). NEA plans to install a total of 500 charging stations by the next fiscal year end with collaboration of the private sector (My Republica, 2023b).
+
+In 2020, the government launched a Bus Rapid Transit (BRT) project on the ring road of Kathmandu (Government of Nepal, 2020a). The implementation of a BRT system will reduce daily vehicular emissions, improve air quality and create a more efficient transit system (My Republica, 2021).
+
+
+## Buildings
+
+As one of the developing countries with the most rapid urbanisation, a massive addition of buildings is anticipated in the residential, tourism and hospitality, and commercial sectors for the next decade. In the last few decades, overall operational energy requirement in buildings has increased, mainly for heating and cooling. Nepal’s carbon footprint for the buildings sector is relatively large due to the use of high energy density materials (European Union, 2022).
+
+Nepal launched the National Energy Efficiency Strategy in 2019. It consists of action plans to achieve its main goal of doubling the average improvement rate of energy efficiency in Nepal from 0.84% per year (in 2000 -2015) to 1.68% per year in 2030 (Government of Nepal, 2019). However, Nepal currently still has no standards, guidelines or regulations related to energy efficient building construction nor applications for existing buildings (European Union, 2022).
+
+
+## Agriculture
+
+The majority of emissions in Nepal are non-CO2 GHG emissions from the agriculture sector. In 2021 methane and nitrous oxide contributed to 70% of total GHG emissions, excluding LULUCF (Gütschow, Günther and Pflüger, 2022). The largest share of these emissions come from rice cultivation, enteric fermentation and agricultural soils (Government of Nepal, 2014). Nepal's fertiliser consumption grew by 17% from 87.3 kg/ha in 2019 to 102 kg/ha in 2020 (Knoema, 2020).
+
+Some studies have been carried out to explore the potential to implement Climate Smart Agriculture (CSA) in Nepal, which would contribute to both mitigating and adapting to the effects of climate change (CIAT; World Bank; CCAFS and LI-BIRD, 2017). In 2020, Gandaki Province in Nepal launched the Chief Minister’s Environment Friendly Model Agriculture Village Programme (CMEFMAVP), which promotes climate resiliency and sustainable farming systems by using CSA (Relief Web, 2020). In 2021, Lumbini Province government in Nepal funded and managed a smart agriculture programme operating in 116 villages (Global Center of Adaptation, 2021).
+
+Nepal’s LTS includes the agriculture sector and livestock in its decarbonisation strategy. Under its WAM scenario, emissions from the agriculture sector are expected to stay at 0.2 MTCO2e from 2019 until 2050 [GWP AR5] (Government of Nepal, 2021).
+
+
+## Forestry
+
+In Nepal, land use and forests are a significant emissions sink. In January 2020, The Ministry of Forests and Environment launched the Integrated Landscape Management to secure Nepal’s protected areas and critical corridors (ILaM) with the aim of building national capacity and creating an enabling environment for cross-sectoral coordination to promote forest and landscape conservation (GEF News, 2020).
+
+In 2010-2021, Nepal lost 2.75 kha of tree cover, equivalent to 1.49 MtCO2 of emissions (Global Forest Watch, n.d.). In 2021, Nepal’s Ministry of Environment and Forestry sealed a USD 45m deal under the Emission Reduction Payment agreement (ERPA) aiming to reduce emission by 9 MtCO2e in the Terai Arc Landscape (World Bank, 2021). Announced at COP26, the government intended to increase forest cover to 45% by 2030. The LTS highlights LULUCF as an integral part of reaching Nepal's ambition of net negative carbon emissions by 2050.
+
+
+## Waste
+
+Nepal’s waste sector emissions contributed 7.5% (or 3.7 MtCO2e) of its total emissions, excluding LULUCF, in 2021. This is a 17% increase compared to 2010 levels. Emissions mainly come from methane (Gütschow, Günther and Pflüger, 2022).
+
+Nepal’s NDC's target is to reduce emissions by 0.26 MtCO2e compared to BAU from wastewater treatment and faecal sludge management. Nepal’s LTS also covers waste sector strategic actions: methane recovery from landfills, incineration of waste for heat and power generation, and methane generation from anaerobic digester in wastewater treatment. These efforts are expected to reduce emissions by 0.7 MtCO2e in 2030 under the WEM scenario and 1.6 MtCO2e in 2030 under the WAM scenario (LTS).
+
+In 2020, the government launched a waste management baseline survey report, aiming to produce baseline data and information for planning, monitoring and evaluation of the national development plans and programmes related to solid waste management.
+
+Local governments in Nepal hold major responsibility for waste management. The report shows that municipal waste management is a major challenge. Most of the municipalities had resource constraints and demanded funds from the federal and provincial government, so it is crucial for the government to establish effective waste handling procedures and enhance institutional mechanisms (Government of Nepal, 2020c).
+
+In 2020, the ‘Rehabilitation and Expansion Waste Water Treatment Plant‘ next to the Bagmati river, Kathmandu was finished. The system gathers around 3.24 million liters of sewage waste per day and discharges the treated water back to the rivers. This is equivalent to waste from three million people. However, the plant will not change the river status since only about 25% of the total sewage waste gets treated (Online Khabar, 2021).
+
+
+# Sources
+
+
+## List of references
+
+- ADB. (2022). Nepal: Macroeconomic update (September 2022). https://www.adb.org/countries/nepal/economy
+- Adhikari, M. (2022). Transforming Nepal’s energy system. The Annapurna Express. https://theannapurnaexpress.com/news/transforming-nepals-energy-system-30722
+- Baral, B. D., & Thapa, K. (2021). Effect of the COVID-19 Lockdown on Ambient Air Quality in Major Cities of Nepal. Journal of Health and Pollution, 11(29). https://doi.org/10.5696/2156-9614-11.29.210211
+- Bikram Timilsina. (2023). Post-COVID-19 Economic Conditions in Nepal and Political Instability. Australian Institute of International Affairs. https://www.internationalaffairs.org.au/australianoutlook/post-covid-19-economic-conditions-in-nepal-and-political-instability/
+- CEN. (2020). Nationally Determined Contribution (NDC) implementation in Nepal: A Pathway towards Climate Friendly Development. http://cen.org.np
+- CIAT; World Bank; CCAFS and LI-BIRD. (2017). Climate-Smart Agriculture in Nepal. https://ccafs.cgiar.org/publications/climate-smart-agriculture-nepal#.XcKMyjNKiUl
+- Climate Analytics. (2021). What is Nepalʼs pathway to limit global warming to 1.5°C? https://1p5ndc-pathways.climateanalytics.org/countries/nepal/#fn5
+- EPA. (2019). Global Non-CO2 Greenhouse Gas Emission Projections & Mitigation Potential: 2015-2050. https://www.epa.gov/global-mitigation-non-co2-greenhouse-gases/global-non-co2-greenhouse-gas-emission-projections
+- European Union. (2022). Building Energy Efficiency in Nepal (BEEN). https://www.switch-asia.eu/project/building-energy-efficiency-in-nepal-been/
+- Foreign Policy. (2022). Nepal’s Big EV Bet. https://foreignpolicy.com/2022/06/25/nepal-ev-electric-vehicles-environmental-policy-traffic-congestion-roads-industry/
+- GEF News. (2020, January 20). Government of Nepal launches new Integrated Landscape Management Project. https://www.thegef.org/news/government-nepal-launches-new-integrated-landscape-management-project
+- Gham Power. (2023). Gham Power Nepal Pvt. Ltd**.** https://rollingnexus.com/Gham-Power-Nepal-Pvt.-Ltd
+- Global Center of Adaptation. (2021). How climate-smart farming is bringing jobs back to Nepal. https://gca.org/how-climate-smart-farming-is-bringing-jobs-back-to-nepal/
+- Global Forest Watch. (n.d.). Nepal. Retrieved April 11, 2023, from https://www.globalforestwatch.org/dashboards/country/NPL
+- Government of Nepal. (2014). Nepal Second National Communication to the conference of parties of the United Nations framework convention on climate change. https://unfccc.int/resource/docs/natc/nplnc2.pdf
+- Government of Nepal. (2016). Nepal’s NDC. https://www4.unfccc.int/sites/ndcstaging/PublishedDocuments/Nepal%20First/Nepal%20First%20NDC.pdf
+- Government of Nepal. (2018a). Current situation of energy, water resources and irrigation sector and future mapping (white paper). https://cip.nea.org.np/wp-content/uploads/2020/09/KMS-6-white-paper-on-energy-water-resources-and-irrigation-sector.pdf
+- Government of Nepal. (2018b). The Fifteenth Plan (Fiscal Year 2019/20 – 2023/24). https://lpr.adb.org/sites/default/files/resource/630/nepal-fifteenth-national-plan.pdf.pdf
+- Government of Nepal. (2019). National Energy Efficiency Strategy, 2075. http://energyefficiency.gov.np/downloadthis/national_energy_efficiency_strategy_2075_(english_translation).pdf
+- Government of Nepal. (2020a). BUS RAPID TRANSIT (BRT) ON RING ROAD OF KATHMANDU (27.3 KM). https://ibn.gov.np/wp-content/uploads/2020/04/Bus-Rapid-Transit-BRT-on-Ring-road-of-Kathmandu.pdf
+- Government of Nepal. (2020b). WASTE MANAGEMENT BASELINE SURVEY OF NEPAL 2020. https://unstats.un.org/unsd/envstats/Censuses%20and%20Surveys/Waste-Management-Baseline-Survey-of-Nepal-2020.pdf
+- Government of Nepal. (2021). Nepal’s Long-term Strategy for Net-zero Emissions. Government of Nepal. https://unfccc.int/documents/307963
+- Gütschow, J., Pflüger, M. (2022) The PRIMAP-hist national historical emissions time series (1750-2021) v2.4. https://primap.org/primap-hist/
+- Havukainen, M., Mikkilä, M., & Kahiluoto, H. (2022). Climate Policy Reform in Nepal through the Lenses of the Institutional Analysis and Development Framework. Sustainability (Switzerland), 14 (12). https://doi.org/10.3390/su14127391
+- Himalayan News Service. (2020, March 7). Government unveils action plan to control air pollution. https://thehimalayantimes.com/kathmandu/government-unveils-action-plan-to-control-air-pollution
+- IEA. (2020). Nepal: Data and statistics. https://www.iea.org/data-and-statistics?country=NEPAL&fuel=Energy supply&indicator=TPESbySource
+- IEA. (2023). Nepal. https://www.iea.org/countries/nepal
+- IMF. (2022). Nepal. https://www.imf.org/en/Countries/NPL
+- Kathmandu Post. (2021a). Construction of railway track worries Chandrapur residents. https://kathmandupost.com/province-no-2/2021/03/14/construction-of-railway-track-worries-chandrapur-residents
+- Kathmandu Post. (2021b). Mechi-Mahakali railway: Distribution of compensation for land delayed. https://kathmandupost.com/province-no-2/2021/02/07/mechi-mahakali-railway-distribution-of-compensation-for-land-delayed
+- Kathmandu Post. (2022). Landowners on proposed railway path upset as deals remain frozen. https://kathmandupost.com/money/2022/06/08/landowners-on-proposed-railway-path-upset-as-deals-remain-frozen
+- Kathmandu Post. (2023a). Nepalis turning to electric vehicles in tactical shift. https://kathmandupost.com/money/2023/02/23/nepalis-turning-to-electric-vehicles-evs-in-tactical-shift-imports-jump-61-percent
+- Kathmandu Post. (2023b). NEA decides to sign PPAs for 1500MW non-storage projects. https://kathmandupost.com/national/2023/02/10/nea-decides-to-sign-ppas-with-developers-of-1500mw-run-of-the-river-hydel-projects
+- Knoema. (2020). Nepal - Fertilizer consumption per unit of arable land. https://knoema.com/atlas/Nepal/Fertilizer-consumption
+- My Republica. (2021). An Electric Bus Rapid Transit System for Kathmandu Valley. https://myrepublica.nagariknetwork.com/news/an-electric-bus-rapid-transit-system-for-kathmandu-valley/
+- My Republica. (2022). IBN to conduct feasibility study for electric bus service on Valley ring road. https://myrepublica.nagariknetwork.com/news/ibn-to-conduct-feasibility-study-for-electric-bus-service-on-valley-ring-road/
+- My Republica. (2023a). Power supply disruption hampers NEA’s EV charging stations. https://myrepublica.nagariknetwork.com/news/power-supply-disruption-hampers-nea-s-ev-charging-stations/
+- My Republica. (2023b). Switching to the EV Culture: The Sooner, the Better. https://myrepublica.nagariknetwork.com/news/switching-to-the-ev-culture-the-sooner-the-better/
+- Nepal Economic Forum. (2022). Key highlights of Budget 2022-23. https://nepaleconomicforum.org/key-highlights-of-budget-2022-23/
+- Online Khabar. (2021). Advanced wastewater treatment plant in Bagmati gives new hopes to Kathmandu. https://english.onlinekhabar.com/advanced-wastewater-treatment-plant-in-bagmati-gives-new-hopes-to-kathmandu.html
+- Online Khabar. (2022). NEA launches drive to open 51 charging stations across Nepal from Kathmandu. https://english.onlinekhabar.com/nea-first-of-51-charging-stations.html
+- Poudel, S. (2021). Nepal Begins Hydropower Export to India. The Diplomat. https://thediplomat.com/2021/12/nepal-begins-hydropower-export-to-india/
+- Relief Web. (2020). Strengthening local capacities for climate-smart agriculture – Insights from Nepal. https://reliefweb.int/report/nepal/strengthening-local-capacities-climate-smart-agriculture-insights-nepal
+- Tribhuvan University. (2019). Nepal’s GHG Inventory for Third National Communication to the UNFCCC. http://mofe.gov.np/noticefile/Nepal’s%20GHG%20Inventory-Final_version_1562308551.pdf
+- UNFCCC. (2015). Greenhouse Gas Inventory Data. http://unfccc.int/di/DetailedByParty.do
+- World Bank. (2021). Nepal and World Bank Sign Innovative Financing Agreement on Forests and Climate Change for Building Back Greener. https://www.worldbank.org/en/news/press-release/2021/02/26/nepal-and-world-bank-sign-innovative-financing-agreement-on-forests-and-climate-change-for-building-back-greener
+- World Bank. (2022). World Development Indicators. https://datacatalog.worldbank.org/search/dataset/0037712
+- World Trade Organization. (2020, May). COVID-19 and its effect on Nepal. World Trade Organization. https://www.wto.org/english/tratop_e/covid19_e/sawdf_nepal_e.pdf
+
+# Assumptions
+
+
+## Historical emissions
+
+The historical dataset between 1990 and 2021 is based on PRIMAP National Historical Greenhouse Gas Emission Database 2022 (Gütschow, Günther and Pflüger, 2022). We took the 1994 and 2000 LULUCF values from the GHG emissions profiles for Non-Annex I countries (UNFCCC, 2015), the 2011 LULUCF value from Nepal’s GHG inventory for the Third National Communication (Tribhuvan University, 2019), and the 2019 LULUCF value from Nepal’s LTS 2021.
+
+
+## NDC and other targets
+
+Nepal's unconditional NDC target is an activity-based target for the energy sector i.e. add 5 GW of clean energy generation by 2030. We assume that the clean energy generation from the unconditional target would cover more than just electricity generation e.g. emissions reductions from switching to EVs or electric stoves. Given that the unconditional target does not provide an absolute emissions reduction target and the assumption that the unconditional target covers the whole energy sector, the CAT cannot quantify this target. Instead, the CAT uses current policy projections.
+
+The NDC provided limited details on some of the sectoral targets, so it was not possible to estimate the impact of all of them. In particular, the first ‘energy generation’ target (expand clean energy generation from 1.4 GW to 15 GW) and the second target for the transport sector (develop 200 km of the electric rail network) were not quantified. This means the total reduction under the conditional NDC could potentially be higher than our estimates. The second NDC also includes separate targets for the forestry sector but these are not included in our calculations as the CAT assesses NDCs without emissions from the forestry sector.
+
+Some of the conditional targets from the second NDC are:
+
+- Energy generation: (1) by 2030, expand clean energy generation from approximately 1.4 GW to 15 GW, of which 5-10% will be generated from mini and micro-hydro power, solar, wind and bio-energy (not included in the CAT calculations), (2) by 2030, ensure 15% of the total energy demand is supplied from clean energy sources.
+- Transport: by 2030, increasing sales of e-vehicles to cover 90% of all private passenger vehicle sales including two-wheelers and 60% of all four-wheeler public passenger vehicle sales. This target will reduce emissions by 1.1 MtCO2e from a projected BAU, which is around a 28% decrease in emissions.
+- Residential: (1) by 2025, Nepal aims to install 500,000 improved cookstoves specifically in rural areas, (2) by 2025, install additional 200,000 household-biogas plants and 500 large scale biogas plants, (3) by 2030, ensure 25% of households use electric stoves as their primary mode of cooking. These three combined targets will reduce emissions by 0.5 MtCO2e from a projected BAU, which is around a 23% decrease in emissions.
+- Waste: by 2025, 380 million liters/day of wastewater will be treated before being discharged, and 60,000 cubic meters/year of fecal sludge will be managed. These targets will reduce emissions by 0.28 MtCO2e from a projected BAU.
+Given that not enough data was provided in the NDC to allow us to calculate an economy-wide BAU, we assumed the ‘BAU scenario’ as referred to in the NDC submission, to be the same as the ‘pre COVID-19 current policy projection’ which were estimated through harmonising 2019’s historical emissions (exclude LULUCF) with growth emissions' estimates from Nepal’s 2nd National Communication.
+
+The pre-COVID19 current policy projection maximum value upper range is using ‘NC2 Medium Growth (MG) scenario’ harmonised to 2019 emissions and is then used for the upper end of the BAU range for the conditional NDC. Meanwhile, the pre-COVID19 current policy projection minimum value uses ‘NC2 BAU scenario’ harmonised to 2019 emissions and is then used for the lower end of the BAU range for the conditional NDC.
+
+We estimated a range for the conditional NDC as follows:
+
+- Conditional NDC upper end of the range: Taking into account only the emission reduction estimated for actions in the transport, residential and waste sectors. The assumption is that the reductions reported in the NDC for electrification in the transport and residential sectors already reflect the change in the energy mix (target of 15% energy demand from clean sources) and therefore the associated emissions reduction. Thus, the NDC could reduce emissions by 1.9 MtCO2e in 2030, compared to BAU.
+- Conditional NDC lower end of the range: Taking into account only the emission reduction from the second target for the ‘energy generation’ sector (15% of the total energy demand to be supplied with clean energy) and the reductions from the waste sector. The assumption is that the emissions reduction reported for transport and residential sector in the NDC represent only a part of the impact of this target and are included in the overall reduction calculated for the 15% target. We also assume that all clean energy would have an emission factor of zero MtCO2e. Under these assumptions, we estimate that the NDC could reduce emissions by 3.8 MtCO2e in 2030.
+We assume Nepal is applying GWP values from the Second Assessment Report (SAR), in line with its previous National Communications and NDC submission. We have converted these values into those from the Fourth Assessment Report – as those are the values used across all CAT assessments.
+
+
+## Current policy projections
+
+The current policy scenario is based on projections from Nepal’s Long-term Strategy 2021 for CO2 emissions from the energy, industry, agriculture and waste sectors (Government of Nepal, 2021); and EPA projections for non-CO2 emissions (EPA, 2019). The LTS sketches emissions value in the WEM (With Existing Measures) and the WAM (With Additional Measures) scenarios. We based the calculations only on the with WEM scenario. We used interpolation to complete the series from 2019 to 2050. Then, the WEM scenario was harmonised to historical data from PRIMAP 2022 is used for current policy scenario.
+
+
+## Net-zero target and other long-term targets
+
+The CAT calculates Nepal’s target of achieving carbon neutrality by 2045 using the WAM (With Additional Measures) scenario stated in its Long-term Strategy. The WAM scenario covers only CO2 emission for each sector and projects a LULUCF sink of 10 MtCO2 in 2045.
+
+To quantify a target in 2045 covering all GHG emission, we add our estimate of non-CO2 to the projected CO2 emissions excluding LULUCF from the LTS’ WAM scenario. We estimate non-CO2 emissions in 2045 by taking historical non-CO2 emissions from 2020 and applying the growth rate from the EPA’s BAU projections for non-CO2 emissions until 2045 (EPA, 2019; Gütschow, Günther and Pflüger, 2022).
+
+The LTS’ WAM scenario uses GWP values from the Fifth Assessment Report (AR5), but the projection covers only CO2 so an AR5 to AR4 conversion is not necessary.
+
+
+## Global warming potentials
+
+The CAT uses Global Warming Potential (GWP) values from the IPCC's Fourth Assessment Report (AR4) for all its figures and time series. Assessments completed prior to December 2018 (COP24) used GWP values from the Second Assessment Report (SAR).
+
+
+# Targets
+
+
+## Target Overview
+
+In its latest NDC, Nepal has set an activity-based target for both its unconditional and conditional targets. The unconditional target covers the energy sector by adding 5 GW of clean energy. However, given the NDC has no unconditional emissions reduction target, the CAT could not quantify this unconditional target, and has therefore had to use Nepal’s current policy projections as its unconditional target. The CAT rates this as “1.5°C compatible” compared to Nepal's fair share.
+
+According to CAT calculations, the new conditional NDC would lead to emission levels between 59–64 MtCO2e in 2030, depending on the interpretation of the sectoral targets and the overlaps with the energy sector targets. The CAT rates this as “Critically insufficient” against modelled domestic pathways.
+
+*For details on what we do for our Optimistic Target global temperature estimate, see the Assumptions tab.
+
+
+## NDC Updates
+
+On December 8, 2020 Nepal submitted its second NDC to the UNFCCC. This NDC represents a step forward from its predecessor, as it now contains quantitative activity-based and policy targets in key sectors and, for the first time, some of the energy-related targets are listed as an unconditional commitment.
+
+Nepal should further enhance transparency of its NDC targets and provide an absolute emissions reduction target for all sectors. The NDC provided limited details on some of the sectoral target, so it was not possible to estimate the impact of all of them. This means the total reduction under the conditional NDC could potentially be higher than our estimates. Due to the absence of an absolute emissions reduction target for the unconditional target, the CAT could not quantify it, so we use Nepal’s current policy projections as its unconditional target.
+
+* Before September 2021, all CAT ratings were based exclusively on fair share and only assessed a country’s target.**The CAT has not quantified this target but uses emissions levels from Nepal’s Policies and action.
+
+**Target development timeline & previous CAT analysis**
+
+- 08.12.2020: Nepal submitted a stronger NDC target
+
+## CAT rating of targets
+
+The CAT rates NDC targets against what a fair contribution to achieving the Paris Agreement’s long-term temperature goal would be as well as against what needs to happen within a country’s own borders. Nepal will need support to achieve those needed reductions with its borders.
+
+Nepal has put forward two targets in its NDC. One that it will achieving using its own resources and one that requires international support. We rate the country’s unconditional target against its fair share contribution and its conditional target against the level of reductions needed within its border defined by a modelled domestic pathway. In the case of Nepal, the CAT could not quantify the unconditional target because an absolute emissions reduction target was not provided, so we use Nepal’s current policy projections as its unconditional target.
+
+Conditional NDC target against modelled domestic pathways
+
+Nepal’s current “Critically insufficient” rating indicates that its conditional 2030 target reflects minimal to no action and is not at all consistent with limiting warming to 1.5°C, when compared to modelled domestic pathways. If all countries were to follow Nepal’s approach, warming would exceed 4°C.
+
+We haven’t included all sectoral measures in our assessment of Nepal’s conditional target because the NDC provided limited details on some of the sectoral target, so it was not possible to estimate the impact of all of them. Nepal is encouraged to provide further information on the quantification of its NDC and to exceed this target with international support.
+
+Unconditional NDC target against fair share
+
+Given the NDC has no unconditional emissions reduction target, the CAT therefore had to use Nepal’s current policy projections as its unconditional target. Our current policy projection and the conditional target both fall within the 1.5°C range. The “1.5°C compatible” rating indicates that Nepal’s fair share target is consistent with limiting warming to 1.5°C. Nepal’s fair share target does not require other countries to make comparably deeper reductions or greater effort, and is in the most stringent part of its fair share range.
+
+Further information on how the CAT rates countries (against modelled domestic pathways and fair share) can be found here.
+
+
+## Net zero and other long-term target(s)
+
+We evaluate the net zero target as: **Average.**
+
+Nepal announced its commitment to achieving carbon neutrality before, or by, 2045, in October 2021. The long-term strategy sets out targets that cover all sectors of the economy – energy, industry process, agriculture, forestry and land use, and waste. However, the LTS only covers CO2 emissions despite non-CO2 emissions accounting for 70% of Nepal total emission (excl. LULUCF) in 2021 (Gütschow, Günther and Pflüger, 2022) .
+
+The LTS gives two emission reduction scenarios. The first scenario, With Existing Measures (WEM), takes into account the plans and policies implemented and adopted up to 2020, as well as potential adoption in 2030 and 2050. The WEM scenario does not target carbon neutrality, while the With Additional Measures (WAM) scenario does. The WAM scenario includes more ambitious targets; conditional on international support and aims to achieve carbon neutrality by 2045 (Government of Nepal, 2021).
+
+In the WEM scenario, net CO2 emissions will be reduced by 30 MtCO2e in 2030 and 50 MtCO2e in 2050 [GWP AR5]. In WAM scenario, Nepal’s net CO2 emissions are projected to be negative from 2020 to 2030 due to a LULUCF carbon sink, then remain around ‘zero’ throughout 2035 to 2045 (Government of Nepal, 2021).
+
+The LTS outlines investment in clean energy as the main strategy for emission reductions. It also emphasises the significant role of the LULUCF sector in supporting ‘net negative carbon emissions by 2050’. Both scenarios cover energy efficiency improvement, fuel switching and a strong target for electrification across most sectors (Government of Nepal, 2021).
+
+**For the full analysis** click here
+

@@ -1,0 +1,94 @@
+
+# Summary
+
+
+## Overview
+
+**India is experiencing rapid growth in energy demand** **driven by GDP growth essential for a developing economy** **and increased demand for cooling amid heatwaves.** **Despite achieving substantial progress in installing renewable energy capacity and continuous decline in its tariff, India’s fossil fuel demand remains unchanged. Indeed,** **coal production and imports reached a record high in the first half of 2024 to meet the rise in seasonal electricity demand brought on by another year of record summer heat. This could be mitigated with** **faster rollout of renewables plus storage both of which are cost-effective compared to fossil fuels in India.** **Continued expansion of coal-fired power is not aligned with 1.5°C target of Paris Agreement**.
+
+**Since our last update no major new policy has been implemented in** **India, due to the general election that** **concluded at** **the end of May 2024, with the new government taking** **office in June 2024. The CAT’s overall rating of India’s climate targets and action remains “Highly insufficient”.**
+
+There has been a steady increase in the deployment of renewable energy in the country, including both utility-scale and rooftop solar, resulting in coal's share of the capacity mix dropping to a historic low. Currently, non-fossil energy sources account for 46% of India's total installed capacity, indicating that the country is well on track to achieve its conditional NDC target of 50% non-fossil capacity ahead of schedule. This progress suggests that a more ambitious NDC target could be set.
+
+The Indian government has implemented several policy measures to encourage renewable energy installation and generation, including economic benefits in terms of subsidies, improvements to administrative processes, and incentives for the domestic production of solar technologies. Solar and wind tariffs are the lowest-cost electricity in India, and solar energy with storage is becoming cost competitive compared to fossil fuels. The falling cost renewables in India could be instrumental in undermining the coal and gas power. A lower tariff of solar could also be supportive of production and utilisation of green hydrogen, which is getting emphasis by the government.
+
+However, reliance on coal power continues to be a drag on ambition. Although overall coal capacity has declined below 50%, to be aligned with 1.5oC temperature limit coal generation to reach at 17-19% by 2030. India has been witnessing a surge in summer electricity demand in recent years due to extreme heatwaves. As a result, the increase in renewable energy capacity is barely able to keep up with the increase in demand and generation share of coal remains above 70%.
+
+Another challenge is meeting the peak demand during non-solar hours which requires more robust grid infrastructure and storage. According to National Electricity Plan, India will need around 74GW of storage to meet peak demand in 2031-32, yet current storage capacity stands at just 4GW. To meet the immediate summer energy demand, the government has directed coal plants to operate at maximum capacity and to increase the blending share of imported coal. The utilisation of gas plants has also increased over the past year to meet peak demand. However, it's important to note that solar power with storage is becoming increasingly competitive with coal tariffs, raising questions about the economic viability of coal in the short to mid-term.
+
+Both domestic coal production and coal imports have reached record highs in 2024. This is further highlighted by the government’s ambitious coal mining plans and policy to continue subsidy and tax incentives for domestic and imported coal. While renewable energy sources do receive subsidies, the total subsidies in various forms for coal and other fossil fuels are eight times higher than those allocated to renewables.
+
+Long term planning is a necessity for India to deal with the challenge it faces in balancing its long-term renewable energy goals with the short-term necessity to meet growing energy demands, which is exacerbated by extreme weather conditions.
+
+India’s situation underscores the complexity of transitioning to sustainable energy systems in the face of rising and fluctuating energy needs. International support is crucial for India to access advanced technologies, financial resources, and best practices that can accelerate its transition to a sustainable energy future. Our analysis shows that with current policies, India will overachieve its conditional NDC targets of achieving 50% non-fossil capacity by 2030, so it could set stronger targets.
+
+Prime Minister Narendra Modi has begun his third term in office, marking a new tenure for the Indian government. This continuity in leadership is expected to sustain policy consistency in India's renewable energy sector and maintain momentum. While it is expected that renewable energy policies will continue to be a focus, India faces a climate policy risk in maintaining and expanding its thermal power sector and domestic coal production, potentially retaining the status quo, and delaying a coal phase-out.
+
+Some of the recent positive developments in terms of climate change mitigation policies include:
+
+- With the significant ramp-up of renewable energy, for the first time ever the country’s coal capacity has fallen below 50% of total capacity.
+- A more than 83% increase in investments in renewable energy projects has been observed in 2023-24.
+- The government has started viability gap funding (VGF) of around USD 893m for offshore wind energy projects.
+- Solar PV with storage is becoming cost competitive as solar with storage projects are putting in bids closer to the current solar tariff.
+Energy demand in India will continue to rise for the coming two to three decades to meet its developmental needs and to support increasing cooling demand. To exit this spiral of ever-increasing fossil fuel demand and to achieve a sustainable energy transition India could:
+
+- Expedite the policy and technical support to increase grid integration of renewable energy and storage capacity, to ensure seasonal peaks in demand can be met safely.
+- Avoid locking in a dependency on fossil fuel imports and set up a plan for early retirement of existing thermal capacity.
+- Launch programmes targeted at low carbon and sustainable cooling methods, particularly in urban centres.
+- Adopt an ambitious conditional target to indicate what it would be willing to do if support were made available.
+
+## Description of CAT ratings
+
+The CAT rates each country’s targets and policies against (1) its fair share contribution to climate change mitigation considering a range of equity principles including responsibility, capability and equality, and (2) what is technically and economically feasible using modelled domestic pathways which in absence of a better method are based on global least-cost climate change mitigation.
+
+Comparing a country’s fair share ranges and modelled domestic pathways provides insights into which governments should provide climate finance and which should receive it. Developed countries with large responsibility for historical emissions and high per-capita emissions, must not only implement ambitious climate action domestically but must also support climate action in developing countries with lower historical responsibility, capability, and lower per-capita emissions.
+
+The CAT rates India’s climate targets and policies as “Highly Insufficient”, indicating that India’s climate policies and commitments are not consistent with the Paris Agreement’s 1.5°C temperature limit.
+
+India’s second NDC of 2022 strengthened its targets on paper, but will not drive real world emission reductions beyond its current level of climate action. Its emissions intensity target is “Insufficient” when compared to India’s fair share contribution.
+
+India’s 50% non-fossil capacity target by 2030, which is conditional on international support, is “Highly insufficient” when compared to a modelled 1.5°C emissions pathway for the country and its current power sector plans already exceed this target.
+
+India needs to adopt stronger targets that will drive actual emissions reductions and accelerate climate policy implementation. The country will need international support to get onto a 1.5°C pathway.
+
+We rate India’s current policies and action as “Insufficient” compared to its fair share contribution.
+
+India has ambitious renewable energy plans as outlined in the National Electricity Plan 2023 (NEP2023) aiming for a share of installed capacity of 57% and 66% in 2026-27 and 2031-32, respectively. Share of renewable energy capacity in India reached 44%, ranked fourth in the world in renewable energy capacity installations in 2023, after China, the US and Germany. The NEP2023 is reflected in the lower bound of our current policy and action pathway.
+
+India has seen a steady increase in renewable energy deployment, including both utility-scale and rooftop solar, leading to the share of coal capacity dropping below 50% for the first time. However, this increase in renewable energy capacity is barely able to keep up with the surging demand. As a result, the electricity generation share of renewable energy, including large hydro, remains at around 18%, showing no improvement since last year.
+
+Investment in renewable energy projects in India are projected to increase by over 83% to around USD 16.5 bn in 2024, with fossil fuel companies also diversifying their investments into the renewable sector. Despite this, India has not committed to phasing out coal power or fossil gas.
+
+The National Electricity Plan indicated a temporary halt in coal capacity addition, but current under-construction capacity exceeds the threshold stated in these plans. While new gas power projects have been abandoned, the utilisation of existing gas power plants has increased to meet energy demand driven by severe heat stress.
+
+The government continues to advance its green hydrogen policy with its updated National Green Hydrogen Mission, an important step forward for decarbonisation of refineries and fertiliser plants where currently fossil fuels are used as feedstock. The policy has set a target of five million tonnes per annum of green hydrogen production by 2030. Financial and policy support has been extended for green hydrogen production and adoption in industry through the green hydrogen purchase mandate.
+
+India is planning to establish a domestic carbon market and has released draft rules for a compliance carbon market. The proposed system will include an emissions intensity target, similar to the previous cap-and-trade system known as Perform, Achieve, and Trade (PAT). However, the draft rules do not propose an absolute reduction target.
+
+At COP26, India committed to transitioning to 100% electric vehicles (EVs), particularly focusing on two and three-wheelers, and mandated that all new two-wheelers be electric by 2026. In 2023-24, electric two-wheelers and three-wheelers comprised over 80% of new EV sales. The Faster Adoption and Manufacturing of Electric Vehicles (FAME) scheme is crucial to this transition, with increased funding allocated for electric public buses and charging infrastructure. Although second phase of FAME (FAME II) concluded in March 2024, expectations for the announcement of FAME III were not met in the 2024 budget. However, the budget did include custom duty waivers on critical minerals to reduce EV costs.
+
+Our full policy and action analysis is here.
+
+India’s NDC has three main elements:
+
+- An emissions-intensity target of 45% below 2005 levels by 2030;
+- A target of achieving 50% cumulative electric power installed capacity from non-fossil fuel-based energy resources by 2030; and
+- Creation of a carbon sink of 2.5 to 3 GtCO2e through additional forest and tree cover by 2030.
+While India indicated in its updated NDC that achieving the 50% non-fossil capacity target would require international support, it is already on track to achieve 60% or more non-fossil capacity by 2030 under current policies.
+
+We rate this target as “Highly insufficient” when compared to the level of reductions needed in India under modelled domestic pathways to be consistent with limiting warming to 1.5°C, indicating substantial improvement is needed in this target and India will need international support to get onto a 1.5°C pathway.
+
+We interpret India’s emissions-intensity target as being its unconditional contribution to limiting warming to 1.5°C. We rate this target against what India’s fair share contribution should be and find it to be “Insufficient.”
+
+The “Insufficient” rating indicates that India’s unconditional target in 2030 needs substantial improvements to be consistent with limiting warming to 1.5°C. India’s target is at the least stringent end of what would be a fair share of global effort, and is not consistent with the 1.5°C limit unless other countries make much deeper reductions and comparably greater effort. If all countries were to follow India’s approach, warming would reach over 2°C and up to 3°C.
+
+The quantification of this target varies depending on how GDP is measured and assumptions made about 2030 projections. The transparency of India’s target could be improved with further information on these elements.
+
+In 2016, India had a net carbon sink of 308 MtCO2e. India's target for its land and forestry sector remains unchanged in its updated NDC as it plans an additional 2.5–3 GtCO2e of carbon sink by 2030 through additional forest cover. Several policies and measures were adopted under overarching framework of the National Mission of Green India.
+
+In its National Forest Policy of 1988 India has set a target of bringing 33% of its geographical area under forest cover. As of 2021, forest and tree cover accounts for 24.6% of the country’s geographical area, an only marginal increase since 2013 (24%).
+
+At COP26 in 2021, Prime Minister Narendra Modi announced a 2070 net zero target for India and during COP27 India submitted its Long-term Strategy for Low Carbon Development (LT-LEDS). We evaluate the net zero target as “Poor”.
+
+Our full net zero analysis is here.
+

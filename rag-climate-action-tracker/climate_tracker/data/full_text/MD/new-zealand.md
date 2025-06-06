@@ -1,0 +1,70 @@
+
+# Summary
+
+
+## Overview
+
+**NOTE: No updates were made to the quantitative assessment from November 2022.**
+
+**In May 2022, New Zealand released its first emissions reduction plan, outlining a series of policies and incentives to decarbonise all sectors. Within it, New Zealand has published three multi-year emissions budgets which are marginally lower than the Climate Change Commission’s proposed budgets. However, it remains unclear how the Government will ensure the emissions trading scheme (NZ-ETS), a key tool for meeting its climate target, is fit to prioritise gross emissions (excluding LULUCF) reductions without significant policy enhancement.**
+
+**Agricultural methane emissions, representing over 40% of New Zealand’s total emissions, remain exempt from the NZ-ETS, and while a new proposal to reduce emissions from agriculture has now been tabled, it has yet to be adopted or fully endorsed, but even then it is unlikely to have a significant impact.**
+
+**New Zealand submitted an updated NDC in November 2021, increasing its emissions reduction target from 30% to 50% below gross 2005 levels by 2030, including LULUCF. While the updated NDC target purportedly strengthens the 2030 target by 20 percentage points, it was based on two misleading accounting methods that more than halve its effective reduction in net emissions (including LULUCF emissions) to only 22% below 2005 levels by 2030.**
+
+**To remain 1.5˚C compatible, New Zealand needs to set a 2030 target of a reduction in gross emissions of at least 44%. While the strengthened target shifts the rating of the target against modelled pathways and fair share, it does not change the overall CAT rating of “Highly Insufficient”.**
+
+**To its credit New Zealand has a target of net zero emissions by 2050 enshrined in law, under the Zero Carbon Act, but its short-term policies cannot yet keep up with this ambition. It is relying on the mitigation potential of offsets in the land use and forestry sector both within and outside its borders to meet its 2030 target, rather than focusing efforts on reducing emissions from high emitting sectors. However, a recent court verdict has freed the government from its legal obligation of keeping its emissions budget (which is part of the Zero Carbon Act) compatible with the 1.5˚C temperature limit, stating the 1.5˚C limit is only “aspirational”, highlighting the inadequacy of the climate law.**
+
+**The New Zealand government plans to purchase emissions credits to achieve its 2030 NDC target using international offsets, in anticipation of an emissions overshoot. This would amount to New Zealand having to purchase international offsets amounting to around 75–102 MtCO****2****e over time given the NDC’s emissions budget is 571 MtCO****2****e, which would set an alarming precedent for significant offset purchasing to meet an NDC. New Zealand is set to meet by far the highest proportion of its target (two thirds of the action required) through buying international offsets compared with any other OECD country.**
+
+**These purchases would be linked to the NZ-ETS, to ensure that credits auctioned by Government are backed by reductions in emissions overseas. However this exposes New Zealand to highly volatile prices in EU-ETS markets as well as increasing concerns about the quality of international offsets, given the high uncertainties around the verification, permanence and principles of additionality.**
+
+**Methane from agriculture and waste has a separate target (a reduction of 10% by 2030 and 24-47% by 2050 below 2017 levels are required), that is not yet covered by significant policies.**
+
+**Overall, the CAT rates New Zealand’s current climate targets, policies and finance as “Highly insufficient”.**
+
+**The government also needs to revisit its target architecture and drop the much discredited “gross-net” approach to target setting. New Zealand is one of only a few countries in the world using this “gross net” accounting system to calculate its 2030 target.**
+
+The CAT rates New Zealand’s climate targets, policies and finance as “Highly insufficient”. The “Highly insufficient” rating indicates that New Zealand’s climate policies and commitments are not stringent enough to limit warming to 1.5°C and need substantial improvements. New Zealand’s NDC target is rated “Critically insufficient” when compared with its fair share contribution to climate action and “Insufficient” when compared to modelled domestic pathways. Its policies and action do not put in on track to meet this target and its climate finance is inadequate.
+
+New Zealand should increase both its emissions reduction target and climate policies, and provide additional, predictable, finance to others to meet its fair share contribution.
+
+Zealand’s current policies are “Highly insufficient” when compared to modelled domestic pathways. The “Highly insufficient” rating indicates that New Zealand’s policies and action in 2030 are not at all consistent with limiting warming to 1.5°C. If all countries were to follow New Zealand’s approach, warming could reach over 3°C and up to 4°C.
+
+In May 2022, the Government published the first of three staggered, multi-year emissions reduction budgets to curb its carbon dioxide emissions by around 35% by 2035, thus adopting its first emissions reduction plan (ERP) to 2050. The new multi-budget approach sets out the total emissions New Zealand must cut over the next 14 years, through domestic activities, capping the amount of CO2 gases to 290 MtCO2e over three years. The scheme provides $2.9 billion of first year funding to the Climate Emergency Fund, as announced in the Budget 2022.
+
+The Emissions Trading Scheme, however, continues to exempt the country’s largest contributor to greenhouse gas emissions – the agriculture sector – from a price on its methane emissions until 2025, despite original promises that it would cover all sectors. Agricultural methane emission reductions are now being discussed under a proposal released in June 2022. The scheme relies strongly on industry partnerships and trust, with results yet to be seen.
+
+Other climate policy highlights include the renewable electricity target of 90% by 2025 and 100% by 2035. A target of 50% renewables for total final energy consumption by 2035 is also announced as part of a goal to have a national Energy Strategy in place by 2024.
+
+The Government has an electric vehicle target for government fleet vehicles to be carbon neutral by 2025/26 and has introduced the country’s first-ever CO2 emissions standard for imported cars in 2021. The government is developing a hydrogen roadmap, based on a vision paper that is in support of opportunities for domestic use and the export of green hydrogen.
+
+**For more detail, see the policies and action section** **here****.**
+
+New Zealand’s NDC target in 2030 is not consistent with the Paris Agreement’s 1.5°C temperature limit when compared to modelled domestic pathways. The target aims for GHG emissions to be 50% below 2005 levels by 2030 (including LULUCF).
+
+The new target equates to around 51 MtCO2e/yr by 2030 excluding LULUCF. This is equivalent to 21% below 1990 levels by 2030. New Zealand needs to bring down its emissions level to 47 MtCO2e/yr for a 1.5°C modelled domestic pathway. We rate this target as “Almost sufficient”, moving up from previous rating of “Insufficient”.
+
+This rating indicates that New Zealand’s emissions in 2030 are not yet consistent with limiting warming to 1.5°C but could be, with moderate improvements. If all countries were to follow a similar approach, warming could be held below—but not well below—2°C.
+
+We rate New Zealand’s NDC target as “Insufficient” when compared with its fair share emissions allocation. The “Insufficient” rating indicates that New Zealand’s emissions in 2030 needs substantial improvements to be consistent with limiting warming to 1.5°C. New Zealand’s NDC target is at the least stringent end of what would be a fair share of global effort and is not consistent with limiting warming to 1.5°C unless other countries make much deeper reductions and comparably greater effort. If all countries were to follow similar approach, warming would reach over 2°C and up to 3°C.
+
+With the update in NDC in 2021, New Zealand’s fair share rating has improved from “Critically insufficient” to “Insufficient”. A fair share target would require New Zealand to nearly halve this target to 32 MtCO2e/yr by 2030, and commit to additional financial support for emissions reductions achieved in developing countries.
+
+New Zealand’s climate finance needs substantial improvements to be consistent with the Paris Agreement’s 1.5°C temperature limit. The country remains committed to climate finance in the period post-2020, with a recent round of announcements for NZD 840m for international climate finance (50% for PICs and 50% for adaptation). However, contributions to date have been very low compared to its fair share. The CAT rates New Zealand’s climate finance as “Highly Insufficient”. To improve its rating New Zealand needs to improve climate finance commitments and make explicit commitments to prevent investments in fossil fuel finance abroad.
+
+Taking both New Zealand’s emissions reduction target and climate finance into account, we rate the overall fair share contribution as “Insufficient”.
+
+For the past 30 years, New Zealand’s climate action has primarily relied on offsets from forests planted in the 1990s rather than effective climate policy, and the carbon removal benefits of the forests are diminishing. New Zealand’s reliance on Land Use, Land Use Change and Forestry (LULUCF) to meet its NDC target has decreased from 35% to 26% since last year. However, New Zealand is planning to purchase a significant amount of international offsets to meet its 2030 emissions target. Emissions reductions from emissions-intensive sectors should be a focus, rather than reliance on the uncertain mitigation potential of the LULUCF sector.
+
+New Zealand has also faced criticism over its LULUCF carbon accounting methodology. Plantation forests have a pattern of sinking carbon during tree growth and releasing carbon when harvested. Large tracts of pastoral land have recently been purchased for this purpose. New Zealand’s LULUCF accounting methodology uses a “modified activity-based” approach which has been found to mask real emissions. This method has implications for the emissions trading scheme, the NDC, and the emissions budgets proposed by the Climate Change Commission.
+
+New Zealand passed its Zero Carbon amendment to the Climate Change Response Act in 2019, which sets a target for all greenhouse gases except for biogenic methane – methane from agriculture and waste – to reach net zero by 2050. Methane emissions from these two sectors represent over 40% of New Zealand’s current emissions. Implementation is key and the methane exemption weakens the target considerably.
+
+There is a separate target for biogenic methane emissions to be at 24-47% below 2017 levels by 2050. A true commitment to net zero would require a further methane reduction of 18-25 MtCO2e in 2050, corresponding to the residual methane emissions that would remain unmitigated by the 2050 target. These would need to be achieved in other sectors, in particular through full decarbonisation of energy and industry emissions by 2050.
+
+The net zero target has good legal architecture. However, in addition to biogenic methane, international aviation and shipping are outside of the target’s scope, and the government reserves the right to use international offset credits to meet the target.
+
+The CAT evaluates the target as “Poor”. Full details of the assessment are here.
+

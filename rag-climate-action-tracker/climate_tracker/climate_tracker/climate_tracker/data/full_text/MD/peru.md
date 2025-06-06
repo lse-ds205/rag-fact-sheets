@@ -1,0 +1,38 @@
+
+# Summary
+
+
+## Overview
+
+**Peru’s progress in advancing climate policy has been slow. Since his election in July 2021, President Pedro Castillo’s government has been in turmoil: he has been twice impeached and** **has changed his ministerial cabinet five times****, adding to the sense of political instability in the country, and slowing policy development overall.**
+
+**The share of renewable energy in Peru continues to increase, despite further investments in fossil fuels. The government is preparing for two more renewable auctions, and this year, it has agreed to implement the country’s first green hydrogen project.**
+
+**However, this year the government also approved a new license contract for Peru's most important oil extraction asset, located in the middle of the Amazon region, comprising about 500,000 ha. It holds 127 million barrels of proven reserves. According a** **study from the IEA****, any new investment in oil and gas is incompatible with reaching net-zero emissions by 2050. Investments in oil extraction not only risk becoming stranded assets but are at odds with the upcoming Climate Change National Strategy which is expected to include a net zero target for 2050. Furthermore, earlier this year, Peru phased its worst environmental disaster on the coastline when over 10,000 barrels were spilled into the Pacific Ocean, killing thousands of fish, seabirds and marine mammals.**
+
+**The Land use, Land use change and Forestry (LULUCF) sector continues to represent the biggest source of emissions in the country, and in 2021, the National Forest Programme reported the highest deforestation rate in the last two decades. The largest share of deforestation is due to illegal activity, but migration back to rural areas as a result of the pandemic also played a role.**
+
+**COP26 called for** **more ambitious NDCs**** to help close the emissions gap. Peru has not yet submitted an update to its 2020 NDC, although it current NDC is rated “Insufficient”. Peru signed the methane pledge and Glasgow leaders’ declaration on forests and land use at COP26; these sectoral initiatives should be reflected in a more ambitious NDC to take the additional efforts into account.**
+
+The CAT rates Peru’s climate targets and policies as “Insufficient”. The “Insufficient” rating indicates that Peru’s climate policies and commitments need substantial improvements to be consistent with the Paris Agreement’s 1.5°C temperature limit. Peru’s 2030 emission reduction targets would lead to a 3°C of warming when compared to modelled domestic emissions pathways and its fair share contribution to climate action. If fully implemented, Peru’s current policies would result in emissions reductions beyond its unconditional target, but still only in line with —and not well below—2°C based on Peru’s fair share.
+
+Our analysis shows that Peru could achieve its unconditional NDC target with its current policies, without the need for additional, more ambitious policies. Peru’s current policies are “Almost sufficient” when compared to its fair-share contribution.
+
+The “Almost sufficient” rating indicates that Peru’s climate policies and action in 2030 are not yet consistent with the 1.5°C temperature limit but could be, with moderate improvements. If all countries were to follow Peru’s approach, warming could be held at—but not well below—2°C. Peru is expected to implement additional policies with its own resources but will also need international support to take additional climate action beyond its fair share.
+
+Peru’s emissions, excluding LULUCF, have almost doubled, from about 54 MtCO2e in 1990 to 102 MtCO2e in 2021. We estimate that emissions under current policies will reach 116 MtCO2e, excl. LULUCF, by 2030 (116% above 1990 levels).
+
+In the energy sector, the share of renewable energy in electricity generation and total primary energy supply continues to increase, despite further investments in fossil fuels.
+
+In July 2022, the government approved the license contract for Peru's most important oil extraction asset. This same year, Peru agreed to the implementation of the country’s first green hydrogen project, with a pilot phase producing up to 55 tonnes of hydrogen per day and requiring 160 MW of renewable capacity. In the forestry sector, the National Forest Programme reported that 2020 saw the highest deforestation rate in the last two decades.
+
+**The full policies and action analysis can be found** **here****.**
+
+We rate Peru’s conditional NDC target as “Insufficient” when compared with modelled domestic emissions pathways. The “Insufficient” rating indicates that Peru’s conditional NDC target in 2030 needs substantial improvements to be consistent with the 1.5°C temperature limit. If all countries were to follow Peru’s approach, warming would reach over 2°C and up to 3°C.
+
+We rate Peru’s unconditional NDC target as “Insufficient” when compared with its fair-share contribution to climate action. The “Insufficient” rating indicates that Peru’s unconditional NDC target in 2030 needs substantial improvements to be consistent with the 1.5°C temperature limit. Peru’s target is at the least stringent end of what would be a fair share of global effort, and is not consistent with the 1.5°C temperature limit, unless other countries make much deeper reductions and comparably greater effort. If all countries were to follow Peru’s approach, warming would reach over 2°C and up to 3°C.
+
+The land use, land-use change and forestry sector has consistently been a significant source of emissions in Peru over the last 20 years. For those years where data is available, emissions from LULUCF are higher or at a similar level as those from all other sectors together.
+
+Peru’s updated NDC makes reference to a goal of reaching carbon neutrality by 2050. However, no further details have been communicated so far, which limits our ability to assess the comprehensiveness of the target. The CAT evaluates this target as: “Target information incomplete”, given its preliminary nature and a lack of more detailed information. The assessment will be done once further information is communicated by the government.
+

@@ -1,0 +1,272 @@
+{
+  "argentina": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "target_year": "2050"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "targets": [
+        {
+          "sector": "LULUCF",
+          "percentage_reduction": null,
+          "target_year": null,
+          "base_year": null
+        }
+      ]
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "percentage_improvement": "40%",
+      "target_year": null
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "target_year": "2030"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "has_mechanism": false
+    }
+  },
+  "australia": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "target_year": "2050"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "targets": [
+        {
+          "sector": ["transport", "agriculture", "energy"],
+          "percentage_reduction": "43%",
+          "target_year": "2050",
+          "base_year": null
+        }
+      ]
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "percentage_improvement": null,
+      "target_year": null
+    },
+    "electricity_net_zero": {
+      "yes_no": "yes",
+      "target_year": null
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "has_mechanism": false
+    }
+  },
+  "germany": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "target_year": "2045"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "targets": [
+        {
+          "sector": "transport",
+          "percentage_reduction": "65%",
+          "target_year": "2045",
+          "base_year": null
+        }
+      ]
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "percentage_improvement": null,
+      "target_year": null
+    },
+    "electricity_net_zero": {
+      "yes_no": "soft_yes",
+      "target_year": "2038"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "has_mechanism": true
+    }
+  },
+  "india": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "target_year": "2070"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "targets": [
+        {
+          "sector": "transport",
+          "percentage_reduction": null,
+          "target_year": "2070",
+          "base_year": null
+        }
+      ]
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "percentage_improvement": null,
+      "target_year": null
+    },
+    "electricity_net_zero": {
+      "yes_no": "soft_yes",
+      "target_year": "2070"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "has_mechanism": true
+    }
+  },
+  "kenya": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "target_year": null
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "targets": [
+        {
+          "sector": ["transport", "agriculture"],
+          "percentage_reduction": null,
+          "target_year": "2030",
+          "base_year": "2015"
+        }
+      ]
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "percentage_improvement": "2.8%",
+      "target_year": null
+    },
+    "electricity_net_zero": {
+      "yes_no": "no",
+      "target_year": null
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "has_mechanism": false
+    }
+  },
+  "usa": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "target_year": "2035"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "targets": [
+        {
+          "sector": ["power", "industry", "transport"],
+          "percentage_reduction": "50%",
+          "target_year": "2030",
+          "base_year": "2005"
+        }
+      ]
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "percentage_improvement": "25%",
+      "target_year": null
+    },
+    "electricity_net_zero": {
+      "yes_no": "yes",
+      "target_year": "2050"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "has_mechanism": true
+    }
+  },
+  "uae": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "target_year": "2050"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "targets": [
+        {
+          "sector": ["power", "industry", "transport"],
+          "percentage_reduction": ["13%", "28%"],
+          "target_year": "2030",
+          "base_year": "2030"
+        }
+      ]
+    },
+    "efficiency_target": {
+      "yes_no": "yes",
+      "percentage_improvement": null,
+      "target_year": "2050"
+    },
+    "electricity_net_zero": {
+      "yes_no": "yes",
+      "target_year": "2050"
+    },
+    "carbon_pricing": {
+      "yes_no": "yes",
+      "has_mechanism": true
+    }
+  },
+  "ethiopia": {
+    "net_zero_target": {
+      "yes_no": "yes",
+      "target_year": "2050"
+    },
+    "sector_targets": {
+      "yes_no": "no",
+      "targets": [
+        {
+          "sector": ["LULUCF", "transport", "waste", "agriculture", "energy", "industry"],
+          "percentage_reduction": "68.8%",
+          "target_year": null,
+          "base_year": null
+        }
+      ]
+    },
+    "efficiency_target": {
+      "yes_no": "soft_yes",
+      "percentage_improvement": null,
+      "target_year": null
+    },
+    "electricity_net_zero": {
+      "yes_no": "yes",
+      "target_year": "2050"
+    },
+    "carbon_pricing": {
+      "yes_no": "soft_yes",
+      "has_mechanism": true
+    }
+  },
+  "brazil": {
+    "net_zero_target": {
+      "yes_no": "soft_yes",
+      "target_year": "2050"
+    },
+    "sector_targets": {
+      "yes_no": "yes",
+      "targets": [
+        {
+          "sector": ["LULUCF", "forestry", "land use"],
+          "percentage_reduction": null,
+          "target_year": null,
+          "base_year": null
+        }
+      ]
+    },
+    "efficiency_target": {
+      "yes_no": "no",
+      "percentage_improvement": null,
+      "target_year": null
+    },
+    "electricity_net_zero": {
+      "yes_no": "soft_yes",
+      "target_year": "2050"
+    },
+    "carbon_pricing": {
+      "yes_no": "no",
+      "has_mechanism": false
+    }
+  }
+}
