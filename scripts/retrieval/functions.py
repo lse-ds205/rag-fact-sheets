@@ -8,23 +8,36 @@ import uuid
 import torch
 import pandas as pd
 import numpy as np
+import sys
+import re
 
 from tqdm.notebook import tqdm, trange
-from tqdm import tqdm
 
 from transformers import AutoTokenizer, AutoModel
 
 from dotenv import load_dotenv
 load_dotenv()
 
-from sqlalchemy import text
+from sqlalchemy import create_engine, text
 
 from gensim.models import Word2Vec
 from gensim.utils import simple_preprocess
+from gensim.downloader import load
+
+
 
 # Set up logger
 logger = logging.getLogger(__name__)
 
+# Get the absolute path to the project root directory
+notebook_dir = os.path.dirname(os.path.abspath('__file__'))
+project_root = os.path.abspath(os.path.join(notebook_dir, '../..'))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+    print(f"Added {project_root} to sys.path")
+
+# Load environment variables first
+word2vec_path = os.path.join(project_root, 'local_model', 'custom_word2vec_768.model')
 
 def generate_embeddings_for_text(texts, model, tokenizer):
     """
@@ -53,6 +66,59 @@ def generate_embeddings_for_text(texts, model, tokenizer):
     return sentence_embeddings.numpy().flatten().tolist()
 
 
+def download_climatebert_model():
+    """
+    Download the ClimateBERT model and tokenizer from Hugging Face Hub
+    and save them to local directory specified by EMBEDDING_MODEL_LOCAL_DIR env var.
+    """
+    local_dir = os.getenv("EMBEDDING_MODEL_LOCAL_DIR")
+    model_name = os.getenv("EMBEDDING_MODEL")
+
+    if not model_name:
+        raise ValueError("Environment variable 'EMBEDDING_MODEL' is not set.")
+    if not local_dir:
+        raise ValueError("Environment variable 'EMBEDDING_MODEL_LOCAL_DIR' is not set.")
+
+    tokenizer = AutoTokenizer.from_pretrained(model_name, use_auth_token=False)
+    model = AutoModel.from_pretrained(model_name, use_auth_token=False)
+
+    tokenizer.save_pretrained(local_dir)
+    model.save_pretrained(local_dir)
+
+    print(f"ClimateBERT model and tokenizer downloaded and saved to {local_dir}")
+
+
+def load_climatebert_model():
+    """
+    Load the ClimateBERT model and tokenizer from HuggingFace.
+    
+    Returns:
+        model: The pre-trained ClimateBERT model.
+        tokenizer: The tokenizer for the model.
+    """
+    EMBEDDING_MODEL_LOCAL_DIR = os.getenv("EMBEDDING_MODEL_LOCAL_DIR")
+    tokenizer = AutoTokenizer.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
+    model = AutoModel.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
+    return tokenizer, model
+
+
+def download_word2vec_model(model_name="word2vec-google-news-300"):
+    """
+    Download and load a pretrained Word2Vec model from gensim-data.
+    
+    Args:
+        model_name (str): The name of the pretrained Word2Vec model to load.
+                          Default is 'word2vec-google-news-300'.
+                          
+    Returns:
+        model: Loaded gensim Word2Vec model.
+    """
+    print(f"🔄 Loading pretrained Word2Vec model: {model_name}")
+    model = load(model_name)
+    print("✅ Model loaded!")
+    return model
+
+
 def train_custom_word2vec_from_texts(
     texts,
     vector_size=768,
@@ -60,7 +126,7 @@ def train_custom_word2vec_from_texts(
     min_count=1,
     workers=4,
     epochs=10,
-    save_path="./local_model/custom_word2vec_768.model",
+    save_path=word2vec_path,
     force_include_words=None
 ):
     """
@@ -82,6 +148,7 @@ def train_custom_word2vec_from_texts(
     import os
     import re
     from gensim.models import Word2Vec
+
 
     def basic_tokenize(text):
         text = re.sub(r'[^a-zA-Z]', ' ', text.lower())
@@ -109,23 +176,6 @@ def train_custom_word2vec_from_texts(
     return model
 
 
-
-def load_climatebert_model():
-    """
-    Load the ClimateBERT model and tokenizer from HuggingFace.
-    
-    Returns:
-        model: The pre-trained ClimateBERT model.
-        tokenizer: The tokenizer for the model.
-    """
-    EMBEDDING_MODEL_LOCAL_DIR = os.getenv("EMBEDDING_MODEL_LOCAL_DIR")
-    tokenizer = AutoTokenizer.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
-    model = AutoModel.from_pretrained(EMBEDDING_MODEL_LOCAL_DIR)
-    return tokenizer, model
-
-
-
-
 def generate_word2vec_embedding_for_text(text, model):
     tokens = simple_preprocess(text)
     vectors = [model.wv[word] for word in tokens if word in model.wv]
@@ -139,11 +189,11 @@ def generate_word2vec_embedding_for_text(text, model):
 
 def embed_and_store_all_embeddings(df, engine):
     from sqlalchemy.orm import sessionmaker
-    from functions import generate_embeddings_for_text  # Assuming this is defined elsewhere
+    from scripts.retrieval.functions import generate_embeddings_for_text  
 
     # Load models
     tokenizer, climatebert_model = load_climatebert_model()
-    word2vec_model = Word2Vec.load("./local_model/custom_word2vec_768.model")
+    word2vec_model = Word2Vec.load(word2vec_path)
 
     # Ensure geographies are strings
     df["document_metadata.geographies"] = df["document_metadata.geographies"].astype(str)
@@ -233,3 +283,22 @@ def embed_and_store_all_embeddings(df, engine):
         session.commit()
 
     print("\n✅ All ClimateBERT and Word2Vec embeddings uploaded directly.")
+
+
+def store_database_batched(flat_ds, num_chunks, batch_size=100000):
+    """
+    Store the flattened dataset into a PostgreSQL database using SQLAlchemy in chunks with progress bar.
+
+    """
+    load_dotenv()
+    from tqdm.notebook import tqdm as tqdm
+
+    engine = create_engine(os.getenv("DB_URL"))
+    df = pd.DataFrame(flat_ds[:1])
+
+    # Initialize table with first chunk
+    df.to_sql('climate_policy_radar', engine, if_exists='replace', index=False)
+
+    for i in tqdm(range(1, num_chunks, batch_size), desc="Inserting chunks into database"):
+        chunk = pd.DataFrame(flat_ds[i:min(len(flat_ds), i+batch_size)])
+        chunk.to_sql('climate_policy_radar', engine, if_exists='append', index=False)
