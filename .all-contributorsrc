@@ -117,6 +117,15 @@
       "contributions": [
         "review"
       ]
+    },
+    {
+      "login": "jonjoncardoso",
+      "name": "Jon Cardoso-Silva",
+      "avatar_url": "https://avatars.githubusercontent.com/u/896254?v=4",
+      "profile": "https://github.com/jonjoncardoso",
+      "contributions": [
+        "projectManagement"
+      ]
     }
   ],
   "contributorsPerLine": 7,
