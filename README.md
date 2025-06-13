@@ -21,16 +21,16 @@ graph TD
     H --> I[Fact-Sheet<br/>Generation]
     I --> J[Email Alert<br/>+ API Access]
     
-    style A fill:#E3F2FD,stroke:#333,font-size:14px
-    style B fill:#E3F2FD,stroke:#333,font-size:14px
-    style C fill:#E8F5E9,stroke:#333,font-size:14px
-    style D fill:#E8F5E9,stroke:#333,font-size:14px
-    style E fill:#E8F5E9,stroke:#333,font-size:14px
-    style F fill:#FFF3E0,stroke:#333,font-size:14px
-    style G fill:#FCE4EC,stroke:#333,font-size:14px
-    style H fill:#FCE4EC,stroke:#333,font-size:14px
-    style I fill:#F3E5F5,stroke:#333,font-size:14px
-    style J fill:#E0F2F1,stroke:#333,font-size:14px
+    style A fill:#E3F2FD,stroke:#333,padding:5px
+    style B fill:#E3F2FD,stroke:#333,padding:5px
+    style C fill:#E8F5E9,stroke:#333,padding:5px
+    style D fill:#E8F5E9,stroke:#333,padding:5px
+    style E fill:#E8F5E9,stroke:#333,padding:5px
+    style F fill:#FFF3E0,stroke:#333,padding:5px
+    style G fill:#FCE4EC,stroke:#333,padding:5px
+    style H fill:#FCE4EC,stroke:#333,padding:5px
+    style I fill:#F3E5F5,stroke:#333,padding:5px
+    style J fill:#E0F2F1,stroke:#333,padding:5px
 ```
 
 ## 🎯 Climate Action Tracker Analysis (`rag_cat`)
