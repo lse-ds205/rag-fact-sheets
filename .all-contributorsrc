@@ -1,0 +1,25 @@
+{
+  "projectName": "rag-fact-sheets",
+  "projectOwner": "LSE DS205",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "gitmoji",
+  "contributors": [
+    {
+      "login": "ruikai30",
+      "name": "ruka",
+      "avatar_url": "https://avatars.githubusercontent.com/u/147737135?v=4",
+      "profile": "https://github.com/ruikai30",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "linkToUsage": false
+}
