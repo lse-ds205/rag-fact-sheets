@@ -9,80 +9,24 @@ This repository contains the collective work of three groups from the DS205 cour
 - Focus: Automated monitoring and standardised fact-sheet generation for newly published NDC documents
 - Key Innovation: HopRAG architecture for multi-hop reasoning in complex policy documents
 
-```mermaid 
-graph TD
-    A[Web Scraper<br/>Selenium Bot] --> B{New NDC<br/>Document?}
-    B -->|Yes| C[PDF Processing]
-    B -->|No| D[Skip]
-    C --> E[Text Chunking<br/>512 tokens]
-    E --> F[Dual Embedding<br/>ClimateBERT + Word2Vec]
-    F --> G[HopRAG Processing]
-    G --> H[Multi-hop<br/>Reasoning]
-    H --> I[Fact-Sheet<br/>Generation]
-    I --> J[Email Alert<br/>+ API Access]
-    
-    style A fill:#E3F2FD,stroke:#333,padding:5px
-    style B fill:#E3F2FD,stroke:#333,padding:5px
-    style C fill:#E8F5E9,stroke:#333,padding:5px
-    style D fill:#E8F5E9,stroke:#333,padding:5px
-    style E fill:#E8F5E9,stroke:#333,padding:5px
-    style F fill:#FFF3E0,stroke:#333,padding:5px
-    style G fill:#FCE4EC,stroke:#333,padding:5px
-    style H fill:#FCE4EC,stroke:#333,padding:5px
-    style I fill:#F3E5F5,stroke:#333,padding:5px
-    style J fill:#E0F2F1,stroke:#333,padding:5px
-```
+![`rag_unfccc` workflow](imgs/unfccc_workflow.png)
 
 ## 🎯 Climate Action Tracker Analysis (`rag_cat`)
 - Source: ClimateActionTracker.org
 - Focus: Structured extraction of policy targets with confidence scoring
 - Key Innovation: Hybrid NLP pipeline combining NER, dependency parsing, and semantic similarity
 
-```mermaid
-graph TD
-    A[CAT Website<br/>Scraping] --> B[Text Extraction<br/>by Country]
-    B --> C[Database Storage<br/>PostgreSQL]
-    C --> D[Chunk Generation<br/>Sentence-based]
-    D --> E[BAAI/bge-m3<br/>Embeddings]
-    E --> F[Semantic Search<br/>Top-K Retrieval]
-    F --> G[Policy Extraction<br/>Pipeline]
-    G --> H[NER + SpaCy<br/>Processing]
-    H --> I[Dependency<br/>Parsing]
-    I --> J[Confidence<br/>Scoring]
-    J --> K[Structured Output<br/>JSON/Markdown]
-    K --> L[Q&A Boxes<br/>Generation]
-    
-    style A fill:#E3F2FD,stroke:#333
-    style E fill:#FFF3E0,stroke:#333
-    style G fill:#FCE4EC,stroke:#333
-    style J fill:#E8F5E9,stroke:#333
-    style L fill:#F3E5F5,stroke:#333
-```
+![`rag_cat workflow`](imgs/cat_workflow.png)
 
 ## 📊 Climate Policy Radar Dataset Analysis (`rag_policy_radar`)
 - Source: Climate Policy Radar Database
 - Focus: ASCOR methodology implementation for systematic climate legislation assessment
 - Key Innovation: Multi-tier LLM strategy with human-in-the-loop validation
 
-```mermaid
-graph TD
-    A[Climate Policy<br/>Radar Dataset] --> B[Document<br/>Ingestion]
-    B --> C[Embedding Generation<br/>ClimateBERT/Word2Vec]
-    C --> D[Retrieval System]
-    D --> E{Tool Selection}
-    E --> F[Pillar Tool<br/>CP1.a/CP1.b]
-    E --> G[Custom Report<br/>Generation]
-    E --> H[Sectoral<br/>Analysis]
-    F --> I[Chain of Thought<br/>Evaluation]
-    G --> J[Human-in-Loop<br/>Validation]
-    H --> K[Temporal<br/>Analysis]
-    I --> L[Structured<br/>Output]
-    J --> L
-    K --> L
-    
-    style A fill:#E8F5E9,stroke:#333
-    style C fill:#FFF3E0,stroke:#333
-    style E fill:#E3F2FD,stroke:#333
-    style J fill:#FCE4EC,stroke:#333
-    style L fill:#F3E5F5,stroke:#333
-```
+![`rag_policy_radar` workflow](imgs/policy_radar_workflow.png)
+
+## Summarised Workflow
+
+Below is a summary of the solutions by the 3 groups, and a comparison of their particular approaches for each stage of the task. This also serves as a potential system design that integrates the 3 solutions into a unified workflow for automated climate policy analysis.  
+
+![integrated workflow](imgs/integrated_workflow.png)
