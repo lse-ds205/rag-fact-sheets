@@ -108,6 +108,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "tz1211",
+      "name": "Terry Zhou",
+      "avatar_url": "https://avatars.githubusercontent.com/u/114442618?v=4",
+      "profile": "https://github.com/tz1211",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,

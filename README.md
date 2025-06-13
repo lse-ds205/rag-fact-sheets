@@ -1,6 +1,6 @@
 # RAG Climate Fact Sheets 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Overview 
@@ -52,6 +52,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/toscaneroux"><img src="https://avatars.githubusercontent.com/u/127334278?v=4?s=100" width="100px;" alt="toscaneroux"/><br /><sub><b>toscaneroux</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=toscaneroux" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/afribourg1503"><img src="https://avatars.githubusercontent.com/u/127108989?v=4?s=100" width="100px;" alt="afribourg1503"/><br /><sub><b>afribourg1503</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=afribourg1503" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/DylanButcher"><img src="https://avatars.githubusercontent.com/u/43067126?v=4?s=100" width="100px;" alt="DylanButcher"/><br /><sub><b>DylanButcher</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=DylanButcher" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tz1211"><img src="https://avatars.githubusercontent.com/u/114442618?v=4?s=100" width="100px;" alt="Terry Zhou"/><br /><sub><b>Terry Zhou</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/pulls?q=is%3Apr+reviewed-by%3Atz1211" title="Reviewed Pull Requests">👀</a></td>
     </tr>
   </tbody>
 </table>
