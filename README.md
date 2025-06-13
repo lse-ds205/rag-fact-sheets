@@ -1,6 +1,6 @@
 # RAG Climate Fact Sheets 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Overview 
@@ -46,6 +46,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/felix-brown"><img src="https://avatars.githubusercontent.com/u/107852540?v=4?s=100" width="100px;" alt="Felix Brown"/><br /><sub><b>Felix Brown</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=felix-brown" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ZCLiu35"><img src="https://avatars.githubusercontent.com/u/100470818?v=4?s=100" width="100px;" alt="Zicheng Liu"/><br /><sub><b>Zicheng Liu</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=ZCLiu35" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Jessie-Fung"><img src="https://avatars.githubusercontent.com/u/147734161?v=4?s=100" width="100px;" alt="Jessie Fung"/><br /><sub><b>Jessie Fung</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=Jessie-Fung" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/nikaisya"><img src="https://avatars.githubusercontent.com/u/158149380?v=4?s=100" width="100px;" alt="nikaisya"/><br /><sub><b>nikaisya</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=nikaisya" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
