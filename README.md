@@ -1,6 +1,6 @@
 # RAG Climate Fact Sheets 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Overview 
@@ -41,6 +41,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ruikai30"><img src="https://avatars.githubusercontent.com/u/147737135?v=4?s=100" width="100px;" alt="ruka"/><br /><sub><b>ruka</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=ruikai30" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Nayrbnat"><img src="https://avatars.githubusercontent.com/u/97864681?v=4?s=100" width="100px;" alt="Nayrbnat"/><br /><sub><b>Nayrbnat</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=Nayrbnat" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/datascraper758"><img src="https://avatars.githubusercontent.com/u/183512656?v=4?s=100" width="100px;" alt="datascraper758"/><br /><sub><b>datascraper758</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=datascraper758" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
