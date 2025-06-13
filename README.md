@@ -1,6 +1,6 @@
 # RAG Climate Fact Sheets 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Overview 
@@ -50,6 +50,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/nikaisya"><img src="https://avatars.githubusercontent.com/u/158149380?v=4?s=100" width="100px;" alt="nikaisya"/><br /><sub><b>nikaisya</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=nikaisya" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/toscaneroux"><img src="https://avatars.githubusercontent.com/u/127334278?v=4?s=100" width="100px;" alt="toscaneroux"/><br /><sub><b>toscaneroux</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=toscaneroux" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/afribourg1503"><img src="https://avatars.githubusercontent.com/u/127108989?v=4?s=100" width="100px;" alt="afribourg1503"/><br /><sub><b>afribourg1503</b></sub></a><br /><a href="https://github.com/LSE DS205/rag-fact-sheets/commits?author=afribourg1503" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
