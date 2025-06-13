@@ -11,22 +11,26 @@ This repository contains the collective work of three groups from the DS205 cour
 
 ```mermaid 
 graph TD
-    A[<div style='text-align:center'>Web Scraper<br/>Selenium Bot</div>] --> B{<div style='text-align:center'>New NDC<br/>Document?</div>}
-    B -->|Yes| C[<div style='text-align:center'>PDF Processing</div>]
-    B -->|No| D[<div style='text-align:center'>Skip</div>]
-    C --> E[<div style='text-align:center'>Text Chunking<br/>512 tokens</div>]
-    E --> F[<div style='text-align:center'>Dual Embedding<br/>ClimateBERT +<br/>Word2Vec</div>]
-    F --> G[<div style='text-align:center'>HopRAG Processing</div>]
-    G --> H[<div style='text-align:center'>Multi-hop<br/>Reasoning</div>]
-    H --> I[<div style='text-align:center'>Fact-Sheet<br/>Generation</div>]
-    I --> J[<div style='text-align:center'>Email Alert<br/>+ API Access</div>]
+    A[Web Scraper<br/>Selenium Bot] --> B{New NDC<br/>Document?}
+    B -->|Yes| C[PDF Processing]
+    B -->|No| D[Skip]
+    C --> E[Text Chunking<br/>512 tokens]
+    E --> F[Dual Embedding<br/>ClimateBERT + Word2Vec]
+    F --> G[HopRAG Processing]
+    G --> H[Multi-hop<br/>Reasoning]
+    H --> I[Fact-Sheet<br/>Generation]
+    I --> J[Email Alert<br/>+ API Access]
     
-    style A fill:#E3F2FD,stroke:#333
-    style C fill:#E8F5E9,stroke:#333
-    style F fill:#FFF3E0,stroke:#333
-    style G fill:#FCE4EC,stroke:#333
-    style I fill:#F3E5F5,stroke:#333
-    style J fill:#E0F2F1,stroke:#333
+    style A fill:#E3F2FD,stroke:#333,font-size:14px
+    style B fill:#E3F2FD,stroke:#333,font-size:14px
+    style C fill:#E8F5E9,stroke:#333,font-size:14px
+    style D fill:#E8F5E9,stroke:#333,font-size:14px
+    style E fill:#E8F5E9,stroke:#333,font-size:14px
+    style F fill:#FFF3E0,stroke:#333,font-size:14px
+    style G fill:#FCE4EC,stroke:#333,font-size:14px
+    style H fill:#FCE4EC,stroke:#333,font-size:14px
+    style I fill:#F3E5F5,stroke:#333,font-size:14px
+    style J fill:#E0F2F1,stroke:#333,font-size:14px
 ```
 
 ## 🎯 Climate Action Tracker Analysis (`rag_cat`)
