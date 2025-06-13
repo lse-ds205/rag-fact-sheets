@@ -1,0 +1,83 @@
+
+# Summary
+
+
+## Overview
+
+**Germany’s recent climate policies and its weak economy moved emissions projections significantly downwards, but the three-party coalition government remains divided on comprehensive action across all sectors, leaving the country’s climate targets in danger. Climate action varies drastically within and across sectors. The government, which will remain in power until September 2025, needs to actively engage in climate action across all sectors** **to ensure that its 2030 target is achieved and its 2045 net zero target remains within reach, while securing and safeguarding social acceptance of the transition. The CAT rates Germany’s climate action as “Insufficient”.**
+
+The government is in real danger of failing to reach its 2030 target, even if the official government projections claim the target will be met in aggregate. The official projections are very optimistic as they assume the 80% renewable electricity target will be met, CO2 prices remain high, and emission-intensive industry activity remains low. Recent capacity additions for wind are not at all in line with the renewables goal and CO2 prices are now lower than assumed. The government therefore needs to remain active to ensure that its own target is safely met.
+
+Not only does the government need to meet its 2030 target, it needs to raise its ambition, as it is still not 1.5˚C compatible. Given the 2023 Global Stocktake’s recognition of the need for all countries to reassess and enhance their level of climate ambition and action, Germany, through the Paris Agreement, is obliged to reinforce its 2030 ambition level. The way the government plans to meet the 2030 target is by focusing on strong policy action in only some sectors, while neglecting others. This approach may make it nearly impossible to meet its 2045 climate neutrality target for all sectors. The government weakened the climate change law in May 2024, replacing the compliance mechanism around binding sectoral targets with the ability for sectors to compensate for each other, as long as the overall target is met.
+
+The climate change law's amendment conceals the fact that the transport and buildings sectors will exceed their sectoral 2030 targets. It will be almost impossible for the transport sector to catch up on emissions reductions after 2030 without drastic and disruptive measures, such as extremely high CO2 prices or driving bans. Compensation by the other sectors is also not possible after 2030, as it will become increasingly difficult for sectors to avoid the last few tonnes of CO2.
+
+It is also of concern that Germany is set to miss the legally binding target within the EU effort-sharing scheme, in which transport and buildings are counted together. This brings the threat of high payments, as any failure to meet the target must be offset by certificates. Overall, without further action, Germany will exceed the target by at least 126 MtCO2e between 2021 and 2030.This overshoot will be expensive; for example, if certificates are each priced at EUR 100, the gap in emissions will cost German taxpayers EUR 12bn.
+
+Given a broad and just transformation to a 1.5°C compatible society is required, it is inadequate that Germany, one of the world's richest countries, waters down its climate law and fails to implement even simple measures, such as a general speed limit on freeways, as we see record high temperatures and devastating climate impacts around the world and in Germany.
+
+Recent positive policy developments include:
+
+- **Emissions outlook improved due to policies of the current government:** since the government came into place in 2021, our projected emissions for 2030 have significantly decreased. In 2021, we estimated a reduction under current policies of 55% in 2030 below 1990, while today we estimate a reduction of 62-64%.
+- **Renewables and market-driven coal exit:** the German government has systematically removed barriers to the expansion of renewables, such as by making the renewable expansion a higher public good. For solar, it is well ahead of its own expansion targets, but behind for wind. At the same time, Germany phased out the last of its nuclear reactors in spring 2022 and shut down 4.5 GW of coal-fired power generation in spring 2024, while maintaining the price of electricity and the stability of the power system. It is set to phase out coal entirely by 2038 at the latest, with the legal possibility of bringing this forward. If the EU ETS prices remain high, they will likely drive coal out of the market in Germany by 2030 due to its unprofitability.
+- **Use of levy on heavy-duty trucks to invest in rail infrastructure:** Germany increased the levy on heavy-duty trucks on freeways and plans to invest most of the revenues in rail infrastructure. This is a good example of charging polluting activities and supporting less polluting activities.
+In many areas, Germany still needs to make significant policy improvements to meet its climate and energy targets, and go beyond them, towards a Paris-compatible trajectory:
+
+- **Strengthening the climate law instead of weakening it:** the new climate law adopted May 2024 makes the whole government responsible for meeting the targets, rather than individual ministries. However, responsibility of individual ministries for achieving the sectoral targets was explicitly introduced in the old law to make them accountable for climate policy in their respective sector. This dilution of responsibility reduces the likelihood of Germany meeting its targets. The ministries of buildings and transport failed to submit the emergency programme required by the old climate law and have consequently been brought to court by NGOs. The Climate Protection Act needs to be strengthened in order to ensure that the target of climate neutrality by 2045 is achieved.
+- **Develop and implement a transport sector strategy:** the Transport Ministry appears to have no intention of implementing policies to initiate the sector’s transition towards zero emissions: it ignored the advice of the government’s own environmental agency, which proposed a whole suite of measures that could be used to reduce emissions in the transport sector. Instead, the ministry delayed the EU-wide emission standards for cars by lobbying for e-fuels, raised individual commuter support and expedited the planning of 144 freeway projects. It also abruptly cut the subsidy for EVs, which may not have had immediate effects, but means the government will miss its target of 15 million EVs on the road by 2030 by a wide margin. The ministry has also been the driving force behind weakening the climate law by ditching the law’s requirement for submitting emergency programmes. Before it changed the requirement, the ministry failed to submit emergency programmes for the three years in which the sector overshot its emissions target.
+- **Comply with own 65% renewables target in building sector**: the government had agreed in its coalition contract and thereafter on the ambitious goal that, as of 2024, all new heating systems would use 65% renewable energy. However, an intensive debate emerged, particularly around a ban on new fossil fuel heating systems. A relatively ambitious draft law was significantly watered down and subsequently adopted. Under this law, neither the CO2 price nor the sectoral target are strong enough to achieve the originally envisaged 65% goal. The populist debates created uncertainty in the heating industry and kept many households with fossil fuel heating.
+- **Send a clear signal against fossil gas in Germany and abroad**: in light of the energy crisis, the government continues to promote new infrastructure for fossil fuels in and outside Germany, thereby continuing to create new fossil fuel dependencies. The government has supported the build out of oversized LNG import capacities, gas powered „hydrogen-ready“ power plants and recently decided to still allow for public financing into fossil gas abroad.
+- **Focus on a socially just transition**: climate policies in general, climate policies are losing support across the German population because public discourse is focused on the costs and burdens of climate action on private households. The government should therefore focus on the social impacts of climate policies. For example, it could bring back the previously agreed upon “climate dividend,” where every citizen would receive a lump sum payment from the revenue generated through the carbon pricing mechanism. The government has postponed this measure to the next legislative period.
+
+## Description of CAT ratings
+
+The CAT rates each country’s targets and policies against (1) its fair share contribution to climate change mitigation considering a range of equity principles including responsibility, capability and equality, and (2) what is technically and economically feasible using modelled domestic pathways which, in absence of a better method, are based on global least-cost climate change mitigation.
+
+Comparing a country’s fair share ranges and modelled domestic pathways provides insights into which governments should provide climate finance and which should receive it. Developed countries with large responsibility for historical emissions and high per-capita emissions, must not only implement ambitious climate action domestically but must also support climate action in developing countries with lower historical responsibility, capability, and lower per-capita emissions.
+
+The CAT rates Germany’s overall climate targets, policies and finance as “Insufficient”, a rating that indicates Germany’s climate policies and commitments need substantial improvements to be consistent with the Paris Agreement’s 1.5°C temperature limit.
+
+We rate Germany’s 2030 emissions reduction target as “Almost sufficient” when compared to modelled emissions pathways, consistent with 2°C of warming, and “Insufficient” when compared with its fair-share contribution to climate action. Germany should both further increase its emissions reduction target and provide significantly more and predictable finance to other countries to meet its fair-share contribution.
+
+To achieve its target, Germany needs to enhance its policies and actions. It claims that it will achieve its 2030 target with current legislation, but our assessment, supported by other independent analysis, finds that it will miss it.
+
+We rate Germany’s policies and actions until 2030 “Almost sufficient” when compared to modelled domestic pathways. We project that implemented policies and actions will lead to emissions reductions of between 62-64% below 1990 levels by 2030 excl. LULUCF. This is significantly lower than previous projections but still falls short of Germany’s 2030 target of at least 65% reduction below 1990 levels.
+
+The German government, in power since December 2021, is significantly accelerating domestic climate policy implementation, but remains deeply divided on the general approach, reflecting the unconsolidated positions of the different coalition parties. While the Green Party is pushing for fast action, e.g. in buildings and the expansion of renewables, the Social Democrats and in particular, the Liberal Party are delaying implementation. All parties support expansion of LNG terminals, which is counterproductive to climate policy.
+
+In the 2021 coalition contract, the government decided not to raise the ambition of the mitigation target, but promised that the measures adopted in the agreement would overachieve the target (ARD, 2021). But with currently implemented measures, Germany’s 2030 target is in danger, its overachievement is very unlikely, and it is certainly not close to putting emissions onto a 1.5˚C compatible pathway by 2030.
+
+Outlook on greenhouse gas emissions improved significantly since the new government has been in power, but its own 2030 target is unlikely to be met with the current policies. Also, the legally binding target within the EU effort-sharing scheme, in which transport and buildings are counted together, will not be met. In addition, the government weakened the climate law.
+
+50% of electricity in 2023 was generated from renewable sources. The share of coal in the electricity system has been halved over the last five years, but still stands at 23% for January to mid-April 2024. Solar expansion is well ahead of the target, while wind is behind.
+
+The coalition also wanted to introduce a climate check for each new piece of legislation, but implementation has been slow. In spring 2023, the Federal Environment Agency (UBA) tendered a project to consider possible approaches, the research was not completed as of June 2024 and a climate check was not yet introduced.
+
+To cope with Russia’s unlawful invasion of Ukraine and related energy security issues, Germany has introduced a set of measures, some of which are counterproductive to climate policy. The government still plans to develop an overcapacity of LNG import infrastructure, which risks further locking in fossil fuels and brings into question Germany’s long-term ambitions for GHG neutrality.
+
+The coalition committed to making the climate transition socially just, but has so far failed to do so in various areas. A climate dividend (“Klimageld”), to pay back revenues from carbon pricing on a per capita basis, was seeded in the coalition contract but will most likely not be implemented in this legislative period.
+
+A temporary rebate on VAT for fuels and a compensation mechanism for high gas prices were given without social differentiation. One positive outcome is that the new heating law contains plans to differentiate the subsidies for CO2-free heating systems by household income.
+
+The full policies and action analysis can be found here.
+
+We rate Germany’s 2030 reduction target of 65% below 1990 levels as “Almost sufficient” when compared to modelled emissions pathways. The “Almost sufficient” rating indicates that Germany’s proposed reduction target in 2030 is not yet consistent with the 1.5°C temperature limit but could be with moderate improvements, if changed to 69%.
+
+If all countries were to follow Germany’s approach, warming could be held at—but not well below—2°C. While this target represents a significant improvement compared to its previous target, Germany’s new target is not stringent enough to limit warming to 1.5°C and needs further improvement.
+
+The CAT’s assessment of Germany’s total **fair share contribution** takes into account its emissions reduction target and its climate finance.
+
+We rate Germany’s 2030 target of 65% below 1990 levels excl. LULUCF as “Insufficient” when compared with its fair-share emissions allocation. The “Insufficient” rating indicates that Germany’s target in 2030 and its climate finance contribution needs substantial improvements to be consistent with the 1.5°C temperature limit when compared to its fair share.
+
+Germany should both further increase its emissions reduction target and provide significantly more and predictable finance to others to meet its fair-share contribution. Germany’s target is at the least stringent end of what would be a fair share of global effort, and is not consistent with the 1.5°C limit, unless other countries make much deeper reductions and comparably greater effort. If all countries were to follow Germany’s approach, warming would reach over 2°C and up to 3°C.
+
+Germany’s international public climate finance contributions are better than most developed countries but still rated "Insufficient." Germany has committed to increase its climate finance, but contributions to date have been low compared to its fair share as assessed by the CAT.
+
+To improve its rating, Germany needs to increase its international climate finance contributions in the order of factor of three, and, most urgently, stop funding fossil fuels abroad. At COP26, Germany signed a declaration to stop financing fossil fuels abroad, but later pushed to roll back this decision. The CAT rates Germany’s international climate finance “Insufficient”.
+
+Germany’s climate finance is not sufficient to improve the fair share rating, and the CAT rates Germany’s overall fair share contribution as “Insufficient”.
+
+In June 2021, Germany adopted its 2045 net zero target in its revised climate law. The net zero target generally covers key elements but fails to meet good practice standards for some of them.
+
+We evaluate the net zero target as: “Average.” The German government needs to legislate its commitments to include international aviation and shipping emissions and undertake planning on how to reach the 2045 target to improve its rating to “Acceptable”.
+

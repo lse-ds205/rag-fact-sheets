@@ -1,65 +1,32 @@
-# Climate Data Web Scraping
+# RAG Climate Fact Sheets 
 
-Welcome to the Climate Data Web Scraping repository! This project is part of the [DS205 course](https://lse-dsi.github.io/DS205) and is designed to help you learn and practice ethical web scraping techniques using the Climate Action Tracker dataset.
+## Overview 
 
-## Getting Started
+This repository contains the collective work of three groups from the DS205 course that developed automated RAG-based systems for extracting, analysing, and synthesising climate policy data from different authoritative sources. Each group adopted distinct approaches and tackled unique challenges in processing climate policy documents that together form a comprehensive framework for automating climate policy analysis.
 
-### 1. Clone the Repository
-To get started, clone this repository to your local machine:
-```bash
-git clone https://github.com/lse-ds205/climate-data-web-scraping.git
-cd climate-data-web-scraping
-```
+## 🌐 UNFCCC NDC Analysis (`rag_unfccc`)
+- Source: UNFCCC Nationally Determined Contributions (NDCs)
+- Focus: Automated monitoring and standardised fact-sheet generation for newly published NDC documents
+- Key Innovation: HopRAG architecture for multi-hop reasoning in complex policy documents
 
-### 2. Set Up Virtual Environment
-It's strongly recommended to use a dedicated virtual environment for this project to avoid conflicts with other Python packages. This is especially important as you might be working on multiple DS205 projects simultaneously (e.g., [ascor-api](https://github.com/lse-ds205/ascor-api)).
+![`rag_unfccc` workflow](imgs/unfccc_workflow.png)
 
-```bash
-# Create a virtual environment
-python -m venv scraping-env
+## 🎯 Climate Action Tracker Analysis (`rag_cat`)
+- Source: ClimateActionTracker.org
+- Focus: Structured extraction of policy targets with confidence scoring
+- Key Innovation: Hybrid NLP pipeline combining NER, dependency parsing, and semantic similarity
 
-# Activate the virtual environment
-# On Mac/Linux:
-source scraping-env/bin/activate
-# On Windows:
-scraping-env\Scripts\activate
-```
+![`rag_cat workflow`](imgs/cat_workflow.png)
 
-### 3. Install Dependencies
-With your virtual environment activated, install the required dependencies:
-```bash
-pip install -r requirements.txt
-```
+## 📊 Climate Policy Radar Dataset Analysis (`rag_policy_radar`)
+- Source: Climate Policy Radar Database
+- Focus: ASCOR methodology implementation for systematic climate legislation assessment
+- Key Innovation: Multi-tier LLM strategy with human-in-the-loop validation
 
-### 4. Run the Spider
-Navigate to the project directory and run the spider:
-```bash
-cd climate_tracker
-scrapy crawl climate_action_tracker -O ../data/output.json
-```
+![`rag_policy_radar` workflow](imgs/policy_radar_workflow.png)
 
-Because we are still thinking about the best way to store the data, we will simply produce a generically-named JSON file in the `data` directory. **Once we have decided on a structure, we will likely use an [Item Pipeline](https://docs.scrapy.org/en/latest/topics/item-pipeline.html) to save the data in a more appropriate format.**
+## Summarised Workflow
 
-Visit the [Climate Action Tracker](https://climateactiontracker.org/) website to understand the data source.
+Below is a summary of the solutions by the 3 groups, and a comparison of their particular approaches for each stage of the task. This also serves as a potential system design that integrates the 3 solutions into a unified workflow for automated climate policy analysis.  
 
-## Data Usage Notice
-
-Data and extracted textual content from the Climate Action Tracker website are copyrighted © 2009-2025 by Climate Analytics and NewClimate Institute. All rights reserved.
-
-## Ethical Web Scraping
-
-This project follows ethical web scraping practices:
-- Respects robots.txt
-- Implements appropriate delays between requests
-- Properly identifies the spider with user agent information
-- Only scrapes publicly available data
-
-## Collaborator Access
-
-Students who are currently enrolled in the DS205 course (or auditing) are eligible to contribute to this repository. To be granted push permission on this repository, please send a message to Jon on Slack with your GitHub username. Once approved, you'll receive an invite to contribute.
-
-## Need Help?
-For issues or questions:
-- Post in the `#help` channel on Slack
-- Check out the [Scrapy Documentation](https://docs.scrapy.org/)
-- Contact Jon directly if you face persistent issues
+![integrated workflow](imgs/integrated_workflow.png)

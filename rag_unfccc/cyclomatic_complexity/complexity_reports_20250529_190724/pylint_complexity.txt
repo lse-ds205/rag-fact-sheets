@@ -1,0 +1,53 @@
+Analyzing: entrypoints\1_scrape.py
+************* Module Command line
+Command line:1:0: W0012: Unknown option value for '--enable', expected a valid pylint message and got 'too-complex' (unknown-option-value)
+
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+
+Analyzing: entrypoints\2_chunk.py
+************* Module Command line
+Command line:1:0: W0012: Unknown option value for '--enable', expected a valid pylint message and got 'too-complex' (unknown-option-value)
+************* Module entrypoints.2_chunk
+entrypoints\2_chunk.py:45:0: R0912: Too many branches (37/12) (too-many-branches)
+entrypoints\2_chunk.py:45:0: R0915: Too many statements (166/50) (too-many-statements)
+
+------------------------------------------------------------------
+Your code has been rated at 9.92/10 (previous run: 9.90/10, +0.01)
+
+Analyzing: entrypoints\3_embed.py
+************* Module Command line
+Command line:1:0: W0012: Unknown option value for '--enable', expected a valid pylint message and got 'too-complex' (unknown-option-value)
+************* Module entrypoints.3_embed
+entrypoints\3_embed.py:47:0: R0912: Too many branches (20/12) (too-many-branches)
+entrypoints\3_embed.py:47:0: R0915: Too many statements (92/50) (too-many-statements)
+
+-----------------------------------
+Your code has been rated at 9.86/10
+
+Analyzing: entrypoints\4_retrieve.py
+************* Module Command line
+Command line:1:0: W0012: Unknown option value for '--enable', expected a valid pylint message and got 'too-complex' (unknown-option-value)
+************* Module entrypoints.4_retrieve
+entrypoints\4_retrieve.py:88:0: R0912: Too many branches (13/12) (too-many-branches)
+entrypoints\4_retrieve.py:88:0: R0915: Too many statements (69/50) (too-many-statements)
+entrypoints\4_retrieve.py:254:0: R0912: Too many branches (21/12) (too-many-branches)
+entrypoints\4_retrieve.py:254:0: R0915: Too many statements (61/50) (too-many-statements)
+entrypoints\4_retrieve.py:417:0: R0912: Too many branches (13/12) (too-many-branches)
+entrypoints\4_retrieve.py:546:0: R0915: Too many statements (66/50) (too-many-statements)
+
+------------------------------------------------------------------
+Your code has been rated at 9.80/10 (previous run: 9.76/10, +0.05)
+
+Analyzing: entrypoints\5_llm_response.py
+************* Module Command line
+Command line:1:0: W0012: Unknown option value for '--enable', expected a valid pylint message and got 'too-complex' (unknown-option-value)
+************* Module entrypoints.5_llm_response
+entrypoints\5_llm_response.py:62:0: R0912: Too many branches (24/12) (too-many-branches)
+entrypoints\5_llm_response.py:62:0: R0915: Too many statements (64/50) (too-many-statements)
+entrypoints\5_llm_response.py:412:0: R0912: Too many branches (13/12) (too-many-branches)
+entrypoints\5_llm_response.py:510:0: R0915: Too many statements (55/50) (too-many-statements)
+
+------------------------------------------------------------------
+Your code has been rated at 9.87/10 (previous run: 9.87/10, -0.00)
+
