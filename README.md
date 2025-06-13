@@ -11,15 +11,15 @@ This repository contains the collective work of three groups from the DS205 cour
 
 ```mermaid 
 graph TD
-    A[Web Scraper<br/>Selenium Bot] --> B{New NDC<br/>Document?}
-    B -->|Yes| C[PDF Processing]
-    B -->|No| D[Skip]
-    C --> E[Text Chunking<br/>512 tokens]
-    E --> F[Dual Embedding<br/>ClimateBERT + Word2Vec]
-    F --> G[HopRAG Processing]
-    G --> H[Multi-hop<br/>Reasoning]
-    H --> I[Fact-Sheet<br/>Generation]
-    I --> J[Email Alert<br/>+ API Access]
+    A[<div style='text-align:center'>Web Scraper<br/>Selenium Bot</div>] --> B{<div style='text-align:center'>New NDC<br/>Document?</div>}
+    B -->|Yes| C[<div style='text-align:center'>PDF Processing</div>]
+    B -->|No| D[<div style='text-align:center'>Skip</div>]
+    C --> E[<div style='text-align:center'>Text Chunking<br/>512 tokens</div>]
+    E --> F[<div style='text-align:center'>Dual Embedding<br/>ClimateBERT +<br/>Word2Vec</div>]
+    F --> G[<div style='text-align:center'>HopRAG Processing</div>]
+    G --> H[<div style='text-align:center'>Multi-hop<br/>Reasoning</div>]
+    H --> I[<div style='text-align:center'>Fact-Sheet<br/>Generation</div>]
+    I --> J[<div style='text-align:center'>Email Alert<br/>+ API Access</div>]
     
     style A fill:#E3F2FD,stroke:#333
     style C fill:#E8F5E9,stroke:#333
@@ -33,6 +33,32 @@ graph TD
 - Source: ClimateActionTracker.org
 - Focus: Structured extraction of policy targets with confidence scoring
 - Key Innovation: Hybrid NLP pipeline combining NER, dependency parsing, and semantic similarity
+
+```mermaid
+graph TD
+    A[CAT Website<br/>Scraping] --> B[Text Extraction<br/>by Country]
+    B --> C[Database Storage<br/>PostgreSQL]
+    C --> D[Chunk Generation<br/>Sentence-based]
+    D --> E[BAAI/bge-m3<br/>Embeddings]
+    E --> F[Semantic Search<br/>Top-K Retrieval]
+    F --> G[Policy Extraction<br/>Pipeline]
+    G --> H[NER + SpaCy<br/>Processing]
+    H --> I[Dependency<br/>Parsing]
+    I --> J[Confidence<br/>Scoring]
+    J --> K[Structured Output<br/>JSON/Markdown]
+    K --> L[Q&A Boxes<br/>Generation]
+    
+    style A fill:#E3F2FD,stroke:#333
+    style E fill:#FFF3E0,stroke:#333
+    style G fill:#FCE4EC,stroke:#333
+    style J fill:#E8F5E9,stroke:#333
+    style L fill:#F3E5F5,stroke:#333
+```
+
+## 📊 Climate Policy Radar Dataset Analysis (`rag_policy_radar`)
+- Source: Climate Policy Radar Database
+- Focus: ASCOR methodology implementation for systematic climate legislation assessment
+- Key Innovation: Multi-tier LLM strategy with human-in-the-loop validation
 
 ```mermaid
 graph TD
@@ -56,30 +82,3 @@ graph TD
     style J fill:#FCE4EC,stroke:#333
     style L fill:#F3E5F5,stroke:#333
 ```
-
-## 📊 Climate Policy Radar Dataset Analysis (`rag_policy_radar`)
-- Source: Climate Policy Radar Database
-- Focus: ASCOR methodology implementation for systematic climate legislation assessment
-- Key Innovation: Multi-tier LLM strategy with human-in-the-loop validation
-
-```mermaid
-graph TD
-    A[CAT Website<br/>Scraping] --> B[Text Extraction<br/>by Country]
-    B --> C[Database Storage<br/>PostgreSQL]
-    C --> D[Chunk Generation<br/>Sentence-based]
-    D --> E[BAAI/bge-m3<br/>Embeddings]
-    E --> F[Semantic Search<br/>Top-K Retrieval]
-    F --> G[Policy Extraction<br/>Pipeline]
-    G --> H[NER + SpaCy<br/>Processing]
-    H --> I[Dependency<br/>Parsing]
-    I --> J[Confidence<br/>Scoring]
-    J --> K[Structured Output<br/>JSON/Markdown]
-    K --> L[Q&A Boxes<br/>Generation]
-    
-    style A fill:#E3F2FD,stroke:#333
-    style E fill:#FFF3E0,stroke:#333
-    style G fill:#FCE4EC,stroke:#333
-    style J fill:#E8F5E9,stroke:#333
-    style L fill:#F3E5F5,stroke:#333
-```
-
