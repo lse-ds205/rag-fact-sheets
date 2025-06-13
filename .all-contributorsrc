@@ -45,6 +45,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "felix-brown",
+      "name": "Felix Brown",
+      "avatar_url": "https://avatars.githubusercontent.com/u/107852540?v=4",
+      "profile": "https://github.com/felix-brown",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
